@@ -1,0 +1,51 @@
+defmodule Auth0.Management.Actions.Versions.Rollback do
+  @moduledoc """
+  Documentation for Auth0 Management Roll back to a previous action version.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Actions/post_deploy_draft_version
+  """
+
+  alias Auth0.Config
+  alias Auth0.Common.Util
+  alias Auth0.Common.Management.Http
+  alias Auth0.Entity.ActionVersion
+
+  defmodule Params do
+    defstruct update_draft: nil
+
+    @type t :: %__MODULE__{
+            update_draft: boolean
+          }
+  end
+
+  @type endpoint :: String.t()
+  @type action_id :: String.t()
+  @type id :: String.t()
+  @type params :: Params.t()
+  @type config :: Config.t()
+  @type entity :: ActionVersion.t()
+  @type response_body :: String.t()
+  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+
+  @doc """
+  Roll back to a previous action version.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Actions/post_deploy_draft_version
+
+  """
+  @spec execute(endpoint, action_id, id, params, config) :: response
+  def execute(endpoint, action_id, id, %Params{} = params, %Config{} = config) do
+    body = params |> Util.to_map() |> Util.remove_nil()
+
+    endpoint
+    |> String.replace("{actionId}", action_id)
+    |> String.replace("{id}", id)
+    |> Http.post(body, config)
+    |> case do
+      {:ok, 202, body} -> {:ok, ActionVersion.from(body |> Jason.decode!()), body}
+      error -> error
+    end
+  end
+end

@@ -1,0 +1,102 @@
+defmodule Auth0.Management.CustomDomains do
+  @moduledoc """
+  Documentation for Auth0 Management API of CustomDomains.
+
+  ## endpoint
+  - /api/v2/custom-domains
+  - /api/v2/custom-domains/{id}
+  - /api/v2/custom-domains/{id}/verify
+  """
+
+  alias Auth0.Config
+  alias Auth0.Entity
+  alias Auth0.Management.CustomDomains.List
+  alias Auth0.Management.CustomDomains.Configure
+  alias Auth0.Management.CustomDomains.Get
+  alias Auth0.Management.CustomDomains.Delete
+  alias Auth0.Management.CustomDomains.Patch
+  alias Auth0.Management.CustomDomains.Verify
+
+  @type id :: String.t()
+  @type config :: Config.t()
+  @type response_body :: String.t()
+  @type error :: {:error, integer, term} | {:error, term}
+
+  @endpoint "/api/v2/custom-domains"
+  @endpoint_by_id "/api/v2/custom-domains/{id}"
+  @endpoint_verify "/api/v2/custom-domains/{id}/verify"
+
+  @doc """
+  Get custom domains configurations.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Custom_Domains/get_custom_domains
+
+  """
+  @spec list(config) :: {:ok, Entity.CustomDomains.t(), response_body} | error
+  def list(%Config{} = config) do
+    List.execute(@endpoint, config)
+  end
+
+  @doc """
+  Configure a new custom domain.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Custom_Domains/post_custom_domains
+
+  """
+  @spec configure(Configure.Params.t(), config) ::
+          {:ok, Entity.CustomDomain.t(), response_body} | error
+  def configure(%Configure.Params{} = params, %Config{} = config) do
+    Configure.execute(@endpoint, params, config)
+  end
+
+  @doc """
+  Get custom domain configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Custom_Domains/get_custom_domains_by_id
+
+  """
+  @spec get(id, config) :: {:ok, Entity.CustomDomain.t(), response_body} | error
+  def get(id, %Config{} = config) do
+    Get.execute(@endpoint_by_id, id, config)
+  end
+
+  @doc """
+  Delete custom domain configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Custom_Domains/delete_custom_domains_by_id
+
+  """
+  @spec delete(id, config) :: {:ok, String.t(), response_body} | error
+  def delete(id, %Config{} = config) do
+    Delete.execute(@endpoint_by_id, id, config)
+  end
+
+  @doc """
+  Update custom domain configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Custom_Domains/patch_custom_domains_by_id
+
+  """
+  @spec update(id, Patch.Params.t(), config) ::
+          {:ok, Entity.CustomDomain.t(), response_body} | error
+  def update(id, %Patch.Params{} = params, %Config{} = config) do
+    Patch.execute(@endpoint_by_id, id, params, config)
+  end
+
+  @doc """
+  Verify a custom domain.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Custom_Domains/post_verify
+
+  """
+  @spec verify(id, config) :: {:ok, Entity.CustomDomain.t(), response_body} | error
+  def verify(id, %Config{} = config) do
+    Verify.execute(@endpoint_verify, id, config)
+  end
+end
