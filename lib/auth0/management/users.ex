@@ -34,6 +34,8 @@ defmodule Auth0.Management.Users do
   alias Auth0.Management.Users.RecoveryCodeRegeneration
 
   @type id :: String.t()
+  @type provider :: String.t()
+  @type user_id :: String.t()
   @type config :: Config.t()
   @type response_body :: String.t()
   @type error :: {:error, integer, term} | {:error, term}
@@ -292,14 +294,15 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/#!/Users/delete_user_identity_by_user_id
 
   """
-  @spec unlink_identities(id, Identities.Unlink.Params.t(), config) ::
+  @spec unlink_identities(id, provider, user_id, config) ::
           {:ok, Entity.Identities.t(), response_body} | error
   def unlink_identities(
         id,
-        %Identities.Unlink.Params{} = params,
+        provider,
+        user_id,
         %Config{} = config
       ) do
-    Identities.Unlink.execute(@endpoint_of_identities_by_provider, id, params, config)
+    Identities.Unlink.execute(@endpoint_of_identities_by_provider, id, provider, user_id, config)
   end
 
   @doc """
