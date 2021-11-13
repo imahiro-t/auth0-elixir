@@ -46,6 +46,7 @@ defmodule Auth0.Management do
   @type prompt :: String.t()
   @type language :: String.t()
   @type key :: String.t()
+  @type provider :: String.t()
   @type action_id :: String.t()
   @type trigger_id :: String.t()
   @type template_name :: String.t()
@@ -1672,14 +1673,15 @@ defmodule Auth0.Management do
   https://auth0.com/docs/api/management/v2/#!/Users/delete_user_identity_by_user_id
 
   """
-  @spec unlink_user_identities(id, Users.Identities.Unlink.Params.t(), config) ::
+  @spec unlink_user_identities(id, provider, user_id, config) ::
           {:ok, Entity.Identities.t(), response_body} | error
   def unlink_user_identities(
         id,
-        %Users.Identities.Unlink.Params{} = params,
+        provider,
+        user_id,
         %Config{} = config
       ) do
-    Users.unlink_identities(id, params, config)
+    Users.unlink_identities(id, provider, user_id, config)
   end
 
   @doc """

@@ -14,14 +14,12 @@ defmodule Auth0.Management.Users.Identities.Link do
   defmodule Params do
     defstruct provider: nil,
               connection_id: nil,
-              user_id: nil,
-              link_with: nil
+              user_id: nil
 
     @type t :: %__MODULE__{
             provider: String.t(),
             connection_id: String.t(),
-            user_id: String.t(),
-            link_with: String.t()
+            user_id: String.t()
           }
   end
 
