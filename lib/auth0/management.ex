@@ -1156,9 +1156,9 @@ defmodule Auth0.Management do
   https://auth0.com/docs/api/management/v2/#!/Roles/get_roles
 
   """
-  @spec list(Roles.List.Params.t(), config) ::
+  @spec get_roles(Roles.List.Params.t(), config) ::
           {:ok, Entity.Roles.t(), response_body} | error
-  def list(%Roles.List.Params{} = params, %Config{} = config) do
+  def get_roles(%Roles.List.Params{} = params, %Config{} = config) do
     Roles.list(params, config)
   end
 
