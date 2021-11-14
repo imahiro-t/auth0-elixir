@@ -9,7 +9,7 @@ The package can be installed by adding `auth0_api` to your list of dependencies 
 ```elixir
 def deps do
   [
-    {:auth0_api, "~> 1.0.0"}
+    {:auth0_api, "~> 1.1.0"}
   ]
 end
 ```
@@ -39,6 +39,17 @@ or You can use environment variable with keys below:
 - AUTH0_API_TOKEN
 
 2. Call Management API.
+
+### simple version
+
+```elixir
+params = %{
+  include_totals: true
+}
+Auth0.Simple.Management.get_users(params, config)
+```
+
+### structured version
 
 ```elixir
 params = %Auth0.Management.Users.List.Params{
