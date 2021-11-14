@@ -168,4 +168,29 @@ defmodule Auth0.Common.Util do
       map |> Map.new(fn {k, v} -> {if(k |> is_atom, do: k, else: String.to_atom(k)), v} end)
     )
   end
+
+  @doc """
+  Decode json using atom key.
+  """
+  @spec decode_json!(String.t()) :: map | list
+  def decode_json!(value) do
+    value |> Jason.decode!() |> key_to_atom()
+  end
+
+  defp key_to_atom(value) when value |> is_list do
+    value |> Enum.map(&key_to_atom/1)
+  end
+
+  defp key_to_atom(value) when value |> is_map do
+    value
+    |> Enum.map(fn {k, v} ->
+      {
+        if(k |> is_atom, do: k, else: String.to_atom(k)),
+        v |> key_to_atom()
+      }
+    end)
+    |> Map.new()
+  end
+
+  defp key_to_atom(value), do: value
 end
