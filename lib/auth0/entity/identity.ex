@@ -19,7 +19,10 @@ defmodule Auth0.Entity.Identity do
               given_name: nil,
               phone_number: nil,
               phone_verified: nil,
-              family_name: nil
+              family_name: nil,
+              picture: nil,
+              locale: nil,
+              nonce_supported: nil
 
     @type t :: %__MODULE__{
             email: String.t(),
@@ -29,7 +32,10 @@ defmodule Auth0.Entity.Identity do
             given_name: String.t(),
             phone_number: String.t(),
             phone_verified: boolean,
-            family_name: String.t()
+            family_name: String.t(),
+            picture: String.t(),
+            locale: String.t(),
+            nonce_supported: boolean
           }
 
     @spec from(map) :: __MODULE__.t()
