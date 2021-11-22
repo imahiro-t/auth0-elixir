@@ -329,7 +329,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec get_connection(id, map, config) ::
           {:ok, map} | error
-  def get_connection(id, %Connections.Get.Params{} = params, %Config{} = config) do
+  def get_connection(id, %{} = params, %Config{} = config) do
     Management.get_connection(
       id,
       params |> Util.to_struct(Connections.Get.Params),
@@ -1017,7 +1017,7 @@ defmodule Auth0.Simple.Management do
           {:ok, map} | error
   def get_organization_invitations(
         id,
-        %Organizations.Invitations.List.Params{} = params,
+        %{} = params,
         %Config{} = config
       ) do
     Management.get_organization_invitations(
@@ -2563,7 +2563,7 @@ defmodule Auth0.Simple.Management do
 
   """
   @spec set_guardian_policies(map, config) :: {:ok, list(map)} | error
-  def set_guardian_policies(params, %Config{} = config) do
+  def set_guardian_policies(%{} = params, %Config{} = config) do
     Management.set_guardian_policies(
       params,
       config
