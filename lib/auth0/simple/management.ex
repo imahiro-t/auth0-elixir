@@ -1295,7 +1295,7 @@ defmodule Auth0.Simple.Management do
     Management.set_prompt_custom_text(
       prompt,
       language,
-      params |> Util.to_struct(Prompts.CustomText.Put.Params),
+      %{value: params} |> Util.to_struct(Prompts.CustomText.Put.Params),
       config
     )
     |> to_response
