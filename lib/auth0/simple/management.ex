@@ -35,6 +35,7 @@ defmodule Auth0.Simple.Management do
   alias Auth0.Management.Jobs
   alias Auth0.Management.Tenants
   alias Auth0.Management.Tickets
+  alias Auth0.Management.AttackProtection
   @type config :: Config.t()
   @type id :: String.t()
   @type name :: String.t()
@@ -3157,6 +3158,117 @@ defmodule Auth0.Simple.Management do
       ) do
     Management.create_password_change_ticket(
       params |> Util.to_struct(Tickets.PasswordChange.Create.Params),
+      config
+    )
+    |> to_response
+  end
+
+  @doc """
+  Get breached password detection settings.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/get_breached_password_detection
+
+  """
+  @spec get_attack_protection_breached_password_detection(config) ::
+          {:ok, map} | error
+  def get_attack_protection_breached_password_detection(%Config{} = config) do
+    Management.get_attack_protection_breached_password_detection(config)
+    |> to_response
+  end
+
+  @doc """
+  Update breached password detection settings.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_breached_password_detection
+
+  """
+  @spec update_attack_protection_breached_password_detection(
+          map,
+          config
+        ) ::
+          {:ok, map} | error
+  def update_attack_protection_breached_password_detection(
+        %{} = params,
+        %Config{} = config
+      ) do
+    Management.update_attack_protection_breached_password_detection(
+      params |> Util.to_struct(AttackProtection.BreachedPasswordDetection.Patch.Params),
+      config
+    )
+    |> to_response
+  end
+
+  @doc """
+  Get the brute force configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/get_brute_force_protection
+
+  """
+  @spec get_attack_protection_brute_force_protection(config) ::
+          {:ok, map} | error
+  def get_attack_protection_brute_force_protection(%Config{} = config) do
+    Management.get_attack_protection_brute_force_protection(config)
+    |> to_response
+  end
+
+  @doc """
+  Update the brute force configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_brute_force_protection
+
+  """
+  @spec update_attack_protection_brute_force_protection(
+          map,
+          config
+        ) ::
+          {:ok, map, response_body} | error
+  def update_attack_protection_brute_force_protection(
+        %{} = params,
+        %Config{} = config
+      ) do
+    Management.update_attack_protection_brute_force_protection(
+      params |> Util.to_struct(AttackProtection.BruteForceProtection.Patch.Params),
+      config
+    )
+    |> to_response
+  end
+
+  @doc """
+  Get the suspicious IP throttling configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/get_suspicious_ip_throttling
+
+  """
+  @spec get_attack_protection_suspicious_ip_throttling(config) ::
+          {:ok, map} | error
+  def get_attack_protection_suspicious_ip_throttling(%Config{} = config) do
+    Management.get_attack_protection_suspicious_ip_throttling(config)
+    |> to_response
+  end
+
+  @doc """
+  Update the suspicious IP throttling configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_suspicious_ip_throttling
+
+  """
+  @spec update_attack_protection_suspicious_ip_throttling(
+          map,
+          config
+        ) ::
+          {:ok, map} | error
+  def update_attack_protection_suspicious_ip_throttling(
+        %{} = params,
+        %Config{} = config
+      ) do
+    Management.update_attack_protection_suspicious_ip_throttling(
+      params |> Util.to_struct(AttackProtection.SuspiciousIpThrottling.Patch.Params),
       config
     )
     |> to_response
