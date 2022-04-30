@@ -52,9 +52,9 @@ defmodule Auth0.Management.RulesConfigs do
   https://auth0.com/docs/api/management/v2/#!/Rules_Configs/put_rules_configs_by_key
 
   """
-  @spec set(key, Put.Params.t(), config) ::
+  @spec set(key, Put.Params.t() | map, config) ::
           {:ok, Entity.RulesConfig.t(), response_body} | error
-  def set(key, %Put.Params{} = params, %Config{} = config) do
+  def set(key, %{} = params, %Config{} = config) do
     Put.execute(@endpoint_by_key, key, params, config)
   end
 end

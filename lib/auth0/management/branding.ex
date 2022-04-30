@@ -39,9 +39,9 @@ defmodule Auth0.Management.Branding do
   https://auth0.com/docs/api/management/v2/#!/Branding/patch_branding
 
   """
-  @spec update(Patch.Params.t(), config) ::
+  @spec update(Patch.Params.t() | map, config) ::
           {:ok, Entity.Branding.t(), response_body} | error
-  def update(%Patch.Params{} = params, %Config{} = config) do
+  def update(%{} = params, %Config{} = config) do
     Patch.execute(@endpoint, params, config)
   end
 
@@ -77,9 +77,9 @@ defmodule Auth0.Management.Branding do
   https://auth0.com/docs/api/management/v2/#!/Branding/put_universal_login
 
   """
-  @spec set_universal_login(UniversalLogin.Put.Params.t(), config) ::
+  @spec set_universal_login(UniversalLogin.Put.Params.t() | map, config) ::
           {:ok, String.t(), response_body} | error
-  def set_universal_login(%UniversalLogin.Put.Params{} = params, %Config{} = config) do
+  def set_universal_login(%{} = params, %Config{} = config) do
     UniversalLogin.Put.execute(@endpoint_universal_login, params, config)
   end
 end

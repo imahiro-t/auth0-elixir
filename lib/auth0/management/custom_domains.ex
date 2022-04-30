@@ -45,9 +45,9 @@ defmodule Auth0.Management.CustomDomains do
   https://auth0.com/docs/api/management/v2/#!/Custom_Domains/post_custom_domains
 
   """
-  @spec configure(Configure.Params.t(), config) ::
+  @spec configure(Configure.Params.t() | map, config) ::
           {:ok, Entity.CustomDomain.t(), response_body} | error
-  def configure(%Configure.Params{} = params, %Config{} = config) do
+  def configure(%{} = params, %Config{} = config) do
     Configure.execute(@endpoint, params, config)
   end
 
@@ -82,9 +82,9 @@ defmodule Auth0.Management.CustomDomains do
   https://auth0.com/docs/api/management/v2/#!/Custom_Domains/patch_custom_domains_by_id
 
   """
-  @spec update(id, Patch.Params.t(), config) ::
+  @spec update(id, Patch.Params.t() | map, config) ::
           {:ok, Entity.CustomDomain.t(), response_body} | error
-  def update(id, %Patch.Params{} = params, %Config{} = config) do
+  def update(id, %{} = params, %Config{} = config) do
     Patch.execute(@endpoint_by_id, id, params, config)
   end
 

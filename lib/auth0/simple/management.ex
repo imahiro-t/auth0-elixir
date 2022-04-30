@@ -7,7 +7,6 @@ defmodule Auth0.Simple.Management do
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Entity
-  alias Auth0.Management
   alias Auth0.Management.Branding
   alias Auth0.Management.ClientGrants
   alias Auth0.Management.Clients
@@ -33,9 +32,13 @@ defmodule Auth0.Simple.Management do
   alias Auth0.Management.Emails
   alias Auth0.Management.Guardian
   alias Auth0.Management.Jobs
+  alias Auth0.Management.Keys
+  alias Auth0.Management.Stats
   alias Auth0.Management.Tenants
+  alias Auth0.Management.Anomaly
   alias Auth0.Management.Tickets
   alias Auth0.Management.AttackProtection
+
   @type config :: Config.t()
   @type id :: String.t()
   @type name :: String.t()
@@ -63,7 +66,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec get_branding(config) :: {:ok, map} | error
   def get_branding(%Config{} = config) do
-    Management.get_branding(config) |> to_response
+    Branding.get(config) |> to_response
   end
 
   @doc """
@@ -76,10 +79,7 @@ defmodule Auth0.Simple.Management do
   @spec update_branding(map, config) ::
           {:ok, map} | error
   def update_branding(%{} = params, %Config{} = config) do
-    Management.update_branding(
-      params |> Util.to_struct(Branding.Patch.Params),
-      config
-    )
+    Branding.update(params, config)
     |> to_response
   end
 
@@ -93,7 +93,7 @@ defmodule Auth0.Simple.Management do
   @spec get_template_for_universal_login(config) ::
           {:ok, map} | error
   def get_template_for_universal_login(%Config{} = config) do
-    Management.get_template_for_universal_login(config) |> to_response
+    Branding.get_universal_login(config) |> to_response
   end
 
   @doc """
@@ -105,7 +105,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec delete_template_for_universal_login(config) :: {:ok, String.t()} | error
   def delete_template_for_universal_login(%Config{} = config) do
-    Management.delete_template_for_universal_login(config) |> to_response
+    Branding.delete_universal_login(config) |> to_response
   end
 
   @doc """
@@ -121,10 +121,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.set_template_for_universal_login(
-      params |> Util.to_struct(Branding.Templates.UniversalLogin.Put.Params),
-      config
-    )
+    Branding.set_universal_login(params, config)
     |> to_response
   end
 
@@ -138,10 +135,7 @@ defmodule Auth0.Simple.Management do
   @spec get_client_grants(map, config) ::
           {:ok, map} | error
   def get_client_grants(%{} = params, %Config{} = config) do
-    Management.get_client_grants(
-      params |> Util.to_struct(ClientGrants.List.Params),
-      config
-    )
+    ClientGrants.list(params, config)
     |> to_response
   end
 
@@ -155,10 +149,7 @@ defmodule Auth0.Simple.Management do
   @spec create_client_grant(map, config) ::
           {:ok, map} | error
   def create_client_grant(%{} = params, %Config{} = config) do
-    Management.create_client_grant(
-      params |> Util.to_struct(ClientGrants.Create.Params),
-      config
-    )
+    ClientGrants.create(params, config)
     |> to_response
   end
 
@@ -171,7 +162,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec delete_client_grant(id, config) :: {:ok, String.t()} | error
   def delete_client_grant(id, %Config{} = config) do
-    Management.delete_client_grant(id, config) |> to_response
+    ClientGrants.delete(id, config) |> to_response
   end
 
   @doc """
@@ -184,11 +175,7 @@ defmodule Auth0.Simple.Management do
   @spec update_client_grant(id, map, config) ::
           {:ok, map} | error
   def update_client_grant(id, %{} = params, %Config{} = config) do
-    Management.update_client_grant(
-      id,
-      params |> Util.to_struct(ClientGrants.Patch.Params),
-      config
-    )
+    ClientGrants.update(id, params, config)
     |> to_response
   end
 
@@ -202,10 +189,7 @@ defmodule Auth0.Simple.Management do
   @spec get_clients(map, config) ::
           {:ok, map} | error
   def get_clients(%{} = params, %Config{} = config) do
-    Management.get_clients(
-      params |> Util.to_struct(Clients.List.Params),
-      config
-    )
+    Clients.list(params, config)
     |> to_response
   end
 
@@ -219,10 +203,7 @@ defmodule Auth0.Simple.Management do
   @spec create_client(map, config) ::
           {:ok, map} | error
   def create_client(%{} = params, %Config{} = config) do
-    Management.create_client(
-      params |> Util.to_struct(Clients.Create.Params),
-      config
-    )
+    Clients.create(params, config)
     |> to_response
   end
 
@@ -236,11 +217,7 @@ defmodule Auth0.Simple.Management do
   @spec get_client(id, map, config) ::
           {:ok, map} | error
   def get_client(id, %{} = params, %Config{} = config) do
-    Management.get_client(
-      id,
-      params |> Util.to_struct(Clients.Get.Params),
-      config
-    )
+    Clients.get(id, params, config)
     |> to_response
   end
 
@@ -253,7 +230,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec delete_client(id, config) :: {:ok, String.t()} | error
   def delete_client(id, %Config{} = config) do
-    Management.delete_client(id, config) |> to_response
+    Clients.delete(id, config) |> to_response
   end
 
   @doc """
@@ -266,11 +243,7 @@ defmodule Auth0.Simple.Management do
   @spec update_client(id, map, config) ::
           {:ok, map} | error
   def update_client(id, %{} = params, %Config{} = config) do
-    Management.update_client(
-      id,
-      params |> Util.to_struct(Clients.Patch.Params),
-      config
-    )
+    Clients.update(id, params, config)
     |> to_response
   end
 
@@ -284,7 +257,7 @@ defmodule Auth0.Simple.Management do
   @spec rotate_client_secret(id, config) ::
           {:ok, Entity.Client.t(), response_body} | error
   def rotate_client_secret(id, %Config{} = config) do
-    Management.rotate_client_secret(id, config) |> to_response
+    Clients.rotate_secret(id, config) |> to_response
   end
 
   @doc """
@@ -297,10 +270,7 @@ defmodule Auth0.Simple.Management do
   @spec get_connections(map, config) ::
           {:ok, map} | error
   def get_connections(%{} = params, %Config{} = config) do
-    Management.get_connections(
-      params |> Util.to_struct(Connections.List.Params),
-      config
-    )
+    Connections.list(params, config)
     |> to_response
   end
 
@@ -314,10 +284,7 @@ defmodule Auth0.Simple.Management do
   @spec create_connection(map, config) ::
           {:ok, map} | error
   def create_connection(%{} = params, %Config{} = config) do
-    Management.create_connection(
-      params |> Util.to_struct(Connections.Create.Params),
-      config
-    )
+    Connections.create(params, config)
     |> to_response
   end
 
@@ -331,11 +298,7 @@ defmodule Auth0.Simple.Management do
   @spec get_connection(id, map, config) ::
           {:ok, map} | error
   def get_connection(id, %{} = params, %Config{} = config) do
-    Management.get_connection(
-      id,
-      params |> Util.to_struct(Connections.Get.Params),
-      config
-    )
+    Connections.get(id, params, config)
     |> to_response
   end
 
@@ -348,7 +311,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec delete_connection(id, config) :: {:ok, String.t()} | error
   def delete_connection(id, %Config{} = config) do
-    Management.delete_connection(id, config) |> to_response
+    Connections.delete(id, config) |> to_response
   end
 
   @doc """
@@ -361,11 +324,7 @@ defmodule Auth0.Simple.Management do
   @spec update_connection(id, map, config) ::
           {:ok, map} | error
   def update_connection(id, %{} = params, %Config{} = config) do
-    Management.update_connection(
-      id,
-      params |> Util.to_struct(Connections.Patch.Params),
-      config
-    )
+    Connections.update(id, params, config)
     |> to_response
   end
 
@@ -378,7 +337,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec get_connection_status(id, config) :: {:ok, boolean} | error
   def get_connection_status(id, %Config{} = config) do
-    Management.get_connection_status(id, config) |> to_response
+    Connections.get_status(id, config) |> to_response
   end
 
   @doc """
@@ -391,11 +350,7 @@ defmodule Auth0.Simple.Management do
   @spec delete_connection_users(id, map, config) ::
           {:ok, String.t()} | error
   def delete_connection_users(id, %{} = params, %Config{} = config) do
-    Management.delete_connection_users(
-      id,
-      params |> Util.to_struct(Connections.Users.Delete.Params),
-      config
-    )
+    Connections.delete_users(id, params, config)
     |> to_response
   end
 
@@ -409,7 +364,7 @@ defmodule Auth0.Simple.Management do
   @spec get_custom_domain_configurations(config) ::
           {:ok, map} | error
   def get_custom_domain_configurations(%Config{} = config) do
-    Management.get_custom_domain_configurations(config) |> to_response
+    CustomDomains.list(config) |> to_response
   end
 
   @doc """
@@ -422,10 +377,7 @@ defmodule Auth0.Simple.Management do
   @spec configure_custom_domain(map, config) ::
           {:ok, map} | error
   def configure_custom_domain(%{} = params, %Config{} = config) do
-    Management.configure_custom_domain(
-      params |> Util.to_struct(CustomDomains.Configure.Params),
-      config
-    )
+    CustomDomains.configure(params, config)
     |> to_response
   end
 
@@ -439,7 +391,7 @@ defmodule Auth0.Simple.Management do
   @spec get_custom_domain_configuration(id, config) ::
           {:ok, map} | error
   def get_custom_domain_configuration(id, %Config{} = config) do
-    Management.get_custom_domain_configuration(id, config) |> to_response
+    CustomDomains.get(id, config) |> to_response
   end
 
   @doc """
@@ -451,7 +403,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec delete_custom_domain_configuration(id, config) :: {:ok, String.t()} | error
   def delete_custom_domain_configuration(id, %Config{} = config) do
-    Management.delete_custom_domain_configuration(id, config) |> to_response
+    CustomDomains.delete(id, config) |> to_response
   end
 
   @doc """
@@ -468,11 +420,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.update_custom_domain_configuration(
-      id,
-      params |> Util.to_struct(CustomDomains.Patch.Params),
-      config
-    )
+    CustomDomains.update(id, params, config)
     |> to_response
   end
 
@@ -486,7 +434,7 @@ defmodule Auth0.Simple.Management do
   @spec verify_custom_domain(id, config) ::
           {:ok, map} | error
   def verify_custom_domain(id, %Config{} = config) do
-    Management.verify_custom_domain(id, config) |> to_response
+    CustomDomains.verify(id, config) |> to_response
   end
 
   @doc """
@@ -499,10 +447,7 @@ defmodule Auth0.Simple.Management do
   @spec get_device_credentials(map, config) ::
           {:ok, map} | error
   def get_device_credentials(%{} = params, %Config{} = config) do
-    Management.get_device_credentials(
-      params |> Util.to_struct(DeviceCredentials.List.Params),
-      config
-    )
+    DeviceCredentials.list(params, config)
     |> to_response
   end
 
@@ -516,10 +461,7 @@ defmodule Auth0.Simple.Management do
   @spec create_device_credential(map, config) ::
           {:ok, map} | error
   def create_device_credential(%{} = params, %Config{} = config) do
-    Management.create_device_credential(
-      params |> Util.to_struct(DeviceCredentials.Create.Params),
-      config
-    )
+    DeviceCredentials.create(params, config)
     |> to_response
   end
 
@@ -532,7 +474,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec delete_device_credential(id, config) :: {:ok, String.t()} | error
   def delete_device_credential(id, %Config{} = config) do
-    Management.delete_device_credential(id, config) |> to_response
+    DeviceCredentials.delete(id, config) |> to_response
   end
 
   @doc """
@@ -545,10 +487,7 @@ defmodule Auth0.Simple.Management do
   @spec get_grants(map, config) ::
           {:ok, map} | error
   def get_grants(%{} = params, %Config{} = config) do
-    Management.get_grants(
-      params |> Util.to_struct(Grants.List.Params),
-      config
-    )
+    Grants.list(params, config)
     |> to_response
   end
 
@@ -561,7 +500,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec delete_grant(id, config) :: {:ok, String.t()} | error
   def delete_grant(id, %Config{} = config) do
-    Management.delete_grant(id, config) |> to_response
+    Grants.delete(id, config) |> to_response
   end
 
   @doc """
@@ -574,10 +513,7 @@ defmodule Auth0.Simple.Management do
   @spec get_hooks(map, config) ::
           {:ok, map} | error
   def get_hooks(%{} = params, %Config{} = config) do
-    Management.get_hooks(
-      params |> Util.to_struct(Hooks.List.Params),
-      config
-    )
+    Hooks.list(params, config)
     |> to_response
   end
 
@@ -591,10 +527,7 @@ defmodule Auth0.Simple.Management do
   @spec create_hook(map, config) ::
           {:ok, map} | error
   def create_hook(%{} = params, %Config{} = config) do
-    Management.create_hook(
-      params |> Util.to_struct(Hooks.Create.Params),
-      config
-    )
+    Hooks.create(params, config)
     |> to_response
   end
 
@@ -608,11 +541,7 @@ defmodule Auth0.Simple.Management do
   @spec get_hook(id, map, config) ::
           {:ok, map} | error
   def get_hook(id, %{} = params, %Config{} = config) do
-    Management.get_hook(
-      id,
-      params |> Util.to_struct(Hooks.Get.Params),
-      config
-    )
+    Hooks.get(id, params, config)
     |> to_response
   end
 
@@ -625,7 +554,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec delete_hook(id, config) :: {:ok, String.t(), response_body} | error
   def delete_hook(id, %Config{} = config) do
-    Management.delete_hook(id, config) |> to_response
+    Hooks.delete(id, config) |> to_response
   end
 
   @doc """
@@ -638,11 +567,7 @@ defmodule Auth0.Simple.Management do
   @spec update_hook(id, map, config) ::
           {:ok, map} | error
   def update_hook(id, %{} = params, %Config{} = config) do
-    Management.update_hook(
-      id,
-      params |> Util.to_struct(Hooks.Patch.Params),
-      config
-    )
+    Hooks.update(id, params, config)
     |> to_response
   end
 
@@ -656,7 +581,7 @@ defmodule Auth0.Simple.Management do
   @spec get_hook_secrets(id, config) ::
           {:ok, map} | error
   def get_hook_secrets(id, %Config{} = config) do
-    Management.get_hook_secrets(id, config) |> to_response
+    Hooks.get_secrets(id, config) |> to_response
   end
 
   @doc """
@@ -669,11 +594,7 @@ defmodule Auth0.Simple.Management do
   @spec delete_hook_secrets(id, map, config) ::
           {:ok, String.t()} | error
   def delete_hook_secrets(id, %{} = params, %Config{} = config) do
-    Management.delete_hook_secrets(
-      id,
-      params |> Util.to_struct(Hooks.Secrets.Delete.Params),
-      config
-    )
+    Hooks.delete_secrets(id, params, config)
     |> to_response
   end
 
@@ -687,11 +608,7 @@ defmodule Auth0.Simple.Management do
   @spec update_hook_secrets(id, map, config) ::
           {:ok, map} | error
   def update_hook_secrets(id, %{} = params, %Config{} = config) do
-    Management.update_hook_secrets(
-      id,
-      params |> Util.to_struct(Hooks.Secrets.Patch.Params),
-      config
-    )
+    Hooks.update_secrets(id, params, config)
     |> to_response
   end
 
@@ -705,11 +622,7 @@ defmodule Auth0.Simple.Management do
   @spec add_hook_secrets(id, map, config) ::
           {:ok, map} | error
   def add_hook_secrets(id, %{} = params, %Config{} = config) do
-    Management.add_hook_secrets(
-      id,
-      params |> Util.to_struct(Hooks.Secrets.Add.Params),
-      config
-    )
+    Hooks.add_secrets(id, params, config)
     |> to_response
   end
 
@@ -722,7 +635,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec get_log_streams(config) :: {:ok, Entity.LogStreams.t(), response_body} | error
   def get_log_streams(%Config{} = config) do
-    Management.get_log_streams(config) |> to_response
+    LogStreams.list(config) |> to_response
   end
 
   @doc """
@@ -735,10 +648,7 @@ defmodule Auth0.Simple.Management do
   @spec create_log_stream(map, config) ::
           {:ok, map} | error
   def create_log_stream(%{} = params, %Config{} = config) do
-    Management.create_log_stream(
-      params |> Util.to_struct(LogStreams.Create.Params),
-      config
-    )
+    LogStreams.create(params, config)
     |> to_response
   end
 
@@ -752,7 +662,7 @@ defmodule Auth0.Simple.Management do
   @spec get_log_stream(id, config) ::
           {:ok, map} | error
   def get_log_stream(id, %Config{} = config) do
-    Management.get_log_stream(id, config) |> to_response
+    LogStreams.get(id, config) |> to_response
   end
 
   @doc """
@@ -764,7 +674,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec delete_log_stream(id, config) :: {:ok, String.t()} | error
   def delete_log_stream(id, %Config{} = config) do
-    Management.delete_log_stream(id, config) |> to_response
+    LogStreams.delete(id, config) |> to_response
   end
 
   @doc """
@@ -777,11 +687,7 @@ defmodule Auth0.Simple.Management do
   @spec update_log_stream(id, map, config) ::
           {:ok, map} | error
   def update_log_stream(id, %{} = params, %Config{} = config) do
-    Management.update_log_stream(
-      id,
-      params |> Util.to_struct(LogStreams.Patch.Params),
-      config
-    )
+    LogStreams.update(id, params, config)
     |> to_response
   end
 
@@ -795,10 +701,7 @@ defmodule Auth0.Simple.Management do
   @spec get_log_events(map, config) ::
           {:ok, map} | error
   def get_log_events(%{} = params, %Config{} = config) do
-    Management.get_log_events(
-      params |> Util.to_struct(Logs.List.Params),
-      config
-    )
+    Logs.list(params, config)
     |> to_response
   end
 
@@ -811,7 +714,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec get_log_event(id, config) :: {:ok, map} | error
   def get_log_event(id, %Config{} = config) do
-    Management.get_log_event(id, config) |> to_response
+    Logs.get(id, config) |> to_response
   end
 
   @doc """
@@ -824,10 +727,7 @@ defmodule Auth0.Simple.Management do
   @spec get_organizations(map, config) ::
           {:ok, map} | error
   def get_organizations(%{} = params, %Config{} = config) do
-    Management.get_organizations(
-      params |> Util.to_struct(Organizations.List.Params),
-      config
-    )
+    Organizations.list(params, config)
     |> to_response
   end
 
@@ -841,10 +741,7 @@ defmodule Auth0.Simple.Management do
   @spec create_organization(map, config) ::
           {:ok, map} | error
   def create_organization(%{} = params, %Config{} = config) do
-    Management.create_organization(
-      params |> Util.to_struct(Organizations.Create.Params),
-      config
-    )
+    Organizations.create(params, config)
     |> to_response
   end
 
@@ -858,7 +755,7 @@ defmodule Auth0.Simple.Management do
   @spec get_organization(id, config) ::
           {:ok, map} | error
   def get_organization(id, %Config{} = config) do
-    Management.get_organization(id, config) |> to_response
+    Organizations.get(id, config) |> to_response
   end
 
   @doc """
@@ -870,7 +767,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec delete_organization(id, config) :: {:ok, String.t()} | error
   def delete_organization(id, %Config{} = config) do
-    Management.delete_organization(id, config) |> to_response
+    Organizations.delete(id, config) |> to_response
   end
 
   @doc """
@@ -883,11 +780,7 @@ defmodule Auth0.Simple.Management do
   @spec modify_organization(id, map, config) ::
           {:ok, map} | error
   def modify_organization(id, %{} = params, %Config{} = config) do
-    Management.modify_organization(
-      id,
-      params |> Util.to_struct(Organizations.Patch.Params),
-      config
-    )
+    Organizations.modify(id, params, config)
     |> to_response
   end
 
@@ -901,7 +794,7 @@ defmodule Auth0.Simple.Management do
   @spec get_organization_by_name(name, config) ::
           {:ok, map} | error
   def get_organization_by_name(name, %Config{} = config) do
-    Management.get_organization_by_name(name, config) |> to_response
+    Organizations.get_by_name(name, config) |> to_response
   end
 
   @doc """
@@ -918,11 +811,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.get_organization_connections(
-      id,
-      params |> Util.to_struct(Organizations.EnabledConnections.List.Params),
-      config
-    )
+    Organizations.list_connections(id, params, config)
     |> to_response
   end
 
@@ -944,11 +833,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.add_organization_connection(
-      id,
-      params |> Util.to_struct(Organizations.EnabledConnections.Create.Params),
-      config
-    )
+    Organizations.add_connection(id, params, config)
     |> to_response
   end
 
@@ -962,7 +847,7 @@ defmodule Auth0.Simple.Management do
   @spec get_organization_connection(id, connection_id, config) ::
           {:ok, map} | error
   def get_organization_connection(id, connection_id, %Config{} = config) do
-    Management.get_organization_connection(id, connection_id, config) |> to_response
+    Organizations.get_connection(id, connection_id, config) |> to_response
   end
 
   @doc """
@@ -975,7 +860,7 @@ defmodule Auth0.Simple.Management do
   @spec delete_organization_connection(id, connection_id, config) ::
           {:ok, String.t()} | error
   def delete_organization_connection(id, connection_id, %Config{} = config) do
-    Management.delete_organization_connection(id, connection_id, config) |> to_response
+    Organizations.delete_connection(id, connection_id, config) |> to_response
   end
 
   @doc """
@@ -998,12 +883,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.modify_organization_connection(
-      id,
-      connection_id,
-      params |> Util.to_struct(Organizations.EnabledConnections.Patch.Params),
-      config
-    )
+    Organizations.modify_connection(id, connection_id, params, config)
     |> to_response
   end
 
@@ -1021,11 +901,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.get_organization_invitations(
-      id,
-      params |> Util.to_struct(Organizations.Invitations.List.Params),
-      config
-    )
+    Organizations.list_invitations(id, params, config)
     |> to_response
   end
 
@@ -1043,11 +919,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.create_organization_invitation(
-      id,
-      params |> Util.to_struct(Organizations.Invitations.Create.Params),
-      config
-    )
+    Organizations.create_invitation(id, params, config)
     |> to_response
   end
 
@@ -1071,12 +943,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.get_organization_invitation(
-      id,
-      invitation_id,
-      params |> Util.to_struct(Organizations.Invitations.Get.Params),
-      config
-    )
+    Organizations.get_invitation(id, invitation_id, params, config)
     |> to_response
   end
 
@@ -1090,7 +957,7 @@ defmodule Auth0.Simple.Management do
   @spec delete_organization_invitation(id, invitation_id, config) ::
           {:ok, String.t()} | error
   def delete_organization_invitation(id, invitation_id, %Config{} = config) do
-    Management.delete_organization_invitation(id, invitation_id, config) |> to_response
+    Organizations.delete_invitation(id, invitation_id, config) |> to_response
   end
 
   @doc """
@@ -1107,11 +974,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.get_organization_members(
-      id,
-      params |> Util.to_struct(Organizations.Members.List.Params),
-      config
-    )
+    Organizations.list_members(id, params, config)
     |> to_response
   end
 
@@ -1129,11 +992,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.delete_organization_members(
-      id,
-      params |> Util.to_struct(Organizations.Members.Delete.Params),
-      config
-    )
+    Organizations.delete_members(id, params, config)
     |> to_response
   end
 
@@ -1151,11 +1010,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.add_organization_members(
-      id,
-      params |> Util.to_struct(Organizations.Members.Add.Params),
-      config
-    )
+    Organizations.add_members(id, params, config)
     |> to_response
   end
 
@@ -1174,12 +1029,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.get_organization_roles(
-      id,
-      user_id,
-      params |> Util.to_struct(Organizations.Members.Roles.List.Params),
-      config
-    )
+    Organizations.list_roles(id, user_id, params, config)
     |> to_response
   end
 
@@ -1203,12 +1053,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.delete_organization_roles(
-      id,
-      user_id,
-      params |> Util.to_struct(Organizations.Members.Roles.Delete.Params),
-      config
-    )
+    Organizations.delete_roles(id, user_id, params, config)
     |> to_response
   end
 
@@ -1227,12 +1072,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.assign_organization_roles(
-      id,
-      user_id,
-      params |> Util.to_struct(Organizations.Members.Roles.Add.Params),
-      config
-    )
+    Organizations.assign_roles(id, user_id, params, config)
     |> to_response
   end
 
@@ -1245,7 +1085,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec get_prompt_setting(config) :: {:ok, map} | error
   def get_prompt_setting(%Config{} = config) do
-    Management.get_prompt_setting(config) |> to_response
+    Prompts.get(config) |> to_response
   end
 
   @doc """
@@ -1258,10 +1098,7 @@ defmodule Auth0.Simple.Management do
   @spec update_prompt_setting(map, config) ::
           {:ok, map} | error
   def update_prompt_setting(%{} = params, %Config{} = config) do
-    Management.update_prompt_setting(
-      params |> Util.to_struct(Prompts.Patch.Params),
-      config
-    )
+    Prompts.update(params, config)
     |> to_response
   end
 
@@ -1275,7 +1112,7 @@ defmodule Auth0.Simple.Management do
   @spec get_prompt_custom_text(prompt, language, config) ::
           {:ok, map} | error
   def get_prompt_custom_text(prompt, language, %Config{} = config) do
-    Management.get_prompt_custom_text(prompt, language, config) |> to_response
+    Prompts.get_custom_text(prompt, language, config) |> to_response
   end
 
   @doc """
@@ -1293,12 +1130,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.set_prompt_custom_text(
-      prompt,
-      language,
-      %{value: params} |> Util.to_struct(Prompts.CustomText.Put.Params),
-      config
-    )
+    Prompts.set_custom_text(prompt, language, params, config)
     |> to_response
   end
 
@@ -1312,10 +1144,7 @@ defmodule Auth0.Simple.Management do
   @spec get_resource_servers(map, config) ::
           {:ok, map} | error
   def get_resource_servers(%{} = params, %Config{} = config) do
-    Management.get_resource_servers(
-      params |> Util.to_struct(ResourceServers.List.Params),
-      config
-    )
+    ResourceServers.list(params, config)
     |> to_response
   end
 
@@ -1329,10 +1158,7 @@ defmodule Auth0.Simple.Management do
   @spec create_resource_server(map, config) ::
           {:ok, map} | error
   def create_resource_server(%{} = params, %Config{} = config) do
-    Management.create_resource_server(
-      params |> Util.to_struct(ResourceServers.Create.Params),
-      config
-    )
+    ResourceServers.create(params, config)
     |> to_response
   end
 
@@ -1346,11 +1172,7 @@ defmodule Auth0.Simple.Management do
   @spec get_resource_server(id, map, config) ::
           {:ok, map} | error
   def get_resource_server(id, %{} = params, %Config{} = config) do
-    Management.get_resource_server(
-      id,
-      params |> Util.to_struct(ResourceServers.Get.Params),
-      config
-    )
+    ResourceServers.get(id, params, config)
     |> to_response
   end
 
@@ -1363,7 +1185,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec delete_resource_server(id, config) :: {:ok, String.t()} | error
   def delete_resource_server(id, %Config{} = config) do
-    Management.delete_resource_server(id, config) |> to_response
+    ResourceServers.delete(id, config) |> to_response
   end
 
   @doc """
@@ -1376,11 +1198,7 @@ defmodule Auth0.Simple.Management do
   @spec update_resource_server(id, map, config) ::
           {:ok, map} | error
   def update_resource_server(id, %{} = params, %Config{} = config) do
-    Management.update_resource_server(
-      id,
-      params |> Util.to_struct(ResourceServers.Patch.Params),
-      config
-    )
+    ResourceServers.update(id, params, config)
     |> to_response
   end
 
@@ -1394,10 +1212,7 @@ defmodule Auth0.Simple.Management do
   @spec get_roles(map, config) ::
           {:ok, map} | error
   def get_roles(%{} = params, %Config{} = config) do
-    Management.get_roles(
-      params |> Util.to_struct(Roles.List.Params),
-      config
-    )
+    Roles.list(params, config)
     |> to_response
   end
 
@@ -1411,10 +1226,7 @@ defmodule Auth0.Simple.Management do
   @spec create_role(map, config) ::
           {:ok, map} | error
   def create_role(%{} = params, %Config{} = config) do
-    Management.create_role(
-      params |> Util.to_struct(Roles.Create.Params),
-      config
-    )
+    Roles.create(params, config)
     |> to_response
   end
 
@@ -1427,7 +1239,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec get_role(id, config) :: {:ok, map} | error
   def get_role(id, %Config{} = config) do
-    Management.get_role(id, config) |> to_response
+    Roles.get(id, config) |> to_response
   end
 
   @doc """
@@ -1439,7 +1251,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec delete_role(id, config) :: {:ok, String.t()} | error
   def delete_role(id, %Config{} = config) do
-    Management.delete_role(id, config) |> to_response
+    Roles.delete(id, config) |> to_response
   end
 
   @doc """
@@ -1452,11 +1264,7 @@ defmodule Auth0.Simple.Management do
   @spec update_role(id, map, config) ::
           {:ok, map} | error
   def update_role(id, %{} = params, %Config{} = config) do
-    Management.update_role(
-      id,
-      params |> Util.to_struct(Roles.Patch.Params),
-      config
-    )
+    Roles.update(id, params, config)
     |> to_response
   end
 
@@ -1470,11 +1278,7 @@ defmodule Auth0.Simple.Management do
   @spec get_role_permissions(id, map, config) ::
           {:ok, map} | error
   def get_role_permissions(id, %{} = params, %Config{} = config) do
-    Management.get_role_permissions(
-      id,
-      params |> Util.to_struct(Roles.Permissions.List.Params),
-      config
-    )
+    Roles.list_permissions(id, params, config)
     |> to_response
   end
 
@@ -1488,11 +1292,7 @@ defmodule Auth0.Simple.Management do
   @spec remove_role_permissions(id, map, config) ::
           {:ok, String.t()} | error
   def remove_role_permissions(id, %{} = params, %Config{} = config) do
-    Management.remove_role_permissions(
-      id,
-      params |> Util.to_struct(Roles.Permissions.Remove.Params),
-      config
-    )
+    Roles.remove_permissions(id, params, config)
     |> to_response
   end
 
@@ -1510,11 +1310,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.associate_role_permissions(
-      id,
-      params |> Util.to_struct(Roles.Permissions.Associate.Params),
-      config
-    )
+    Roles.associate_permissions(id, params, config)
     |> to_response
   end
 
@@ -1528,11 +1324,7 @@ defmodule Auth0.Simple.Management do
   @spec get_role_users(id, map, config) ::
           {:ok, map} | error
   def get_role_users(id, %{} = params, %Config{} = config) do
-    Management.get_role_users(
-      id,
-      params |> Util.to_struct(Roles.Users.List.Params),
-      config
-    )
+    Roles.list_users(id, params, config)
     |> to_response
   end
 
@@ -1546,11 +1338,7 @@ defmodule Auth0.Simple.Management do
   @spec assign_role_users(id, map, config) ::
           {:ok, String.t()} | error
   def assign_role_users(id, %{} = params, %Config{} = config) do
-    Management.assign_role_users(
-      id,
-      params |> Util.to_struct(Roles.Users.Assign.Params),
-      config
-    )
+    Roles.assign_users(id, params, config)
     |> to_response
   end
 
@@ -1564,10 +1352,7 @@ defmodule Auth0.Simple.Management do
   @spec get_rules(map, config) ::
           {:ok, map} | error
   def get_rules(%{} = params, %Config{} = config) do
-    Management.get_rules(
-      params |> Util.to_struct(Rules.List.Params),
-      config
-    )
+    Rules.list(params, config)
     |> to_response
   end
 
@@ -1581,10 +1366,7 @@ defmodule Auth0.Simple.Management do
   @spec create_rule(map, config) ::
           {:ok, map} | error
   def create_rule(%{} = params, %Config{} = config) do
-    Management.create_rule(
-      params |> Util.to_struct(Rules.Create.Params),
-      config
-    )
+    Rules.create(params, config)
     |> to_response
   end
 
@@ -1598,11 +1380,7 @@ defmodule Auth0.Simple.Management do
   @spec get_rule(id, map, config) ::
           {:ok, map} | error
   def get_rule(id, %{} = params, %Config{} = config) do
-    Management.get_rule(
-      id,
-      params |> Util.to_struct(Rules.Get.Params),
-      config
-    )
+    Rules.get(id, params, config)
     |> to_response
   end
 
@@ -1615,7 +1393,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec delete_rule(id, config) :: {:ok, String.t()} | error
   def delete_rule(id, %Config{} = config) do
-    Management.delete_rule(id, config) |> to_response
+    Rules.delete(id, config) |> to_response
   end
 
   @doc """
@@ -1628,11 +1406,7 @@ defmodule Auth0.Simple.Management do
   @spec update_rule(id, map, config) ::
           {:ok, map} | error
   def update_rule(id, %{} = params, %Config{} = config) do
-    Management.update_rule(
-      id,
-      params |> Util.to_struct(Rules.Patch.Params),
-      config
-    )
+    Rules.update(id, params, config)
     |> to_response
   end
 
@@ -1646,7 +1420,7 @@ defmodule Auth0.Simple.Management do
   @spec get_rules_configs(config) ::
           {:ok, map} | error
   def get_rules_configs(%Config{} = config) do
-    Management.get_rules_configs(config) |> to_response
+    RulesConfigs.list(config) |> to_response
   end
 
   @doc """
@@ -1658,7 +1432,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec delete_rules_config(key, config) :: {:ok, String.t()} | error
   def delete_rules_config(key, %Config{} = config) do
-    Management.delete_rules_config(key, config) |> to_response
+    RulesConfigs.delete(key, config) |> to_response
   end
 
   @doc """
@@ -1671,11 +1445,7 @@ defmodule Auth0.Simple.Management do
   @spec set_rules_config(key, map, config) ::
           {:ok, map} | error
   def set_rules_config(key, %{} = params, %Config{} = config) do
-    Management.set_rules_config(
-      key,
-      params |> Util.to_struct(RulesConfigs.Put.Params),
-      config
-    )
+    RulesConfigs.set(key, params, config)
     |> to_response
   end
 
@@ -1689,10 +1459,7 @@ defmodule Auth0.Simple.Management do
   @spec get_user_block(map, config) ::
           {:ok, map} | error
   def get_user_block(%{} = params, %Config{} = config) do
-    Management.get_user_block(
-      params |> Util.to_struct(UserBlocks.Get.Params),
-      config
-    )
+    UserBlocks.get(params, config)
     |> to_response
   end
 
@@ -1706,10 +1473,7 @@ defmodule Auth0.Simple.Management do
   @spec unblock_user_block(map, config) ::
           {:ok, String.t()} | error
   def unblock_user_block(%{} = params, %Config{} = config) do
-    Management.unblock_user_block(
-      params |> Util.to_struct(UserBlocks.Unblock.Params),
-      config
-    )
+    UserBlocks.unblock(params, config)
     |> to_response
   end
 
@@ -1723,11 +1487,7 @@ defmodule Auth0.Simple.Management do
   @spec get_user_block_by_user_id(id, map, config) ::
           {:ok, map} | error
   def get_user_block_by_user_id(id, %{} = params, %Config{} = config) do
-    Management.get_user_block_by_user_id(
-      id,
-      params |> Util.to_struct(UserBlocks.Users.Get.Params),
-      config
-    )
+    UserBlocks.get_by_user_id(id, params, config)
     |> to_response
   end
 
@@ -1740,7 +1500,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec unblock_user_block_by_user_id(id, config) :: {:ok, String.t()} | error
   def unblock_user_block_by_user_id(id, %Config{} = config) do
-    Management.unblock_user_block_by_user_id(id, config) |> to_response
+    UserBlocks.unblock_by_user_id(id, config) |> to_response
   end
 
   @doc """
@@ -1753,10 +1513,7 @@ defmodule Auth0.Simple.Management do
   @spec get_users(map, config) ::
           {:ok, map} | error
   def get_users(%{} = params, %Config{} = config) do
-    Management.get_users(
-      params |> Util.to_struct(Users.List.Params),
-      config
-    )
+    Users.list(params, config)
     |> to_response
   end
 
@@ -1770,10 +1527,7 @@ defmodule Auth0.Simple.Management do
   @spec create_user(map, config) ::
           {:ok, map} | error
   def create_user(%{} = params, %Config{} = config) do
-    Management.create_user(
-      params |> Util.to_struct(Users.Create.Params),
-      config
-    )
+    Users.create(params, config)
     |> to_response
   end
 
@@ -1787,11 +1541,7 @@ defmodule Auth0.Simple.Management do
   @spec get_user(id, map, config) ::
           {:ok, map} | error
   def get_user(id, %{} = params, %Config{} = config) do
-    Management.get_user(
-      id,
-      params |> Util.to_struct(Users.Get.Params),
-      config
-    )
+    Users.get(id, params, config)
     |> to_response
   end
 
@@ -1804,7 +1554,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec delete_user(id, config) :: {:ok, String.t()} | error
   def delete_user(id, %Config{} = config) do
-    Management.delete_user(id, config) |> to_response
+    Users.delete(id, config) |> to_response
   end
 
   @doc """
@@ -1817,11 +1567,7 @@ defmodule Auth0.Simple.Management do
   @spec update_user(id, map, config) ::
           {:ok, map} | error
   def update_user(id, %{} = params, %Config{} = config) do
-    Management.update_user(
-      id,
-      params |> Util.to_struct(Users.Patch.Params),
-      config
-    )
+    Users.update(id, params, config)
     |> to_response
   end
 
@@ -1835,7 +1581,7 @@ defmodule Auth0.Simple.Management do
   @spec get_user_enrollments(id, config) ::
           {:ok, map} | error
   def get_user_enrollments(id, %Config{} = config) do
-    Management.get_user_enrollments(id, config) |> to_response
+    Users.get_enrollments(id, config) |> to_response
   end
 
   @doc """
@@ -1848,11 +1594,7 @@ defmodule Auth0.Simple.Management do
   @spec get_user_roles(id, map, config) ::
           {:ok, map} | error
   def get_user_roles(id, %{} = params, %Config{} = config) do
-    Management.get_user_roles(
-      id,
-      params |> Util.to_struct(Users.Roles.List.Params),
-      config
-    )
+    Users.get_roles(id, params, config)
     |> to_response
   end
 
@@ -1866,11 +1608,7 @@ defmodule Auth0.Simple.Management do
   @spec remove_user_roles(id, map, config) ::
           {:ok, String.t()} | error
   def remove_user_roles(id, %{} = params, %Config{} = config) do
-    Management.remove_user_roles(
-      id,
-      params |> Util.to_struct(Users.Roles.Remove.Params),
-      config
-    )
+    Users.remove_roles(id, params, config)
     |> to_response
   end
 
@@ -1884,11 +1622,7 @@ defmodule Auth0.Simple.Management do
   @spec assign_user_roles(id, map, config) ::
           {:ok, String.t()} | error
   def assign_user_roles(id, %{} = params, %Config{} = config) do
-    Management.assign_user_roles(
-      id,
-      params |> Util.to_struct(Users.Roles.Assign.Params),
-      config
-    )
+    Users.assign_roles(id, params, config)
     |> to_response
   end
 
@@ -1902,11 +1636,7 @@ defmodule Auth0.Simple.Management do
   @spec get_user_logs(id, map, config) ::
           {:ok, map} | error
   def get_user_logs(id, %{} = params, %Config{} = config) do
-    Management.get_user_logs(
-      id,
-      params |> Util.to_struct(Users.Logs.List.Params),
-      config
-    )
+    Users.get_logs(id, params, config)
     |> to_response
   end
 
@@ -1920,11 +1650,7 @@ defmodule Auth0.Simple.Management do
   @spec get_user_organizations(id, map, config) ::
           {:ok, map} | error
   def get_user_organizations(id, %{} = params, %Config{} = config) do
-    Management.get_user_organizations(
-      id,
-      params |> Util.to_struct(Users.Organizations.List.Params),
-      config
-    )
+    Users.get_organizations(id, params, config)
     |> to_response
   end
 
@@ -1938,11 +1664,7 @@ defmodule Auth0.Simple.Management do
   @spec get_user_permissions(id, map, config) ::
           {:ok, map} | error
   def get_user_permissions(id, %{} = params, %Config{} = config) do
-    Management.get_user_permissions(
-      id,
-      params |> Util.to_struct(Users.Permissions.List.Params),
-      config
-    )
+    Users.get_permissions(id, params, config)
     |> to_response
   end
 
@@ -1956,11 +1678,7 @@ defmodule Auth0.Simple.Management do
   @spec remove_user_permissions(id, map, config) ::
           {:ok, String.t()} | error
   def remove_user_permissions(id, %{} = params, %Config{} = config) do
-    Management.remove_user_permissions(
-      id,
-      params |> Util.to_struct(Users.Permissions.Remove.Params),
-      config
-    )
+    Users.remove_permissions(id, params, config)
     |> to_response
   end
 
@@ -1974,11 +1692,7 @@ defmodule Auth0.Simple.Management do
   @spec assign_user_permissions(id, map, config) ::
           {:ok, String.t()} | error
   def assign_user_permissions(id, %{} = params, %Config{} = config) do
-    Management.assign_user_permissions(
-      id,
-      params |> Util.to_struct(Users.Permissions.Assign.Params),
-      config
-    )
+    Users.assign_permissions(id, params, config)
     |> to_response
   end
 
@@ -1996,11 +1710,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.delete_user_multifactor(
-      id,
-      params |> Util.to_struct(Users.Multifactor.Delete.Params),
-      config
-    )
+    Users.delete_multifactor(id, params, config)
     |> to_response
   end
 
@@ -2017,7 +1727,7 @@ defmodule Auth0.Simple.Management do
         id,
         %Config{} = config
       ) do
-    Management.invalidate_user_remembered_browser_for_multifactor(id, config) |> to_response
+    Users.invalidate_remembered_browser_for_multifactor(id, config) |> to_response
   end
 
   @doc """
@@ -2034,11 +1744,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.link_user_identities(
-      id,
-      params |> Util.to_struct(Users.Identities.Link.Params),
-      config
-    )
+    Users.link_identities(id, params, config)
     |> to_response
   end
 
@@ -2057,12 +1763,7 @@ defmodule Auth0.Simple.Management do
         user_id,
         %Config{} = config
       ) do
-    Management.unlink_user_identities(
-      id,
-      provider,
-      user_id,
-      config
-    )
+    Users.unlink_identities(id, provider, user_id, config)
     |> to_response
   end
 
@@ -2079,7 +1780,7 @@ defmodule Auth0.Simple.Management do
         id,
         %Config{} = config
       ) do
-    Management.regenerate_user_recovery_code(id, config) |> to_response
+    Users.regenerate_recovery_code(id, config) |> to_response
   end
 
   @doc """
@@ -2092,10 +1793,7 @@ defmodule Auth0.Simple.Management do
   @spec get_users_by_email(map, config) ::
           {:ok, map} | error
   def get_users_by_email(%{} = params, %Config{} = config) do
-    Management.get_users_by_email(
-      params |> Util.to_struct(UsersByEmail.List.Params),
-      config
-    )
+    UsersByEmail.list(params, config)
     |> to_response
   end
 
@@ -2109,10 +1807,7 @@ defmodule Auth0.Simple.Management do
   @spec get_actions(map, config) ::
           {:ok, map} | error
   def get_actions(%{} = params, %Config{} = config) do
-    Management.get_actions(
-      params |> Util.to_struct(Actions.List.Params),
-      config
-    )
+    Actions.list(params, config)
     |> to_response
   end
 
@@ -2126,10 +1821,7 @@ defmodule Auth0.Simple.Management do
   @spec create_action(map, config) ::
           {:ok, map} | error
   def create_action(%{} = params, %Config{} = config) do
-    Management.create_action(
-      params |> Util.to_struct(Actions.Create.Params),
-      config
-    )
+    Actions.create(params, config)
     |> to_response
   end
 
@@ -2143,7 +1835,7 @@ defmodule Auth0.Simple.Management do
   @spec get_action(id, config) ::
           {:ok, map} | error
   def get_action(id, %Config{} = config) do
-    Management.get_action(id, config) |> to_response
+    Actions.get(id, config) |> to_response
   end
 
   @doc """
@@ -2156,11 +1848,7 @@ defmodule Auth0.Simple.Management do
   @spec delete_action(id, map, config) ::
           {:ok, String.t()} | error
   def delete_action(id, %{} = params, %Config{} = config) do
-    Management.delete_action(
-      id,
-      params |> Util.to_struct(Actions.Delete.Params),
-      config
-    )
+    Actions.delete(id, params, config)
     |> to_response
   end
 
@@ -2174,11 +1862,7 @@ defmodule Auth0.Simple.Management do
   @spec update_action(id, map, config) ::
           {:ok, map} | error
   def update_action(id, %{} = params, %Config{} = config) do
-    Management.update_action(
-      id,
-      params |> Util.to_struct(Actions.Patch.Params),
-      config
-    )
+    Actions.update(id, params, config)
     |> to_response
   end
 
@@ -2192,11 +1876,7 @@ defmodule Auth0.Simple.Management do
   @spec get_action_versions(action_id, map, config) ::
           {:ok, map} | error
   def get_action_versions(action_id, %{} = params, %Config{} = config) do
-    Management.get_action_versions(
-      action_id,
-      params |> Util.to_struct(Actions.Versions.List.Params),
-      config
-    )
+    Actions.list_versions(action_id, params, config)
     |> to_response
   end
 
@@ -2210,7 +1890,7 @@ defmodule Auth0.Simple.Management do
   @spec get_action_version(action_id, id, config) ::
           {:ok, map} | error
   def get_action_version(action_id, id, %Config{} = config) do
-    Management.get_action_version(action_id, id, config) |> to_response
+    Actions.get_version(action_id, id, config) |> to_response
   end
 
   @doc """
@@ -2228,12 +1908,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.rollback_action_version(
-      action_id,
-      id,
-      params |> Util.to_struct(Actions.Versions.Rollback.Params),
-      config
-    )
+    Actions.rollback_version(action_id, id, params, config)
     |> to_response
   end
 
@@ -2247,11 +1922,7 @@ defmodule Auth0.Simple.Management do
   @spec test_action(id, map, config) ::
           {:ok, map} | error
   def test_action(id, %{} = params, %Config{} = config) do
-    Management.test_action(
-      id,
-      params |> Util.to_struct(Actions.Test.Params),
-      config
-    )
+    Actions.test(id, params, config)
     |> to_response
   end
 
@@ -2265,7 +1936,7 @@ defmodule Auth0.Simple.Management do
   @spec deploy_action(id, config) ::
           {:ok, map} | error
   def deploy_action(id, %Config{} = config) do
-    Management.deploy_action(id, config) |> to_response
+    Actions.deploy(id, config) |> to_response
   end
 
   @doc """
@@ -2282,11 +1953,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.get_action_trigger_bindings(
-      trigger_id,
-      params |> Util.to_struct(Actions.Triggers.Bindings.List.Params),
-      config
-    )
+    Actions.get_bindings(trigger_id, params, config)
     |> to_response
   end
 
@@ -2308,11 +1975,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.update_action_trigger_bindings(
-      trigger_id,
-      params |> Util.to_struct(Actions.Triggers.Bindings.Patch.Params),
-      config
-    )
+    Actions.update_bindings(trigger_id, params, config)
     |> to_response
   end
 
@@ -2326,7 +1989,7 @@ defmodule Auth0.Simple.Management do
   @spec get_action_status(config) ::
           {:ok, map} | error
   def get_action_status(%Config{} = config) do
-    Management.get_action_status(config) |> to_response
+    Actions.get_status(config) |> to_response
   end
 
   @doc """
@@ -2339,7 +2002,7 @@ defmodule Auth0.Simple.Management do
   @spec get_action_execution(id, config) ::
           {:ok, map} | error
   def get_action_execution(id, %Config{} = config) do
-    Management.get_action_execution(id, config) |> to_response
+    Actions.get_execution(id, config) |> to_response
   end
 
   @doc """
@@ -2352,10 +2015,7 @@ defmodule Auth0.Simple.Management do
   @spec get_blacklisted_tokens(map, config) ::
           {:ok, map} | error
   def get_blacklisted_tokens(%{} = params, %Config{} = config) do
-    Management.get_blacklisted_tokens(
-      params |> Util.to_struct(Blacklist.Tokens.List.Params),
-      config
-    )
+    Blacklist.list_tokens(params, config)
     |> to_response
   end
 
@@ -2369,10 +2029,7 @@ defmodule Auth0.Simple.Management do
   @spec blacklist_token(map, config) ::
           {:ok, String.t()} | error
   def blacklist_token(%{} = params, %Config{} = config) do
-    Management.blacklist_token(
-      params |> Util.to_struct(Blacklist.Tokens.Add.Params),
-      config
-    )
+    Blacklist.add_token(params, config)
     |> to_response
   end
 
@@ -2386,7 +2043,7 @@ defmodule Auth0.Simple.Management do
   @spec get_email_template(template_name, config) ::
           {:ok, map} | error
   def get_email_template(template_name, %Config{} = config) do
-    Management.get_email_template(template_name, config) |> to_response
+    EmailTemplates.get(template_name, config) |> to_response
   end
 
   @doc """
@@ -2403,11 +2060,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.patch_email_template(
-      template_name,
-      params |> Util.to_struct(EmailTemplates.Patch.Params),
-      config
-    )
+    EmailTemplates.patch(template_name, params, config)
     |> to_response
   end
 
@@ -2425,11 +2078,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.update_email_template(
-      template_name,
-      params |> Util.to_struct(EmailTemplates.Update.Params),
-      config
-    )
+    EmailTemplates.update(template_name, params, config)
     |> to_response
   end
 
@@ -2443,10 +2092,7 @@ defmodule Auth0.Simple.Management do
   @spec create_email_template(map, config) ::
           {:ok, map} | error
   def create_email_template(%{} = params, %Config{} = config) do
-    Management.create_email_template(
-      params |> Util.to_struct(EmailTemplates.Create.Params),
-      config
-    )
+    EmailTemplates.create(params, config)
     |> to_response
   end
 
@@ -2460,10 +2106,7 @@ defmodule Auth0.Simple.Management do
   @spec get_email_provider(map, config) ::
           {:ok, map} | error
   def get_email_provider(%{} = params, %Config{} = config) do
-    Management.get_email_provider(
-      params |> Util.to_struct(Emails.Provider.Get.Params),
-      config
-    )
+    Emails.get_provider(params, config)
     |> to_response
   end
 
@@ -2476,7 +2119,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec delete_email_provider(config) :: {:ok, String.t()} | error
   def delete_email_provider(%Config{} = config) do
-    Management.delete_email_provider(config) |> to_response
+    Emails.delete_provider(config) |> to_response
   end
 
   @doc """
@@ -2489,10 +2132,7 @@ defmodule Auth0.Simple.Management do
   @spec update_email_provider(map, config) ::
           {:ok, map} | error
   def update_email_provider(%{} = params, %Config{} = config) do
-    Management.update_email_provider(
-      params |> Util.to_struct(Emails.Provider.Patch.Params),
-      config
-    )
+    Emails.update_provider(params, config)
     |> to_response
   end
 
@@ -2506,10 +2146,7 @@ defmodule Auth0.Simple.Management do
   @spec configure_email_provider(map, config) ::
           {:ok, map} | error
   def configure_email_provider(%{} = params, %Config{} = config) do
-    Management.configure_email_provider(
-      params |> Util.to_struct(Emails.Provider.Configure.Params),
-      config
-    )
+    Emails.configure_provider(params, config)
     |> to_response
   end
 
@@ -2523,7 +2160,7 @@ defmodule Auth0.Simple.Management do
   @spec get_guardian_factors(config) ::
           {:ok, map} | error
   def get_guardian_factors(%Config{} = config) do
-    Management.get_guardian_factors(config) |> to_response
+    Guardian.list_factors(config) |> to_response
   end
 
   @doc """
@@ -2536,11 +2173,7 @@ defmodule Auth0.Simple.Management do
   @spec update_guardian_factor(name, map, config) ::
           {:ok, map} | error
   def update_guardian_factor(name, %{} = params, %Config{} = config) do
-    Management.update_guardian_factor(
-      name,
-      params |> Util.to_struct(Guardian.Factors.Put.Params),
-      config
-    )
+    Guardian.update_factor(name, params, config)
     |> to_response
   end
 
@@ -2553,7 +2186,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec list_guardian_policies(config) :: {:ok, list(map)} | error
   def list_guardian_policies(%Config{} = config) do
-    Management.list_guardian_policies(config) |> to_response
+    Guardian.list_policies(config) |> to_response
   end
 
   @doc """
@@ -2565,10 +2198,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec set_guardian_policies(map, config) :: {:ok, list(map)} | error
   def set_guardian_policies(%{} = params, %Config{} = config) do
-    Management.set_guardian_policies(
-      params,
-      config
-    )
+    Guardian.set_policies(params, config)
     |> to_response
   end
 
@@ -2582,7 +2212,7 @@ defmodule Auth0.Simple.Management do
   @spec get_guardian_enrollment(id, config) ::
           {:ok, map} | error
   def get_guardian_enrollment(id, %Config{} = config) do
-    Management.get_guardian_enrollment(id, config) |> to_response
+    Guardian.get_enrollment(id, config) |> to_response
   end
 
   @doc """
@@ -2594,7 +2224,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec delete_guardian_enrollment(id, config) :: {:ok, String.t()} | error
   def delete_guardian_enrollment(id, %Config{} = config) do
-    Management.delete_guardian_enrollment(id, config) |> to_response
+    Guardian.delete_enrollment(id, config) |> to_response
   end
 
   @doc """
@@ -2610,10 +2240,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.create_guardian_enrollment_ticket(
-      params |> Util.to_struct(Guardian.Enrollments.Ticket.Params),
-      config
-    )
+    Guardian.create_enrollment_ticket(params, config)
     |> to_response
   end
 
@@ -2627,7 +2254,7 @@ defmodule Auth0.Simple.Management do
   @spec get_guardian_phone_factor(config) ::
           {:ok, map} | error
   def get_guardian_phone_factor(%Config{} = config) do
-    Management.get_guardian_phone_factor(config) |> to_response
+    Guardian.get_phone_factor(config) |> to_response
   end
 
   @doc """
@@ -2643,10 +2270,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.update_guardian_phone_factor(
-      params |> Util.to_struct(Guardian.Phone.Factor.Put.Params),
-      config
-    )
+    Guardian.update_phone_factor(params, config)
     |> to_response
   end
 
@@ -2660,7 +2284,7 @@ defmodule Auth0.Simple.Management do
   @spec get_guardian_phone_configuration(config) ::
           {:ok, map} | error
   def get_guardian_phone_configuration(%Config{} = config) do
-    Management.get_guardian_phone_configuration(config) |> to_response
+    Guardian.get_phone_configuration(config) |> to_response
   end
 
   @doc """
@@ -2676,10 +2300,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.update_guardian_phone_configuration(
-      params |> Util.to_struct(Guardian.Phone.Configuration.Put.Params),
-      config
-    )
+    Guardian.update_phone_configuration(params, config)
     |> to_response
   end
 
@@ -2693,7 +2314,7 @@ defmodule Auth0.Simple.Management do
   @spec get_guardian_phone_template(config) ::
           {:ok, map} | error
   def get_guardian_phone_template(%Config{} = config) do
-    Management.get_guardian_phone_template(config) |> to_response
+    Guardian.get_phone_template(config) |> to_response
   end
 
   @doc """
@@ -2709,10 +2330,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.update_guardian_phone_template(
-      params |> Util.to_struct(Guardian.Phone.Template.Put.Params),
-      config
-    )
+    Guardian.update_phone_template(params, config)
     |> to_response
   end
 
@@ -2726,7 +2344,7 @@ defmodule Auth0.Simple.Management do
   @spec get_guardian_sms_configuration(config) ::
           {:ok, map} | error
   def get_guardian_sms_configuration(%Config{} = config) do
-    Management.get_guardian_sms_configuration(config) |> to_response
+    Guardian.get_sms_configuration(config) |> to_response
   end
 
   @doc """
@@ -2742,10 +2360,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.update_guardian_sms_configuration(
-      params |> Util.to_struct(Guardian.Sms.Configuration.Put.Params),
-      config
-    )
+    Guardian.update_sms_configuration(params, config)
     |> to_response
   end
 
@@ -2759,7 +2374,7 @@ defmodule Auth0.Simple.Management do
   @spec get_guardian_sms_template(config) ::
           {:ok, map} | error
   def get_guardian_sms_template(%Config{} = config) do
-    Management.get_guardian_sms_template(config) |> to_response
+    Guardian.get_sms_template(config) |> to_response
   end
 
   @doc """
@@ -2775,10 +2390,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.update_guardian_sms_template(
-      params |> Util.to_struct(Guardian.Sms.Template.Put.Params),
-      config
-    )
+    Guardian.update_sms_template(params, config)
     |> to_response
   end
 
@@ -2792,7 +2404,7 @@ defmodule Auth0.Simple.Management do
   @spec get_guardian_twilio_phone_configuration(config) ::
           {:ok, map} | error
   def get_guardian_twilio_phone_configuration(%Config{} = config) do
-    Management.get_guardian_twilio_phone_configuration(config) |> to_response
+    Guardian.get_twilio_phone_configuration(config) |> to_response
   end
 
   @doc """
@@ -2811,10 +2423,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.update_guardian_twilio_phone_configuration(
-      params |> Util.to_struct(Guardian.Twilio.Phone.Configuration.Put.Params),
-      config
-    )
+    Guardian.update_twilio_phone_configuration(params, config)
     |> to_response
   end
 
@@ -2828,7 +2437,7 @@ defmodule Auth0.Simple.Management do
   @spec get_guardian_twilio_sms_configuration(config) ::
           {:ok, map} | error
   def get_guardian_twilio_sms_configuration(%Config{} = config) do
-    Management.get_guardian_twilio_sms_configuration(config) |> to_response
+    Guardian.get_twilio_sms_configuration(config) |> to_response
   end
 
   @doc """
@@ -2847,10 +2456,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.update_guardian_twilio_sms_configuration(
-      params |> Util.to_struct(Guardian.Twilio.Sms.Configuration.Put.Params),
-      config
-    )
+    Guardian.update_twilio_sms_configuration(params, config)
     |> to_response
   end
 
@@ -2864,7 +2470,7 @@ defmodule Auth0.Simple.Management do
   @spec get_guardian_aws_sns_configuration(config) ::
           {:ok, map} | error
   def get_guardian_aws_sns_configuration(%Config{} = config) do
-    Management.get_guardian_aws_sns_configuration(config) |> to_response
+    Guardian.get_aws_sns_configuration(config) |> to_response
   end
 
   @doc """
@@ -2883,10 +2489,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.patch_guardian_aws_sns_configuration(
-      params |> Util.to_struct(Guardian.AwsSns.Configuration.Patch.Params),
-      config
-    )
+    Guardian.patch_aws_sns_configuration(params, config)
     |> to_response
   end
 
@@ -2906,10 +2509,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.update_guardian_aws_sns_configuration(
-      params |> Util.to_struct(Guardian.AwsSns.Configuration.Put.Params),
-      config
-    )
+    Guardian.update_aws_sns_configuration(params, config)
     |> to_response
   end
 
@@ -2922,7 +2522,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec get_job(id, config) :: {:ok, map} | error
   def get_job(id, %Config{} = config) do
-    Management.get_job(id, config) |> to_response
+    Jobs.get(id, config) |> to_response
   end
 
   @doc """
@@ -2935,7 +2535,7 @@ defmodule Auth0.Simple.Management do
   @spec get_job_error(id, config) ::
           {:ok, map} | error
   def get_job_error(id, %Config{} = config) do
-    Management.get_job_error(id, config) |> to_response
+    Jobs.get_error(id, config) |> to_response
   end
 
   @doc """
@@ -2948,10 +2548,7 @@ defmodule Auth0.Simple.Management do
   @spec create_job_users_exports(map, config) ::
           {:ok, map} | error
   def create_job_users_exports(%{} = params, %Config{} = config) do
-    Management.create_job_users_exports(
-      params |> Util.to_struct(Jobs.UsersExport.Params),
-      config
-    )
+    Jobs.create_users_exports(params, config)
     |> to_response
   end
 
@@ -2965,10 +2562,7 @@ defmodule Auth0.Simple.Management do
   @spec create_job_users_imports(map, config) ::
           {:ok, map} | error
   def create_job_users_imports(%{} = params, %Config{} = config) do
-    Management.create_job_users_imports(
-      params |> Util.to_struct(Jobs.UsersImport.Params),
-      config
-    )
+    Jobs.create_users_imports(params, config)
     |> to_response
   end
 
@@ -2982,10 +2576,7 @@ defmodule Auth0.Simple.Management do
   @spec send_job_verification_email(map, config) ::
           {:ok, map} | error
   def send_job_verification_email(%{} = params, %Config{} = config) do
-    Management.send_job_verification_email(
-      params |> Util.to_struct(Jobs.VerificationEmail.Params),
-      config
-    )
+    Jobs.send_verification_email(params, config)
     |> to_response
   end
 
@@ -2999,7 +2590,7 @@ defmodule Auth0.Simple.Management do
   @spec get_signing_keys(config) ::
           {:ok, map} | error
   def get_signing_keys(%Config{} = config) do
-    Management.get_signing_keys(config) |> to_response
+    Keys.list_signing(config) |> to_response
   end
 
   @doc """
@@ -3012,7 +2603,7 @@ defmodule Auth0.Simple.Management do
   @spec get_signing_key(kid, config) ::
           {:ok, map} | error
   def get_signing_key(kid, %Config{} = config) do
-    Management.get_signing_key(kid, config) |> to_response
+    Keys.get_signing(kid, config) |> to_response
   end
 
   @doc """
@@ -3025,7 +2616,7 @@ defmodule Auth0.Simple.Management do
   @spec rotate_signing_key(config) ::
           {:ok, map} | error
   def rotate_signing_key(%Config{} = config) do
-    Management.rotate_signing_key(config) |> to_response
+    Keys.rotate_signing(config) |> to_response
   end
 
   @doc """
@@ -3038,7 +2629,7 @@ defmodule Auth0.Simple.Management do
   @spec revoke_signing_key(kid, config) ::
           {:ok, map} | error
   def revoke_signing_key(kid, %Config{} = config) do
-    Management.revoke_signing_key(kid, config) |> to_response
+    Keys.revoke_signing(kid, config) |> to_response
   end
 
   @doc """
@@ -3050,7 +2641,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec get_active_users_count(config) :: {:ok, integer} | error
   def get_active_users_count(%Config{} = config) do
-    Management.get_active_users_count(config) |> to_response
+    Stats.count_active_users(config) |> to_response
   end
 
   @doc """
@@ -3062,7 +2653,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec get_daily_stats(config) :: {:ok, map} | error
   def get_daily_stats(%Config{} = config) do
-    Management.get_daily_stats(config) |> to_response
+    Stats.list_daily(config) |> to_response
   end
 
   @doc """
@@ -3075,10 +2666,7 @@ defmodule Auth0.Simple.Management do
   @spec get_tenant_setting(map, config) ::
           {:ok, map} | error
   def get_tenant_setting(%{} = params, %Config{} = config) do
-    Management.get_tenant_setting(
-      params |> Util.to_struct(Tenants.Settings.Get.Params),
-      config
-    )
+    Tenants.get_setting(params, config)
     |> to_response
   end
 
@@ -3092,10 +2680,7 @@ defmodule Auth0.Simple.Management do
   @spec update_tenant_setting(map, config) ::
           {:ok, map} | error
   def update_tenant_setting(%{} = params, %Config{} = config) do
-    Management.update_tenant_setting(
-      params |> Util.to_struct(Tenants.Settings.Patch.Params),
-      config
-    )
+    Tenants.update_setting(params, config)
     |> to_response
   end
 
@@ -3108,7 +2693,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec check_ip_blocked(ip, config) :: {:ok, boolean} | error
   def check_ip_blocked(ip, %Config{} = config) do
-    Management.check_ip_blocked(ip, config) |> to_response
+    Anomaly.check_ip_blocked(ip, config) |> to_response
   end
 
   @doc """
@@ -3120,7 +2705,7 @@ defmodule Auth0.Simple.Management do
   """
   @spec remove_blocked_ip(ip, config) :: {:ok, String.t()} | error
   def remove_blocked_ip(ip, %Config{} = config) do
-    Management.remove_blocked_ip(ip, config) |> to_response
+    Anomaly.remove_blocked_ip(ip, config) |> to_response
   end
 
   @doc """
@@ -3136,10 +2721,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.create_email_verification_ticket(
-      params |> Util.to_struct(Tickets.EmailVerification.Create.Params),
-      config
-    )
+    Tickets.create_email_verification(params, config)
     |> to_response
   end
 
@@ -3156,10 +2738,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.create_password_change_ticket(
-      params |> Util.to_struct(Tickets.PasswordChange.Create.Params),
-      config
-    )
+    Tickets.create_password_change(params, config)
     |> to_response
   end
 
@@ -3173,7 +2752,7 @@ defmodule Auth0.Simple.Management do
   @spec get_attack_protection_breached_password_detection(config) ::
           {:ok, map} | error
   def get_attack_protection_breached_password_detection(%Config{} = config) do
-    Management.get_attack_protection_breached_password_detection(config)
+    AttackProtection.get_breached_password_detection(config)
     |> to_response
   end
 
@@ -3193,10 +2772,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.update_attack_protection_breached_password_detection(
-      params |> Util.to_struct(AttackProtection.BreachedPasswordDetection.Patch.Params),
-      config
-    )
+    AttackProtection.update_breached_password_detection(params, config)
     |> to_response
   end
 
@@ -3210,7 +2786,7 @@ defmodule Auth0.Simple.Management do
   @spec get_attack_protection_brute_force_protection(config) ::
           {:ok, map} | error
   def get_attack_protection_brute_force_protection(%Config{} = config) do
-    Management.get_attack_protection_brute_force_protection(config)
+    AttackProtection.get_brute_force_protection(config)
     |> to_response
   end
 
@@ -3230,10 +2806,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.update_attack_protection_brute_force_protection(
-      params |> Util.to_struct(AttackProtection.BruteForceProtection.Patch.Params),
-      config
-    )
+    AttackProtection.update_brute_force_protection(params, config)
     |> to_response
   end
 
@@ -3247,7 +2820,7 @@ defmodule Auth0.Simple.Management do
   @spec get_attack_protection_suspicious_ip_throttling(config) ::
           {:ok, map} | error
   def get_attack_protection_suspicious_ip_throttling(%Config{} = config) do
-    Management.get_attack_protection_suspicious_ip_throttling(config)
+    AttackProtection.get_suspicious_ip_throttling(config)
     |> to_response
   end
 
@@ -3267,10 +2840,7 @@ defmodule Auth0.Simple.Management do
         %{} = params,
         %Config{} = config
       ) do
-    Management.update_attack_protection_suspicious_ip_throttling(
-      params |> Util.to_struct(AttackProtection.SuspiciousIpThrottling.Patch.Params),
-      config
-    )
+    AttackProtection.update_suspicious_ip_throttling(params, config)
     |> to_response
   end
 

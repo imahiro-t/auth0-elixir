@@ -23,9 +23,9 @@ defmodule Auth0.Management.Tenants do
   https://auth0.com/docs/api/management/v2/#!/Tenants/tenant_settings_route
 
   """
-  @spec get_setting(Settings.Get.Params.t(), config) ::
+  @spec get_setting(Settings.Get.Params.t() | map, config) ::
           {:ok, Entity.TenantSetting.t(), response_body} | error
-  def get_setting(%Settings.Get.Params{} = params, %Config{} = config) do
+  def get_setting(%{} = params, %Config{} = config) do
     Settings.Get.execute(@endpoint_settings, params, config)
   end
 
@@ -36,9 +36,9 @@ defmodule Auth0.Management.Tenants do
   https://auth0.com/docs/api/management/v2/#!/Tenants/patch_settings
 
   """
-  @spec update_setting(Settings.Patch.Params.t(), config) ::
+  @spec update_setting(Settings.Patch.Params.t() | map, config) ::
           {:ok, Entity.TenantSetting.t(), response_body} | error
-  def update_setting(%Settings.Patch.Params{} = params, %Config{} = config) do
+  def update_setting(%{} = params, %Config{} = config) do
     Settings.Patch.execute(@endpoint_settings, params, config)
   end
 end

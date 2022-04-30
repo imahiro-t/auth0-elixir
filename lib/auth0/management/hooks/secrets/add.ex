@@ -7,6 +7,7 @@ defmodule Auth0.Management.Hooks.Secrets.Add do
   """
 
   alias Auth0.Config
+  alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
   defmodule Params do
@@ -19,7 +20,7 @@ defmodule Auth0.Management.Hooks.Secrets.Add do
 
   @type endpoint :: String.t()
   @type id :: String.t()
-  @type params :: Params.t()
+  @type params :: Params.t() | map
   @type config :: Config.t()
   @type entity :: map
   @type response_body :: String.t()
@@ -34,6 +35,10 @@ defmodule Auth0.Management.Hooks.Secrets.Add do
   """
   @spec execute(endpoint, id, params, config) :: response
   def execute(endpoint, id, %Params{} = params, %Config{} = config) do
+    execute(endpoint, id, params |> Util.to_map(), config)
+  end
+
+  def execute(endpoint, id, %{} = params, %Config{} = config) do
     body = params.value
 
     endpoint

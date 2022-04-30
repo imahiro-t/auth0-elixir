@@ -21,7 +21,7 @@ defmodule Auth0.Management.Guardian.Factors.Put do
 
   @type endpoint :: String.t()
   @type name :: String.t()
-  @type params :: Params.t()
+  @type params :: Params.t() | map()
   @type config :: Config.t()
   @type entity :: GuardianFactor.t()
   @type response_body :: String.t()
@@ -36,7 +36,11 @@ defmodule Auth0.Management.Guardian.Factors.Put do
   """
   @spec execute(endpoint, name, params, config) :: response
   def execute(endpoint, name, %Params{} = params, %Config{} = config) do
-    body = params |> Util.to_map() |> Util.remove_nil()
+    execute(endpoint, name, params |> Util.to_map(), config)
+  end
+
+  def execute(endpoint, name, %{} = params, %Config{} = config) do
+    body = params |> Util.remove_nil()
 
     endpoint
     |> String.replace("{name}", name)

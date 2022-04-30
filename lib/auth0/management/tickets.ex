@@ -26,9 +26,9 @@ defmodule Auth0.Management.Tickets do
   https://auth0.com/docs/api/management/v2/#!/Tickets/post_email_verification
 
   """
-  @spec create_email_verification(EmailVerification.Create.Params.t(), config) ::
+  @spec create_email_verification(EmailVerification.Create.Params.t() | map, config) ::
           {:ok, Entity.Ticket.t(), response_body} | error
-  def create_email_verification(%EmailVerification.Create.Params{} = params, %Config{} = config) do
+  def create_email_verification(%{} = params, %Config{} = config) do
     EmailVerification.Create.execute(@endpoint_email_verification, params, config)
   end
 
@@ -39,9 +39,9 @@ defmodule Auth0.Management.Tickets do
   https://auth0.com/docs/api/management/v2/#!/Tickets/post_password_change
 
   """
-  @spec create_password_change(PasswordChange.Create.Params.t(), config) ::
+  @spec create_password_change(PasswordChange.Create.Params.t() | map, config) ::
           {:ok, Entity.Ticket.t(), response_body} | error
-  def create_password_change(%PasswordChange.Create.Params{} = params, %Config{} = config) do
+  def create_password_change(%{} = params, %Config{} = config) do
     PasswordChange.Create.execute(@endpoint_password_change, params, config)
   end
 end

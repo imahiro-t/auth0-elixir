@@ -21,7 +21,7 @@ defmodule Auth0.Management.RulesConfigs.Put do
 
   @type endpoint :: String.t()
   @type key :: String.t()
-  @type params :: Params.t()
+  @type params :: Params.t() | map
   @type config :: Config.t()
   @type entity :: RulesConfig.t()
   @type response_body :: String.t()
@@ -36,7 +36,11 @@ defmodule Auth0.Management.RulesConfigs.Put do
   """
   @spec execute(endpoint, key, params, config) :: response
   def execute(endpoint, key, %Params{} = params, %Config{} = config) do
-    body = params |> Util.to_map() |> Util.remove_nil()
+    execute(endpoint, key, params |> Util.to_map(), config)
+  end
+
+  def execute(endpoint, key, %{} = params, %Config{} = config) do
+    body = params |> Util.remove_nil()
 
     endpoint
     |> String.replace("{key}", key)

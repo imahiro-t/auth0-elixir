@@ -28,7 +28,7 @@ defmodule Auth0.Management.Jobs.UsersImport do
   end
 
   @type endpoint :: String.t()
-  @type params :: Params.t()
+  @type params :: Params.t() | map
   @type config :: Config.t()
   @type entity :: JobsUsersImport.t()
   @type response_body :: String.t()
@@ -43,13 +43,16 @@ defmodule Auth0.Management.Jobs.UsersImport do
   """
   @spec execute(endpoint, params, config) :: response
   def execute(endpoint, %Params{} = params, %Config{} = config) do
+    execute(endpoint, params |> Util.to_map(), config)
+  end
+
+  def execute(endpoint, %{} = params, %Config{} = config) do
     multipart =
       {:multipart,
        [
          {"file", params.users, {"form-data", [name: "users", filename: "users.json"]}, []}
        ] ++
          (params
-          |> Util.to_map()
           |> Util.remove_nil()
           |> Enum.reject(fn {key, _value} -> key == :users end)
           |> Enum.map(fn {key, value} -> {key |> to_string, value |> to_string} end))}

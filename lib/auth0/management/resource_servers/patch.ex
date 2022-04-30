@@ -39,7 +39,7 @@ defmodule Auth0.Management.ResourceServers.Patch do
 
   @type endpoint :: String.t()
   @type id :: String.t()
-  @type params :: Params.t()
+  @type params :: Params.t() | map
   @type config :: Config.t()
   @type entity :: ResourceServer.t()
   @type response_body :: String.t()
@@ -54,7 +54,11 @@ defmodule Auth0.Management.ResourceServers.Patch do
   """
   @spec execute(endpoint, id, params, config) :: response
   def execute(endpoint, id, %Params{} = params, %Config{} = config) do
-    body = params |> Util.to_map() |> Util.remove_nil()
+    execute(endpoint, id, params |> Util.to_map(), config)
+  end
+
+  def execute(endpoint, id, %{} = params, %Config{} = config) do
+    body = params |> Util.remove_nil()
 
     endpoint
     |> String.replace("{id}", id)

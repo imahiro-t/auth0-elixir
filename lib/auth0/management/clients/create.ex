@@ -230,7 +230,7 @@ defmodule Auth0.Management.Clients.Create do
   end
 
   @type endpoint :: String.t()
-  @type params :: Params.t()
+  @type params :: Params.t() | map()
   @type config :: Config.t()
   @type entity :: Client.t()
   @type response_body :: String.t()
@@ -245,7 +245,11 @@ defmodule Auth0.Management.Clients.Create do
   """
   @spec execute(endpoint, params, config) :: response
   def execute(endpoint, %Params{} = params, %Config{} = config) do
-    body = params |> Util.to_map() |> Util.remove_nil()
+    execute(endpoint, params |> Util.to_map(), config)
+  end
+
+  def execute(endpoint, %{} = params, %Config{} = config) do
+    body = params |> Util.remove_nil()
 
     Http.post(endpoint, body, config)
     |> case do

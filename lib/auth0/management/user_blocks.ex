@@ -28,9 +28,9 @@ defmodule Auth0.Management.UserBlocks do
   https://auth0.com/docs/api/management/v2/#!/User_Blocks/get_user_blocks
 
   """
-  @spec get(Get.Params.t(), config) ::
+  @spec get(Get.Params.t() | map, config) ::
           {:ok, Entity.UserBlocks.t(), response_body} | error
-  def get(%Get.Params{} = params, %Config{} = config) do
+  def get(%{} = params, %Config{} = config) do
     Get.execute(@endpoint, params, config)
   end
 
@@ -41,8 +41,8 @@ defmodule Auth0.Management.UserBlocks do
   https://auth0.com/docs/api/management/v2/#!/User_Blocks/delete_user_blocks
 
   """
-  @spec unblock(Unblock.Params.t(), config) :: {:ok, String.t(), response_body} | error
-  def unblock(%Unblock.Params{} = params, %Config{} = config) do
+  @spec unblock(Unblock.Params.t() | map, config) :: {:ok, String.t(), response_body} | error
+  def unblock(%{} = params, %Config{} = config) do
     Unblock.execute(@endpoint, params, config)
   end
 
@@ -53,9 +53,9 @@ defmodule Auth0.Management.UserBlocks do
   https://auth0.com/docs/api/management/v2/#!/User_Blocks/get_user_blocks_by_id
 
   """
-  @spec get_by_user_id(id, Users.Get.Params.t(), config) ::
+  @spec get_by_user_id(id, Users.Get.Params.t() | map, config) ::
           {:ok, Entity.UserBlocks.t(), response_body} | error
-  def get_by_user_id(id, %Users.Get.Params{} = params, %Config{} = config) do
+  def get_by_user_id(id, %{} = params, %Config{} = config) do
     Users.Get.execute(@endpoint_by_id, id, params, config)
   end
 

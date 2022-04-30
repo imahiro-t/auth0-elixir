@@ -32,7 +32,7 @@ defmodule Auth0.Management.Logs.List do
   end
 
   @type endpoint :: String.t()
-  @type params :: Params.t()
+  @type params :: Params.t() | map
   @type config :: Config.t()
   @type entity :: Logs.t()
   @type response_body :: String.t()
@@ -47,8 +47,11 @@ defmodule Auth0.Management.Logs.List do
   """
   @spec execute(endpoint, params, config) :: response
   def execute(endpoint, %Params{} = params, %Config{} = config) do
+    execute(endpoint, params |> Util.to_map(), config)
+  end
+
+  def execute(endpoint, %{} = params, %Config{} = config) do
     params
-    |> Util.to_map()
     |> Util.convert_to_query()
     |> Util.append_query(endpoint)
     |> Http.get(config)

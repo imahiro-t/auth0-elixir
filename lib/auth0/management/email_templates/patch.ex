@@ -37,7 +37,7 @@ defmodule Auth0.Management.EmailTemplates.Patch do
 
   @type endpoint :: String.t()
   @type template_name :: String.t()
-  @type params :: Params.t()
+  @type params :: Params.t() | map()
   @type config :: Config.t()
   @type entity :: EmailTemplate.t()
   @type response_body :: String.t()
@@ -52,7 +52,11 @@ defmodule Auth0.Management.EmailTemplates.Patch do
   """
   @spec execute(endpoint, template_name, params, config) :: response
   def execute(endpoint, template_name, %Params{} = params, %Config{} = config) do
-    body = params |> Util.to_map() |> Util.remove_nil()
+    execute(endpoint, template_name, params |> Util.to_map(), config)
+  end
+
+  def execute(endpoint, template_name, %{} = params, %Config{} = config) do
+    body = params |> Util.remove_nil()
 
     endpoint
     |> String.replace("{templateName}", template_name)

@@ -23,7 +23,7 @@ defmodule Auth0.Management.Connections.Get do
 
   @type endpoint :: String.t()
   @type id :: String.t()
-  @type params :: Params.t()
+  @type params :: Params.t() | map()
   @type config :: Config.t()
   @type entity :: Connection.t()
   @type response_body :: String.t()
@@ -38,8 +38,11 @@ defmodule Auth0.Management.Connections.Get do
   """
   @spec execute(endpoint, id, params, config) :: response
   def execute(endpoint, id, %Params{} = params, %Config{} = config) do
+    execute(endpoint, id, params |> Util.to_map(), config)
+  end
+
+  def execute(endpoint, id, %{} = params, %Config{} = config) do
     params
-    |> Util.to_map()
     |> Util.convert_to_query()
     |> Util.append_query(endpoint |> String.replace("{id}", id))
     |> Http.get(config)

@@ -42,9 +42,9 @@ defmodule Auth0.Management.EmailTemplates do
   https://auth0.com/docs/api/management/v2/#!/Email_Templates/patch_email_templates_by_templateName
 
   """
-  @spec patch(template_name, Patch.Params.t(), config) ::
+  @spec patch(template_name, Patch.Params.t() | map, config) ::
           {:ok, Entity.EmailTemplate.t(), response_body} | error
-  def patch(template_name, %Patch.Params{} = params, %Config{} = config) do
+  def patch(template_name, %{} = params, %Config{} = config) do
     Patch.execute(@endpoint_by_name, template_name, params, config)
   end
 
@@ -55,9 +55,9 @@ defmodule Auth0.Management.EmailTemplates do
   https://auth0.com/docs/api/management/v2/#!/Email_Templates/put_email_templates_by_templateName
 
   """
-  @spec update(template_name, Update.Params.t(), config) ::
+  @spec update(template_name, Update.Params.t() | map, config) ::
           {:ok, Entity.EmailTemplate.t(), response_body} | error
-  def update(template_name, %Update.Params{} = params, %Config{} = config) do
+  def update(template_name, %{} = params, %Config{} = config) do
     Update.execute(@endpoint_by_name, template_name, params, config)
   end
 
@@ -68,9 +68,9 @@ defmodule Auth0.Management.EmailTemplates do
   https://auth0.com/docs/api/management/v2/#!/Email_Templates/post_email_templates
 
   """
-  @spec create(Create.Params.t(), config) ::
+  @spec create(Create.Params.t() | map, config) ::
           {:ok, Entity.EmailTemplate.t(), response_body} | error
-  def create(%Create.Params{} = params, %Config{} = config) do
+  def create(%{} = params, %Config{} = config) do
     Create.execute(@endpoint, params, config)
   end
 end

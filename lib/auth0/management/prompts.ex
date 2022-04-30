@@ -41,9 +41,9 @@ defmodule Auth0.Management.Prompts do
   https://auth0.com/docs/api/management/v2/#!/Prompts/patch_prompts
 
   """
-  @spec update(Patch.Params.t(), config) ::
+  @spec update(Patch.Params.t() | map, config) ::
           {:ok, Entity.Prompt.t(), response_body} | error
-  def update(%Patch.Params{} = params, %Config{} = config) do
+  def update(%{} = params, %Config{} = config) do
     Patch.execute(@endpoint, params, config)
   end
 
@@ -67,9 +67,9 @@ defmodule Auth0.Management.Prompts do
   https://auth0.com/docs/api/management/v2/#!/Prompts/put_custom_text_by_language
 
   """
-  @spec set_custom_text(prompt, language, CustomText.Put.Params.t(), config) ::
+  @spec set_custom_text(prompt, language, CustomText.Put.Params.t() | map, config) ::
           {:ok, Entity.CustomText.t(), response_body} | error
-  def set_custom_text(prompt, language, %CustomText.Put.Params{} = params, %Config{} = config) do
+  def set_custom_text(prompt, language, %{} = params, %Config{} = config) do
     CustomText.Put.execute(@endpoint_custom_text, prompt, language, params, config)
   end
 end

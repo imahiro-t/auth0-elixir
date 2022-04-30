@@ -28,9 +28,9 @@ defmodule Auth0.Management.DeviceCredentials do
   https://auth0.com/docs/api/management/v2/#!/Device_Credentials/get_device_credentials
 
   """
-  @spec list(List.Params.t(), config) ::
+  @spec list(List.Params.t() | map, config) ::
           {:ok, Entity.DeviceCredentials.t(), response_body} | error
-  def list(%List.Params{} = params, %Config{} = config) do
+  def list(%{} = params, %Config{} = config) do
     List.execute(@endpoint, params, config)
   end
 
@@ -41,9 +41,9 @@ defmodule Auth0.Management.DeviceCredentials do
   https://auth0.com/docs/api/management/v2/#!/Device_Credentials/post_device_credentials
 
   """
-  @spec create(Create.Params.t(), config) ::
+  @spec create(Create.Params.t() | map, config) ::
           {:ok, Entity.DeviceCredential.t(), response_body} | error
-  def create(%Create.Params{} = params, %Config{} = config) do
+  def create(%{} = params, %Config{} = config) do
     Create.execute(@endpoint, params, config)
   end
 

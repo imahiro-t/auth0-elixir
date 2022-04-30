@@ -23,9 +23,9 @@ defmodule Auth0.Management.Blacklist do
   https://auth0.com/docs/api/management/v2/#!/Blacklists/get_tokens
 
   """
-  @spec list_tokens(Tokens.List.Params.t(), config) ::
+  @spec list_tokens(Tokens.List.Params.t() | map, config) ::
           {:ok, Entity.BlacklistTokens.t(), response_body} | error
-  def list_tokens(%Tokens.List.Params{} = params, %Config{} = config) do
+  def list_tokens(%{} = params, %Config{} = config) do
     Tokens.List.execute(@endpoint_tokens, params, config)
   end
 
@@ -36,8 +36,8 @@ defmodule Auth0.Management.Blacklist do
   https://auth0.com/docs/api/management/v2/#!/Blacklists/post_tokens
 
   """
-  @spec add_token(Tokens.Add.Params.t(), config) :: {:ok, String.t(), response_body} | error
-  def add_token(%Tokens.Add.Params{} = params, %Config{} = config) do
+  @spec add_token(Tokens.Add.Params.t() | map, config) :: {:ok, String.t(), response_body} | error
+  def add_token(%{} = params, %Config{} = config) do
     Tokens.Add.execute(@endpoint_tokens, params, config)
   end
 end
