@@ -22,7 +22,7 @@ defmodule Auth0.Management.Actions.Versions.Rollback do
   @type endpoint :: String.t()
   @type action_id :: String.t()
   @type id :: String.t()
-  @type params :: Params.t()
+  @type params :: Params.t() | map()
   @type config :: Config.t()
   @type entity :: ActionVersion.t()
   @type response_body :: String.t()
@@ -37,7 +37,11 @@ defmodule Auth0.Management.Actions.Versions.Rollback do
   """
   @spec execute(endpoint, action_id, id, params, config) :: response
   def execute(endpoint, action_id, id, %Params{} = params, %Config{} = config) do
-    body = params |> Util.to_map() |> Util.remove_nil()
+    execute(endpoint, action_id, id, params |> Util.to_map(), config)
+  end
+
+  def execute(endpoint, action_id, id, %{} = params, %Config{} = config) do
+    body = params |> Util.remove_nil()
 
     endpoint
     |> String.replace("{actionId}", action_id)

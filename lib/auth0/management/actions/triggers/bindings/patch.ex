@@ -41,7 +41,7 @@ defmodule Auth0.Management.Actions.Triggers.Bindings.Patch do
 
   @type endpoint :: String.t()
   @type trigger_id :: String.t()
-  @type params :: Params.t()
+  @type params :: Params.t() | map()
   @type config :: Config.t()
   @type entity :: ActionTriggerBindings.t()
   @type response_body :: String.t()
@@ -56,7 +56,11 @@ defmodule Auth0.Management.Actions.Triggers.Bindings.Patch do
   """
   @spec execute(endpoint, trigger_id, params, config) :: response
   def execute(endpoint, trigger_id, %Params{} = params, %Config{} = config) do
-    body = params |> Util.to_map() |> Util.remove_nil()
+    execute(endpoint, trigger_id, params |> Util.to_map(), config)
+  end
+
+  def execute(endpoint, trigger_id, %{} = params, %Config{} = config) do
+    body = params |> Util.remove_nil()
 
     endpoint
     |> String.replace("{triggerId}", trigger_id)

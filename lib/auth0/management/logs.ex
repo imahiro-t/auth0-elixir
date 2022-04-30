@@ -27,8 +27,8 @@ defmodule Auth0.Management.Logs do
   https://auth0.com/docs/api/management/v2/#!/Logs/get_logs
 
   """
-  @spec list(List.Params.t(), config) :: {:ok, Entity.Logs.t(), response_body} | error
-  def list(%List.Params{} = params, %Config{} = config) do
+  @spec list(List.Params.t() | map, config) :: {:ok, Entity.Logs.t(), response_body} | error
+  def list(%{} = params, %Config{} = config) do
     List.execute(@endpoint, params, config)
   end
 

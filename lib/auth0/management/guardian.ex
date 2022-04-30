@@ -68,9 +68,9 @@ defmodule Auth0.Management.Guardian do
   https://auth0.com/docs/api/management/v2/#!/Guardian/put_factors_by_name
 
   """
-  @spec update_factor(name, Factors.Put.Params.t(), config) ::
+  @spec update_factor(name, Factors.Put.Params.t() | map, config) ::
           {:ok, Entity.GuardianFactor.t(), response_body} | error
-  def update_factor(name, %Factors.Put.Params{} = params, %Config{} = config) do
+  def update_factor(name, %{} = params, %Config{} = config) do
     Factors.Put.execute(@endpoint_factors_by_name, name, params, config)
   end
 
@@ -130,9 +130,9 @@ defmodule Auth0.Management.Guardian do
   https://auth0.com/docs/api/management/v2/#!/Guardian/post_ticket
 
   """
-  @spec create_enrollment_ticket(Enrollments.Ticket.Params.t(), config) ::
+  @spec create_enrollment_ticket(Enrollments.Ticket.Params.t() | map, config) ::
           {:ok, Entity.GuardianEnrollmentTicket.t(), response_body} | error
-  def create_enrollment_ticket(%Enrollments.Ticket.Params{} = params, %Config{} = config) do
+  def create_enrollment_ticket(%{} = params, %Config{} = config) do
     Enrollments.Ticket.execute(@endpoint_enrollment_ticket, params, config)
   end
 
@@ -156,9 +156,9 @@ defmodule Auth0.Management.Guardian do
   https://auth0.com/docs/api/management/v2/#!/Guardian/put_message_types
 
   """
-  @spec update_phone_factor(Phone.Factor.Put.Params.t(), config) ::
+  @spec update_phone_factor(Phone.Factor.Put.Params.t() | map, config) ::
           {:ok, Entity.GuardianPhoneFactor.t(), response_body} | error
-  def update_phone_factor(%Phone.Factor.Put.Params{} = params, %Config{} = config) do
+  def update_phone_factor(%{} = params, %Config{} = config) do
     Phone.Factor.Put.execute(@endpoint_phone_factor, params, config)
   end
 
@@ -182,9 +182,9 @@ defmodule Auth0.Management.Guardian do
   https://auth0.com/docs/api/management/v2/#!/Guardian/put_selected_provider
 
   """
-  @spec update_phone_configuration(Phone.Configuration.Put.Params.t(), config) ::
+  @spec update_phone_configuration(Phone.Configuration.Put.Params.t() | map, config) ::
           {:ok, Entity.GuardianPhoneConfiguration.t(), response_body} | error
-  def update_phone_configuration(%Phone.Configuration.Put.Params{} = params, %Config{} = config) do
+  def update_phone_configuration(%{} = params, %Config{} = config) do
     Phone.Configuration.Put.execute(@endpoint_phone_configuration, params, config)
   end
 
@@ -208,9 +208,9 @@ defmodule Auth0.Management.Guardian do
   https://auth0.com/docs/api/management/v2/#!/Guardian/put_templates
 
   """
-  @spec update_phone_template(Phone.Template.Put.Params.t(), config) ::
+  @spec update_phone_template(Phone.Template.Put.Params.t() | map, config) ::
           {:ok, Entity.GuardianPhoneTemplate.t(), response_body} | error
-  def update_phone_template(%Phone.Template.Put.Params{} = params, %Config{} = config) do
+  def update_phone_template(%{} = params, %Config{} = config) do
     Phone.Template.Put.execute(@endpoint_phone_template, params, config)
   end
 
@@ -234,9 +234,9 @@ defmodule Auth0.Management.Guardian do
   https://auth0.com/docs/api/management/v2/#!/Guardian/put_selected_provider_0
 
   """
-  @spec update_sms_configuration(Sms.Configuration.Put.Params.t(), config) ::
+  @spec update_sms_configuration(Sms.Configuration.Put.Params.t() | map, config) ::
           {:ok, Entity.GuardianSmsConfiguration.t(), response_body} | error
-  def update_sms_configuration(%Sms.Configuration.Put.Params{} = params, %Config{} = config) do
+  def update_sms_configuration(%{} = params, %Config{} = config) do
     Sms.Configuration.Put.execute(@endpoint_sms_configuration, params, config)
   end
 
@@ -260,9 +260,9 @@ defmodule Auth0.Management.Guardian do
   https://auth0.com/docs/api/management/v2/#!/Guardian/put_templates_0
 
   """
-  @spec update_sms_template(Sms.Template.Put.Params.t(), config) ::
+  @spec update_sms_template(Sms.Template.Put.Params.t() | map, config) ::
           {:ok, Entity.GuardianSmsTemplate.t(), response_body} | error
-  def update_sms_template(%Sms.Template.Put.Params{} = params, %Config{} = config) do
+  def update_sms_template(%{} = params, %Config{} = config) do
     Sms.Template.Put.execute(@endpoint_sms_template, params, config)
   end
 
@@ -286,10 +286,10 @@ defmodule Auth0.Management.Guardian do
   https://auth0.com/docs/api/management/v2/#!/Guardian/put_twilio
 
   """
-  @spec update_twilio_phone_configuration(Twilio.Phone.Configuration.Put.Params.t(), config) ::
+  @spec update_twilio_phone_configuration(Twilio.Phone.Configuration.Put.Params.t() | map, config) ::
           {:ok, Entity.GuardianTwilioConfiguration.t(), response_body} | error
   def update_twilio_phone_configuration(
-        %Twilio.Phone.Configuration.Put.Params{} = params,
+        %{} = params,
         %Config{} = config
       ) do
     Twilio.Phone.Configuration.Put.execute(@endpoint_twilio_phone_configuration, params, config)
@@ -315,10 +315,10 @@ defmodule Auth0.Management.Guardian do
   https://auth0.com/docs/api/management/v2/#!/Guardian/put_twilio_0
 
   """
-  @spec update_twilio_sms_configuration(Twilio.Sms.Configuration.Put.Params.t(), config) ::
+  @spec update_twilio_sms_configuration(Twilio.Sms.Configuration.Put.Params.t() | map, config) ::
           {:ok, Entity.GuardianTwilioConfiguration.t(), response_body} | error
   def update_twilio_sms_configuration(
-        %Twilio.Sms.Configuration.Put.Params{} = params,
+        %{} = params,
         %Config{} = config
       ) do
     Twilio.Sms.Configuration.Put.execute(@endpoint_twilio_sms_configuration, params, config)
@@ -344,10 +344,10 @@ defmodule Auth0.Management.Guardian do
   https://auth0.com/docs/api/management/v2/#!/Guardian/patch_sns
 
   """
-  @spec patch_aws_sns_configuration(AwsSns.Configuration.Patch.Params.t(), config) ::
+  @spec patch_aws_sns_configuration(AwsSns.Configuration.Patch.Params.t() | map, config) ::
           {:ok, Entity.GuardianAwsSnsConfiguration.t(), response_body} | error
   def patch_aws_sns_configuration(
-        %AwsSns.Configuration.Patch.Params{} = params,
+        %{} = params,
         %Config{} = config
       ) do
     AwsSns.Configuration.Patch.execute(@endpoint_aws_sns_configuration, params, config)
@@ -360,10 +360,10 @@ defmodule Auth0.Management.Guardian do
   https://auth0.com/docs/api/management/v2/#!/Guardian/put_sns
 
   """
-  @spec update_aws_sns_configuration(AwsSns.Configuration.Put.Params.t(), config) ::
+  @spec update_aws_sns_configuration(AwsSns.Configuration.Put.Params.t() | map, config) ::
           {:ok, Entity.GuardianAwsSnsConfiguration.t(), response_body} | error
   def update_aws_sns_configuration(
-        %AwsSns.Configuration.Put.Params{} = params,
+        %{} = params,
         %Config{} = config
       ) do
     AwsSns.Configuration.Put.execute(@endpoint_aws_sns_configuration, params, config)

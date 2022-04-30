@@ -60,8 +60,8 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/#!/Users/get_users
 
   """
-  @spec list(List.Params.t(), config) :: {:ok, Entity.Users.t(), response_body} | error
-  def list(%List.Params{} = params, %Config{} = config) do
+  @spec list(List.Params.t() | map, config) :: {:ok, Entity.Users.t(), response_body} | error
+  def list(%{} = params, %Config{} = config) do
     List.execute(@endpoint, params, config)
   end
 
@@ -72,9 +72,9 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/#!/Users/post_users
 
   """
-  @spec create(Create.Params.t(), config) ::
+  @spec create(Create.Params.t() | map, config) ::
           {:ok, Entity.User.t(), response_body} | error
-  def create(%Create.Params{} = params, %Config{} = config) do
+  def create(%{} = params, %Config{} = config) do
     Create.execute(@endpoint, params, config)
   end
 
@@ -85,9 +85,9 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/#!/Users/get_users_by_id
 
   """
-  @spec get(id, Get.Params.t(), config) ::
+  @spec get(id, Get.Params.t() | map, config) ::
           {:ok, Entity.User.t(), response_body} | error
-  def get(id, %Get.Params{} = params, %Config{} = config) do
+  def get(id, %{} = params, %Config{} = config) do
     Get.execute(@endpoint_by_id, id, params, config)
   end
 
@@ -110,9 +110,9 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/#!/Users/patch_users_by_id
 
   """
-  @spec update(id, Patch.Params.t(), config) ::
+  @spec update(id, Patch.Params.t() | map, config) ::
           {:ok, Entity.User.t(), response_body} | error
-  def update(id, %Patch.Params{} = params, %Config{} = config) do
+  def update(id, %{} = params, %Config{} = config) do
     Patch.execute(@endpoint_by_id, id, params, config)
   end
 
@@ -136,9 +136,9 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/#!/Users/get_user_roles
 
   """
-  @spec get_roles(id, Roles.List.Params.t(), config) ::
+  @spec get_roles(id, Roles.List.Params.t() | map, config) ::
           {:ok, Entity.Roles.t(), response_body} | error
-  def get_roles(id, %Roles.List.Params{} = params, %Config{} = config) do
+  def get_roles(id, %{} = params, %Config{} = config) do
     Roles.List.execute(@endpoint_of_roles, id, params, config)
   end
 
@@ -149,9 +149,9 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/#!/Users/delete_user_roles
 
   """
-  @spec remove_roles(id, Roles.Remove.Params.t(), config) ::
+  @spec remove_roles(id, Roles.Remove.Params.t() | map, config) ::
           {:ok, String.t(), response_body} | error
-  def remove_roles(id, %Roles.Remove.Params{} = params, %Config{} = config) do
+  def remove_roles(id, %{} = params, %Config{} = config) do
     Roles.Remove.execute(@endpoint_of_roles, id, params, config)
   end
 
@@ -162,9 +162,9 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/#!/Users/post_user_roles
 
   """
-  @spec assign_roles(id, Roles.Assign.Params.t(), config) ::
+  @spec assign_roles(id, Roles.Assign.Params.t() | map, config) ::
           {:ok, String.t(), response_body} | error
-  def assign_roles(id, %Roles.Assign.Params{} = params, %Config{} = config) do
+  def assign_roles(id, %{} = params, %Config{} = config) do
     Roles.Assign.execute(@endpoint_of_roles, id, params, config)
   end
 
@@ -175,9 +175,9 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/#!/Users/get_logs_by_user
 
   """
-  @spec get_logs(id, Logs.List.Params.t(), config) ::
+  @spec get_logs(id, Logs.List.Params.t() | map, config) ::
           {:ok, Entity.Logs.t(), response_body} | error
-  def get_logs(id, %Logs.List.Params{} = params, %Config{} = config) do
+  def get_logs(id, %{} = params, %Config{} = config) do
     Logs.List.execute(@endpoint_of_logs, id, params, config)
   end
 
@@ -188,9 +188,9 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/#!/Users/get_user_organizations
 
   """
-  @spec get_organizations(id, Organizations.List.Params.t(), config) ::
+  @spec get_organizations(id, Organizations.List.Params.t() | map, config) ::
           {:ok, Entity.Organizations.t(), response_body} | error
-  def get_organizations(id, %Organizations.List.Params{} = params, %Config{} = config) do
+  def get_organizations(id, %{} = params, %Config{} = config) do
     Organizations.List.execute(@endpoint_of_organizations, id, params, config)
   end
 
@@ -201,9 +201,9 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/#!/Users/get_permissions
 
   """
-  @spec get_permissions(id, Permissions.List.Params.t(), config) ::
+  @spec get_permissions(id, Permissions.List.Params.t() | map, config) ::
           {:ok, Entity.Permissions.t(), response_body} | error
-  def get_permissions(id, %Permissions.List.Params{} = params, %Config{} = config) do
+  def get_permissions(id, %{} = params, %Config{} = config) do
     Permissions.List.execute(@endpoint_of_permissions, id, params, config)
   end
 
@@ -214,9 +214,9 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/#!/Users/delete_permissions
 
   """
-  @spec remove_permissions(id, Permissions.Remove.Params.t(), config) ::
+  @spec remove_permissions(id, Permissions.Remove.Params.t() | map, config) ::
           {:ok, String.t(), response_body} | error
-  def remove_permissions(id, %Permissions.Remove.Params{} = params, %Config{} = config) do
+  def remove_permissions(id, %{} = params, %Config{} = config) do
     Permissions.Remove.execute(@endpoint_of_permissions, id, params, config)
   end
 
@@ -227,9 +227,9 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/#!/Users/post_permissions
 
   """
-  @spec assign_permissions(id, Permissions.Assign.Params.t(), config) ::
+  @spec assign_permissions(id, Permissions.Assign.Params.t() | map, config) ::
           {:ok, String.t(), response_body} | error
-  def assign_permissions(id, %Permissions.Assign.Params{} = params, %Config{} = config) do
+  def assign_permissions(id, %{} = params, %Config{} = config) do
     Permissions.Assign.execute(@endpoint_of_permissions, id, params, config)
   end
 
@@ -240,11 +240,11 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/#!/Users/delete_multifactor_by_provider
 
   """
-  @spec delete_multifactor(id, Multifactor.Delete.Params.t(), config) ::
+  @spec delete_multifactor(id, Multifactor.Delete.Params.t() | map, config) ::
           {:ok, String.t(), response_body} | error
   def delete_multifactor(
         id,
-        %Multifactor.Delete.Params{} = params,
+        %{} = params,
         %Config{} = config
       ) do
     Multifactor.Delete.execute(@endpoint_of_multifactor, id, params, config)
@@ -277,11 +277,11 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/#!/Users/post_identities
 
   """
-  @spec link_identities(id, Identities.Link.Params.t(), config) ::
+  @spec link_identities(id, Identities.Link.Params.t() | map, config) ::
           {:ok, Entity.Identities.t(), response_body} | error
   def link_identities(
         id,
-        %Identities.Link.Params{} = params,
+        %{} = params,
         %Config{} = config
       ) do
     Identities.Link.execute(@endpoint_of_identities, id, params, config)

@@ -24,7 +24,7 @@ defmodule Auth0.Management.Organizations.Invitations.Get do
   @type endpoint :: String.t()
   @type id :: String.t()
   @type invitation_id :: String.t()
-  @type params :: Params.t()
+  @type params :: Params.t() | map
   @type config :: Config.t()
   @type entity :: Invitation.t()
   @type response_body :: String.t()
@@ -39,8 +39,11 @@ defmodule Auth0.Management.Organizations.Invitations.Get do
   """
   @spec execute(endpoint, id, invitation_id, params, config) :: response
   def execute(endpoint, id, invitation_id, %Params{} = params, %Config{} = config) do
+    execute(endpoint, id, invitation_id, params |> Util.to_map(), config)
+  end
+
+  def execute(endpoint, id, invitation_id, %{} = params, %Config{} = config) do
     params
-    |> Util.to_map()
     |> Util.convert_to_query()
     |> Util.append_query(
       endpoint

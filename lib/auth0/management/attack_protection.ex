@@ -42,10 +42,13 @@ defmodule Auth0.Management.AttackProtection do
   https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_breached_password_detection
 
   """
-  @spec update_breached_password_detection(BreachedPasswordDetection.Patch.Params.t(), config) ::
+  @spec update_breached_password_detection(
+          BreachedPasswordDetection.Patch.Params.t() | map,
+          config
+        ) ::
           {:ok, Entity.AttackProtectionBreachedPasswordDetection.t(), response_body} | error
   def update_breached_password_detection(
-        %BreachedPasswordDetection.Patch.Params{} = params,
+        %{} = params,
         %Config{} = config
       ) do
     BreachedPasswordDetection.Patch.execute(@endpoint_breached_password_detection, params, config)
@@ -71,10 +74,10 @@ defmodule Auth0.Management.AttackProtection do
   https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_brute_force_protection
 
   """
-  @spec update_brute_force_protection(BruteForceProtection.Patch.Params.t(), config) ::
+  @spec update_brute_force_protection(BruteForceProtection.Patch.Params.t() | map, config) ::
           {:ok, Entity.AttackProtectionBruteForceProtection.t(), response_body} | error
   def update_brute_force_protection(
-        %BruteForceProtection.Patch.Params{} = params,
+        %{} = params,
         %Config{} = config
       ) do
     BruteForceProtection.Patch.execute(@endpoint_brute_force_protection, params, config)
@@ -100,10 +103,10 @@ defmodule Auth0.Management.AttackProtection do
   https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_suspicious_ip_throttling
 
   """
-  @spec update_suspicious_ip_throttling(SuspiciousIpThrottling.Patch.Params.t(), config) ::
+  @spec update_suspicious_ip_throttling(SuspiciousIpThrottling.Patch.Params.t() | map, config) ::
           {:ok, Entity.AttackProtectionSuspiciousIpThrottling.t(), response_body} | error
   def update_suspicious_ip_throttling(
-        %SuspiciousIpThrottling.Patch.Params{} = params,
+        %{} = params,
         %Config{} = config
       ) do
     SuspiciousIpThrottling.Patch.execute(@endpoint_suspicious_ip_throttling, params, config)

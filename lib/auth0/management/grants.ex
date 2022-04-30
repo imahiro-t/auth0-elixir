@@ -27,9 +27,9 @@ defmodule Auth0.Management.Grants do
   https://auth0.com/docs/api/management/v2/#!/Grants/get_grants
 
   """
-  @spec list(List.Params.t(), config) ::
+  @spec list(List.Params.t() | map, config) ::
           {:ok, Entity.Grants.t(), response_body} | error
-  def list(%List.Params{} = params, %Config{} = config) do
+  def list(%{} = params, %Config{} = config) do
     List.execute(@endpoint, params, config)
   end
 

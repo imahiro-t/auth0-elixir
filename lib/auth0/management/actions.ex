@@ -56,9 +56,9 @@ defmodule Auth0.Management.Actions do
   https://auth0.com/docs/api/management/v2/#!/Actions/get_actions
 
   """
-  @spec list(List.Params.t(), config) ::
+  @spec list(List.Params.t() | map, config) ::
           {:ok, Entity.Actions.t(), response_body} | error
-  def list(%List.Params{} = params, %Config{} = config) do
+  def list(%{} = params, %Config{} = config) do
     List.execute(@endpoint, params, config)
   end
 
@@ -69,9 +69,9 @@ defmodule Auth0.Management.Actions do
   https://auth0.com/docs/api/management/v2/#!/Actions/post_action
 
   """
-  @spec create(Create.Params.t(), config) ::
+  @spec create(Create.Params.t() | map, config) ::
           {:ok, Entity.Action.t(), response_body} | error
-  def create(%Create.Params{} = params, %Config{} = config) do
+  def create(%{} = params, %Config{} = config) do
     Create.execute(@endpoint, params, config)
   end
 
@@ -94,8 +94,8 @@ defmodule Auth0.Management.Actions do
   https://auth0.com/docs/api/management/v2/#!/Actions/delete_action
 
   """
-  @spec delete(id, Delete.Params.t(), config) :: {:ok, String.t(), response_body} | error
-  def delete(id, %Delete.Params{} = params, %Config{} = config) do
+  @spec delete(id, Delete.Params.t() | map, config) :: {:ok, String.t(), response_body} | error
+  def delete(id, %{} = params, %Config{} = config) do
     Delete.execute(@endpoint_by_id, id, params, config)
   end
 
@@ -106,9 +106,9 @@ defmodule Auth0.Management.Actions do
   https://auth0.com/docs/api/management/v2/#!/Actions/patch_action
 
   """
-  @spec update(id, Patch.Params.t(), config) ::
+  @spec update(id, Patch.Params.t() | map, config) ::
           {:ok, Entity.Action.t(), response_body} | error
-  def update(id, %Patch.Params{} = params, %Config{} = config) do
+  def update(id, %{} = params, %Config{} = config) do
     Patch.execute(@endpoint_by_id, id, params, config)
   end
 
@@ -119,9 +119,9 @@ defmodule Auth0.Management.Actions do
   https://auth0.com/docs/api/management/v2/#!/Actions/get_action_versions
 
   """
-  @spec list_versions(action_id, Versions.List.Params.t(), config) ::
+  @spec list_versions(action_id, Versions.List.Params.t() | map, config) ::
           {:ok, Entity.ActionVersions.t(), response_body} | error
-  def list_versions(action_id, %Versions.List.Params{} = params, %Config{} = config) do
+  def list_versions(action_id, %{} = params, %Config{} = config) do
     Versions.List.execute(@endpoint_versions, action_id, params, config)
   end
 
@@ -145,9 +145,9 @@ defmodule Auth0.Management.Actions do
   https://auth0.com/docs/api/management/v2/#!/Actions/post_deploy_draft_version
 
   """
-  @spec rollback_version(action_id, id, Versions.Rollback.Params.t(), config) ::
+  @spec rollback_version(action_id, id, Versions.Rollback.Params.t() | map, config) ::
           {:ok, Entity.ActionVersion.t(), response_body} | error
-  def rollback_version(action_id, id, %Versions.Rollback.Params{} = params, %Config{} = config) do
+  def rollback_version(action_id, id, %{} = params, %Config{} = config) do
     Versions.Rollback.execute(@endpoint_versions_deploy, action_id, id, params, config)
   end
 
@@ -158,9 +158,9 @@ defmodule Auth0.Management.Actions do
   https://auth0.com/docs/api/management/v2/#!/Actions/post_test_action
 
   """
-  @spec test(id, Test.Params.t(), config) ::
+  @spec test(id, Test.Params.t() | map, config) ::
           {:ok, Entity.ActionTest.t(), response_body} | error
-  def test(id, %Test.Params{} = params, %Config{} = config) do
+  def test(id, %{} = params, %Config{} = config) do
     Test.execute(@endpoint_test, id, params, config)
   end
 
@@ -196,9 +196,9 @@ defmodule Auth0.Management.Actions do
   https://auth0.com/docs/api/management/v2/#!/Actions/get_bindings
 
   """
-  @spec get_bindings(trigger_id, Triggers.Bindings.List.Params.t(), config) ::
+  @spec get_bindings(trigger_id, Triggers.Bindings.List.Params.t() | map, config) ::
           {:ok, Entity.ActionTriggerBindings.t(), response_body} | error
-  def get_bindings(trigger_id, %Triggers.Bindings.List.Params{} = params, %Config{} = config) do
+  def get_bindings(trigger_id, %{} = params, %Config{} = config) do
     Triggers.Bindings.List.execute(@endpoint_triggers_bindings, trigger_id, params, config)
   end
 
@@ -209,9 +209,9 @@ defmodule Auth0.Management.Actions do
   https://auth0.com/docs/api/management/v2/#!/Actions/patch_bindings
 
   """
-  @spec update_bindings(trigger_id, Triggers.Bindings.Patch.Params.t(), config) ::
+  @spec update_bindings(trigger_id, Triggers.Bindings.Patch.Params.t() | map, config) ::
           {:ok, Entity.ActionTriggerBindings.t(), response_body} | error
-  def update_bindings(trigger_id, %Triggers.Bindings.Patch.Params{} = params, %Config{} = config) do
+  def update_bindings(trigger_id, %{} = params, %Config{} = config) do
     Triggers.Bindings.Patch.execute(@endpoint_triggers_bindings, trigger_id, params, config)
   end
 

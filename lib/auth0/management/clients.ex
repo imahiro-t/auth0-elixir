@@ -33,9 +33,9 @@ defmodule Auth0.Management.Clients do
   https://auth0.com/docs/api/management/v2/#!/Clients/get_clients
 
   """
-  @spec list(List.Params.t(), config) ::
+  @spec list(List.Params.t() | map, config) ::
           {:ok, Entity.Clients.t(), response_body} | error
-  def list(%List.Params{} = params, %Config{} = config) do
+  def list(%{} = params, %Config{} = config) do
     List.execute(@endpoint, params, config)
   end
 
@@ -46,9 +46,9 @@ defmodule Auth0.Management.Clients do
   https://auth0.com/docs/api/management/v2/#!/Clients/post_clients
 
   """
-  @spec create(Create.Params.t(), config) ::
+  @spec create(Create.Params.t() | map, config) ::
           {:ok, Entity.Client.t(), response_body} | error
-  def create(%Create.Params{} = params, %Config{} = config) do
+  def create(%{} = params, %Config{} = config) do
     Create.execute(@endpoint, params, config)
   end
 
@@ -59,9 +59,9 @@ defmodule Auth0.Management.Clients do
   https://auth0.com/docs/api/management/v2/#!/Clients/get_clients_by_id
 
   """
-  @spec get(id, Get.Params.t(), config) ::
+  @spec get(id, Get.Params.t() | map, config) ::
           {:ok, Entity.Client.t(), response_body} | error
-  def get(id, %Get.Params{} = params, %Config{} = config) do
+  def get(id, %{} = params, %Config{} = config) do
     Get.execute(@endpoint_by_id, id, params, config)
   end
 
@@ -84,9 +84,9 @@ defmodule Auth0.Management.Clients do
   https://auth0.com/docs/api/management/v2/#!/Clients/patch_clients_by_id
 
   """
-  @spec update(id, Patch.Params.t(), config) ::
+  @spec update(id, Patch.Params.t() | map, config) ::
           {:ok, Entity.Client.t(), response_body} | error
-  def update(id, %Patch.Params{} = params, %Config{} = config) do
+  def update(id, %{} = params, %Config{} = config) do
     Patch.execute(@endpoint_by_id, id, params, config)
   end
 

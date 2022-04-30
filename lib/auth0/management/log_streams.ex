@@ -42,9 +42,9 @@ defmodule Auth0.Management.LogStreams do
   https://auth0.com/docs/api/management/v2/#!/Log_Streams/post_log_streams
 
   """
-  @spec create(Create.Params.t(), config) ::
+  @spec create(Create.Params.t() | map, config) ::
           {:ok, Entity.LogStream.t(), response_body} | error
-  def create(%Create.Params{} = params, %Config{} = config) do
+  def create(%{} = params, %Config{} = config) do
     Create.execute(@endpoint, params, config)
   end
 
@@ -79,9 +79,9 @@ defmodule Auth0.Management.LogStreams do
   https://auth0.com/docs/api/management/v2/#!/Log_Streams/patch_log_streams_by_id
 
   """
-  @spec update(id, Patch.Params.t(), config) ::
+  @spec update(id, Patch.Params.t() | map, config) ::
           {:ok, Entity.LogStream.t(), response_body} | error
-  def update(id, %Patch.Params{} = params, %Config{} = config) do
+  def update(id, %{} = params, %Config{} = config) do
     Patch.execute(@endpoint_by_id, id, params, config)
   end
 end

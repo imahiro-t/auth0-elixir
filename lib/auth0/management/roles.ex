@@ -36,8 +36,8 @@ defmodule Auth0.Management.Roles do
   https://auth0.com/docs/api/management/v2/#!/Roles/get_roles
 
   """
-  @spec list(List.Params.t(), config) :: {:ok, Entity.Roles.t(), response_body} | error
-  def list(%List.Params{} = params, %Config{} = config) do
+  @spec list(List.Params.t() | map, config) :: {:ok, Entity.Roles.t(), response_body} | error
+  def list(%{} = params, %Config{} = config) do
     List.execute(@endpoint, params, config)
   end
 
@@ -48,9 +48,9 @@ defmodule Auth0.Management.Roles do
   https://auth0.com/docs/api/management/v2/#!/Roles/post_roles
 
   """
-  @spec create(Create.Params.t(), config) ::
+  @spec create(Create.Params.t() | map, config) ::
           {:ok, Entity.Role.t(), response_body} | error
-  def create(%Create.Params{} = params, %Config{} = config) do
+  def create(%{} = params, %Config{} = config) do
     Create.execute(@endpoint, params, config)
   end
 
@@ -85,9 +85,9 @@ defmodule Auth0.Management.Roles do
   https://auth0.com/docs/api/management/v2/#!/Roles/patch_roles_by_id
 
   """
-  @spec update(id, Patch.Params.t(), config) ::
+  @spec update(id, Patch.Params.t() | map, config) ::
           {:ok, Entity.Role.t(), response_body} | error
-  def update(id, %Patch.Params{} = params, %Config{} = config) do
+  def update(id, %{} = params, %Config{} = config) do
     Patch.execute(@endpoint_by_id, id, params, config)
   end
 
@@ -98,9 +98,9 @@ defmodule Auth0.Management.Roles do
   https://auth0.com/docs/api/management/v2/#!/Roles/get_role_permission
 
   """
-  @spec list_permissions(id, Permissions.List.Params.t(), config) ::
+  @spec list_permissions(id, Permissions.List.Params.t() | map, config) ::
           {:ok, Entity.Permissions.t(), response_body} | error
-  def list_permissions(id, %Permissions.List.Params{} = params, %Config{} = config) do
+  def list_permissions(id, %{} = params, %Config{} = config) do
     Permissions.List.execute(@endpoint_permissions, id, params, config)
   end
 
@@ -111,9 +111,9 @@ defmodule Auth0.Management.Roles do
   https://auth0.com/docs/api/management/v2/#!/Roles/delete_role_permission_assignment
 
   """
-  @spec remove_permissions(id, Permissions.Remove.Params.t(), config) ::
+  @spec remove_permissions(id, Permissions.Remove.Params.t() | map, config) ::
           {:ok, String.t(), response_body} | error
-  def remove_permissions(id, %Permissions.Remove.Params{} = params, %Config{} = config) do
+  def remove_permissions(id, %{} = params, %Config{} = config) do
     Permissions.Remove.execute(@endpoint_permissions, id, params, config)
   end
 
@@ -124,9 +124,9 @@ defmodule Auth0.Management.Roles do
   https://auth0.com/docs/api/management/v2/#!/Roles/post_role_permission_assignment
 
   """
-  @spec associate_permissions(id, Permissions.Associate.Params.t(), config) ::
+  @spec associate_permissions(id, Permissions.Associate.Params.t() | map, config) ::
           {:ok, String.t(), response_body} | error
-  def associate_permissions(id, %Permissions.Associate.Params{} = params, %Config{} = config) do
+  def associate_permissions(id, %{} = params, %Config{} = config) do
     Permissions.Associate.execute(@endpoint_permissions, id, params, config)
   end
 
@@ -137,9 +137,9 @@ defmodule Auth0.Management.Roles do
   https://auth0.com/docs/api/management/v2/#!/Roles/get_role_user
 
   """
-  @spec list_users(id, Users.List.Params.t(), config) ::
+  @spec list_users(id, Users.List.Params.t() | map, config) ::
           {:ok, Entity.Users.t(), response_body} | error
-  def list_users(id, %Users.List.Params{} = params, %Config{} = config) do
+  def list_users(id, %{} = params, %Config{} = config) do
     Users.List.execute(@endpoint_users, id, params, config)
   end
 
@@ -150,9 +150,9 @@ defmodule Auth0.Management.Roles do
   https://auth0.com/docs/api/management/v2/#!/Roles/post_role_users
 
   """
-  @spec assign_users(id, Users.Assign.Params.t(), config) ::
+  @spec assign_users(id, Users.Assign.Params.t() | map, config) ::
           {:ok, String.t(), response_body} | error
-  def assign_users(id, %Users.Assign.Params{} = params, %Config{} = config) do
+  def assign_users(id, %{} = params, %Config{} = config) do
     Users.Assign.execute(@endpoint_users, id, params, config)
   end
 end

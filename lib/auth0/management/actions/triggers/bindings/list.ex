@@ -23,7 +23,7 @@ defmodule Auth0.Management.Actions.Triggers.Bindings.List do
 
   @type endpoint :: String.t()
   @type trigger_id :: String.t()
-  @type params :: Params.t()
+  @type params :: Params.t() | map()
   @type config :: Config.t()
   @type entity :: ActionTriggerBindings.t()
   @type response_body :: String.t()
@@ -38,8 +38,11 @@ defmodule Auth0.Management.Actions.Triggers.Bindings.List do
   """
   @spec execute(endpoint, trigger_id, params, config) :: response
   def execute(endpoint, trigger_id, %Params{} = params, %Config{} = config) do
+    execute(endpoint, trigger_id, params |> Util.to_map(), config)
+  end
+
+  def execute(endpoint, trigger_id, %{} = params, %Config{} = config) do
     params
-    |> Util.to_map()
     |> Util.convert_to_query()
     |> Util.append_query(endpoint |> String.replace("{triggerId}", trigger_id))
     |> Http.get(config)

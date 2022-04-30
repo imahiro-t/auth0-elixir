@@ -7,6 +7,7 @@ defmodule Auth0.Management.Prompts.CustomText.Put do
   """
 
   alias Auth0.Config
+  alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
   alias Auth0.Entity.CustomText
 
@@ -21,7 +22,7 @@ defmodule Auth0.Management.Prompts.CustomText.Put do
   @type endpoint :: String.t()
   @type prompt :: String.t()
   @type language :: String.t()
-  @type params :: Params.t()
+  @type params :: Params.t() | map
   @type config :: Config.t()
   @type entity :: CustomText.t()
   @type response_body :: String.t()
@@ -36,6 +37,10 @@ defmodule Auth0.Management.Prompts.CustomText.Put do
   """
   @spec execute(endpoint, prompt, language, params, config) :: response
   def execute(endpoint, prompt, language, %Params{} = params, %Config{} = config) do
+    execute(endpoint, prompt, language, params |> Util.to_map(), config)
+  end
+
+  def execute(endpoint, prompt, language, %{} = params, %Config{} = config) do
     body = params.value
 
     endpoint

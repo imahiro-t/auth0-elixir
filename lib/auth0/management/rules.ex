@@ -30,8 +30,8 @@ defmodule Auth0.Management.Rules do
   https://auth0.com/docs/api/management/v2/#!/Rules/get_rules
 
   """
-  @spec list(List.Params.t(), config) :: {:ok, Entity.Rules.t(), response_body} | error
-  def list(%List.Params{} = params, %Config{} = config) do
+  @spec list(List.Params.t() | map, config) :: {:ok, Entity.Rules.t(), response_body} | error
+  def list(%{} = params, %Config{} = config) do
     List.execute(@endpoint, params, config)
   end
 
@@ -42,9 +42,9 @@ defmodule Auth0.Management.Rules do
   https://auth0.com/docs/api/management/v2/#!/Rules/post_rules
 
   """
-  @spec create(Create.Params.t(), config) ::
+  @spec create(Create.Params.t() | map, config) ::
           {:ok, Entity.Rule.t(), response_body} | error
-  def create(%Create.Params{} = params, %Config{} = config) do
+  def create(%{} = params, %Config{} = config) do
     Create.execute(@endpoint, params, config)
   end
 
@@ -55,9 +55,9 @@ defmodule Auth0.Management.Rules do
   https://auth0.com/docs/api/management/v2/#!/Rules/get_rules_by_id
 
   """
-  @spec get(id, Get.Params.t(), config) ::
+  @spec get(id, Get.Params.t() | map, config) ::
           {:ok, Entity.Rule.t(), response_body} | error
-  def get(id, %Get.Params{} = params, %Config{} = config) do
+  def get(id, %{} = params, %Config{} = config) do
     Get.execute(@endpoint_by_id, id, params, config)
   end
 
@@ -80,9 +80,9 @@ defmodule Auth0.Management.Rules do
   https://auth0.com/docs/api/management/v2/#!/Rules/patch_rules_by_id
 
   """
-  @spec update(id, Patch.Params.t(), config) ::
+  @spec update(id, Patch.Params.t() | map, config) ::
           {:ok, Entity.Rule.t(), response_body} | error
-  def update(id, %Patch.Params{} = params, %Config{} = config) do
+  def update(id, %{} = params, %Config{} = config) do
     Patch.execute(@endpoint_by_id, id, params, config)
   end
 end

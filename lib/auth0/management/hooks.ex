@@ -33,8 +33,8 @@ defmodule Auth0.Management.Hooks do
   https://auth0.com/docs/api/management/v2/#!/Hooks/get_hooks
 
   """
-  @spec list(List.Params.t(), config) :: {:ok, Entity.Hooks.t(), response_body} | error
-  def list(%List.Params{} = params, %Config{} = config) do
+  @spec list(List.Params.t() | map, config) :: {:ok, Entity.Hooks.t(), response_body} | error
+  def list(%{} = params, %Config{} = config) do
     List.execute(@endpoint, params, config)
   end
 
@@ -45,9 +45,9 @@ defmodule Auth0.Management.Hooks do
   https://auth0.com/docs/api/management/v2/#!/Hooks/post_hooks
 
   """
-  @spec create(Create.Params.t(), config) ::
+  @spec create(Create.Params.t() | map, config) ::
           {:ok, Entity.Hook.t(), response_body} | error
-  def create(%Create.Params{} = params, %Config{} = config) do
+  def create(%{} = params, %Config{} = config) do
     Create.execute(@endpoint, params, config)
   end
 
@@ -58,9 +58,9 @@ defmodule Auth0.Management.Hooks do
   https://auth0.com/docs/api/management/v2/#!/Hooks/get_hooks_by_id
 
   """
-  @spec get(id, Get.Params.t(), config) ::
+  @spec get(id, Get.Params.t() | map, config) ::
           {:ok, Entity.Hook.t(), response_body} | error
-  def get(id, %Get.Params{} = params, %Config{} = config) do
+  def get(id, %{} = params, %Config{} = config) do
     Get.execute(@endpoint_by_id, id, params, config)
   end
 
@@ -83,9 +83,9 @@ defmodule Auth0.Management.Hooks do
   https://auth0.com/docs/api/management/v2/#!/Hooks/patch_hooks_by_id
 
   """
-  @spec update(id, Patch.Params.t(), config) ::
+  @spec update(id, Patch.Params.t() | map, config) ::
           {:ok, Entity.Hook.t(), response_body} | error
-  def update(id, %Patch.Params{} = params, %Config{} = config) do
+  def update(id, %{} = params, %Config{} = config) do
     Patch.execute(@endpoint_by_id, id, params, config)
   end
 
@@ -108,9 +108,9 @@ defmodule Auth0.Management.Hooks do
   https://auth0.com/docs/api/management/v2/#!/Hooks/delete_secrets
 
   """
-  @spec delete_secrets(id, Secrets.Delete.Params.t(), config) ::
+  @spec delete_secrets(id, Secrets.Delete.Params.t() | map, config) ::
           {:ok, String.t(), response_body} | error
-  def delete_secrets(id, %Secrets.Delete.Params{} = params, %Config{} = config) do
+  def delete_secrets(id, %{} = params, %Config{} = config) do
     Secrets.Delete.execute(@endpoint_secrets, id, params, config)
   end
 
@@ -121,8 +121,9 @@ defmodule Auth0.Management.Hooks do
   https://auth0.com/docs/api/management/v2/#!/Hooks/patch_hooks_by_id
 
   """
-  @spec update_secrets(id, Secrets.Patch.Params.t(), config) :: {:ok, map, response_body} | error
-  def update_secrets(id, %Secrets.Patch.Params{} = params, %Config{} = config) do
+  @spec update_secrets(id, Secrets.Patch.Params.t() | map, config) ::
+          {:ok, map, response_body} | error
+  def update_secrets(id, %{} = params, %Config{} = config) do
     Secrets.Patch.execute(@endpoint_secrets, id, params, config)
   end
 
@@ -133,8 +134,8 @@ defmodule Auth0.Management.Hooks do
   https://auth0.com/docs/api/management/v2/#!/Hooks/post_secrets
 
   """
-  @spec add_secrets(id, Secrets.Add.Params.t(), config) :: {:ok, map, response_body} | error
-  def add_secrets(id, %Secrets.Add.Params{} = params, %Config{} = config) do
+  @spec add_secrets(id, Secrets.Add.Params.t() | map, config) :: {:ok, map, response_body} | error
+  def add_secrets(id, %{} = params, %Config{} = config) do
     Secrets.Add.execute(@endpoint_secrets, id, params, config)
   end
 end

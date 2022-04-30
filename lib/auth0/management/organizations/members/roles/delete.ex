@@ -21,7 +21,7 @@ defmodule Auth0.Management.Organizations.Members.Roles.Delete do
   @type endpoint :: String.t()
   @type id :: String.t()
   @type user_id :: String.t()
-  @type params :: Params.t()
+  @type params :: Params.t() | map
   @type config :: Config.t()
   @type entity :: String.t()
   @type response_body :: String.t()
@@ -36,7 +36,11 @@ defmodule Auth0.Management.Organizations.Members.Roles.Delete do
   """
   @spec execute(endpoint, id, user_id, params, config) :: response
   def execute(endpoint, id, user_id, %Params{} = params, %Config{} = config) do
-    body = params |> Util.to_map() |> Util.remove_nil()
+    execute(endpoint, id, user_id, params |> Util.to_map(), config)
+  end
+
+  def execute(endpoint, id, user_id, %{} = params, %Config{} = config) do
+    body = params |> Util.remove_nil()
 
     endpoint
     |> String.replace("{id}", id)
