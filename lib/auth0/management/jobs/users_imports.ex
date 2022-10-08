@@ -55,7 +55,13 @@ defmodule Auth0.Management.Jobs.UsersImport do
          (params
           |> Util.remove_nil()
           |> Enum.reject(fn {key, _value} -> key == :users end)
-          |> Enum.map(fn {key, value} -> {key |> to_string, value |> to_string} end))}
+          |> Enum.map(fn {key, value} ->
+            {key |> to_string, value |> to_string,
+             [
+               "content-type": "text/plain",
+               "content-disposition": "form-data; name=\"#{key |> to_string}\""
+             ]}
+          end))}
 
     Http.multipart_post(endpoint, multipart, config)
     |> case do
