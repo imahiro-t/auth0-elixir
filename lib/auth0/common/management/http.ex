@@ -14,6 +14,14 @@ defmodule Auth0.Common.Management.Http do
   @type multipart :: {:multipart, list}
   @type config :: Config.t()
   @type response :: {:ok, integer, String.t()} | {:error, integer, term} | {:error, term}
+  @type method :: :get | :post | :put | :patch | :delete | :options | :head
+  @type headers :: map
+  @type raw_response ::
+          {:ok,
+           HTTPoison.Response.t()
+           | HTTPoison.AsyncResponse.t()
+           | HTTPoison.MaybeRedirect.t()}
+          | {:error, HTTPoison.Error.t()}
 
   @request_headers %{"Content-Type" => "application/json"}
   @post_headers %{"Content-Type" => "application/json"}
@@ -26,6 +34,32 @@ defmodule Auth0.Common.Management.Http do
   @max_request_retry_jitter 100
   @max_request_retry_delay 1000
   @min_request_retry_delay 100
+
+  @doc """
+  Request Auth0 management rest api simply.
+
+  """
+  @spec raw_request(method, endpoint, body, headers, config) :: raw_response
+  def raw_request(method, endpoint, body, headers, %Config{} = config) do
+    headers =
+      if headers |> is_nil do
+        case method do
+          :get -> @get_headers
+          :post -> @post_headers
+          :put -> @put_headers
+          :patch -> @patch_headers
+          :delete -> @delete_headers
+        end
+      else
+        headers
+      end
+      |> set_correlation_id(config)
+      |> set_authorization(config)
+
+    url = endpoint |> get_url(config)
+
+    HTTPoison.request(method, url, body |> Jason.encode!(), headers)
+  end
 
   @doc """
   POST Auth0 management rest api.
@@ -139,7 +173,7 @@ defmodule Auth0.Common.Management.Http do
       |> set_authorization(config)
 
     request_with_retry(
-      fn url -> HTTPoison.post(url, multipart, headers) end,
+      fn url -> HTTPoison.post(url, multipart, headers) |> IO.inspect() end,
       endpoint,
       config
     )

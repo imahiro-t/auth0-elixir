@@ -60,4 +60,12 @@ Auth0.Management.get_users(params, config)
 Auth0.Management.Users.list(params, config)
 ```
 
+### raw version
+
+```elixir
+body = %{}
+headers = %{}
+Auth0.Common.Management.Http.raw_request(:get, "/api/v2/users?include_totals=true", body, headers, config())
+```
+
 The docs can be found at [https://hexdocs.pm/auth0_api](https://hexdocs.pm/auth0_api).
