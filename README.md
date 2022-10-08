@@ -9,7 +9,7 @@ The package can be installed by adding `auth0_api` to your list of dependencies 
 ```elixir
 def deps do
   [
-    {:auth0_api, "~> 1.2.1"}
+    {:auth0_api, "~> 1.3.0"}
   ]
 end
 ```
