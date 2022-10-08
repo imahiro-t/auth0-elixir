@@ -3,7 +3,7 @@ defmodule Auth0.Common.Util do
   Documentation for Util.
   """
 
-  use Bitwise
+  import Bitwise
 
   @doc """
   Generate SHA256 hash value.
