@@ -40,6 +40,7 @@ defmodule Auth0.Simple.Management do
   alias Auth0.Management.AttackProtection
 
   @type config :: Config.t()
+  @type theme_id :: String.t()
   @type id :: String.t()
   @type name :: String.t()
   @type invitation_id :: String.t()
@@ -123,6 +124,71 @@ defmodule Auth0.Simple.Management do
       ) do
     Branding.set_universal_login(params, config)
     |> to_response
+  end
+
+  @doc """
+  Retrieve default branding theme.
+
+  ## see
+  https://auth0.com/docs/api/management/v2#!/Branding/get_default_branding_theme
+
+  """
+  @spec get_default_branding_theme(config) ::
+          {:ok, map} | error
+  def get_default_branding_theme(%Config{} = config) do
+    Branding.get_default_theme(config) |> to_response
+  end
+
+  @doc """
+  Get branding theme.
+
+  ## see
+  https://auth0.com/docs/api/management/v2#!/Branding/get_branding_theme
+
+  """
+  @spec get_branding_theme(theme_id, config) ::
+          {:ok, map} | error
+  def get_branding_theme(theme_id, %Config{} = config) do
+    Branding.get_theme(theme_id, config) |> to_response
+  end
+
+  @doc """
+  Delete branding theme.
+
+  ## see
+  https://auth0.com/docs/api/management/v2#!/Branding/delete_branding_theme
+
+  """
+  @spec delete_branding_theme(theme_id, config) ::
+          {:ok, String.t()} | error
+  def delete_branding_theme(theme_id, %Config{} = config) do
+    Branding.delete_theme(theme_id, config) |> to_response
+  end
+
+  @doc """
+  Update branding theme.
+
+  ## see
+  https://auth0.com/docs/api/management/v2#!/Branding/patch_branding_theme
+
+  """
+  @spec update_branding_theme(theme_id, map, config) ::
+          {:ok, map} | error
+  def update_branding_theme(theme_id, %{} = params, %Config{} = config) do
+    Branding.update_theme(theme_id, params, config) |> to_response
+  end
+
+  @doc """
+  Create branding theme.
+
+  ## see
+  https://auth0.com/docs/api/management/v2#!/Branding/post_branding_theme
+
+  """
+  @spec create_branding_theme(map, config) ::
+          {:ok, map} | error
+  def create_branding_theme(%{} = params, %Config{} = config) do
+    Branding.create_theme(params, config) |> to_response
   end
 
   @doc """
