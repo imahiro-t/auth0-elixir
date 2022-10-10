@@ -5,6 +5,9 @@ defmodule Auth0.Management.Branding do
   ## endpoint
   - /api/v2/branding
   - /api/v2/branding/templates/universal-login
+  - /api/v2/branding/themes
+  - /api/v2/branding/themes/default
+  - /api/v2/branding/themes/{id}
   """
 
   alias Auth0.Config
@@ -12,13 +15,18 @@ defmodule Auth0.Management.Branding do
   alias Auth0.Management.Branding.Get
   alias Auth0.Management.Branding.Patch
   alias Auth0.Management.Branding.Templates.UniversalLogin
+  alias Auth0.Management.Branding.Themes
 
+  @type theme_id :: String.t()
   @type config :: Config.t()
   @type response_body :: String.t()
   @type error :: {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/branding"
   @endpoint_universal_login "/api/v2/branding/templates/universal-login"
+  @endpoint_default_theme "/api/v2/branding/themes/default"
+  @endpoint_theme_by_theme_id "/api/v2/branding/themes/{themeId}"
+  @endpoint_theme "/api/v2/branding/themes"
 
   @doc """
   Get branding settings.
@@ -81,5 +89,70 @@ defmodule Auth0.Management.Branding do
           {:ok, String.t(), response_body} | error
   def set_universal_login(%{} = params, %Config{} = config) do
     UniversalLogin.Put.execute(@endpoint_universal_login, params, config)
+  end
+
+  @doc """
+  Retrieve default branding theme.
+
+  ## see
+  https://auth0.com/docs/api/management/v2#!/Branding/get_default_branding_theme
+
+  """
+  @spec get_default_theme(config) ::
+          {:ok, Entity.Theme.t(), response_body} | error
+  def get_default_theme(%Config{} = config) do
+    Themes.Default.Get.execute(@endpoint_default_theme, config)
+  end
+
+  @doc """
+  Get branding theme.
+
+  ## see
+  https://auth0.com/docs/api/management/v2#!/Branding/get_branding_theme
+
+  """
+  @spec get_theme(theme_id, config) ::
+          {:ok, Entity.Theme.t(), response_body} | error
+  def get_theme(theme_id, %Config{} = config) do
+    Themes.Get.execute(@endpoint_theme_by_theme_id, theme_id, config)
+  end
+
+  @doc """
+  Delete branding theme.
+
+  ## see
+  https://auth0.com/docs/api/management/v2#!/Branding/delete_branding_theme
+
+  """
+  @spec delete_theme(theme_id, config) ::
+          {:ok, Entity.Theme.t(), response_body} | error
+  def delete_theme(theme_id, %Config{} = config) do
+    Themes.Delete.execute(@endpoint_theme_by_theme_id, theme_id, config)
+  end
+
+  @doc """
+  Update branding theme.
+
+  ## see
+  https://auth0.com/docs/api/management/v2#!/Branding/patch_branding_theme
+
+  """
+  @spec update_theme(theme_id, Themes.Patch.Params.t() | map, config) ::
+          {:ok, Entity.Theme.t(), response_body} | error
+  def update_theme(theme_id, %{} = params, %Config{} = config) do
+    Themes.Patch.execute(@endpoint_theme_by_theme_id, theme_id, params, config)
+  end
+
+  @doc """
+  Create branding theme.
+
+  ## see
+  https://auth0.com/docs/api/management/v2#!/Branding/post_branding_theme
+
+  """
+  @spec create_theme(Themes.Create.Params.t() | map, config) ::
+          {:ok, Entity.Theme.t(), response_body} | error
+  def create_theme(%{} = params, %Config{} = config) do
+    Themes.Create.execute(@endpoint_theme, params, config)
   end
 end
