@@ -7,7 +7,7 @@ defmodule Auth0Api.MixProject do
   def project do
     [
       app: :auth0_api,
-      version: "1.5.0",
+      version: "1.5.1",
       elixir: "~> 1.8",
       name: "Auth0Api",
       description: @description,

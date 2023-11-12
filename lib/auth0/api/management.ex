@@ -337,6 +337,7 @@ defmodule Auth0.Api.Management do
           {:ok, map} | error
   def get_connections(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Connections.list(params, config)
+    |> to_response
   end
 
   @doc """
