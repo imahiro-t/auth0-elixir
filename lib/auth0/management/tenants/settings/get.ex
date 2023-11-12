@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Tenants.Settings.Get do
-  @moduledoc """
-  Documentation for Auth0 Management Get tenant settings.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Tenants/tenant_settings_route
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Tenants.Settings.Get do
   alias Auth0.Entity.TenantSetting
 
   defmodule Params do
+    @moduledoc false
     defstruct fields: nil,
               include_fields: nil
 

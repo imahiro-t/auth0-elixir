@@ -1,10 +1,5 @@
 defmodule Auth0.Management.RulesConfigs.Put do
-  @moduledoc """
-  Documentation for Auth0 Management Set rules config for a given key.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Rules_Configs/put_rules_configs_by_key
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.RulesConfigs.Put do
   alias Auth0.Entity.RulesConfig
 
   defmodule Params do
+    @moduledoc false
     defstruct value: nil
 
     @type t :: %__MODULE__{

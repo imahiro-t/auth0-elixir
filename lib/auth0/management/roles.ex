@@ -1,13 +1,5 @@
 defmodule Auth0.Management.Roles do
-  @moduledoc """
-  Documentation for Auth0 Management API of Roles.
-
-  ## endpoint
-  - /api/v2/roles
-  - /api/v2/roles/{id}
-  - /api/v2/roles/{id}/permissions
-  - /api/v2/roles/{id}/users
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

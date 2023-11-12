@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Keys.Signing.Revoke do
-  @moduledoc """
-  Documentation for Auth0 Management Revoke an Application Signing Key by its key id.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Keys/put_signing_keys
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

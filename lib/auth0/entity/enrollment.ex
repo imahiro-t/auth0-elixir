@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.Enrollment do
-  @moduledoc """
-  Documentation for entity of Enrollment.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
 

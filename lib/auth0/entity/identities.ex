@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.Identities do
-  @moduledoc """
-  Documentation for entity of Identities.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
   alias Auth0.Entity.Identity

@@ -1,16 +1,12 @@
 defmodule Auth0.Management.Branding.Templates.UniversalLogin.Put do
-  @moduledoc """
-  Documentation for Auth0 Management Set template for New Universal Login Experience.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Branding/put_universal_login
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
   defmodule Params do
+    @moduledoc false
     defstruct template: nil
 
     @type t :: %__MODULE__{

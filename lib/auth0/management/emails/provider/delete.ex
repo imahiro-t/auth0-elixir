@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Emails.Provider.Delete do
-  @moduledoc """
-  Documentation for Auth0 Management Delete the email provider.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Emails/delete_provider
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

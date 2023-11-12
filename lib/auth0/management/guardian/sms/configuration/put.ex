@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Guardian.Sms.Configuration.Put do
-  @moduledoc """
-  Documentation for Auth0 Management Update SMS configuration (one of auth0|twilio|phone-message-hook).
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_selected_provider_0
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Guardian.Sms.Configuration.Put do
   alias Auth0.Entity.GuardianSmsConfiguration
 
   defmodule Params do
+    @moduledoc false
     defstruct provider: nil
 
     @type t :: %__MODULE__{

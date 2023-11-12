@@ -1,10 +1,5 @@
 defmodule Auth0.Management.AttackProtection.SuspiciousIpThrottling.Get do
-  @moduledoc """
-  Documentation for Auth0 Management Get the suspicious IP throttling configuration.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/get_suspicious_ip_throttling
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

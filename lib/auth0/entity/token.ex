@@ -1,4 +1,5 @@
 defmodule Auth0.Entity.Token do
+  @moduledoc false
   alias Auth0.Common.Util
 
   defstruct access_token: nil,

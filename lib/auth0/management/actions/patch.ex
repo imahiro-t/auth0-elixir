@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Actions.Patch do
-  @moduledoc """
-  Documentation for Auth0 Management Update an action.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/patch_action
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,7 +7,9 @@ defmodule Auth0.Management.Actions.Patch do
   alias Auth0.Entity.Action
 
   defmodule Params do
+    @moduledoc false
     defmodule Dependency do
+      @moduledoc false
       defstruct name: nil,
                 version: nil
 
@@ -23,6 +20,7 @@ defmodule Auth0.Management.Actions.Patch do
     end
 
     defmodule Secret do
+      @moduledoc false
       defstruct name: nil,
                 updated_at: nil
 

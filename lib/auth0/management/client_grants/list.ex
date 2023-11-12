@@ -1,10 +1,5 @@
 defmodule Auth0.Management.ClientGrants.List do
-  @moduledoc """
-  Documentation for Auth0 Management Get client grants.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Client_Grants/get_client_grants
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.ClientGrants.List do
   alias Auth0.Entity.ClientGrants
 
   defmodule Params do
+    @moduledoc false
     defstruct page: nil,
               per_page: nil,
               include_totals: nil,

@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.SigningKey do
-  @moduledoc """
-  Documentation for entity of SigningKey.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
 

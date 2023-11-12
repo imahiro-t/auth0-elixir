@@ -1,10 +1,5 @@
 defmodule Auth0.Management.RulesConfigs.Delete do
-  @moduledoc """
-  Documentation for Auth0 Management Delete rules config for a given key.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Rules_Configs/delete_rules_configs_by_key
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

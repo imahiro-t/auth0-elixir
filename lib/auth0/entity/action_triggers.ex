@@ -1,13 +1,8 @@
 defmodule Auth0.Entity.ActionTriggers do
-  @moduledoc """
-  Documentation for entity of ActionTriggers.
+  @moduledoc false
 
-  """
   defmodule Trigger do
-    @moduledoc """
-    Documentation for entity of ActionTriggers Trigger.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 

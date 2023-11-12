@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.JobsErrors do
-  @moduledoc """
-  Documentation for entity of JobsErrors.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
   alias Auth0.Entity.JobsError

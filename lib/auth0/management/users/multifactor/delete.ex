@@ -1,16 +1,12 @@
 defmodule Auth0.Management.Users.Multifactor.Delete do
-  @moduledoc """
-  Documentation for Auth0 Management Delete a User's Multi-factor Provider.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/delete_multifactor_by_provider
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
   defmodule Params do
+    @moduledoc false
     defstruct provider: nil
 
     @type t :: %__MODULE__{

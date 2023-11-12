@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Guardian.Phone.Template.Put do
-  @moduledoc """
-  Documentation for Auth0 Management Update Enrollment and Verification Phone Templates.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_templates
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Guardian.Phone.Template.Put do
   alias Auth0.Entity.GuardianPhoneTemplate
 
   defmodule Params do
+    @moduledoc false
     defstruct enrollment_message: nil,
               verification_message: nil
 

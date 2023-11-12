@@ -1,11 +1,5 @@
 defmodule Auth0.Management.Logs do
-  @moduledoc """
-  Documentation for Auth0 Management API of Logs.
-
-  ## endpoint
-  - /api/v2/logs
-  - /api/v2/logs/{id}
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

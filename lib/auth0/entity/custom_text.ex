@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.CustomText do
-  @moduledoc """
-  Documentation for entity of CustomText.
-
-  """
+  @moduledoc false
 
   defstruct value: nil
 

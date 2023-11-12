@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.GuardianPhoneTemplate do
-  @moduledoc """
-  Documentation for entity of GuardianPhoneTemplate.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
 

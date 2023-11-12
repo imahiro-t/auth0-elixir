@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Rules.Delete do
-  @moduledoc """
-  Documentation for Auth0 Management Delete a rule.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Rules/delete_rules_by_id
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

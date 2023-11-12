@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Guardian.AwsSns.Configuration.Get do
-  @moduledoc """
-  Documentation for Auth0 Management Retrieve AWS SNS push notification configuration.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_sns
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

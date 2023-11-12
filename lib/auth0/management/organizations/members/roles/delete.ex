@@ -1,16 +1,12 @@
 defmodule Auth0.Management.Organizations.Members.Roles.Delete do
-  @moduledoc """
-  Documentation for Auth0 Management Remove one or more roles from a given user in the context of the provided organization.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/delete_organization_member_roles
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
   defmodule Params do
+    @moduledoc false
     defstruct roles: nil
 
     @type t :: %__MODULE__{

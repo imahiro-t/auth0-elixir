@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Users.Patch do
-  @moduledoc """
-  Documentation for Auth0 Management Update a User.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/patch_users_by_id
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Users.Patch do
   alias Auth0.Entity.User
 
   defmodule Params do
+    @moduledoc false
     defstruct blocked: nil,
               email_verified: nil,
               email: nil,

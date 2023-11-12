@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Actions.Execution do
-  @moduledoc """
-  Documentation for Auth0 Management Get an execution.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/get_execution
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

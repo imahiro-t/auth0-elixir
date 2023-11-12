@@ -1,11 +1,5 @@
 defmodule Auth0.Management.UserBlocks do
-  @moduledoc """
-  Documentation for Auth0 Management API of UserBlocks.
-
-  ## endpoint
-  - /api/v2/user-blocks
-  - /api/v2/user-blocks/{id}
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

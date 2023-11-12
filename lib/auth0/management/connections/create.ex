@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Connections.Create do
-  @moduledoc """
-  Documentation for Auth0 Management Create a connection.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Connections/post_connections
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,7 +7,9 @@ defmodule Auth0.Management.Connections.Create do
   alias Auth0.Entity.Connection
 
   defmodule Params do
+    @moduledoc false
     defmodule Options do
+      @moduledoc false
       defstruct validation: nil,
                 non_persistent_attrs: nil,
                 enabledDatabaseCustomization: nil,

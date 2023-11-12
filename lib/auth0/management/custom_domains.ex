@@ -1,12 +1,5 @@
 defmodule Auth0.Management.CustomDomains do
-  @moduledoc """
-  Documentation for Auth0 Management API of CustomDomains.
-
-  ## endpoint
-  - /api/v2/custom-domains
-  - /api/v2/custom-domains/{id}
-  - /api/v2/custom-domains/{id}/verify
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

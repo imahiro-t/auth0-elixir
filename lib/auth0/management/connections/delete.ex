@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Connections.Delete do
-  @moduledoc """
-  Documentation for Auth0 Management Delete a connection.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Connections/delete_connections_by_id
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

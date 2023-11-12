@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Tenants.Settings.Patch do
-  @moduledoc """
-  Documentation for Auth0 Management Update tenant settings.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Tenants/patch_settings
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,7 +7,9 @@ defmodule Auth0.Management.Tenants.Settings.Patch do
   alias Auth0.Entity.TenantSetting
 
   defmodule Params do
+    @moduledoc false
     defmodule ChangePassword do
+      @moduledoc false
       defstruct enabled: nil,
                 html: nil
 
@@ -23,6 +20,7 @@ defmodule Auth0.Management.Tenants.Settings.Patch do
     end
 
     defmodule GuardianMfaPage do
+      @moduledoc false
       defstruct enabled: nil,
                 html: nil
 
@@ -33,6 +31,7 @@ defmodule Auth0.Management.Tenants.Settings.Patch do
     end
 
     defmodule ErrorPage do
+      @moduledoc false
       defstruct html: nil,
                 show_log_link: nil,
                 url: nil
@@ -45,6 +44,7 @@ defmodule Auth0.Management.Tenants.Settings.Patch do
     end
 
     defmodule DeviceFlow do
+      @moduledoc false
       defstruct charset: nil,
                 mask: nil
 
@@ -55,6 +55,7 @@ defmodule Auth0.Management.Tenants.Settings.Patch do
     end
 
     defmodule Flags do
+      @moduledoc false
       defstruct change_pwd_flow_v1: nil,
                 enable_apis_section: nil,
                 disable_impersonation: nil,
@@ -101,6 +102,7 @@ defmodule Auth0.Management.Tenants.Settings.Patch do
     end
 
     defmodule SessionCookie do
+      @moduledoc false
       defstruct mode: nil
 
       @type t :: %__MODULE__{

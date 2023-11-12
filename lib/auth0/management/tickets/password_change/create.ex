@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Tickets.PasswordChange.Create do
-  @moduledoc """
-  Documentation for Auth0 Management Create a password change ticket.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Tickets/post_password_change
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Tickets.PasswordChange.Create do
   alias Auth0.Entity.Ticket
 
   defmodule Params do
+    @moduledoc false
     defstruct result_url: nil,
               user_id: nil,
               client_id: nil,

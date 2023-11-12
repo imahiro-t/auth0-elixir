@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.ResourceServer do
-  @moduledoc """
-  Documentation for entity of ResourceServer.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
 

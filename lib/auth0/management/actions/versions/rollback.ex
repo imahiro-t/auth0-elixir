@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Actions.Versions.Rollback do
-  @moduledoc """
-  Documentation for Auth0 Management Roll back to a previous action version.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/post_deploy_draft_version
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Actions.Versions.Rollback do
   alias Auth0.Entity.ActionVersion
 
   defmodule Params do
+    @moduledoc false
     defstruct update_draft: nil
 
     @type t :: %__MODULE__{

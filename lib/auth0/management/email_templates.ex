@@ -1,11 +1,5 @@
 defmodule Auth0.Management.EmailTemplates do
-  @moduledoc """
-  Documentation for Auth0 Management API of EmailTemplates.
-
-  ## endpoint
-  - /api/v2/email-templates
-  - /api/v2/email-templates/{templateName}
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

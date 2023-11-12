@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Branding.Patch do
-  @moduledoc """
-  Documentation for Auth0 Management Update branding settings.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Branding/patch_branding
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,7 +7,9 @@ defmodule Auth0.Management.Branding.Patch do
   alias Auth0.Entity.Branding
 
   defmodule Params do
+    @moduledoc false
     defmodule Colors do
+      @moduledoc false
       defstruct primary: nil,
                 page_background: nil
 
@@ -23,6 +20,7 @@ defmodule Auth0.Management.Branding.Patch do
     end
 
     defmodule Font do
+      @moduledoc false
       defstruct url: nil
 
       @type t :: %__MODULE__{

@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Anomaly do
-  @moduledoc """
-  Documentation for Auth0 Management API of Anomaly.
-
-  ## endpoint
-  - /api/v2/anomaly/blocks/ips/{id}
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Management.Anomaly.Blocks

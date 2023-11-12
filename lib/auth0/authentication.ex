@@ -1,8 +1,5 @@
 defmodule Auth0.Authentication do
-  @moduledoc """
-  Documentation for Auth0 Authentication API.
-
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

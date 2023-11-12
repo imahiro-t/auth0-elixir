@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Organizations.Create do
-  @moduledoc """
-  Documentation for Auth0 Management Create an Organization.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/post_organizations
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,8 +7,11 @@ defmodule Auth0.Management.Organizations.Create do
   alias Auth0.Entity.Organization
 
   defmodule Params do
+    @moduledoc false
     defmodule Branding do
+      @moduledoc false
       defmodule Colors do
+        @moduledoc false
         defstruct primary: nil,
                   page_background: nil
 

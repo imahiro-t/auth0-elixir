@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.ActionTriggerBindings do
-  @moduledoc """
-  Documentation for entity of ActionTriggerBindings.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
   alias Auth0.Entity.ActionTriggerBinding

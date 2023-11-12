@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Guardian.Phone.Factor.Put do
-  @moduledoc """
-  Documentation for Auth0 Management Update the Enabled Phone Factors.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_message_types
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Guardian.Phone.Factor.Put do
   alias Auth0.Entity.GuardianPhoneFactor
 
   defmodule Params do
+    @moduledoc false
     defstruct message_types: nil
 
     @type t :: %__MODULE__{

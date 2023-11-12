@@ -1,10 +1,5 @@
 defmodule Auth0.Management.CustomDomains.Delete do
-  @moduledoc """
-  Documentation for Auth0 Management Delete custom domain configuration.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Custom_Domains/delete_custom_domains_by_id
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

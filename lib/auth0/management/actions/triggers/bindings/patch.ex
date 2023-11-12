@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Actions.Triggers.Bindings.Patch do
-  @moduledoc """
-  Documentation for Auth0 Management Update trigger bindings.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/patch_bindings
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,7 +7,9 @@ defmodule Auth0.Management.Actions.Triggers.Bindings.Patch do
   alias Auth0.Entity.ActionTriggerBindings
 
   defmodule Params do
+    @moduledoc false
     defmodule Ref do
+      @moduledoc false
       defstruct type: nil,
                 value: nil
 
@@ -23,6 +20,7 @@ defmodule Auth0.Management.Actions.Triggers.Bindings.Patch do
     end
 
     defmodule Binding do
+      @moduledoc false
       defstruct ref: nil,
                 display_name: nil
 

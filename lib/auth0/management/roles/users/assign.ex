@@ -1,16 +1,12 @@
 defmodule Auth0.Management.Roles.Users.Assign do
-  @moduledoc """
-  Documentation for Auth0 Management Assign users to a role
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/post_role_users
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
   defmodule Params do
+    @moduledoc false
     defstruct users: nil
 
     @type t :: %__MODULE__{

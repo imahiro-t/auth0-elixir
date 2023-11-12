@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Prompts.CustomText.Get do
-  @moduledoc """
-  Documentation for Auth0 Management Get custom text for a prompt.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Prompts/get_custom_text_by_language
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

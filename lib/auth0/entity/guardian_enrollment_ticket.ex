@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.GuardianEnrollmentTicket do
-  @moduledoc """
-  Documentation for entity of GuardianEnrollmentTicket.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
 

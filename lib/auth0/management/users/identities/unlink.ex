@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Users.Identities.Unlink do
-  @moduledoc """
-  Documentation for Auth0 Management Unlink a User Identity.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/delete_user_identity_by_user_id
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

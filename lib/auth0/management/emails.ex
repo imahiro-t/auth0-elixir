@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Emails do
-  @moduledoc """
-  Documentation for Auth0 Management API of Emails.
-
-  ## endpoint
-  - /api/v2/emails/provider
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

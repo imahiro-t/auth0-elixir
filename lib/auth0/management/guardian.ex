@@ -1,22 +1,5 @@
 defmodule Auth0.Management.Guardian do
-  @moduledoc """
-  Documentation for Auth0 Management API of Guardian.
-
-  ## endpoint
-  - /api/v2/guardian/factors
-  - /api/v2/guardian/policies
-  - /api/v2/guardian/enrollments/{id}
-  - /api/v2/guardian/factors/phone/message-types
-  - /api/v2/guardian/factors/phone/selected-provider
-  - /api/v2/guardian/factors/phone/templates
-  - /api/v2/guardian/factors/sms/selected-provider
-  - /api/v2/guardian/factors/sms/templates
-  - /api/v2/guardian/factors/phone/providers/twilio
-  - /api/v2/guardian/factors/push-notification/providers/sns
-  - /api/v2/guardian/factors/sms/providers/twilio
-  - /api/v2/guardian/enrollments/ticket
-  - /api/v2/guardian/factors/{name}
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

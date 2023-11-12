@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Organizations.EnabledConnections.Create do
-  @moduledoc """
-  Documentation for Auth0 Management Add connections to an organization.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/post_enabled_connections
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Organizations.EnabledConnections.Create do
   alias Auth0.Entity.EnabledConnection
 
   defmodule Params do
+    @moduledoc false
     defstruct connection_id: nil,
               assign_membership_on_login: nil
 

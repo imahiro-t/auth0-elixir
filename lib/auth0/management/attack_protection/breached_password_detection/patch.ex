@@ -1,10 +1,5 @@
 defmodule Auth0.Management.AttackProtection.BreachedPasswordDetection.Patch do
-  @moduledoc """
-  Documentation for Auth0 Management Update breached password detection settings.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_breached_password_detection
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.AttackProtection.BreachedPasswordDetection.Patch do
   alias Auth0.Entity.AttackProtectionBreachedPasswordDetection
 
   defmodule Params do
+    @moduledoc false
     defstruct enabled: nil,
               shields: nil,
               admin_notification_frequency: nil,

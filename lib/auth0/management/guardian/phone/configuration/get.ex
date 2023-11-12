@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Guardian.Phone.Configuration.Get do
-  @moduledoc """
-  Documentation for Auth0 Management Retrieve phone configuration (one of auth0|twilio|phone-message-hook).
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_selected_provider
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

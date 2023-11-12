@@ -1,10 +1,5 @@
 defmodule Auth0.Management.UserBlocks.Users.Unblock do
-  @moduledoc """
-  Documentation for Auth0 Management Unblock a user.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/User_Blocks/delete_user_blocks_by_id
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

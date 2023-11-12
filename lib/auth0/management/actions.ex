@@ -1,20 +1,5 @@
 defmodule Auth0.Management.Actions do
-  @moduledoc """
-  Documentation for Auth0 Management API of Actions.
-
-  ## endpoint
-  - /api/v2/actions/actions
-  - /api/v2/actions/status
-  - /api/v2/actions/triggers
-  - /api/v2/actions/actions/{id}
-  - /api/v2/actions/executions/{id}
-  - /api/v2/actions/actions/{actionId}/versions
-  - /api/v2/actions/triggers/{triggerId}/bindings
-  - /api/v2/actions/actions/{actionId}/versions/{id}
-  - /api/v2/actions/actions/{id}/test
-  - /api/v2/actions/actions/{id}/deploy
-  - /api/v2/actions/actions/{actionId}/versions/{id}/deploy
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

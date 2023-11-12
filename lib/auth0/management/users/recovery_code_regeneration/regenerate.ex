@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Users.RecoveryCodeRegeneration.Regenerate do
-  @moduledoc """
-  Documentation for Auth0 Management Generate New Multi-factor Authentication Recovery Code.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/post_recovery_code_regeneration
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

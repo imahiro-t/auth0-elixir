@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Actions.Versions.Get do
-  @moduledoc """
-  Documentation for Auth0 Management Get a specific version of an action.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/get_action_version
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

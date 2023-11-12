@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.ActionTest do
-  @moduledoc """
-  Documentation for entity of ActionTest.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
 

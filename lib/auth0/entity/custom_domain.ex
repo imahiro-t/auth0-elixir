@@ -1,13 +1,7 @@
 defmodule Auth0.Entity.CustomDomain do
-  @moduledoc """
-  Documentation for entity of CustomDomain.
-
-  """
+  @moduledoc false
   defmodule Verification do
-    @moduledoc """
-    Documentation for entity of CustomDomain Verification.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 

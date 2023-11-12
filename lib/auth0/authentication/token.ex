@@ -1,10 +1,5 @@
 defmodule Auth0.Authentication.Token do
-  @moduledoc """
-  Documentation for Auth0 Authentication API of Token.
-
-  ## endpoint
-  - /oauth/token
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Guardian.Twilio.Phone.Configuration.Put do
-  @moduledoc """
-  Documentation for Auth0 Management Update Twilio phone configuration.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_twilio
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Guardian.Twilio.Phone.Configuration.Put do
   alias Auth0.Entity.GuardianTwilioConfiguration
 
   defmodule Params do
+    @moduledoc false
     defstruct from: nil,
               messaging_service_sid: nil,
               auth_token: nil,

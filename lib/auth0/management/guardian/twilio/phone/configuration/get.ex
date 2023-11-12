@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Guardian.Twilio.Phone.Configuration.Get do
-  @moduledoc """
-  Documentation for Auth0 Management Retrieve Twilio phone configuration.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_twilio
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

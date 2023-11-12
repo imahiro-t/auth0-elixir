@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Users.Multifactor.InvalidateRememberedBrowser do
-  @moduledoc """
-  Documentation for Auth0 Management Invalidate All Remembered Browsers for Multi-factor Authentication.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/post_invalidate_remember_browser
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

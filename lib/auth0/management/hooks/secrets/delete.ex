@@ -1,16 +1,12 @@
 defmodule Auth0.Management.Hooks.Secrets.Delete do
-  @moduledoc """
-  Documentation for Auth0 Management Delete hook secrets.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/delete_secrets
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
   defmodule Params do
+    @moduledoc false
     defstruct value: nil
 
     @type t :: %__MODULE__{

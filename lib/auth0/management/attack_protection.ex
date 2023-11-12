@@ -1,12 +1,5 @@
 defmodule Auth0.Management.AttackProtection do
-  @moduledoc """
-  Documentation for Auth0 Management API of AttackProAuth0.Management.AttackProtection.
-
-  ## endpoint
-  - /api/v2/attack-protection/breached-password-detection
-  - /api/v2/attack-protection/brute-force-protection
-  - /api/v2/attack-protection/suspicious-ip-throttling
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

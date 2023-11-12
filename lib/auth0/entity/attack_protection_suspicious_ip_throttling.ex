@@ -1,19 +1,10 @@
 defmodule Auth0.Entity.AttackProtectionSuspiciousIpThrottling do
-  @moduledoc """
-  Documentation for entity of AttackProtectionSuspiciousIpThrottling.
-
-  """
+  @moduledoc false
 
   defmodule Stage do
-    @moduledoc """
-    Documentation for entity of AttackProtectionSuspiciousIpThrottling Stage.
-
-    """
+    @moduledoc false
     defmodule PreLogin do
-      @moduledoc """
-      Documentation for entity of AttackProtectionSuspiciousIpThrottling PreLogin.
-
-      """
+      @moduledoc false
 
       alias Auth0.Common.Util
 
@@ -32,10 +23,7 @@ defmodule Auth0.Entity.AttackProtectionSuspiciousIpThrottling do
     end
 
     defmodule PreUserRegistration do
-      @moduledoc """
-      Documentation for entity of AttackProtectionSuspiciousIpThrottling PreUserRegistration.
-
-      """
+      @moduledoc false
 
       alias Auth0.Common.Util
 

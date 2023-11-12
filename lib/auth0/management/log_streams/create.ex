@@ -1,10 +1,5 @@
 defmodule Auth0.Management.LogStreams.Create do
-  @moduledoc """
-  Documentation for Auth0 Management Create a log stream.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Log_Streams/post_log_streams
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.LogStreams.Create do
   alias Auth0.Entity.LogStream
 
   defmodule Params do
+    @moduledoc false
     defstruct name: nil,
               type: nil,
               sink: nil

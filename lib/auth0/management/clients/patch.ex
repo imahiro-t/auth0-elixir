@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Clients.Patch do
-  @moduledoc """
-  Documentation for Auth0 Management Update a client.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Clients/patch_clients_by_id
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,7 +7,9 @@ defmodule Auth0.Management.Clients.Patch do
   alias Auth0.Entity.Client
 
   defmodule Params do
+    @moduledoc false
     defmodule JwtConfiguration do
+      @moduledoc false
       defstruct lifetime_in_seconds: nil,
                 scopes: nil,
                 alg: nil
@@ -25,6 +22,7 @@ defmodule Auth0.Management.Clients.Patch do
     end
 
     defmodule EncryptionKey do
+      @moduledoc false
       defstruct pub: nil,
                 cert: nil,
                 subject: nil
@@ -37,6 +35,7 @@ defmodule Auth0.Management.Clients.Patch do
     end
 
     defmodule Addons do
+      @moduledoc false
       defstruct aws: nil,
                 azure_blob: nil,
                 azure_sb: nil,
@@ -101,7 +100,9 @@ defmodule Auth0.Management.Clients.Patch do
     end
 
     defmodule Mobile do
+      @moduledoc false
       defmodule Android do
+        @moduledoc false
         defstruct app_package_name: nil,
                   sha256_cert_fingerprints: nil
 
@@ -112,6 +113,7 @@ defmodule Auth0.Management.Clients.Patch do
       end
 
       defmodule Ios do
+        @moduledoc false
         defstruct team_id: nil,
                   app_bundle_identifier: nil
 
@@ -131,6 +133,7 @@ defmodule Auth0.Management.Clients.Patch do
     end
 
     defmodule NativeSocialLogin do
+      @moduledoc false
       defstruct apple: nil,
                 facebook: nil
 
@@ -141,6 +144,7 @@ defmodule Auth0.Management.Clients.Patch do
     end
 
     defmodule RefreshToken do
+      @moduledoc false
       defstruct rotation_type: nil,
                 expiration_type: nil,
                 leeway: nil,

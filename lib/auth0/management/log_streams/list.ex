@@ -1,10 +1,5 @@
 defmodule Auth0.Management.LogStreams.List do
-  @moduledoc """
-  Documentation for Auth0 Management Get log streams.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Log_Streams/get_log_streams
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

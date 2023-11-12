@@ -1,11 +1,5 @@
 defmodule Auth0.Management.Tickets do
-  @moduledoc """
-  Documentation for Auth0 Management API of Tickets.
-
-  ## endpoint
-  - /api/v2/tickets/email-verification
-  - /api/v2/tickets/password-change
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

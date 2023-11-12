@@ -1,10 +1,5 @@
 defmodule Auth0.Management.ResourceServers.Patch do
-  @moduledoc """
-  Documentation for Auth0 Management Update a resource server.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Resource_Servers/get_resource_servers_by_id
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.ResourceServers.Patch do
   alias Auth0.Entity.ResourceServer
 
   defmodule Params do
+    @moduledoc false
     defstruct name: nil,
               scopes: nil,
               signing_alg: nil,

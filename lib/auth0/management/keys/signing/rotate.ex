@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Keys.Signing.Rotate do
-  @moduledoc """
-  Documentation for Auth0 Management Rotate the Application Signing Key.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Keys/post_signing_keys
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

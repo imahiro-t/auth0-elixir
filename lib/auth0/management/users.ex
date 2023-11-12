@@ -1,21 +1,5 @@
 defmodule Auth0.Management.Users do
-  @moduledoc """
-  Documentation for Auth0 Management API of Users.
-
-  ## endpoint
-  - /api/v2/users
-  - /api/v2/users/{id}
-  - /api/v2/users/{id}/enrollments
-  - /api/v2/users/{id}/roles
-  - /api/v2/users/{id}/logs
-  - /api/v2/users/{id}/organizations
-  - /api/v2/users/{id}/permissions
-  - /api/v2/users/{id}/multifactor/{provider}
-  - /api/v2/users/{id}/multifactor/actions/invalidate-remember-browser
-  - /api/v2/users/{id}/identities
-  - /api/v2/users/{id}/identities/{provider}/{user_id}
-  - /api/v2/users/{id}/recovery-code-regeneration
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

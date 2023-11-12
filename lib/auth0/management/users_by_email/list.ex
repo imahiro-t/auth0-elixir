@@ -1,10 +1,5 @@
 defmodule Auth0.Management.UsersByEmail.List do
-  @moduledoc """
-  Documentation for Auth0 Management Search Users by Email.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Users_By_Email/get_users_by_email
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.UsersByEmail.List do
   alias Auth0.Entity.Users
 
   defmodule Params do
+    @moduledoc false
     defstruct fields: nil,
               include_fields: nil,
               email: nil

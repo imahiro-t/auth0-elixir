@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Guardian.Enrollments.Ticket do
-  @moduledoc """
-  Documentation for Auth0 Management Create a multi-factor authentication enrollment ticket.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/post_ticket
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Guardian.Enrollments.Ticket do
   alias Auth0.Entity.GuardianEnrollmentTicket
 
   defmodule Params do
+    @moduledoc false
     defstruct user_id: nil,
               email: nil,
               send_mail: nil

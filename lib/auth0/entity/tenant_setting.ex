@@ -1,14 +1,8 @@
 defmodule Auth0.Entity.TenantSetting do
-  @moduledoc """
-  Documentation for entity of TenantSetting.
-
-  """
+  @moduledoc false
 
   defmodule ChangePassword do
-    @moduledoc """
-    Documentation for entity of TenantSetting ChangePassword.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 
@@ -27,10 +21,7 @@ defmodule Auth0.Entity.TenantSetting do
   end
 
   defmodule GuardianMfaPage do
-    @moduledoc """
-    Documentation for entity of TenantSetting GuardianMfaPage.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 
@@ -49,10 +40,7 @@ defmodule Auth0.Entity.TenantSetting do
   end
 
   defmodule ErrorPage do
-    @moduledoc """
-    Documentation for entity of TenantSetting ErrorPage.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 
@@ -73,10 +61,7 @@ defmodule Auth0.Entity.TenantSetting do
   end
 
   defmodule DeviceFlow do
-    @moduledoc """
-    Documentation for entity of TenantSetting DeviceFlow.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 
@@ -95,10 +80,7 @@ defmodule Auth0.Entity.TenantSetting do
   end
 
   defmodule Flags do
-    @moduledoc """
-    Documentation for entity of TenantSetting Flags.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 
@@ -153,10 +135,7 @@ defmodule Auth0.Entity.TenantSetting do
   end
 
   defmodule SessionCookie do
-    @moduledoc """
-    Documentation for entity of TenantSetting SessionCookie.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 

@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.GuardianAwsSnsConfiguration do
-  @moduledoc """
-  Documentation for entity of GuardianAwsSnsConfiguration.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
 

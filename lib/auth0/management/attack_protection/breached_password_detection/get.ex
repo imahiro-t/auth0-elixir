@@ -1,10 +1,5 @@
 defmodule Auth0.Management.AttackProtection.BreachedPasswordDetection.Get do
-  @moduledoc """
-  Documentation for Auth0 Management Get breached password detection settings.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/get_breached_password_detection
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

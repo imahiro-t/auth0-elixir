@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Hooks.Patch do
-  @moduledoc """
-  Documentation for Auth0 Management Update a hook.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/patch_hooks_by_id
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Hooks.Patch do
   alias Auth0.Entity.Hook
 
   defmodule Params do
+    @moduledoc false
     defstruct name: nil,
               enabled: nil,
               script: nil,

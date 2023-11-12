@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.Actions do
-  @moduledoc """
-  Documentation for entity of Actions.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
   alias Auth0.Entity.Action

@@ -1,10 +1,5 @@
 defmodule Auth0.Authentication.Token.ClientCredentials do
-  @moduledoc """
-  Documentation for Auth0 Authentication Client Credentials Flow.
-
-  ## see
-  https://auth0.com/docs/api/authentication#client-credentials-flow
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Authentication.Token.ClientCredentials do
   alias Auth0.Entity.Token
 
   defmodule Params do
+    @moduledoc false
     defstruct audience: nil,
               client_id: nil,
               client_secret: nil

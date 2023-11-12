@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.Organization do
-  @moduledoc """
-  Documentation for entity of Organization.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
   alias Auth0.Entity.Branding

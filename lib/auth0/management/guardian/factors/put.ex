@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Guardian.Factors.Put do
-  @moduledoc """
-  Documentation for Auth0 Management Update a Multi-factor Authentication Factor.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_factors_by_name
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Guardian.Factors.Put do
   alias Auth0.Entity.GuardianFactor
 
   defmodule Params do
+    @moduledoc false
     defstruct enabled: nil
 
     @type t :: %__MODULE__{

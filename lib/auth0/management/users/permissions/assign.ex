@@ -1,17 +1,14 @@
 defmodule Auth0.Management.Users.Permissions.Assign do
-  @moduledoc """
-  Documentation for Auth0 Management Assign Permissions to a User.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/post_permissions
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
   defmodule Params do
+    @moduledoc false
     defmodule Permission do
+      @moduledoc false
       defstruct resource_server_identifier: nil, permission_name: nil
 
       @type t :: %__MODULE__{

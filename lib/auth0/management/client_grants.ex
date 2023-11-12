@@ -1,11 +1,5 @@
 defmodule Auth0.Management.ClientGrants do
-  @moduledoc """
-  Documentation for Auth0 Management API of ClientGrants.
-
-  ## endpoint
-  /api/v2/client-grants
-  /api/v2/client-grants/{id}
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

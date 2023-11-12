@@ -1,11 +1,5 @@
 defmodule Auth0.Management.DeviceCredentials do
-  @moduledoc """
-  Documentation for Auth0 Management API of DeviceCredentials.
-
-  ## endpoint
-  - /api/v2/device-credentials
-  - /api/v2/device-credentials/{id}
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

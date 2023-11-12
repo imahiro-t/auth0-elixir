@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.HookSecret do
-  @moduledoc """
-  Documentation for entity of HookSecret.
-
-  """
+  @moduledoc false
 
   defstruct value: nil
 

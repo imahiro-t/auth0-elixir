@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Users.Identities.Link do
-  @moduledoc """
-  Documentation for Auth0 Management Link a User Account.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/post_identities
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Users.Identities.Link do
   alias Auth0.Entity.Identities
 
   defmodule Params do
+    @moduledoc false
     defstruct provider: nil,
               connection_id: nil,
               user_id: nil

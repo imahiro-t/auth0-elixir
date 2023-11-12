@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.DeviceCredential do
-  @moduledoc """
-  Documentation for entity of DeviceCredential.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
 

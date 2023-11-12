@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Guardian.Factors.List do
-  @moduledoc """
-  Documentation for Auth0 Management Retrieve Factors and their Status.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_factors
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

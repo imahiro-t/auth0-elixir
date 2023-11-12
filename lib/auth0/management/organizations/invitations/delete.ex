@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Organizations.Invitations.Delete do
-  @moduledoc """
-  Documentation for Auth0 Management Delete an invitation to organization.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/delete_invitations_by_invitation_id
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

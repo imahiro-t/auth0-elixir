@@ -1,12 +1,5 @@
 defmodule Auth0.Management.Hooks do
-  @moduledoc """
-  Documentation for Auth0 Management API of Hooks.
-
-  ## endpoint
-  - /api/v2/hooks
-  - /api/v2/hooks/{id}
-  - /api/v2/hooks/{id}/secrets
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

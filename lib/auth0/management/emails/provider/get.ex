@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Emails.Provider.Get do
-  @moduledoc """
-  Documentation for Auth0 Management Get the email provider.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Emails/get_provider
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Emails.Provider.Get do
   alias Auth0.Entity.EmailProvider
 
   defmodule Params do
+    @moduledoc false
     defstruct fields: nil,
               include_fields: nil
 

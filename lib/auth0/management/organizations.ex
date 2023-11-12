@@ -1,17 +1,5 @@
 defmodule Auth0.Management.Organizations do
-  @moduledoc """
-  Documentation for Auth0 Management API of Organizations.
-
-  ## endpoint
-  - /api/v2/organizations
-  - /api/v2/organizations/{id}
-  - /api/v2/organizations/name/{name}
-  - /api/v2/organizations/{id}/enabled_connections
-  - /api/v2/organizations/{id}/enabled_connections/{connectionId}
-  - /api/v2/organizations/{id}/invitations
-  - /api/v2/organizations/{id}/invitations/{invitation_id}
-  - /api/v2/organizations/{id}/members
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

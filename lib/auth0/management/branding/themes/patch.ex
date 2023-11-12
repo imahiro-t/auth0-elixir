@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Branding.Themes.Patch do
-  @moduledoc """
-  Documentation for Auth0 Management Update branding theme.
-
-  ## see
-  https://auth0.com/docs/api/management/v2#!/Branding/patch_branding_theme
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,7 +7,9 @@ defmodule Auth0.Management.Branding.Themes.Patch do
   alias Auth0.Entity.Theme
 
   defmodule Params do
+    @moduledoc false
     defmodule Borders do
+      @moduledoc false
       defstruct button_border_radius: nil,
                 button_border_weight: nil,
                 buttons_style: nil,
@@ -37,6 +34,7 @@ defmodule Auth0.Management.Branding.Themes.Patch do
     end
 
     defmodule Colors do
+      @moduledoc false
       defstruct base_focus_color: nil,
                 base_hover_color: nil,
                 body_text: nil,
@@ -79,7 +77,9 @@ defmodule Auth0.Management.Branding.Themes.Patch do
     end
 
     defmodule Fonts do
+      @moduledoc false
       defmodule Style do
+        @moduledoc false
         defstruct bold: nil,
                   size: nil
 
@@ -113,6 +113,7 @@ defmodule Auth0.Management.Branding.Themes.Patch do
     end
 
     defmodule PageBackground do
+      @moduledoc false
       defstruct background_color: nil,
                 background_image_url: nil,
                 page_layout: nil
@@ -125,6 +126,7 @@ defmodule Auth0.Management.Branding.Themes.Patch do
     end
 
     defmodule Widget do
+      @moduledoc false
       defstruct header_text_alignment: nil,
                 logo_height: nil,
                 logo_position: nil,

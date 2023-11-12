@@ -1,10 +1,5 @@
 defmodule Auth0.Management.DeviceCredentials.List do
-  @moduledoc """
-  Documentation for Auth0 Management Retrieve device credentials.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Device_Credentials/get_device_credentials
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.DeviceCredentials.List do
   alias Auth0.Entity.DeviceCredentials
 
   defmodule Params do
+    @moduledoc false
     defstruct page: nil,
               per_page: nil,
               include_totals: nil,

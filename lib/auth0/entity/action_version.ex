@@ -1,14 +1,8 @@
 defmodule Auth0.Entity.ActionVersion do
-  @moduledoc """
-  Documentation for entity of ActionVersion.
-
-  """
+  @moduledoc false
 
   defmodule Dependency do
-    @moduledoc """
-    Documentation for entity of ActionVersion Dependency.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 
@@ -27,10 +21,7 @@ defmodule Auth0.Entity.ActionVersion do
   end
 
   defmodule Secret do
-    @moduledoc """
-    Documentation for entity of Action Secret.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 

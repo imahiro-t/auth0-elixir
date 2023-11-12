@@ -1,14 +1,5 @@
 defmodule Auth0.Management.Branding do
-  @moduledoc """
-  Documentation for Auth0 Management API of Branding.
-
-  ## endpoint
-  - /api/v2/branding
-  - /api/v2/branding/templates/universal-login
-  - /api/v2/branding/themes
-  - /api/v2/branding/themes/default
-  - /api/v2/branding/themes/{id}
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

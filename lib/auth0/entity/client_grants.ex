@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.ClientGrants do
-  @moduledoc """
-  Documentation for entity of ClientGrants.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
   alias Auth0.Entity.ClientGrant

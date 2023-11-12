@@ -1,13 +1,5 @@
 defmodule Auth0.Management.Connections do
-  @moduledoc """
-  Documentation for Auth0 Management API of Connections.
-
-  ## endpoint
-  - /api/v2/connections
-  - /api/v2/connections/{id}
-  - /api/v2/connections/{id}/status
-  - /api/v2/connections/{id}/users
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

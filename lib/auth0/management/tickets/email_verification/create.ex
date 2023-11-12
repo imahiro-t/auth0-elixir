@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Tickets.EmailVerification.Create do
-  @moduledoc """
-  Documentation for Auth0 Management Create an email verification ticket.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Tickets/post_email_verification
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,7 +7,9 @@ defmodule Auth0.Management.Tickets.EmailVerification.Create do
   alias Auth0.Entity.Ticket
 
   defmodule Params do
+    @moduledoc false
     defmodule Identity do
+      @moduledoc false
       defstruct user_id: nil,
                 provider: nil
 

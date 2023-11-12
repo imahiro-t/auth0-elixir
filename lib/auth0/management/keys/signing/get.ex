@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Keys.Signing.Get do
-  @moduledoc """
-  Documentation for Auth0 Management Get an Application Signing Key by its key id.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Keys/get_signing_key
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http
