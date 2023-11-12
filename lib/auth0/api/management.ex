@@ -6,7 +6,6 @@ defmodule Auth0.Api.Management do
 
   alias Auth0.Config
   alias Auth0.Common.Util
-  alias Auth0.Entity
   alias Auth0.Management.Branding
   alias Auth0.Management.ClientGrants
   alias Auth0.Management.Clients
