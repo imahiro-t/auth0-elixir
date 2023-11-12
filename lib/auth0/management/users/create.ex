@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Users.Create do
-  @moduledoc """
-  Documentation for Auth0 Management Create a User.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/post_users
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Users.Create do
   alias Auth0.Entity.User
 
   defmodule Params do
+    @moduledoc false
     defstruct email: nil,
               phone_number: nil,
               user_metadata: nil,

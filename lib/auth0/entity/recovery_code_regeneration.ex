@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.RecoveryCodeRegeneration do
-  @moduledoc """
-  Documentation for entity of RecoveryCodeRegeneration.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
 

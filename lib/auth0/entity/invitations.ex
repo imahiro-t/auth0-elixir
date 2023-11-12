@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.Invitations do
-  @moduledoc """
-  Documentation for entity of Invitations.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
   alias Auth0.Entity.Invitation

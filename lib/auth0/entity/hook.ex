@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.Hook do
-  @moduledoc """
-  Documentation for entity of Hook.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
 

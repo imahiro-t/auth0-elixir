@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Guardian.Sms.Template.Get do
-  @moduledoc """
-  Documentation for Auth0 Management Retrieve SMS Enrollment and Verification Templates.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_templates_0
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

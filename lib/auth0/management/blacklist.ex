@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Blacklist do
-  @moduledoc """
-  Documentation for Auth0 Management API of Blacklist.
-
-  ## endpoint
-  - /api/v2/blacklists/tokens
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

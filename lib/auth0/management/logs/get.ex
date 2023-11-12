@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Logs.Get do
-  @moduledoc """
-  Documentation for Auth0 Management Get a log event by id.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Logs/get_logs_by_id
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

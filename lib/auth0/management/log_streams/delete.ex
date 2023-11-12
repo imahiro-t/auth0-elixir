@@ -1,10 +1,5 @@
 defmodule Auth0.Management.LogStreams.Delete do
-  @moduledoc """
-  Documentation for Auth0 Management Delete log stream.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Log_Streams/delete_log_streams_by_id
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

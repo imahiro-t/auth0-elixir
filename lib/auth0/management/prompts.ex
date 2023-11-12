@@ -1,11 +1,5 @@
 defmodule Auth0.Management.Prompts do
-  @moduledoc """
-  Documentation for Auth0 Management API of Prompts.
-
-  ## endpoint
-  - /api/v2/prompts
-  - /api/v2/prompts/{prompt}/custom-text/{language}
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

@@ -1,10 +1,5 @@
 defmodule Auth0.Management.DeviceCredentials.Create do
-  @moduledoc """
-  Documentation for Auth0 Management Create a device public key credential.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Device_Credentials/post_device_credentials
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.DeviceCredentials.Create do
   alias Auth0.Entity.DeviceCredential
 
   defmodule Params do
+    @moduledoc false
     defstruct device_name: nil,
               type: nil,
               value: nil,

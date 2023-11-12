@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.DailyStats do
-  @moduledoc """
-  Documentation for entity of DailyStats.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
   alias Auth0.Entity.DailyStat

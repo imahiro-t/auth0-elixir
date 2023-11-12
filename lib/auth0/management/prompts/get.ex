@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Prompts.Get do
-  @moduledoc """
-  Documentation for Auth0 Management Get prompts settings.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Prompts/get_prompts
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

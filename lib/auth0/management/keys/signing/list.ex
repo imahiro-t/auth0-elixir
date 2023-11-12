@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Keys.Signing.List do
-  @moduledoc """
-  Documentation for Auth0 Management Get all Application Signing Keys.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Keys/get_signing_keys
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

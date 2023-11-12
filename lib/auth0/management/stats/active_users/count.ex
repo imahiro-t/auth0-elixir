@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Stats.ActiveUsers.Count do
-  @moduledoc """
-  Documentation for Auth0 Management Get active users count.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Stats/get_active_users
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

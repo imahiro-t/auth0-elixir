@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.GuardianFactors do
-  @moduledoc """
-  Documentation for entity of GuardianFactors.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
   alias Auth0.Entity.GuardianFactor

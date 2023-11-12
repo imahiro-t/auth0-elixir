@@ -1,10 +1,5 @@
 defmodule Auth0.Management.AttackProtection.SuspiciousIpThrottling.Patch do
-  @moduledoc """
-  Documentation for Auth0 Management Update the suspicious IP throttling configuration.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_suspicious_ip_throttling
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,8 +7,11 @@ defmodule Auth0.Management.AttackProtection.SuspiciousIpThrottling.Patch do
   alias Auth0.Entity.AttackProtectionSuspiciousIpThrottling
 
   defmodule Params do
+    @moduledoc false
     defmodule Stage do
+      @moduledoc false
       defmodule PreLogin do
+        @moduledoc false
         defstruct max_attempts: nil,
                   rate: nil
 
@@ -24,6 +22,7 @@ defmodule Auth0.Management.AttackProtection.SuspiciousIpThrottling.Patch do
       end
 
       defmodule PreUserRegistration do
+        @moduledoc false
         defstruct max_attempts: nil,
                   rate: nil
 

@@ -1,11 +1,5 @@
 defmodule Auth0.Management.Grants do
-  @moduledoc """
-  Documentation for Auth0 Management API of Grants.
-
-  ## endpoint
-  - /api/v2/grants
-  - /api/v2/grants/{id}
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

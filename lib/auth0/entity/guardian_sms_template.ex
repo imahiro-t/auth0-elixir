@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.GuardianSmsTemplate do
-  @moduledoc """
-  Documentation for entity of GuardianSmsTemplate.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
 

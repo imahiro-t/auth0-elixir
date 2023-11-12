@@ -1,14 +1,5 @@
 defmodule Auth0.Management.Jobs do
-  @moduledoc """
-  Documentation for Auth0 Management API of Jobs.
-
-  ## endpoint
-  - /api/v2/jobs/{id}
-  - /api/v2/jobs/{id}/errors
-  - /api/v2/jobs/users-exports
-  - /api/v2/jobs/users-imports
-  - /api/v2/jobs/verification-email
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

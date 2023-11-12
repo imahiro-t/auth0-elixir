@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Organizations.Invitations.Get do
-  @moduledoc """
-  Documentation for Auth0 Management Get an invitation to organization.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/get_invitations_by_invitation_id
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Organizations.Invitations.Get do
   alias Auth0.Entity.Invitation
 
   defmodule Params do
+    @moduledoc false
     defstruct fields: nil,
               include_fields: nil
 

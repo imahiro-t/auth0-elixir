@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Guardian.AwsSns.Configuration.Patch do
-  @moduledoc """
-  Documentation for Auth0 Management Update AWS SNS push notification configuration.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_sns
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Guardian.AwsSns.Configuration.Patch do
   alias Auth0.Entity.GuardianAwsSnsConfiguration
 
   defmodule Params do
+    @moduledoc false
     defstruct aws_access_key_id: nil,
               aws_secret_access_key: nil,
               aws_region: nil,

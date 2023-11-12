@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Connections.Status.Check do
-  @moduledoc """
-  Documentation for Auth0 Management Check connection status.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Connections/get_status
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

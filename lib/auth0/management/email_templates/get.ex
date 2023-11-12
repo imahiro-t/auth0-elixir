@@ -1,10 +1,5 @@
 defmodule Auth0.Management.EmailTemplates.Get do
-  @moduledoc """
-  Documentation for Auth0 Management Get an email template.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Email_Templates/get_email_templates_by_templateName
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.EmailTemplate do
-  @moduledoc """
-  Documentation for entity of EmailTemplate.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
 

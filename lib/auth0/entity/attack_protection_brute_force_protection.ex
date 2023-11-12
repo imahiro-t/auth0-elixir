@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.AttackProtectionBruteForceProtection do
-  @moduledoc """
-  Documentation for entity of AttackProtectionBruteForceProtection.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
 

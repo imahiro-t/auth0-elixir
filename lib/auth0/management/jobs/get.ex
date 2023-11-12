@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Jobs.Get do
-  @moduledoc """
-  Documentation for Auth0 Management Get a job.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Jobs/get_jobs_by_id
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

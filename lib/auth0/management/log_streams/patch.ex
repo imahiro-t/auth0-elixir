@@ -1,10 +1,5 @@
 defmodule Auth0.Management.LogStreams.Patch do
-  @moduledoc """
-  Documentation for Auth0 Management Update a log stream.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Log_Streams/patch_log_streams_by_id
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.LogStreams.Patch do
   alias Auth0.Entity.LogStream
 
   defmodule Params do
+    @moduledoc false
     defstruct name: nil,
               type: nil,
               sink: nil

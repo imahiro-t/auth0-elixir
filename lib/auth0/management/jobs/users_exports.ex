@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Jobs.UsersExport do
-  @moduledoc """
-  Documentation for Auth0 Management Create export users job.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Jobs/post_users_exports
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Jobs.UsersExport do
   alias Auth0.Entity.JobsUsersExport
 
   defmodule Params do
+    @moduledoc false
     defstruct connection_id: nil,
               format: nil,
               limit: nil,

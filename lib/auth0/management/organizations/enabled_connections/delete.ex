@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Organizations.EnabledConnections.Delete do
-  @moduledoc """
-  Documentation for Auth0 Management Delete connections from an organization.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/delete_enabled_connections_by_connectionId
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

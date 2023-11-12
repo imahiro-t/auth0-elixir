@@ -1,10 +1,5 @@
 defmodule Auth0.Management.AttackProtection.BruteForceProtection.Get do
-  @moduledoc """
-  Documentation for Auth0 Management Get the brute force configuration.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/get_brute_force_protection
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

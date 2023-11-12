@@ -1,5 +1,7 @@
 defmodule Auth0.Common.Management.TokenManager do
+  @moduledoc false
   defmodule Store do
+    @moduledoc false
     @registry :tokens_registry
     @type key :: String.t()
     @type token :: String.t()

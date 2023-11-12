@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.JobsUsersImport do
-  @moduledoc """
-  Documentation for entity of JobsUsersImport.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
 

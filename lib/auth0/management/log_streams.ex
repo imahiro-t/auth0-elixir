@@ -1,11 +1,5 @@
 defmodule Auth0.Management.LogStreams do
-  @moduledoc """
-  Documentation for Auth0 Management API of LogStreams.
-
-  ## endpoint
-  - /api/v2/log_streams
-  - /api/v2/log_streams/{id}
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

@@ -1,13 +1,7 @@
 defmodule Auth0.Entity.UserBlocks do
-  @moduledoc """
-  Documentation for entity of UserBlocks.
-
-  """
+  @moduledoc false
   defmodule BlockedFor do
-    @moduledoc """
-    Documentation for entity of UserBlocks BlockedFor.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 

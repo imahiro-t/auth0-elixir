@@ -1,10 +1,5 @@
 defmodule Auth0.Management.CustomDomains.Configure do
-  @moduledoc """
-  Documentation for Auth0 Management Configure a new custom domain.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Custom_Domains/post_custom_domains
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.CustomDomains.Configure do
   alias Auth0.Entity.CustomDomain
 
   defmodule Params do
+    @moduledoc false
     defstruct domain: nil,
               type: nil,
               verification_method: nil,

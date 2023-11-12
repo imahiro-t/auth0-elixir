@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Users.Enrollments.List do
-  @moduledoc """
-  Documentation for Auth0 Management Get the First Confirmed Multi-factor Authentication Enrollment.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/get_enrollments
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Branding.Get do
-  @moduledoc """
-  Documentation for Auth0 Management Get branding settings.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Branding/get_branding
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

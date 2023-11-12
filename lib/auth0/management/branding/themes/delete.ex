@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Branding.Themes.Delete do
-  @moduledoc """
-  Documentation for Auth0 Management Delete branding theme.
-
-  ## see
-  https://auth0.com/docs/api/management/v2#!/Branding/delete_branding_theme
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

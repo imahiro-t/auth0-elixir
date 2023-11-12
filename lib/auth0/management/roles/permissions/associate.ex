@@ -1,17 +1,14 @@
 defmodule Auth0.Management.Roles.Permissions.Associate do
-  @moduledoc """
-  Documentation for Auth0 Management Associate permissions with a role.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/post_role_permission_assignment
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
   defmodule Params do
+    @moduledoc false
     defmodule Permission do
+      @moduledoc false
       defstruct resource_server_identifier: nil,
                 permission_name: nil
 

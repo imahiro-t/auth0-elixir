@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.Connections do
-  @moduledoc """
-  Documentation for entity of Connections.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
   alias Auth0.Entity.Connection

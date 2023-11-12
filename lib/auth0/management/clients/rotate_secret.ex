@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Clients.RotateSecret do
-  @moduledoc """
-  Documentation for Auth0 Management Rotate a client secret.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Clients/post_rotate_secret
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

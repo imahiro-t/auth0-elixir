@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.JobsVerificationEmail do
-  @moduledoc """
-  Documentation for entity of JobsVerificationEmail.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
 

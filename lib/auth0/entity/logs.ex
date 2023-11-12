@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.Logs do
-  @moduledoc """
-  Documentation for entity of Logs.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
   alias Auth0.Entity.Log

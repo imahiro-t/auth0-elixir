@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.AttackProtectionBreachedPasswordDetection do
-  @moduledoc """
-  Documentation for entity of AttackProtectionBreachedPasswordDetection.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
 

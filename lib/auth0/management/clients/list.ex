@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Clients.List do
-  @moduledoc """
-  Documentation for Auth0 Management Get clients.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Clients/get_clients
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Clients.List do
   alias Auth0.Entity.Clients
 
   defmodule Params do
+    @moduledoc false
     defstruct page: nil,
               per_page: nil,
               include_totals: nil,

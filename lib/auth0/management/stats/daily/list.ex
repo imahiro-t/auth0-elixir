@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Stats.Daily.List do
-  @moduledoc """
-  Documentation for Auth0 Management Get daily stats.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Stats/get_daily
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

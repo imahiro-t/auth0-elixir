@@ -1,14 +1,8 @@
 defmodule Auth0.Entity.EmailProvider do
-  @moduledoc """
-  Documentation for entity of EmailProvider.
-
-  """
+  @moduledoc false
 
   defmodule Credentials do
-    @moduledoc """
-    Documentation for entity of EmailProvider Credentials.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 

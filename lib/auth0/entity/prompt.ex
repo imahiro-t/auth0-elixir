@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.Prompt do
-  @moduledoc """
-  Documentation for entity of Prompt.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
 

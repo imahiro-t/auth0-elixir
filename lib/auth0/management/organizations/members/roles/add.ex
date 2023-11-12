@@ -1,16 +1,12 @@
 defmodule Auth0.Management.Organizations.Members.Roles.Add do
-  @moduledoc """
-  Documentation for Auth0 Management Assign one or more roles to a given user that will be applied in the context of the provided organization.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/post_organization_member_roles
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
   defmodule Params do
+    @moduledoc false
     defstruct roles: nil
 
     @type t :: %__MODULE__{

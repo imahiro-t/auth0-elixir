@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.LogStreams do
-  @moduledoc """
-  Documentation for entity of LogStreams.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
   alias Auth0.Entity.LogStream

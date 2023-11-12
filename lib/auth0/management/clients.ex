@@ -1,12 +1,5 @@
 defmodule Auth0.Management.Clients do
-  @moduledoc """
-  Documentation for Auth0 Management API of Clients.
-
-  ## endpoint
-  /api/v2/clients
-  /api/v2/clients/{id}
-  /api/v2/clients/{id}/rotate-secret
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

@@ -1,10 +1,5 @@
 defmodule Auth0.Management.ClientGrants.Delete do
-  @moduledoc """
-  Documentation for Auth0 Management Delete client grant.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Client_Grants/delete_client_grants_by_id
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

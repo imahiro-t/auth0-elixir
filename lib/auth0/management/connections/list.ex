@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Connections.List do
-  @moduledoc """
-  Documentation for Auth0 Management Get all connections.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Connections/get_connections
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Connections.List do
   alias Auth0.Entity.Connections
 
   defmodule Params do
+    @moduledoc false
     defstruct page: nil,
               per_page: nil,
               include_totals: nil,

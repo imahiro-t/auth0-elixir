@@ -1,10 +1,5 @@
 defmodule Auth0.Management.UsersByEmail do
-  @moduledoc """
-  Documentation for Auth0 Management API of UsersByEmail.
-
-  ## endpoint
-  - /api/v2/users-by-email
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Prompts.CustomText.Put do
-  @moduledoc """
-  Documentation for Auth0 Management Set custom text for a specific prompt.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Prompts/patch_prompts
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Prompts.CustomText.Put do
   alias Auth0.Entity.CustomText
 
   defmodule Params do
+    @moduledoc false
     defstruct value: nil
 
     @type t :: %__MODULE__{

@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Tenants do
-  @moduledoc """
-  Documentation for Auth0 Management API of Tenants.
-
-  ## endpoint
-  - /api/v2/tenants/settings
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

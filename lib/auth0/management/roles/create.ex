@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Roles.Create do
-  @moduledoc """
-  Documentation for Auth0 Management Create a role.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/post_roles
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Roles.Create do
   alias Auth0.Entity.Role
 
   defmodule Params do
+    @moduledoc false
     defstruct name: nil,
               description: nil
 

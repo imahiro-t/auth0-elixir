@@ -1,10 +1,5 @@
 defmodule Auth0.Management.AttackProtection.BruteForceProtection.Patch do
-  @moduledoc """
-  Documentation for Auth0 Management Update the brute force configuration.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_brute_force_protection
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.AttackProtection.BruteForceProtection.Patch do
   alias Auth0.Entity.AttackProtectionBruteForceProtection
 
   defmodule Params do
+    @moduledoc false
     defstruct enabled: nil,
               shields: nil,
               allowlist: nil,

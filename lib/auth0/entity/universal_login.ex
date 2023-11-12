@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.UniversalLogin do
-  @moduledoc """
-  Documentation for entity of UniversalLogin.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
 

@@ -1,10 +1,5 @@
 defmodule Auth0.Management.UserBlocks.Get do
-  @moduledoc """
-  Documentation for Auth0 Management Get blocks by identifier.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/User_Blocks/get_user_blocks
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.UserBlocks.Get do
   alias Auth0.Entity.UserBlocks
 
   defmodule Params do
+    @moduledoc false
     defstruct identifier: nil,
               consider_brute_force_enablement: nil
 

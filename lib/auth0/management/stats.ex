@@ -1,11 +1,5 @@
 defmodule Auth0.Management.Stats do
-  @moduledoc """
-  Documentation for Auth0 Management API of Stats.
-
-  ## endpoint
-  - /api/v2/stats/active-users
-  - /api/v2/stats/daily
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

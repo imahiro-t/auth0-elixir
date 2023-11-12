@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.GuardianTwilioConfiguration do
-  @moduledoc """
-  Documentation for entity of GuardianTwilioConfiguration.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
 

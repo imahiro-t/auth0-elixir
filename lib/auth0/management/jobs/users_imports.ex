@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Jobs.UsersImport do
-  @moduledoc """
-  Documentation for Auth0 Management Create import users job.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Jobs/post_users_imports
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Jobs.UsersImport do
   alias Auth0.Entity.JobsUsersImport
 
   defmodule Params do
+    @moduledoc false
     defstruct users: nil,
               connection_id: nil,
               upsert: nil,

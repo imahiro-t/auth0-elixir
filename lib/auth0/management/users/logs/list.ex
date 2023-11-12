@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Users.Logs.List do
-  @moduledoc """
-  Documentation for Auth0 Management Get user's log event.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/get_logs_by_user
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Users.Logs.List do
   alias Auth0.Entity.Logs
 
   defmodule Params do
+    @moduledoc false
     defstruct page: nil,
               per_page: nil,
               sort: nil,

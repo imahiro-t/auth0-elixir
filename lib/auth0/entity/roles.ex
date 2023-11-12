@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.Roles do
-  @moduledoc """
-  Documentation for entity of Roles.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
   alias Auth0.Entity.Role

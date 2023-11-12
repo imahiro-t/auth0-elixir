@@ -1,16 +1,12 @@
 defmodule Auth0.Management.Connections.Users.Delete do
-  @moduledoc """
-  Documentation for Auth0 Management Delete a connection user.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Connections/delete_users_by_email
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
   defmodule Params do
+    @moduledoc false
     defstruct email: nil
 
     @type t :: %__MODULE__{

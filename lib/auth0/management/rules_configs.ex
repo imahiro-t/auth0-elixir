@@ -1,11 +1,5 @@
 defmodule Auth0.Management.RulesConfigs do
-  @moduledoc """
-  Documentation for Auth0 Management API of RulesConfigs.
-
-  ## endpoint
-  - /api/v2/rules-configs
-  - /api/v2/rules-configs/{key}
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

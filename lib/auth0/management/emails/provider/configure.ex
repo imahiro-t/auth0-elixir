@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Emails.Provider.Configure do
-  @moduledoc """
-  Documentation for Auth0 Management Configure the email provider.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Emails/post_provider
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Emails.Provider.Configure do
   alias Auth0.Entity.EmailProvider
 
   defmodule Params do
+    @moduledoc false
     defstruct name: nil,
               enabled: nil,
               default_from_address: nil,

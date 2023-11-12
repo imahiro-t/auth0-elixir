@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Guardian.Policies.Put do
-  @moduledoc """
-  Documentation for Auth0 Management Set the Multi-factor Authentication policies.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_policies
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util

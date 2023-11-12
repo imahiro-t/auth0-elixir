@@ -1,11 +1,5 @@
 defmodule Auth0.Management.ResourceServers do
-  @moduledoc """
-  Documentation for Auth0 Management API of ResourceServers.
-
-  ## endpoint
-  - /api/v2/resource-servers
-  - /api/v2/resource-servers/{id}
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

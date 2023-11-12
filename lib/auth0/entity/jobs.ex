@@ -1,10 +1,8 @@
 defmodule Auth0.Entity.Jobs do
-  @moduledoc """
-  Documentation for entity of Jobs.
-
-  """
+  @moduledoc false
 
   defmodule Summary do
+    @moduledoc false
     alias Auth0.Common.Util
 
     defstruct failed: nil,

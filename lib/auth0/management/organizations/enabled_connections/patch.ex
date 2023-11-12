@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Organizations.EnabledConnections.Patch do
-  @moduledoc """
-  Documentation for Auth0 Management Modify an Organizations Connection.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/patch_enabled_connections_by_connectionId
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Organizations.EnabledConnections.Patch do
   alias Auth0.Entity.EnabledConnection
 
   defmodule Params do
+    @moduledoc false
     defstruct assign_membership_on_login: nil
 
     @type t :: %__MODULE__{

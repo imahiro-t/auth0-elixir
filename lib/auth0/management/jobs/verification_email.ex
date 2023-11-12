@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Jobs.VerificationEmail do
-  @moduledoc """
-  Documentation for Auth0 Management Send an email address verification email.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Jobs/post_verification_email
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,7 +7,9 @@ defmodule Auth0.Management.Jobs.VerificationEmail do
   alias Auth0.Entity.JobsVerificationEmail
 
   defmodule Params do
+    @moduledoc false
     defmodule Identity do
+      @moduledoc false
       defstruct user_id: nil,
                 provider: nil
 

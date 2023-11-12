@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.RulesConfig do
-  @moduledoc """
-  Documentation for entity of RulesConfig.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
 

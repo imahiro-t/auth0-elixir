@@ -1,10 +1,5 @@
 defmodule Auth0.Management.ClientGrants.Create do
-  @moduledoc """
-  Documentation for Auth0 Management Create client grant.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Client_Grants/post_client_grants
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.ClientGrants.Create do
   alias Auth0.Entity.ClientGrant
 
   defmodule Params do
+    @moduledoc false
     defstruct client_id: nil,
               audience: nil,
               scope: nil

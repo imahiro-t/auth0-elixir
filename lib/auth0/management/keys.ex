@@ -1,13 +1,5 @@
 defmodule Auth0.Management.Keys do
-  @moduledoc """
-  Documentation for Auth0 Management API of Keys.
-
-  ## endpoint
-  - /api/v2/keys/signing
-  - /api/v2/keys/signing/{kid}
-  - /api/v2/keys/signing/rotate
-  - /api/v2/keys/signing/{kid}/revoke
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Entity

@@ -1,14 +1,8 @@
 defmodule Auth0.Entity.Theme do
-  @moduledoc """
-  Documentation for entity of Theme.
-
-  """
+  @moduledoc false
 
   defmodule Borders do
-    @moduledoc """
-    Documentation for entity of Theme Borders.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 
@@ -41,10 +35,7 @@ defmodule Auth0.Entity.Theme do
   end
 
   defmodule Colors do
-    @moduledoc """
-    Documentation for entity of Theme Colors.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 
@@ -95,16 +86,10 @@ defmodule Auth0.Entity.Theme do
   end
 
   defmodule Fonts do
-    @moduledoc """
-    Documentation for entity of Theme Fonts.
-
-    """
+    @moduledoc false
 
     defmodule Style do
-      @moduledoc """
-      Documentation for entity of Theme Fonts Style.
-
-      """
+      @moduledoc false
 
       alias Auth0.Common.Util
 
@@ -187,10 +172,7 @@ defmodule Auth0.Entity.Theme do
   end
 
   defmodule PageBackground do
-    @moduledoc """
-    Documentation for entity of Theme PageBackground.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 
@@ -211,10 +193,7 @@ defmodule Auth0.Entity.Theme do
   end
 
   defmodule Widget do
-    @moduledoc """
-    Documentation for entity of Theme Widget.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 

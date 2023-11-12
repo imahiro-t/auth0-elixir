@@ -1,10 +1,5 @@
 defmodule Auth0.Common.Authentication.Http do
-  @moduledoc """
-  Documentation for Auth0 Authentication HTTP.
-
-  This module manages http request for Auth0 Authentication API.
-
-  """
+  @moduledoc false
 
   alias Auth0.Config
 

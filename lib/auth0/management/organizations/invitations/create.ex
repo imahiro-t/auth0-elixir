@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Organizations.Invitations.Create do
-  @moduledoc """
-  Documentation for Auth0 Management Create invitations to organization.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/post_invitations
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,7 +7,9 @@ defmodule Auth0.Management.Organizations.Invitations.Create do
   alias Auth0.Entity.Invitation
 
   defmodule Params do
+    @moduledoc false
     defmodule Inviter do
+      @moduledoc false
       defstruct name: nil
 
       @type t :: %__MODULE__{
@@ -21,6 +18,7 @@ defmodule Auth0.Management.Organizations.Invitations.Create do
     end
 
     defmodule Invitee do
+      @moduledoc false
       defstruct email: nil
 
       @type t :: %__MODULE__{

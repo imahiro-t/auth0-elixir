@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.Ticket do
-  @moduledoc """
-  Documentation for entity of Ticket.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
 

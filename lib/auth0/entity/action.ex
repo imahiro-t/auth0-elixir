@@ -1,14 +1,8 @@
 defmodule Auth0.Entity.Action do
-  @moduledoc """
-  Documentation for entity of Action.
-
-  """
+  @moduledoc false
 
   defmodule SupportedTrigger do
-    @moduledoc """
-    Documentation for entity of Action SupportedTrigger.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 
@@ -27,10 +21,7 @@ defmodule Auth0.Entity.Action do
   end
 
   defmodule Dependency do
-    @moduledoc """
-    Documentation for entity of Action Dependency.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 
@@ -49,10 +40,7 @@ defmodule Auth0.Entity.Action do
   end
 
   defmodule Secret do
-    @moduledoc """
-    Documentation for entity of Action Secret.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 
@@ -71,10 +59,7 @@ defmodule Auth0.Entity.Action do
   end
 
   defmodule Integration do
-    @moduledoc """
-    Documentation for entity of Action Integration.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 

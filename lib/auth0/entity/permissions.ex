@@ -1,8 +1,5 @@
 defmodule Auth0.Entity.Permissions do
-  @moduledoc """
-  Documentation for entity of Permissions.
-
-  """
+  @moduledoc false
 
   alias Auth0.Common.Util
   alias Auth0.Entity.Permission

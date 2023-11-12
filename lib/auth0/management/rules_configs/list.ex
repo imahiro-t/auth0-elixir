@@ -1,10 +1,5 @@
 defmodule Auth0.Management.RulesConfigs.List do
-  @moduledoc """
-  Documentation for Auth0 Management Retrieve config variable keys for rules (get_rules-configs).
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Rules_Configs/get_rules_configs
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

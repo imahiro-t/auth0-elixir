@@ -1,14 +1,8 @@
 defmodule Auth0.Entity.Branding do
-  @moduledoc """
-  Documentation for entity of Branding.
-
-  """
+  @moduledoc false
 
   defmodule Colors do
-    @moduledoc """
-    Documentation for entity of Branding Colors.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 
@@ -27,10 +21,7 @@ defmodule Auth0.Entity.Branding do
   end
 
   defmodule Font do
-    @moduledoc """
-    Documentation for entity of Branding Font.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 

@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Branding.Templates.UniversalLogin.Delete do
-  @moduledoc """
-  Documentation for Auth0 Management Delete template for New Universal Login Experience.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Branding/delete_universal_login
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

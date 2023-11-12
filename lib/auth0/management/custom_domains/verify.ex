@@ -1,10 +1,5 @@
 defmodule Auth0.Management.CustomDomains.Verify do
-  @moduledoc """
-  Documentation for Auth0 Management Verify a custom domain.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Custom_Domains/post_verify
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

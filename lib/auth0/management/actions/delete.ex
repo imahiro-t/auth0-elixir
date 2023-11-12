@@ -1,16 +1,12 @@
 defmodule Auth0.Management.Actions.Delete do
-  @moduledoc """
-  Documentation for Auth0 Management Delete an action.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/delete_action
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
   defmodule Params do
+    @moduledoc false
     defstruct force: nil
 
     @type t :: %__MODULE__{

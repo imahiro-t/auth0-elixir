@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Rules.Patch do
-  @moduledoc """
-  Documentation for Auth0 Management Update a rule.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Rules/patch_rules_by_id
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Rules.Patch do
   alias Auth0.Entity.Rule
 
   defmodule Params do
+    @moduledoc false
     defstruct name: nil,
               enabled: nil,
               script: nil,

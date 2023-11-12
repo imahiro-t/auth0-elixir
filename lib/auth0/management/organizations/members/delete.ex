@@ -1,16 +1,12 @@
 defmodule Auth0.Management.Organizations.Members.Delete do
-  @moduledoc """
-  Documentation for Auth0 Management Delete members from an organization.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/delete_members
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
   defmodule Params do
+    @moduledoc false
     defstruct members: nil
 
     @type t :: %__MODULE__{

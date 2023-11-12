@@ -1,14 +1,8 @@
 defmodule Auth0.Entity.Client do
-  @moduledoc """
-  Documentation for entity of Client.
-
-  """
+  @moduledoc false
 
   defmodule JwtConfiguration do
-    @moduledoc """
-    Documentation for entity of Client JwtConfiguration.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 
@@ -31,10 +25,7 @@ defmodule Auth0.Entity.Client do
   end
 
   defmodule EncryptionKey do
-    @moduledoc """
-    Documentation for entity of Client EncryptionKey.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 
@@ -55,10 +46,7 @@ defmodule Auth0.Entity.Client do
   end
 
   defmodule Addons do
-    @moduledoc """
-    Documentation for entity of Client Addons.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 
@@ -131,16 +119,10 @@ defmodule Auth0.Entity.Client do
   end
 
   defmodule Mobile do
-    @moduledoc """
-    Documentation for entity of Client Mobile.
-
-    """
+    @moduledoc false
 
     defmodule Android do
-      @moduledoc """
-      Documentation for entity of Client Mobile Android.
-
-      """
+      @moduledoc false
 
       alias Auth0.Common.Util
 
@@ -159,10 +141,7 @@ defmodule Auth0.Entity.Client do
     end
 
     defmodule Ios do
-      @moduledoc """
-      Documentation for entity of Client Mobile Ios.
-
-      """
+      @moduledoc false
 
       alias Auth0.Common.Util
 
@@ -211,10 +190,7 @@ defmodule Auth0.Entity.Client do
   end
 
   defmodule NativeSocialLogin do
-    @moduledoc """
-    Documentation for entity of Client NativeSocialLogin.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 
@@ -233,10 +209,7 @@ defmodule Auth0.Entity.Client do
   end
 
   defmodule RefreshToken do
-    @moduledoc """
-    Documentation for entity of Client RefreshToken.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 

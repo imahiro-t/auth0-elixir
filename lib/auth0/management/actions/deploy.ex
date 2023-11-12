@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Actions.Deploy do
-  @moduledoc """
-  Documentation for Auth0 Management Deploy an action.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/post_deploy_action
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

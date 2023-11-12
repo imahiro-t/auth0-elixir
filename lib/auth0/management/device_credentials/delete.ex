@@ -1,10 +1,5 @@
 defmodule Auth0.Management.DeviceCredentials.Delete do
-  @moduledoc """
-  Documentation for Auth0 Management Delete a device credential.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Device_Credentials/delete_device_credentials_by_id
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

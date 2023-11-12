@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Anomaly.Blocks.Ips.Remove do
-  @moduledoc """
-  Documentation for Auth0 Management Remove the blocked IP address.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Anomaly/delete_ips_by_id
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http

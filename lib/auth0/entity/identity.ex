@@ -1,14 +1,8 @@
 defmodule Auth0.Entity.Identity do
-  @moduledoc """
-  Documentation for entity of Identity.
-
-  """
+  @moduledoc false
 
   defmodule ProfileData do
-    @moduledoc """
-    Documentation for entity of Identity ProfileData.
-
-    """
+    @moduledoc false
 
     alias Auth0.Common.Util
 

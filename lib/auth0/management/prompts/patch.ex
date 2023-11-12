@@ -1,10 +1,5 @@
 defmodule Auth0.Management.Prompts.Patch do
-  @moduledoc """
-  Documentation for Auth0 Management Update prompts settings.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Prompts/patch_prompts
-  """
+  @moduledoc false
 
   alias Auth0.Config
   alias Auth0.Common.Util
@@ -12,6 +7,7 @@ defmodule Auth0.Management.Prompts.Patch do
   alias Auth0.Entity.Prompt
 
   defmodule Params do
+    @moduledoc false
     defstruct universal_login_experience: nil,
               identifier_first: nil,
               webauthn_platform_first_factor: nil
