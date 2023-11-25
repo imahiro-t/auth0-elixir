@@ -6,14 +6,23 @@ defmodule Auth0.Api.Management do
 
   alias Auth0.Config
   alias Auth0.Common.Util
+  alias Auth0.Management.Actions
+  alias Auth0.Management.Anomaly
+  alias Auth0.Management.AttackProtection
+  alias Auth0.Management.Blacklist
   alias Auth0.Management.Branding
   alias Auth0.Management.ClientGrants
   alias Auth0.Management.Clients
   alias Auth0.Management.Connections
   alias Auth0.Management.CustomDomains
   alias Auth0.Management.DeviceCredentials
+  alias Auth0.Management.EmailTemplates
+  alias Auth0.Management.Emails
   alias Auth0.Management.Grants
+  alias Auth0.Management.Guardian
   alias Auth0.Management.Hooks
+  alias Auth0.Management.Jobs
+  alias Auth0.Management.Keys
   alias Auth0.Management.LogStreams
   alias Auth0.Management.Logs
   alias Auth0.Management.Organizations
@@ -22,21 +31,12 @@ defmodule Auth0.Api.Management do
   alias Auth0.Management.Roles
   alias Auth0.Management.Rules
   alias Auth0.Management.RulesConfigs
+  alias Auth0.Management.Stats
+  alias Auth0.Management.Tenants
+  alias Auth0.Management.Tickets
   alias Auth0.Management.UserBlocks
   alias Auth0.Management.Users
   alias Auth0.Management.UsersByEmail
-  alias Auth0.Management.Actions
-  alias Auth0.Management.Blacklist
-  alias Auth0.Management.EmailTemplates
-  alias Auth0.Management.Emails
-  alias Auth0.Management.Guardian
-  alias Auth0.Management.Jobs
-  alias Auth0.Management.Keys
-  alias Auth0.Management.Stats
-  alias Auth0.Management.Tenants
-  alias Auth0.Management.Anomaly
-  alias Auth0.Management.Tickets
-  alias Auth0.Management.AttackProtection
 
   @type config :: Config.t()
   @type theme_id :: String.t()
@@ -56,6 +56,368 @@ defmodule Auth0.Api.Management do
   @type ip :: String.t()
   @type response_body :: String.t()
   @type error :: {:error, integer, term} | {:error, term}
+
+  @doc """
+  Get actions.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Actions/get_actions
+
+  """
+  @spec get_actions(map, config) ::
+          {:ok, map} | error
+  def get_actions(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Actions.list(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Create an action.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Actions/post_action
+
+  """
+  @spec create_action(map, config) ::
+          {:ok, map} | error
+  def create_action(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Actions.create(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Get an action.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Actions/get_action
+
+  """
+  @spec get_action(id, config) ::
+          {:ok, map} | error
+  def get_action(id, %Config{} = config \\ %Config{}) do
+    Actions.get(id, config) |> to_response
+  end
+
+  @doc """
+  Delete an action.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Actions/delete_action
+
+  """
+  @spec delete_action(id, map, config) ::
+          {:ok, String.t()} | error
+  def delete_action(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Actions.delete(id, params, config)
+    |> to_response
+  end
+
+  @doc """
+  Update an action.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Actions/patch_action
+
+  """
+  @spec update_action(id, map, config) ::
+          {:ok, map} | error
+  def update_action(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Actions.update(id, params, config)
+    |> to_response
+  end
+
+  @doc """
+  Get an action's versions.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Actions/get_action_versions
+
+  """
+  @spec get_action_versions(action_id, map, config) ::
+          {:ok, map} | error
+  def get_action_versions(action_id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Actions.list_versions(action_id, params, config)
+    |> to_response
+  end
+
+  @doc """
+  Get a specific version of an action.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Actions/get_action_version
+
+  """
+  @spec get_action_version(action_id, id, config) ::
+          {:ok, map} | error
+  def get_action_version(action_id, id, %Config{} = config \\ %Config{}) do
+    Actions.get_version(action_id, id, config) |> to_response
+  end
+
+  @doc """
+  Roll back to a previous action version.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Actions/post_deploy_draft_version
+
+  """
+  @spec rollback_action_version(action_id, id, map, config) ::
+          {:ok, map} | error
+  def rollback_action_version(
+        action_id,
+        id,
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    Actions.rollback_version(action_id, id, params, config)
+    |> to_response
+  end
+
+  @doc """
+  Test an Action.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Actions/post_test_action
+
+  """
+  @spec test_action(id, map, config) ::
+          {:ok, map} | error
+  def test_action(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Actions.test(id, params, config)
+    |> to_response
+  end
+
+  @doc """
+  Deploy an action.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Actions/post_deploy_action
+
+  """
+  @spec deploy_action(id, config) ::
+          {:ok, map} | error
+  def deploy_action(id, %Config{} = config \\ %Config{}) do
+    Actions.deploy(id, config) |> to_response
+  end
+
+  @doc """
+  Get triggers.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Actions/get_triggers
+
+  """
+  @spec get_action_trigger_bindings(trigger_id, map, config) ::
+          {:ok, map} | error
+  def get_action_trigger_bindings(
+        trigger_id,
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    Actions.get_bindings(trigger_id, params, config)
+    |> to_response
+  end
+
+  @doc """
+  Update trigger bindings.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Actions/patch_bindings
+
+  """
+  @spec update_action_trigger_bindings(
+          trigger_id,
+          map,
+          config
+        ) ::
+          {:ok, map} | error
+  def update_action_trigger_bindings(
+        trigger_id,
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    Actions.update_bindings(trigger_id, params, config)
+    |> to_response
+  end
+
+  @doc """
+  Get actions service status.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Actions/get_service_status
+
+  """
+  @spec get_action_status(config) ::
+          {:ok, map} | error
+  def get_action_status(%Config{} = config \\ %Config{}) do
+    Actions.get_status(config) |> to_response
+  end
+
+  @doc """
+  Get an execution.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Actions/get_execution
+
+  """
+  @spec get_action_execution(id, config) ::
+          {:ok, map} | error
+  def get_action_execution(id, %Config{} = config \\ %Config{}) do
+    Actions.get_execution(id, config) |> to_response
+  end
+
+  @doc """
+  Check if an IP address is blocked.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Anomaly/get_ips_by_id
+
+  """
+  @spec check_ip_blocked(ip, config) :: {:ok, boolean} | error
+  def check_ip_blocked(ip, %Config{} = config \\ %Config{}) do
+    Anomaly.check_ip_blocked(ip, config) |> to_response
+  end
+
+  @doc """
+  Remove the blocked IP address.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Anomaly/delete_ips_by_id
+
+  """
+  @spec remove_blocked_ip(ip, config) :: {:ok, String.t()} | error
+  def remove_blocked_ip(ip, %Config{} = config \\ %Config{}) do
+    Anomaly.remove_blocked_ip(ip, config) |> to_response
+  end
+
+  @doc """
+  Get breached password detection settings.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/get_breached_password_detection
+
+  """
+  @spec get_attack_protection_breached_password_detection(config) ::
+          {:ok, map} | error
+  def get_attack_protection_breached_password_detection(%Config{} = config \\ %Config{}) do
+    AttackProtection.get_breached_password_detection(config)
+    |> to_response
+  end
+
+  @doc """
+  Update breached password detection settings.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_breached_password_detection
+
+  """
+  @spec update_attack_protection_breached_password_detection(
+          map,
+          config
+        ) ::
+          {:ok, map} | error
+  def update_attack_protection_breached_password_detection(
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    AttackProtection.update_breached_password_detection(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Get the brute force configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/get_brute_force_protection
+
+  """
+  @spec get_attack_protection_brute_force_protection(config) ::
+          {:ok, map} | error
+  def get_attack_protection_brute_force_protection(%Config{} = config \\ %Config{}) do
+    AttackProtection.get_brute_force_protection(config)
+    |> to_response
+  end
+
+  @doc """
+  Update the brute force configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_brute_force_protection
+
+  """
+  @spec update_attack_protection_brute_force_protection(
+          map,
+          config
+        ) ::
+          {:ok, map, response_body} | error
+  def update_attack_protection_brute_force_protection(
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    AttackProtection.update_brute_force_protection(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Get the suspicious IP throttling configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/get_suspicious_ip_throttling
+
+  """
+  @spec get_attack_protection_suspicious_ip_throttling(config) ::
+          {:ok, map} | error
+  def get_attack_protection_suspicious_ip_throttling(%Config{} = config \\ %Config{}) do
+    AttackProtection.get_suspicious_ip_throttling(config)
+    |> to_response
+  end
+
+  @doc """
+  Update the suspicious IP throttling configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_suspicious_ip_throttling
+
+  """
+  @spec update_attack_protection_suspicious_ip_throttling(
+          map,
+          config
+        ) ::
+          {:ok, map} | error
+  def update_attack_protection_suspicious_ip_throttling(
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    AttackProtection.update_suspicious_ip_throttling(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Get blacklisted tokens.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Blacklists/get_tokens
+
+  """
+  @spec get_blacklisted_tokens(map, config) ::
+          {:ok, map} | error
+  def get_blacklisted_tokens(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Blacklist.list_tokens(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Blacklist a token.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Blacklists/post_tokens
+
+  """
+  @spec blacklist_token(map, config) ::
+          {:ok, String.t()} | error
+  def blacklist_token(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Blacklist.add_token(params, config)
+    |> to_response
+  end
 
   @doc """
   Get branding settings.
@@ -543,6 +905,123 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
+  Get an email template.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Email_Templates/get_email_templates_by_templateName
+
+  """
+  @spec get_email_template(template_name, config) ::
+          {:ok, map} | error
+  def get_email_template(template_name, %Config{} = config \\ %Config{}) do
+    EmailTemplates.get(template_name, config) |> to_response
+  end
+
+  @doc """
+  Patch an email template.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Email_Templates/patch_email_templates_by_templateName
+
+  """
+  @spec patch_email_template(template_name, map, config) ::
+          {:ok, map} | error
+  def patch_email_template(
+        template_name,
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    EmailTemplates.patch(template_name, params, config)
+    |> to_response
+  end
+
+  @doc """
+  Update an email template.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Email_Templates/put_email_templates_by_templateName
+
+  """
+  @spec update_email_template(template_name, map, config) ::
+          {:ok, map} | error
+  def update_email_template(
+        template_name,
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    EmailTemplates.update(template_name, params, config)
+    |> to_response
+  end
+
+  @doc """
+  Create an email template.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Email_Templates/post_email_templates
+
+  """
+  @spec create_email_template(map, config) ::
+          {:ok, map} | error
+  def create_email_template(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    EmailTemplates.create(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Get the email provider.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Emails/get_provider
+
+  """
+  @spec get_email_provider(map, config) ::
+          {:ok, map} | error
+  def get_email_provider(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Emails.get_provider(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Delete the email provider.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Emails/delete_provider
+
+  """
+  @spec delete_email_provider(config) :: {:ok, String.t()} | error
+  def delete_email_provider(%Config{} = config \\ %Config{}) do
+    Emails.delete_provider(config) |> to_response
+  end
+
+  @doc """
+  Update the email provider.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Emails/patch_provider
+
+  """
+  @spec update_email_provider(map, config) ::
+          {:ok, map} | error
+  def update_email_provider(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Emails.update_provider(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Configure the email provider.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Emails/post_provider
+
+  """
+  @spec configure_email_provider(map, config) ::
+          {:ok, map} | error
+  def configure_email_provider(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Emails.configure_provider(params, config)
+    |> to_response
+  end
+
+  @doc """
   Get grants.
 
   ## see
@@ -566,6 +1045,369 @@ defmodule Auth0.Api.Management do
   @spec delete_grant(id, config) :: {:ok, String.t()} | error
   def delete_grant(id, %Config{} = config \\ %Config{}) do
     Grants.delete(id, config) |> to_response
+  end
+
+  @doc """
+  Retrieve Factors and their Status.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/get_factors
+
+  """
+  @spec get_guardian_factors(config) ::
+          {:ok, map} | error
+  def get_guardian_factors(%Config{} = config \\ %Config{}) do
+    Guardian.list_factors(config) |> to_response
+  end
+
+  @doc """
+  Update a Multi-factor Authentication Factor.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/put_factors_by_name
+
+  """
+  @spec update_guardian_factor(name, map, config) ::
+          {:ok, map} | error
+  def update_guardian_factor(name, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Guardian.update_factor(name, params, config)
+    |> to_response
+  end
+
+  @doc """
+  Get the Multi-factor Authentication policies.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/get_policies
+
+  """
+  @spec list_guardian_policies(config) :: {:ok, list(map)} | error
+  def list_guardian_policies(%Config{} = config \\ %Config{}) do
+    Guardian.list_policies(config) |> to_response
+  end
+
+  @doc """
+  Set the Multi-factor Authentication policies.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/put_policies
+
+  """
+  @spec set_guardian_policies(map, config) :: {:ok, list(map)} | error
+  def set_guardian_policies(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Guardian.set_policies(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Retrieve a multi-factor authentication enrollment.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/get_enrollments_by_id
+
+  """
+  @spec get_guardian_enrollment(id, config) ::
+          {:ok, map} | error
+  def get_guardian_enrollment(id, %Config{} = config \\ %Config{}) do
+    Guardian.get_enrollment(id, config) |> to_response
+  end
+
+  @doc """
+  Delete a multi-factor authentication enrollment.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/delete_enrollments_by_id
+
+  """
+  @spec delete_guardian_enrollment(id, config) :: {:ok, String.t()} | error
+  def delete_guardian_enrollment(id, %Config{} = config \\ %Config{}) do
+    Guardian.delete_enrollment(id, config) |> to_response
+  end
+
+  @doc """
+  Create a multi-factor authentication enrollment ticket.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/post_ticket
+
+  """
+  @spec create_guardian_enrollment_ticket(map, config) ::
+          {:ok, map} | error
+  def create_guardian_enrollment_ticket(
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    Guardian.create_enrollment_ticket(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Retrieve the Enabled Phone Factors.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/get_message_types
+
+  """
+  @spec get_guardian_phone_factor(config) ::
+          {:ok, map} | error
+  def get_guardian_phone_factor(%Config{} = config \\ %Config{}) do
+    Guardian.get_phone_factor(config) |> to_response
+  end
+
+  @doc """
+  Update the Enabled Phone Factors.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/put_message_types
+
+  """
+  @spec update_guardian_phone_factor(map, config) ::
+          {:ok, map} | error
+  def update_guardian_phone_factor(
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    Guardian.update_phone_factor(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Retrieve phone configuration (one of auth0|twilio|phone-message-hook).
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/get_selected_provider
+
+  """
+  @spec get_guardian_phone_configuration(config) ::
+          {:ok, map} | error
+  def get_guardian_phone_configuration(%Config{} = config \\ %Config{}) do
+    Guardian.get_phone_configuration(config) |> to_response
+  end
+
+  @doc """
+  Update phone configuration (one of auth0|twilio|phone-message-hook).
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/put_selected_provider
+
+  """
+  @spec update_guardian_phone_configuration(map, config) ::
+          {:ok, map} | error
+  def update_guardian_phone_configuration(
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    Guardian.update_phone_configuration(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Retrieve Enrollment and Verification Phone Templates.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/get_templates
+
+  """
+  @spec get_guardian_phone_template(config) ::
+          {:ok, map} | error
+  def get_guardian_phone_template(%Config{} = config \\ %Config{}) do
+    Guardian.get_phone_template(config) |> to_response
+  end
+
+  @doc """
+  Update Enrollment and Verification Phone Templates.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/put_templates
+
+  """
+  @spec update_guardian_phone_template(map, config) ::
+          {:ok, map} | error
+  def update_guardian_phone_template(
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    Guardian.update_phone_template(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Retrieve SMS configuration (one of auth0|twilio|phone-message-hook).
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/get_selected_provider_0
+
+  """
+  @spec get_guardian_sms_configuration(config) ::
+          {:ok, map} | error
+  def get_guardian_sms_configuration(%Config{} = config \\ %Config{}) do
+    Guardian.get_sms_configuration(config) |> to_response
+  end
+
+  @doc """
+  Update SMS configuration (one of auth0|twilio|phone-message-hook).
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/put_selected_provider_0
+
+  """
+  @spec update_guardian_sms_configuration(map, config) ::
+          {:ok, map} | error
+  def update_guardian_sms_configuration(
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    Guardian.update_sms_configuration(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Retrieve SMS Enrollment and Verification Templates.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/get_templates_0
+
+  """
+  @spec get_guardian_sms_template(config) ::
+          {:ok, map} | error
+  def get_guardian_sms_template(%Config{} = config \\ %Config{}) do
+    Guardian.get_sms_template(config) |> to_response
+  end
+
+  @doc """
+  Update SMS Enrollment and Verification Templates.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/put_templates_0
+
+  """
+  @spec update_guardian_sms_template(map, config) ::
+          {:ok, map} | error
+  def update_guardian_sms_template(
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    Guardian.update_sms_template(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Retrieve Twilio phone configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/get_twilio
+
+  """
+  @spec get_guardian_twilio_phone_configuration(config) ::
+          {:ok, map} | error
+  def get_guardian_twilio_phone_configuration(%Config{} = config \\ %Config{}) do
+    Guardian.get_twilio_phone_configuration(config) |> to_response
+  end
+
+  @doc """
+  Update Twilio phone configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/put_twilio
+
+  """
+  @spec update_guardian_twilio_phone_configuration(
+          map,
+          config
+        ) ::
+          {:ok, map} | error
+  def update_guardian_twilio_phone_configuration(
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    Guardian.update_twilio_phone_configuration(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Retrieve Twilio SMS configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/get_twilio_0
+
+  """
+  @spec get_guardian_twilio_sms_configuration(config) ::
+          {:ok, map} | error
+  def get_guardian_twilio_sms_configuration(%Config{} = config \\ %Config{}) do
+    Guardian.get_twilio_sms_configuration(config) |> to_response
+  end
+
+  @doc """
+  Update Twilio SMS configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/put_twilio_0
+
+  """
+  @spec update_guardian_twilio_sms_configuration(
+          map,
+          config
+        ) ::
+          {:ok, map} | error
+  def update_guardian_twilio_sms_configuration(
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    Guardian.update_twilio_sms_configuration(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Retrieve AWS SNS push notification configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/get_sns
+
+  """
+  @spec get_guardian_aws_sns_configuration(config) ::
+          {:ok, map} | error
+  def get_guardian_aws_sns_configuration(%Config{} = config \\ %Config{}) do
+    Guardian.get_aws_sns_configuration(config) |> to_response
+  end
+
+  @doc """
+  Update SNS configuration for push notifications.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/patch_sns
+
+  """
+  @spec patch_guardian_aws_sns_configuration(
+          map,
+          config
+        ) ::
+          {:ok, map} | error
+  def patch_guardian_aws_sns_configuration(
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    Guardian.patch_aws_sns_configuration(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Update AWS SNS push notification configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Guardian/put_sns
+
+  """
+  @spec update_guardian_aws_sns_configuration(
+          map,
+          config
+        ) ::
+          {:ok, map} | error
+  def update_guardian_aws_sns_configuration(
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    Guardian.update_aws_sns_configuration(params, config)
+    |> to_response
   end
 
   @doc """
@@ -689,6 +1531,125 @@ defmodule Auth0.Api.Management do
   def add_hook_secrets(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Hooks.add_secrets(id, params, config)
     |> to_response
+  end
+
+  @doc """
+  Get a job.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Jobs/get_jobs_by_id
+
+  """
+  @spec get_job(id, config) :: {:ok, map} | error
+  def get_job(id, %Config{} = config \\ %Config{}) do
+    Jobs.get(id, config) |> to_response
+  end
+
+  @doc """
+  Get job error details.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Jobs/get_errors
+
+  """
+  @spec get_job_error(id, config) ::
+          {:ok, map} | error
+  def get_job_error(id, %Config{} = config \\ %Config{}) do
+    Jobs.get_error(id, config) |> to_response
+  end
+
+  @doc """
+  Create export users job.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Jobs/post_users_exports
+
+  """
+  @spec create_job_users_exports(map, config) ::
+          {:ok, map} | error
+  def create_job_users_exports(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Jobs.create_users_exports(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Create import users job.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Jobs/post_users_imports
+
+  """
+  @spec create_job_users_imports(map, config) ::
+          {:ok, map} | error
+  def create_job_users_imports(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Jobs.create_users_imports(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Send an email address verification email.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Jobs/post_verification_email
+
+  """
+  @spec send_job_verification_email(map, config) ::
+          {:ok, map} | error
+  def send_job_verification_email(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Jobs.send_verification_email(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Get all Application Signing Keys.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Keys/get_signing_keys
+
+  """
+  @spec get_signing_keys(config) ::
+          {:ok, map} | error
+  def get_signing_keys(%Config{} = config \\ %Config{}) do
+    Keys.list_signing(config) |> to_response
+  end
+
+  @doc """
+  Get an Application Signing Key by its key id.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Keys/get_signing_key
+
+  """
+  @spec get_signing_key(kid, config) ::
+          {:ok, map} | error
+  def get_signing_key(kid, %Config{} = config \\ %Config{}) do
+    Keys.get_signing(kid, config) |> to_response
+  end
+
+  @doc """
+  Rotate the Application Signing Key.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Keys/post_signing_keys
+
+  """
+  @spec rotate_signing_key(config) ::
+          {:ok, map} | error
+  def rotate_signing_key(%Config{} = config \\ %Config{}) do
+    Keys.rotate_signing(config) |> to_response
+  end
+
+  @doc """
+  Revoke an Application Signing Key by its key id.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Keys/put_signing_keys
+
+  """
+  @spec revoke_signing_key(kid, config) ::
+          {:ok, map} | error
+  def revoke_signing_key(kid, %Config{} = config \\ %Config{}) do
+    Keys.revoke_signing(kid, config) |> to_response
   end
 
   @doc """
@@ -1515,6 +2476,92 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
+  Get active users count.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Stats/get_active_users
+
+  """
+  @spec get_active_users_count(config) :: {:ok, integer} | error
+  def get_active_users_count(%Config{} = config \\ %Config{}) do
+    Stats.count_active_users(config) |> to_response
+  end
+
+  @doc """
+  Get daily stats.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Stats/get_daily
+
+  """
+  @spec get_daily_stats(config) :: {:ok, map} | error
+  def get_daily_stats(%Config{} = config \\ %Config{}) do
+    Stats.list_daily(config) |> to_response
+  end
+
+  @doc """
+  Get tenant settings.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Tenants/tenant_settings_route
+
+  """
+  @spec get_tenant_setting(map, config) ::
+          {:ok, map} | error
+  def get_tenant_setting(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Tenants.get_setting(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Update tenant settings.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Tenants/patch_settings
+
+  """
+  @spec update_tenant_setting(map, config) ::
+          {:ok, map} | error
+  def update_tenant_setting(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Tenants.update_setting(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Create an email verification ticket.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Tickets/post_email_verification
+
+  """
+  @spec create_email_verification_ticket(map, config) ::
+          {:ok, map} | error
+  def create_email_verification_ticket(
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    Tickets.create_email_verification(params, config)
+    |> to_response
+  end
+
+  @doc """
+  Create a password change ticket.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Tickets/post_password_change
+
+  """
+  @spec create_password_change_ticket(map, config) ::
+          {:ok, map} | error
+  def create_password_change_ticket(
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    Tickets.create_password_change(params, config)
+    |> to_response
+  end
+
+  @doc """
   Get blocks by identifier.
 
   ## see
@@ -1859,1053 +2906,6 @@ defmodule Auth0.Api.Management do
           {:ok, map} | error
   def get_users_by_email(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     UsersByEmail.list(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Get actions.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/get_actions
-
-  """
-  @spec get_actions(map, config) ::
-          {:ok, map} | error
-  def get_actions(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Actions.list(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Create an action.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/post_action
-
-  """
-  @spec create_action(map, config) ::
-          {:ok, map} | error
-  def create_action(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Actions.create(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Get an action.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/get_action
-
-  """
-  @spec get_action(id, config) ::
-          {:ok, map} | error
-  def get_action(id, %Config{} = config \\ %Config{}) do
-    Actions.get(id, config) |> to_response
-  end
-
-  @doc """
-  Delete an action.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/delete_action
-
-  """
-  @spec delete_action(id, map, config) ::
-          {:ok, String.t()} | error
-  def delete_action(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Actions.delete(id, params, config)
-    |> to_response
-  end
-
-  @doc """
-  Update an action.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/patch_action
-
-  """
-  @spec update_action(id, map, config) ::
-          {:ok, map} | error
-  def update_action(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Actions.update(id, params, config)
-    |> to_response
-  end
-
-  @doc """
-  Get an action's versions.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/get_action_versions
-
-  """
-  @spec get_action_versions(action_id, map, config) ::
-          {:ok, map} | error
-  def get_action_versions(action_id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Actions.list_versions(action_id, params, config)
-    |> to_response
-  end
-
-  @doc """
-  Get a specific version of an action.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/get_action_version
-
-  """
-  @spec get_action_version(action_id, id, config) ::
-          {:ok, map} | error
-  def get_action_version(action_id, id, %Config{} = config \\ %Config{}) do
-    Actions.get_version(action_id, id, config) |> to_response
-  end
-
-  @doc """
-  Roll back to a previous action version.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/post_deploy_draft_version
-
-  """
-  @spec rollback_action_version(action_id, id, map, config) ::
-          {:ok, map} | error
-  def rollback_action_version(
-        action_id,
-        id,
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    Actions.rollback_version(action_id, id, params, config)
-    |> to_response
-  end
-
-  @doc """
-  Test an Action.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/post_test_action
-
-  """
-  @spec test_action(id, map, config) ::
-          {:ok, map} | error
-  def test_action(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Actions.test(id, params, config)
-    |> to_response
-  end
-
-  @doc """
-  Deploy an action.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/post_deploy_action
-
-  """
-  @spec deploy_action(id, config) ::
-          {:ok, map} | error
-  def deploy_action(id, %Config{} = config \\ %Config{}) do
-    Actions.deploy(id, config) |> to_response
-  end
-
-  @doc """
-  Get triggers.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/get_triggers
-
-  """
-  @spec get_action_trigger_bindings(trigger_id, map, config) ::
-          {:ok, map} | error
-  def get_action_trigger_bindings(
-        trigger_id,
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    Actions.get_bindings(trigger_id, params, config)
-    |> to_response
-  end
-
-  @doc """
-  Update trigger bindings.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/patch_bindings
-
-  """
-  @spec update_action_trigger_bindings(
-          trigger_id,
-          map,
-          config
-        ) ::
-          {:ok, map} | error
-  def update_action_trigger_bindings(
-        trigger_id,
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    Actions.update_bindings(trigger_id, params, config)
-    |> to_response
-  end
-
-  @doc """
-  Get actions service status.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/get_service_status
-
-  """
-  @spec get_action_status(config) ::
-          {:ok, map} | error
-  def get_action_status(%Config{} = config \\ %Config{}) do
-    Actions.get_status(config) |> to_response
-  end
-
-  @doc """
-  Get an execution.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/get_execution
-
-  """
-  @spec get_action_execution(id, config) ::
-          {:ok, map} | error
-  def get_action_execution(id, %Config{} = config \\ %Config{}) do
-    Actions.get_execution(id, config) |> to_response
-  end
-
-  @doc """
-  Get blacklisted tokens.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Blacklists/get_tokens
-
-  """
-  @spec get_blacklisted_tokens(map, config) ::
-          {:ok, map} | error
-  def get_blacklisted_tokens(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Blacklist.list_tokens(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Blacklist a token.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Blacklists/post_tokens
-
-  """
-  @spec blacklist_token(map, config) ::
-          {:ok, String.t()} | error
-  def blacklist_token(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Blacklist.add_token(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Get an email template.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Email_Templates/get_email_templates_by_templateName
-
-  """
-  @spec get_email_template(template_name, config) ::
-          {:ok, map} | error
-  def get_email_template(template_name, %Config{} = config \\ %Config{}) do
-    EmailTemplates.get(template_name, config) |> to_response
-  end
-
-  @doc """
-  Patch an email template.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Email_Templates/patch_email_templates_by_templateName
-
-  """
-  @spec patch_email_template(template_name, map, config) ::
-          {:ok, map} | error
-  def patch_email_template(
-        template_name,
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    EmailTemplates.patch(template_name, params, config)
-    |> to_response
-  end
-
-  @doc """
-  Update an email template.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Email_Templates/put_email_templates_by_templateName
-
-  """
-  @spec update_email_template(template_name, map, config) ::
-          {:ok, map} | error
-  def update_email_template(
-        template_name,
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    EmailTemplates.update(template_name, params, config)
-    |> to_response
-  end
-
-  @doc """
-  Create an email template.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Email_Templates/post_email_templates
-
-  """
-  @spec create_email_template(map, config) ::
-          {:ok, map} | error
-  def create_email_template(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    EmailTemplates.create(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Get the email provider.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Emails/get_provider
-
-  """
-  @spec get_email_provider(map, config) ::
-          {:ok, map} | error
-  def get_email_provider(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Emails.get_provider(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Delete the email provider.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Emails/delete_provider
-
-  """
-  @spec delete_email_provider(config) :: {:ok, String.t()} | error
-  def delete_email_provider(%Config{} = config \\ %Config{}) do
-    Emails.delete_provider(config) |> to_response
-  end
-
-  @doc """
-  Update the email provider.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Emails/patch_provider
-
-  """
-  @spec update_email_provider(map, config) ::
-          {:ok, map} | error
-  def update_email_provider(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Emails.update_provider(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Configure the email provider.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Emails/post_provider
-
-  """
-  @spec configure_email_provider(map, config) ::
-          {:ok, map} | error
-  def configure_email_provider(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Emails.configure_provider(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Retrieve Factors and their Status.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_factors
-
-  """
-  @spec get_guardian_factors(config) ::
-          {:ok, map} | error
-  def get_guardian_factors(%Config{} = config \\ %Config{}) do
-    Guardian.list_factors(config) |> to_response
-  end
-
-  @doc """
-  Update a Multi-factor Authentication Factor.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_factors_by_name
-
-  """
-  @spec update_guardian_factor(name, map, config) ::
-          {:ok, map} | error
-  def update_guardian_factor(name, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Guardian.update_factor(name, params, config)
-    |> to_response
-  end
-
-  @doc """
-  Get the Multi-factor Authentication policies.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_policies
-
-  """
-  @spec list_guardian_policies(config) :: {:ok, list(map)} | error
-  def list_guardian_policies(%Config{} = config \\ %Config{}) do
-    Guardian.list_policies(config) |> to_response
-  end
-
-  @doc """
-  Set the Multi-factor Authentication policies.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_policies
-
-  """
-  @spec set_guardian_policies(map, config) :: {:ok, list(map)} | error
-  def set_guardian_policies(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Guardian.set_policies(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Retrieve a multi-factor authentication enrollment.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_enrollments_by_id
-
-  """
-  @spec get_guardian_enrollment(id, config) ::
-          {:ok, map} | error
-  def get_guardian_enrollment(id, %Config{} = config \\ %Config{}) do
-    Guardian.get_enrollment(id, config) |> to_response
-  end
-
-  @doc """
-  Delete a multi-factor authentication enrollment.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/delete_enrollments_by_id
-
-  """
-  @spec delete_guardian_enrollment(id, config) :: {:ok, String.t()} | error
-  def delete_guardian_enrollment(id, %Config{} = config \\ %Config{}) do
-    Guardian.delete_enrollment(id, config) |> to_response
-  end
-
-  @doc """
-  Create a multi-factor authentication enrollment ticket.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/post_ticket
-
-  """
-  @spec create_guardian_enrollment_ticket(map, config) ::
-          {:ok, map} | error
-  def create_guardian_enrollment_ticket(
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    Guardian.create_enrollment_ticket(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Retrieve the Enabled Phone Factors.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_message_types
-
-  """
-  @spec get_guardian_phone_factor(config) ::
-          {:ok, map} | error
-  def get_guardian_phone_factor(%Config{} = config \\ %Config{}) do
-    Guardian.get_phone_factor(config) |> to_response
-  end
-
-  @doc """
-  Update the Enabled Phone Factors.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_message_types
-
-  """
-  @spec update_guardian_phone_factor(map, config) ::
-          {:ok, map} | error
-  def update_guardian_phone_factor(
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    Guardian.update_phone_factor(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Retrieve phone configuration (one of auth0|twilio|phone-message-hook).
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_selected_provider
-
-  """
-  @spec get_guardian_phone_configuration(config) ::
-          {:ok, map} | error
-  def get_guardian_phone_configuration(%Config{} = config \\ %Config{}) do
-    Guardian.get_phone_configuration(config) |> to_response
-  end
-
-  @doc """
-  Update phone configuration (one of auth0|twilio|phone-message-hook).
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_selected_provider
-
-  """
-  @spec update_guardian_phone_configuration(map, config) ::
-          {:ok, map} | error
-  def update_guardian_phone_configuration(
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    Guardian.update_phone_configuration(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Retrieve Enrollment and Verification Phone Templates.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_templates
-
-  """
-  @spec get_guardian_phone_template(config) ::
-          {:ok, map} | error
-  def get_guardian_phone_template(%Config{} = config \\ %Config{}) do
-    Guardian.get_phone_template(config) |> to_response
-  end
-
-  @doc """
-  Update Enrollment and Verification Phone Templates.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_templates
-
-  """
-  @spec update_guardian_phone_template(map, config) ::
-          {:ok, map} | error
-  def update_guardian_phone_template(
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    Guardian.update_phone_template(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Retrieve SMS configuration (one of auth0|twilio|phone-message-hook).
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_selected_provider_0
-
-  """
-  @spec get_guardian_sms_configuration(config) ::
-          {:ok, map} | error
-  def get_guardian_sms_configuration(%Config{} = config \\ %Config{}) do
-    Guardian.get_sms_configuration(config) |> to_response
-  end
-
-  @doc """
-  Update SMS configuration (one of auth0|twilio|phone-message-hook).
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_selected_provider_0
-
-  """
-  @spec update_guardian_sms_configuration(map, config) ::
-          {:ok, map} | error
-  def update_guardian_sms_configuration(
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    Guardian.update_sms_configuration(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Retrieve SMS Enrollment and Verification Templates.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_templates_0
-
-  """
-  @spec get_guardian_sms_template(config) ::
-          {:ok, map} | error
-  def get_guardian_sms_template(%Config{} = config \\ %Config{}) do
-    Guardian.get_sms_template(config) |> to_response
-  end
-
-  @doc """
-  Update SMS Enrollment and Verification Templates.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_templates_0
-
-  """
-  @spec update_guardian_sms_template(map, config) ::
-          {:ok, map} | error
-  def update_guardian_sms_template(
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    Guardian.update_sms_template(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Retrieve Twilio phone configuration.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_twilio
-
-  """
-  @spec get_guardian_twilio_phone_configuration(config) ::
-          {:ok, map} | error
-  def get_guardian_twilio_phone_configuration(%Config{} = config \\ %Config{}) do
-    Guardian.get_twilio_phone_configuration(config) |> to_response
-  end
-
-  @doc """
-  Update Twilio phone configuration.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_twilio
-
-  """
-  @spec update_guardian_twilio_phone_configuration(
-          map,
-          config
-        ) ::
-          {:ok, map} | error
-  def update_guardian_twilio_phone_configuration(
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    Guardian.update_twilio_phone_configuration(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Retrieve Twilio SMS configuration.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_twilio_0
-
-  """
-  @spec get_guardian_twilio_sms_configuration(config) ::
-          {:ok, map} | error
-  def get_guardian_twilio_sms_configuration(%Config{} = config \\ %Config{}) do
-    Guardian.get_twilio_sms_configuration(config) |> to_response
-  end
-
-  @doc """
-  Update Twilio SMS configuration.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_twilio_0
-
-  """
-  @spec update_guardian_twilio_sms_configuration(
-          map,
-          config
-        ) ::
-          {:ok, map} | error
-  def update_guardian_twilio_sms_configuration(
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    Guardian.update_twilio_sms_configuration(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Retrieve AWS SNS push notification configuration.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_sns
-
-  """
-  @spec get_guardian_aws_sns_configuration(config) ::
-          {:ok, map} | error
-  def get_guardian_aws_sns_configuration(%Config{} = config \\ %Config{}) do
-    Guardian.get_aws_sns_configuration(config) |> to_response
-  end
-
-  @doc """
-  Update SNS configuration for push notifications.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/patch_sns
-
-  """
-  @spec patch_guardian_aws_sns_configuration(
-          map,
-          config
-        ) ::
-          {:ok, map} | error
-  def patch_guardian_aws_sns_configuration(
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    Guardian.patch_aws_sns_configuration(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Update AWS SNS push notification configuration.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_sns
-
-  """
-  @spec update_guardian_aws_sns_configuration(
-          map,
-          config
-        ) ::
-          {:ok, map} | error
-  def update_guardian_aws_sns_configuration(
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    Guardian.update_aws_sns_configuration(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Get a job.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Jobs/get_jobs_by_id
-
-  """
-  @spec get_job(id, config) :: {:ok, map} | error
-  def get_job(id, %Config{} = config \\ %Config{}) do
-    Jobs.get(id, config) |> to_response
-  end
-
-  @doc """
-  Get job error details.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Jobs/get_errors
-
-  """
-  @spec get_job_error(id, config) ::
-          {:ok, map} | error
-  def get_job_error(id, %Config{} = config \\ %Config{}) do
-    Jobs.get_error(id, config) |> to_response
-  end
-
-  @doc """
-  Create export users job.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Jobs/post_users_exports
-
-  """
-  @spec create_job_users_exports(map, config) ::
-          {:ok, map} | error
-  def create_job_users_exports(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Jobs.create_users_exports(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Create import users job.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Jobs/post_users_imports
-
-  """
-  @spec create_job_users_imports(map, config) ::
-          {:ok, map} | error
-  def create_job_users_imports(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Jobs.create_users_imports(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Send an email address verification email.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Jobs/post_verification_email
-
-  """
-  @spec send_job_verification_email(map, config) ::
-          {:ok, map} | error
-  def send_job_verification_email(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Jobs.send_verification_email(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Get all Application Signing Keys.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Keys/get_signing_keys
-
-  """
-  @spec get_signing_keys(config) ::
-          {:ok, map} | error
-  def get_signing_keys(%Config{} = config \\ %Config{}) do
-    Keys.list_signing(config) |> to_response
-  end
-
-  @doc """
-  Get an Application Signing Key by its key id.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Keys/get_signing_key
-
-  """
-  @spec get_signing_key(kid, config) ::
-          {:ok, map} | error
-  def get_signing_key(kid, %Config{} = config \\ %Config{}) do
-    Keys.get_signing(kid, config) |> to_response
-  end
-
-  @doc """
-  Rotate the Application Signing Key.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Keys/post_signing_keys
-
-  """
-  @spec rotate_signing_key(config) ::
-          {:ok, map} | error
-  def rotate_signing_key(%Config{} = config \\ %Config{}) do
-    Keys.rotate_signing(config) |> to_response
-  end
-
-  @doc """
-  Revoke an Application Signing Key by its key id.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Keys/put_signing_keys
-
-  """
-  @spec revoke_signing_key(kid, config) ::
-          {:ok, map} | error
-  def revoke_signing_key(kid, %Config{} = config \\ %Config{}) do
-    Keys.revoke_signing(kid, config) |> to_response
-  end
-
-  @doc """
-  Get active users count.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Stats/get_active_users
-
-  """
-  @spec get_active_users_count(config) :: {:ok, integer} | error
-  def get_active_users_count(%Config{} = config \\ %Config{}) do
-    Stats.count_active_users(config) |> to_response
-  end
-
-  @doc """
-  Get daily stats.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Stats/get_daily
-
-  """
-  @spec get_daily_stats(config) :: {:ok, map} | error
-  def get_daily_stats(%Config{} = config \\ %Config{}) do
-    Stats.list_daily(config) |> to_response
-  end
-
-  @doc """
-  Get tenant settings.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Tenants/tenant_settings_route
-
-  """
-  @spec get_tenant_setting(map, config) ::
-          {:ok, map} | error
-  def get_tenant_setting(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Tenants.get_setting(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Update tenant settings.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Tenants/patch_settings
-
-  """
-  @spec update_tenant_setting(map, config) ::
-          {:ok, map} | error
-  def update_tenant_setting(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Tenants.update_setting(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Check if an IP address is blocked.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Anomaly/get_ips_by_id
-
-  """
-  @spec check_ip_blocked(ip, config) :: {:ok, boolean} | error
-  def check_ip_blocked(ip, %Config{} = config \\ %Config{}) do
-    Anomaly.check_ip_blocked(ip, config) |> to_response
-  end
-
-  @doc """
-  Remove the blocked IP address.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Anomaly/delete_ips_by_id
-
-  """
-  @spec remove_blocked_ip(ip, config) :: {:ok, String.t()} | error
-  def remove_blocked_ip(ip, %Config{} = config \\ %Config{}) do
-    Anomaly.remove_blocked_ip(ip, config) |> to_response
-  end
-
-  @doc """
-  Create an email verification ticket.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Tickets/post_email_verification
-
-  """
-  @spec create_email_verification_ticket(map, config) ::
-          {:ok, map} | error
-  def create_email_verification_ticket(
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    Tickets.create_email_verification(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Create a password change ticket.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Tickets/post_password_change
-
-  """
-  @spec create_password_change_ticket(map, config) ::
-          {:ok, map} | error
-  def create_password_change_ticket(
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    Tickets.create_password_change(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Get breached password detection settings.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/get_breached_password_detection
-
-  """
-  @spec get_attack_protection_breached_password_detection(config) ::
-          {:ok, map} | error
-  def get_attack_protection_breached_password_detection(%Config{} = config \\ %Config{}) do
-    AttackProtection.get_breached_password_detection(config)
-    |> to_response
-  end
-
-  @doc """
-  Update breached password detection settings.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_breached_password_detection
-
-  """
-  @spec update_attack_protection_breached_password_detection(
-          map,
-          config
-        ) ::
-          {:ok, map} | error
-  def update_attack_protection_breached_password_detection(
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    AttackProtection.update_breached_password_detection(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Get the brute force configuration.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/get_brute_force_protection
-
-  """
-  @spec get_attack_protection_brute_force_protection(config) ::
-          {:ok, map} | error
-  def get_attack_protection_brute_force_protection(%Config{} = config \\ %Config{}) do
-    AttackProtection.get_brute_force_protection(config)
-    |> to_response
-  end
-
-  @doc """
-  Update the brute force configuration.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_brute_force_protection
-
-  """
-  @spec update_attack_protection_brute_force_protection(
-          map,
-          config
-        ) ::
-          {:ok, map, response_body} | error
-  def update_attack_protection_brute_force_protection(
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    AttackProtection.update_brute_force_protection(params, config)
-    |> to_response
-  end
-
-  @doc """
-  Get the suspicious IP throttling configuration.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/get_suspicious_ip_throttling
-
-  """
-  @spec get_attack_protection_suspicious_ip_throttling(config) ::
-          {:ok, map} | error
-  def get_attack_protection_suspicious_ip_throttling(%Config{} = config \\ %Config{}) do
-    AttackProtection.get_suspicious_ip_throttling(config)
-    |> to_response
-  end
-
-  @doc """
-  Update the suspicious IP throttling configuration.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_suspicious_ip_throttling
-
-  """
-  @spec update_attack_protection_suspicious_ip_throttling(
-          map,
-          config
-        ) ::
-          {:ok, map} | error
-  def update_attack_protection_suspicious_ip_throttling(
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    AttackProtection.update_suspicious_ip_throttling(params, config)
     |> to_response
   end
 
