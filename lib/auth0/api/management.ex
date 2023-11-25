@@ -1128,6 +1128,18 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
+  Delete a grant by user_id.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/grants/delete-grants-by-user-id
+
+  """
+  @spec delete_grant_by_user_id(map, config) :: {:ok, String.t()} | error
+  def delete_grant_by_user_id(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Grants.delete_by_user_id(params, config) |> to_response
+  end
+
+  @doc """
   Retrieve Factors and their Status.
 
   ## see
