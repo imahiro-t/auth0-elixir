@@ -54,6 +54,8 @@ defmodule Auth0.Api.Management do
   @type template_name :: String.t()
   @type kid :: String.t()
   @type ip :: String.t()
+  @type client_id :: String.t()
+  @type credential_id :: String.t()
   @type response_body :: String.t()
   @type error :: {:error, integer, term} | {:error, term}
 
@@ -698,6 +700,71 @@ defmodule Auth0.Api.Management do
           {:ok, map} | error
   def rotate_client_secret(id, %Config{} = config \\ %Config{}) do
     Clients.rotate_secret(id, config) |> to_response
+  end
+
+  @doc """
+  Get client credentials.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/clients/get-credentials
+
+  """
+  @spec list_credentials(client_id, config) ::
+          {:ok, list(map())} | error
+  def list_credentials(client_id, %Config{} = config \\ %Config{}) do
+    Clients.list_credentials(client_id, config) |> to_response
+  end
+
+  @doc """
+  Create a client credential.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/clients/post-credentials
+
+  """
+  @spec create_credential(client_id, map, config) ::
+          {:ok, map} | error
+  def create_credential(client_id, %{} = params, %Config{} = config \\ %Config{}) do
+    Clients.create_credential(client_id, params, config) |> to_response
+  end
+
+  @doc """
+  Get client credential.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/clients/get-credentials-by-credential-id
+
+  """
+  @spec get_credential(client_id, credential_id, config) ::
+          {:ok, map} | error
+  def get_credential(client_id, credential_id, %Config{} = config \\ %Config{}) do
+    Clients.get_credential(client_id, credential_id, config) |> to_response
+  end
+
+  @doc """
+  Delete a client credential.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/clients/delete-credentials-by-credential-id
+
+  """
+  @spec delete_credential(client_id, credential_id, config) ::
+          {:ok, String.t()} | error
+  def delete_credential(client_id, credential_id, %Config{} = config \\ %Config{}) do
+    Clients.delete_credential(client_id, credential_id, config) |> to_response
+  end
+
+  @doc """
+  Update a client credential.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/clients/patch-credentials-by-credential-id
+
+  """
+  @spec update_credential(client_id, credential_id, map, config) ::
+          {:ok, map} | error
+  def update_credential(client_id, credential_id, %{} = params, %Config{} = config \\ %Config{}) do
+    Clients.update_credential(client_id, credential_id, params, config) |> to_response
   end
 
   @doc """
