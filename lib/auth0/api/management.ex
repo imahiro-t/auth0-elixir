@@ -206,6 +206,19 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/#!/Actions/get_triggers
 
   """
+  @spec get_action_triggers(config) ::
+          {:ok, map} | error
+  def get_action_triggers(%Config{} = config \\ %Config{}) do
+    Actions.get_triggers(config) |> to_response
+  end
+
+  @doc """
+  Get trigger bindings.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/#!/Actions/get_bindings
+
+  """
   @spec get_action_trigger_bindings(trigger_id, map, config) ::
           {:ok, map} | error
   def get_action_trigger_bindings(
