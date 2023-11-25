@@ -2181,20 +2181,6 @@ defmodule Auth0.Simple.Management do
   end
 
   @doc """
-  Get actions service status.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/get_service_status
-
-  """
-  @deprecated "Use Auth0.Api.Management.get_action_status/1 instead"
-  @spec get_action_status(config) ::
-          {:ok, map} | error
-  def get_action_status(%Config{} = config) do
-    Actions.get_status(config) |> to_response
-  end
-
-  @doc """
   Get an execution.
 
   ## see
@@ -2318,19 +2304,6 @@ defmodule Auth0.Simple.Management do
   def get_email_provider(%{} = params, %Config{} = config) do
     Emails.get_provider(params, config)
     |> to_response
-  end
-
-  @doc """
-  Delete the email provider.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Emails/delete_provider
-
-  """
-  @deprecated "Use Auth0.Api.Management.delete_email_provider/1 instead"
-  @spec delete_email_provider(config) :: {:ok, String.t()} | error
-  def delete_email_provider(%Config{} = config) do
-    Emails.delete_provider(config) |> to_response
   end
 
   @doc """

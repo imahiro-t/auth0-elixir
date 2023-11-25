@@ -5,6 +5,7 @@ defmodule Auth0.Management.Grants do
   alias Auth0.Entity
   alias Auth0.Management.Grants.List
   alias Auth0.Management.Grants.Delete
+  alias Auth0.Management.Grants.DeleteByUserId
 
   @type id :: String.t()
   @type config :: Config.t()
@@ -37,5 +38,17 @@ defmodule Auth0.Management.Grants do
   @spec delete(id, config) :: {:ok, String.t(), response_body} | error
   def delete(id, %Config{} = config) do
     Delete.execute(@endpoint_by_id, id, config)
+  end
+
+  @doc """
+  Delete a grant by user_id.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/grants/delete-grants-by-user-id
+
+  """
+  @spec delete_by_user_id(map, config) :: {:ok, String.t(), response_body} | error
+  def delete_by_user_id(%{} = params, %Config{} = config) do
+    DeleteByUserId.execute(@endpoint, params, config)
   end
 end

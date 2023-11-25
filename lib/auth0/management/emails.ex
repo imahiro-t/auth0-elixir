@@ -25,18 +25,6 @@ defmodule Auth0.Management.Emails do
   end
 
   @doc """
-  Delete the email provider.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Emails/delete_provider
-
-  """
-  @spec delete_provider(config) :: {:ok, String.t(), response_body} | error
-  def delete_provider(%Config{} = config) do
-    Provider.Delete.execute(@endpoint_provider, config)
-  end
-
-  @doc """
   Update the email provider.
 
   ## see
