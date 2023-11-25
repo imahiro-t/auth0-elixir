@@ -30,7 +30,7 @@ defmodule Auth0.Management.Clients.Credential.Patch do
     |> String.replace("{credential_id}", credential_id)
     |> Http.patch(body, config)
     |> case do
-      {:ok, 201, body} -> {:ok, Client.from(body |> Jason.decode!()), body}
+      {:ok, 201, body} -> {:ok, body |> Jason.decode!(), body}
       error -> error
     end
   end
