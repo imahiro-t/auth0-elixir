@@ -255,19 +255,6 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get actions service status.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/get_service_status
-
-  """
-  @spec get_action_status(config) ::
-          {:ok, map} | error
-  def get_action_status(%Config{} = config \\ %Config{}) do
-    Actions.get_status(config) |> to_response
-  end
-
-  @doc """
   Get an execution.
 
   ## see
@@ -1059,18 +1046,6 @@ defmodule Auth0.Api.Management do
   def get_email_provider(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Emails.get_provider(params, config)
     |> to_response
-  end
-
-  @doc """
-  Delete the email provider.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Emails/delete_provider
-
-  """
-  @spec delete_email_provider(config) :: {:ok, String.t()} | error
-  def delete_email_provider(%Config{} = config \\ %Config{}) do
-    Emails.delete_provider(config) |> to_response
   end
 
   @doc """

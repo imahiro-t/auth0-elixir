@@ -12,7 +12,6 @@ defmodule Auth0.Management.Actions do
   alias Auth0.Management.Actions.Deploy
   alias Auth0.Management.Actions.Versions
   alias Auth0.Management.Actions.Triggers
-  alias Auth0.Management.Actions.Status
   alias Auth0.Management.Actions.Execution
 
   @type config :: Config.t()
@@ -31,7 +30,6 @@ defmodule Auth0.Management.Actions do
   @endpoint_deploy "/api/v2/actions/actions/{id}/deploy"
   @endpoint_triggers "/api/v2/actions/triggers"
   @endpoint_triggers_bindings "/api/v2/actions/triggers/{triggerId}/bindings"
-  @endpoint_status "/api/v2/actions/status"
   @endpoint_executions_by_id "/api/v2/actions/executions/{id}"
 
   @doc """
@@ -198,18 +196,6 @@ defmodule Auth0.Management.Actions do
           {:ok, Entity.ActionTriggerBindings.t(), response_body} | error
   def update_bindings(trigger_id, %{} = params, %Config{} = config) do
     Triggers.Bindings.Patch.execute(@endpoint_triggers_bindings, trigger_id, params, config)
-  end
-
-  @doc """
-  Get actions service status.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/get_service_status
-
-  """
-  @spec get_status(config) :: {:ok, Entity.ActionStatus.t(), response_body} | error
-  def get_status(%Config{} = config) do
-    Status.execute(@endpoint_status, config)
   end
 
   @doc """
