@@ -11,7 +11,7 @@ defmodule Auth0.Management.RefreshTokens do
   @type response_body :: String.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint_by_id "/api/v2/refresh_tokens/{id}"
+  @endpoint_by_id "/api/v2/refresh-tokens/{id}"
 
   @doc """
   Retrieve refresh token information.
