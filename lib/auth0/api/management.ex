@@ -27,10 +27,12 @@ defmodule Auth0.Api.Management do
   alias Auth0.Management.Logs
   alias Auth0.Management.Organizations
   alias Auth0.Management.Prompts
+  alias Auth0.Management.RefreshTokens
   alias Auth0.Management.ResourceServers
   alias Auth0.Management.Roles
   alias Auth0.Management.Rules
   alias Auth0.Management.RulesConfigs
+  alias Auth0.Management.Sessions
   alias Auth0.Management.Stats
   alias Auth0.Management.Tenants
   alias Auth0.Management.Tickets
@@ -2228,6 +2230,34 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
+  Retrieve refresh token information.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/refresh-tokens/get-refresh-token
+
+  """
+  @spec get_refresh_token(id, config) ::
+          {:ok, map} | error
+  def get_refresh_token(id, %Config{} = config \\ %Config{}) do
+    RefreshTokens.get(id, config)
+    |> to_response
+  end
+
+  @doc """
+  Delete a refresh token by its ID.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/refresh-tokens/delete-refresh-token
+
+  """
+  @spec delete_refresh_token(id, config) ::
+          {:ok, map} | error
+  def delete_refresh_token(id, %Config{} = config \\ %Config{}) do
+    RefreshTokens.delete(id, config)
+    |> to_response
+  end
+
+  @doc """
   Get resource servers.
 
   ## see
@@ -2539,6 +2569,34 @@ defmodule Auth0.Api.Management do
           {:ok, map} | error
   def set_rules_config(key, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     RulesConfigs.set(key, params, config)
+    |> to_response
+  end
+
+  @doc """
+  Retrieve session information.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/sessions/get-session
+
+  """
+  @spec get_session(id, config) ::
+          {:ok, map} | error
+  def get_session(id, %Config{} = config \\ %Config{}) do
+    Sessions.get(id, config)
+    |> to_response
+  end
+
+  @doc """
+  Delete a session by ID.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/sessions/delete-session
+
+  """
+  @spec delete_session(id, config) ::
+          {:ok, map} | error
+  def delete_session(id, %Config{} = config \\ %Config{}) do
+    Sessions.delete(id, config)
     |> to_response
   end
 
@@ -2960,6 +3018,62 @@ defmodule Auth0.Api.Management do
         %Config{} = config \\ %Config{}
       ) do
     Users.regenerate_recovery_code(id, config) |> to_response
+  end
+
+  @doc """
+  Retrieve details for a user's refresh tokens.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/get-refresh-tokens-for-user
+
+  """
+  @spec get_user_refresh_tokens(id, map, config) ::
+          {:ok, map} | error
+  def get_user_refresh_tokens(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Users.get_refresh_tokens(id, params, config)
+    |> to_response
+  end
+
+  @doc """
+  Delete all refresh tokens for a user.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/delete-refresh-tokens-for-user
+
+  """
+  @spec delete_user_refresh_tokens(id, config) ::
+          {:ok, map} | error
+  def delete_user_refresh_tokens(id, %Config{} = config \\ %Config{}) do
+    Users.delete_refresh_tokens(id, config)
+    |> to_response
+  end
+
+  @doc """
+  Retrieve details for a user's sessions.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/get-sessions-for-user
+
+  """
+  @spec get_user_sessions(id, map, config) ::
+          {:ok, map} | error
+  def get_user_sessions(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Users.get_sessions(id, params, config)
+    |> to_response
+  end
+
+  @doc """
+  Retrieve details for a user's sessions.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/get-sessions-for-user
+
+  """
+  @spec delete_user_sessions(id, config) ::
+          {:ok, map} | error
+  def delete_user_sessions(id, %Config{} = config \\ %Config{}) do
+    Users.delete_sessions(id, config)
+    |> to_response
   end
 
   @doc """

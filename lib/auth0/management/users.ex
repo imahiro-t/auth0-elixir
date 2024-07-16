@@ -16,6 +16,8 @@ defmodule Auth0.Management.Users do
   alias Auth0.Management.Users.Multifactor
   alias Auth0.Management.Users.Identities
   alias Auth0.Management.Users.RecoveryCodeRegeneration
+  alias Auth0.Management.Users.RefreshTokens
+  alias Auth0.Management.Users.Sessions
 
   @type id :: String.t()
   @type provider :: String.t()
@@ -36,6 +38,8 @@ defmodule Auth0.Management.Users do
   @endpoint_of_identities "/api/v2/users/{id}/identities"
   @endpoint_of_identities_by_provider "/api/v2/users/{id}/identities/{provider}/{user_id}"
   @endpoint_of_recovery_code_regeneration "/api/v2/users/{id}/recovery-code-regeneration"
+  @endpoint_of_refresh_tokens "/api/v2/users/{user_id}/refresh-tokens"
+  @endpoint_of_sessions "/api/v2/users/{user_id}/sessions"
 
   @doc """
   List or Search Users.
@@ -307,5 +311,57 @@ defmodule Auth0.Management.Users do
       id,
       config
     )
+  end
+
+  @doc """
+  Retrieve details for a user's refresh tokens.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/get-refresh-tokens-for-user
+
+  """
+  @spec get_refresh_tokens(id, RefreshTokens.List.Params.t() | map, config) ::
+          {:ok, Entity.RefreshTokens.t(), response_body} | error
+  def get_refresh_tokens(id, %{} = params, %Config{} = config) do
+    RefreshTokens.List.execute(@endpoint_of_refresh_tokens, id, params, config)
+  end
+
+  @doc """
+  Delete all refresh tokens for a user.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/delete-refresh-tokens-for-user
+
+  """
+  @spec delete_refresh_tokens(id, config) ::
+          {:ok, String.t(), response_body} | error
+  def delete_refresh_tokens(id, %Config{} = config) do
+    RefreshTokens.Delete.execute(@endpoint_of_refresh_tokens, id, config)
+  end
+
+  @doc """
+  Retrieve details for a user's sessions.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/get-sessions-for-user
+
+  """
+  @spec get_sessions(id, Sessions.List.Params.t() | map, config) ::
+          {:ok, Entity.Sessions.t(), response_body} | error
+  def get_sessions(id, %{} = params, %Config{} = config) do
+    Sessions.List.execute(@endpoint_of_sessions, id, params, config)
+  end
+
+  @doc """
+  Retrieve details for a user's sessions.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/get-sessions-for-user
+
+  """
+  @spec delete_sessions(id, config) ::
+          {:ok, String.t(), response_body} | error
+  def delete_sessions(id, %Config{} = config) do
+    Sessions.Delete.execute(@endpoint_of_sessions, id, config)
   end
 end
