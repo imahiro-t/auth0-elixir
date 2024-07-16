@@ -21,7 +21,7 @@ defmodule Auth0.Entity.RefreshTokens do
     if refresh_tokens.tokens |> is_list do
       %{
         refresh_tokens
-        | refresh_tokens: refresh_tokens.tokens |> Enum.map(&RefreshToken.from/1)
+        | tokens: refresh_tokens.tokens |> Enum.map(&RefreshToken.from/1)
       }
     else
       refresh_tokens
