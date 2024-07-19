@@ -40,7 +40,7 @@ defmodule Auth0.Common.Management.Http do
 
   """
   @spec raw_request(method, endpoint, body, headers, config) :: raw_response
-  def raw_request(method, endpoint, body, headers, %Config{} = config) do
+  def raw_request(method, endpoint, body \\ %{}, headers \\ nil, %Config{} = config \\ %Config{}) do
     headers =
       if headers |> is_nil do
         case method do
