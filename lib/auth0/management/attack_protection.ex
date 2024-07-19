@@ -2,13 +2,11 @@ defmodule Auth0.Management.AttackProtection do
   @moduledoc false
 
   alias Auth0.Config
-  alias Auth0.Entity
   alias Auth0.Management.AttackProtection.BreachedPasswordDetection
   alias Auth0.Management.AttackProtection.BruteForceProtection
   alias Auth0.Management.AttackProtection.SuspiciousIpThrottling
 
   @type config :: Config.t()
-  @type response_body :: String.t()
   @type error :: {:error, integer, term} | {:error, term}
 
   @endpoint_breached_password_detection "/api/v2/attack-protection/breached-password-detection"
@@ -23,7 +21,7 @@ defmodule Auth0.Management.AttackProtection do
 
   """
   @spec get_breached_password_detection(config) ::
-          {:ok, Entity.AttackProtectionBreachedPasswordDetection.t(), response_body} | error
+          {:ok, list() | map()} | error
   def get_breached_password_detection(%Config{} = config) do
     BreachedPasswordDetection.Get.execute(@endpoint_breached_password_detection, config)
   end
@@ -39,7 +37,7 @@ defmodule Auth0.Management.AttackProtection do
           BreachedPasswordDetection.Patch.Params.t() | map,
           config
         ) ::
-          {:ok, Entity.AttackProtectionBreachedPasswordDetection.t(), response_body} | error
+          {:ok, list() | map()} | error
   def update_breached_password_detection(
         %{} = params,
         %Config{} = config
@@ -55,7 +53,7 @@ defmodule Auth0.Management.AttackProtection do
 
   """
   @spec get_brute_force_protection(config) ::
-          {:ok, Entity.AttackProtectionBruteForceProtection.t(), response_body} | error
+          {:ok, list() | map()} | error
   def get_brute_force_protection(%Config{} = config) do
     BruteForceProtection.Get.execute(@endpoint_brute_force_protection, config)
   end
@@ -68,7 +66,7 @@ defmodule Auth0.Management.AttackProtection do
 
   """
   @spec update_brute_force_protection(BruteForceProtection.Patch.Params.t() | map, config) ::
-          {:ok, Entity.AttackProtectionBruteForceProtection.t(), response_body} | error
+          {:ok, list() | map()} | error
   def update_brute_force_protection(
         %{} = params,
         %Config{} = config
@@ -84,7 +82,7 @@ defmodule Auth0.Management.AttackProtection do
 
   """
   @spec get_suspicious_ip_throttling(config) ::
-          {:ok, Entity.AttackProtectionSuspiciousIpThrottling.t(), response_body} | error
+          {:ok, list() | map()} | error
   def get_suspicious_ip_throttling(%Config{} = config) do
     SuspiciousIpThrottling.Get.execute(@endpoint_suspicious_ip_throttling, config)
   end
@@ -97,7 +95,7 @@ defmodule Auth0.Management.AttackProtection do
 
   """
   @spec update_suspicious_ip_throttling(SuspiciousIpThrottling.Patch.Params.t() | map, config) ::
-          {:ok, Entity.AttackProtectionSuspiciousIpThrottling.t(), response_body} | error
+          {:ok, list() | map()} | error
   def update_suspicious_ip_throttling(
         %{} = params,
         %Config{} = config

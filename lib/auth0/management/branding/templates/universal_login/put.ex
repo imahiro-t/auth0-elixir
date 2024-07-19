@@ -18,8 +18,7 @@ defmodule Auth0.Management.Branding.Templates.UniversalLogin.Put do
   @type params :: Params.t() | map()
   @type config :: Config.t()
   @type entity :: String.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Set template for New Universal Login Experience.
@@ -38,8 +37,8 @@ defmodule Auth0.Management.Branding.Templates.UniversalLogin.Put do
 
     Http.put(endpoint, body, config)
     |> case do
-      {:ok, 201, body} -> {:ok, body, body}
-      {:ok, 204, body} -> {:ok, body, body}
+      {:ok, 201, body} -> {:ok, body}
+      {:ok, 204, body} -> {:ok, body}
       error -> error
     end
   end

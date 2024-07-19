@@ -2,7 +2,6 @@ defmodule Auth0.Management.Actions do
   @moduledoc false
 
   alias Auth0.Config
-  alias Auth0.Entity
   alias Auth0.Management.Actions.List
   alias Auth0.Management.Actions.Create
   alias Auth0.Management.Actions.Get
@@ -18,7 +17,6 @@ defmodule Auth0.Management.Actions do
   @type id :: String.t()
   @type action_id :: String.t()
   @type trigger_id :: String.t()
-  @type response_body :: String.t()
   @type error :: {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/actions/actions"
@@ -40,7 +38,7 @@ defmodule Auth0.Management.Actions do
 
   """
   @spec list(List.Params.t() | map, config) ::
-          {:ok, Entity.Actions.t(), response_body} | error
+          {:ok, list() | map()} | error
   def list(%{} = params, %Config{} = config) do
     List.execute(@endpoint, params, config)
   end
@@ -53,7 +51,7 @@ defmodule Auth0.Management.Actions do
 
   """
   @spec create(Create.Params.t() | map, config) ::
-          {:ok, Entity.Action.t(), response_body} | error
+          {:ok, list() | map()} | error
   def create(%{} = params, %Config{} = config) do
     Create.execute(@endpoint, params, config)
   end
@@ -65,7 +63,8 @@ defmodule Auth0.Management.Actions do
   https://auth0.com/docs/api/management/v2/#!/Actions/get_action
 
   """
-  @spec get(id, config) :: {:ok, Entity.Action.t(), response_body} | error
+  @spec get(id, config) ::
+          {:ok, list() | map()} | error
   def get(id, %Config{} = config) do
     Get.execute(@endpoint_by_id, id, config)
   end
@@ -77,7 +76,7 @@ defmodule Auth0.Management.Actions do
   https://auth0.com/docs/api/management/v2/#!/Actions/delete_action
 
   """
-  @spec delete(id, Delete.Params.t() | map, config) :: {:ok, String.t(), response_body} | error
+  @spec delete(id, Delete.Params.t() | map, config) :: {:ok, String.t()} | error
   def delete(id, %{} = params, %Config{} = config) do
     Delete.execute(@endpoint_by_id, id, params, config)
   end
@@ -90,7 +89,7 @@ defmodule Auth0.Management.Actions do
 
   """
   @spec update(id, Patch.Params.t() | map, config) ::
-          {:ok, Entity.Action.t(), response_body} | error
+          {:ok, list() | map()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(@endpoint_by_id, id, params, config)
   end
@@ -103,7 +102,7 @@ defmodule Auth0.Management.Actions do
 
   """
   @spec list_versions(action_id, Versions.List.Params.t() | map, config) ::
-          {:ok, Entity.ActionVersions.t(), response_body} | error
+          {:ok, list() | map()} | error
   def list_versions(action_id, %{} = params, %Config{} = config) do
     Versions.List.execute(@endpoint_versions, action_id, params, config)
   end
@@ -116,7 +115,7 @@ defmodule Auth0.Management.Actions do
 
   """
   @spec get_version(action_id, id, config) ::
-          {:ok, Entity.ActionVersion.t(), response_body} | error
+          {:ok, list() | map()} | error
   def get_version(action_id, id, %Config{} = config) do
     Versions.Get.execute(@endpoint_versions_by_id, action_id, id, config)
   end
@@ -129,7 +128,7 @@ defmodule Auth0.Management.Actions do
 
   """
   @spec rollback_version(action_id, id, Versions.Rollback.Params.t() | map, config) ::
-          {:ok, Entity.ActionVersion.t(), response_body} | error
+          {:ok, list() | map()} | error
   def rollback_version(action_id, id, %{} = params, %Config{} = config) do
     Versions.Rollback.execute(@endpoint_versions_deploy, action_id, id, params, config)
   end
@@ -142,7 +141,7 @@ defmodule Auth0.Management.Actions do
 
   """
   @spec test(id, Test.Params.t() | map, config) ::
-          {:ok, Entity.ActionTest.t(), response_body} | error
+          {:ok, list() | map()} | error
   def test(id, %{} = params, %Config{} = config) do
     Test.execute(@endpoint_test, id, params, config)
   end
@@ -154,7 +153,8 @@ defmodule Auth0.Management.Actions do
   https://auth0.com/docs/api/management/v2/#!/Actions/post_deploy_action
 
   """
-  @spec deploy(id, config) :: {:ok, Entity.ActionVersion.t(), response_body} | error
+  @spec deploy(id, config) ::
+          {:ok, list() | map()} | error
   def deploy(id, %Config{} = config) do
     Deploy.execute(@endpoint_deploy, id, config)
   end
@@ -167,7 +167,7 @@ defmodule Auth0.Management.Actions do
 
   """
   @spec get_triggers(config) ::
-          {:ok, Entity.ActionTriggers.t(), response_body} | error
+          {:ok, list() | map()} | error
   def get_triggers(%Config{} = config) do
     Triggers.List.execute(@endpoint_triggers, config)
   end
@@ -180,7 +180,7 @@ defmodule Auth0.Management.Actions do
 
   """
   @spec get_bindings(trigger_id, Triggers.Bindings.List.Params.t() | map, config) ::
-          {:ok, Entity.ActionTriggerBindings.t(), response_body} | error
+          {:ok, list() | map()} | error
   def get_bindings(trigger_id, %{} = params, %Config{} = config) do
     Triggers.Bindings.List.execute(@endpoint_triggers_bindings, trigger_id, params, config)
   end
@@ -193,7 +193,7 @@ defmodule Auth0.Management.Actions do
 
   """
   @spec update_bindings(trigger_id, Triggers.Bindings.Patch.Params.t() | map, config) ::
-          {:ok, Entity.ActionTriggerBindings.t(), response_body} | error
+          {:ok, list() | map()} | error
   def update_bindings(trigger_id, %{} = params, %Config{} = config) do
     Triggers.Bindings.Patch.execute(@endpoint_triggers_bindings, trigger_id, params, config)
   end
@@ -206,7 +206,7 @@ defmodule Auth0.Management.Actions do
 
   """
   @spec get_execution(id, config) ::
-          {:ok, Entity.ActionExecution.t(), response_body} | error
+          {:ok, list() | map()} | error
   def get_execution(id, %Config{} = config) do
     Execution.execute(@endpoint_executions_by_id, id, config)
   end

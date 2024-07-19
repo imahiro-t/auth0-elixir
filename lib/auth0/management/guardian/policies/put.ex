@@ -9,8 +9,7 @@ defmodule Auth0.Management.Guardian.Policies.Put do
   @type params :: map
   @type config :: Config.t()
   @type entity :: list(map)
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Set the Multi-factor Authentication policies.
@@ -26,7 +25,7 @@ defmodule Auth0.Management.Guardian.Policies.Put do
     endpoint
     |> Http.put(body, config)
     |> case do
-      {:ok, 200, body} -> {:ok, body |> Jason.decode!(), body}
+      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

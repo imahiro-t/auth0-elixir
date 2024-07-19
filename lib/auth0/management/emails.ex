@@ -2,11 +2,9 @@ defmodule Auth0.Management.Emails do
   @moduledoc false
 
   alias Auth0.Config
-  alias Auth0.Entity
   alias Auth0.Management.Emails.Provider
 
   @type config :: Config.t()
-  @type response_body :: String.t()
   @type error :: {:error, integer, term} | {:error, term}
 
   @endpoint_provider "/api/v2/emails/provider"
@@ -19,7 +17,7 @@ defmodule Auth0.Management.Emails do
 
   """
   @spec get_provider(Provider.Get.Params.t() | map, config) ::
-          {:ok, Entity.EmailProvider.t(), response_body} | error
+          {:ok, list() | map()} | error
   def get_provider(%{} = params, %Config{} = config) do
     Provider.Get.execute(@endpoint_provider, params, config)
   end
@@ -32,7 +30,7 @@ defmodule Auth0.Management.Emails do
 
   """
   @spec update_provider(Provider.Patch.Params.t() | map, config) ::
-          {:ok, Entity.EmailProvider.t(), response_body} | error
+          {:ok, list() | map()} | error
   def update_provider(%{} = params, %Config{} = config) do
     Provider.Patch.execute(@endpoint_provider, params, config)
   end
@@ -45,7 +43,7 @@ defmodule Auth0.Management.Emails do
 
   """
   @spec configure_provider(Provider.Configure.Params.t() | map, config) ::
-          {:ok, Entity.EmailProvider.t(), response_body} | error
+          {:ok, list() | map()} | error
   def configure_provider(%{} = params, %Config{} = config) do
     Provider.Configure.execute(@endpoint_provider, params, config)
   end

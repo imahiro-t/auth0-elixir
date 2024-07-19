@@ -2,12 +2,10 @@ defmodule Auth0.Management.Tickets do
   @moduledoc false
 
   alias Auth0.Config
-  alias Auth0.Entity
   alias Auth0.Management.Tickets.EmailVerification
   alias Auth0.Management.Tickets.PasswordChange
 
   @type config :: Config.t()
-  @type response_body :: String.t()
   @type error :: {:error, integer, term} | {:error, term}
 
   @endpoint_email_verification "/api/v2/tickets/email-verification"
@@ -21,7 +19,7 @@ defmodule Auth0.Management.Tickets do
 
   """
   @spec create_email_verification(EmailVerification.Create.Params.t() | map, config) ::
-          {:ok, Entity.Ticket.t(), response_body} | error
+          {:ok, list() | map()} | error
   def create_email_verification(%{} = params, %Config{} = config) do
     EmailVerification.Create.execute(@endpoint_email_verification, params, config)
   end
@@ -34,7 +32,7 @@ defmodule Auth0.Management.Tickets do
 
   """
   @spec create_password_change(PasswordChange.Create.Params.t() | map, config) ::
-          {:ok, Entity.Ticket.t(), response_body} | error
+          {:ok, list() | map()} | error
   def create_password_change(%{} = params, %Config{} = config) do
     PasswordChange.Create.execute(@endpoint_password_change, params, config)
   end

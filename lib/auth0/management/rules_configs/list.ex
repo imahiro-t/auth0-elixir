@@ -3,13 +3,11 @@ defmodule Auth0.Management.RulesConfigs.List do
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http
-  alias Auth0.Entity.RulesConfigs
 
   @type endpoint :: String.t()
   @type config :: Config.t()
-  @type entity :: RulesConfigs.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type entity :: list() | map()
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Retrieve config variable keys for rules (get_rules-configs).
@@ -23,7 +21,7 @@ defmodule Auth0.Management.RulesConfigs.List do
     endpoint
     |> Http.get(config)
     |> case do
-      {:ok, 200, body} -> {:ok, RulesConfigs.from(body |> Jason.decode!()), body}
+      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

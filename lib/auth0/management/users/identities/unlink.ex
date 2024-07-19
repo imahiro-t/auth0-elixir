@@ -3,16 +3,14 @@ defmodule Auth0.Management.Users.Identities.Unlink do
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http
-  alias Auth0.Entity.Identities
 
   @type endpoint :: String.t()
   @type id :: String.t()
   @type provider :: String.t()
   @type user_id :: String.t()
   @type config :: Config.t()
-  @type entity :: Identities.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type entity :: list() | map()
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Unlink a User Identity.
@@ -29,7 +27,7 @@ defmodule Auth0.Management.Users.Identities.Unlink do
     |> String.replace("{user_id}", user_id)
     |> Http.delete(config)
     |> case do
-      {:ok, 200, body} -> {:ok, Identities.from(body |> Jason.decode!()), body}
+      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

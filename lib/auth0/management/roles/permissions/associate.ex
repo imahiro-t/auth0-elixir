@@ -30,8 +30,7 @@ defmodule Auth0.Management.Roles.Permissions.Associate do
   @type params :: Params.t() | map
   @type config :: Config.t()
   @type entity :: String.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Associate permissions with a role.
@@ -52,7 +51,7 @@ defmodule Auth0.Management.Roles.Permissions.Associate do
     |> String.replace("{id}", id)
     |> Http.post(body, config)
     |> case do
-      {:ok, 201, body} -> {:ok, "", body}
+      {:ok, 201, _body} -> {:ok, ""}
       error -> error
     end
   end

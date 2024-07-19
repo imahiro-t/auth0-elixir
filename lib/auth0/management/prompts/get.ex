@@ -3,13 +3,11 @@ defmodule Auth0.Management.Prompts.Get do
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http
-  alias Auth0.Entity.Prompt
 
   @type endpoint :: String.t()
   @type config :: Config.t()
-  @type entity :: Prompt.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type entity :: list() | map()
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Get prompts settings.
@@ -23,7 +21,7 @@ defmodule Auth0.Management.Prompts.Get do
     endpoint
     |> Http.get(config)
     |> case do
-      {:ok, 200, body} -> {:ok, Prompt.from(body |> Jason.decode!()), body}
+      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

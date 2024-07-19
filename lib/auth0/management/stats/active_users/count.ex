@@ -7,8 +7,7 @@ defmodule Auth0.Management.Stats.ActiveUsers.Count do
   @type endpoint :: String.t()
   @type config :: Config.t()
   @type entity :: integer
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Get active users count.
@@ -22,7 +21,7 @@ defmodule Auth0.Management.Stats.ActiveUsers.Count do
     endpoint
     |> Http.get(config)
     |> case do
-      {:ok, 200, body} -> {:ok, body, body}
+      {:ok, 200, body} -> {:ok, body}
       error -> error
     end
   end

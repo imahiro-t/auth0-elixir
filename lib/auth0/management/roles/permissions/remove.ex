@@ -30,8 +30,7 @@ defmodule Auth0.Management.Roles.Permissions.Remove do
   @type params :: Params.t() | map
   @type config :: Config.t()
   @type entity :: String.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Remove permissions from a role.
@@ -52,7 +51,7 @@ defmodule Auth0.Management.Roles.Permissions.Remove do
     |> String.replace("{id}", id)
     |> Http.delete(body, config)
     |> case do
-      {:ok, 200, body} -> {:ok, "", body}
+      {:ok, 200, _body} -> {:ok, ""}
       error -> error
     end
   end

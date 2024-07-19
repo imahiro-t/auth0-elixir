@@ -4,7 +4,6 @@ defmodule Auth0.Management.CustomDomains.Configure do
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
-  alias Auth0.Entity.CustomDomain
 
   defmodule Params do
     @moduledoc false
@@ -26,9 +25,8 @@ defmodule Auth0.Management.CustomDomains.Configure do
   @type endpoint :: String.t()
   @type params :: Params.t() | map()
   @type config :: Config.t()
-  @type entity :: CustomDomain.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type entity :: list() | map()
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Configure a new custom domain.
@@ -47,7 +45,7 @@ defmodule Auth0.Management.CustomDomains.Configure do
 
     Http.post(endpoint, body, config)
     |> case do
-      {:ok, 201, body} -> {:ok, CustomDomain.from(body |> Jason.decode!()), body}
+      {:ok, 201, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

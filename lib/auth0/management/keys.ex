@@ -2,12 +2,10 @@ defmodule Auth0.Management.Keys do
   @moduledoc false
 
   alias Auth0.Config
-  alias Auth0.Entity
   alias Auth0.Management.Keys.Signing
 
   @type kid :: String.t()
   @type config :: Config.t()
-  @type response_body :: String.t()
   @type error :: {:error, integer, term} | {:error, term}
 
   @endpoint_signing "/api/v2/keys/signing"
@@ -22,7 +20,8 @@ defmodule Auth0.Management.Keys do
   https://auth0.com/docs/api/management/v2/#!/Keys/get_signing_keys
 
   """
-  @spec list_signing(config) :: {:ok, Entity.SigningKeys.t(), response_body} | error
+  @spec list_signing(config) ::
+          {:ok, list() | map()} | error
   def list_signing(%Config{} = config) do
     Signing.List.execute(@endpoint_signing, config)
   end
@@ -34,7 +33,8 @@ defmodule Auth0.Management.Keys do
   https://auth0.com/docs/api/management/v2/#!/Keys/get_signing_key
 
   """
-  @spec get_signing(kid, config) :: {:ok, Entity.SigningKey.t(), response_body} | error
+  @spec get_signing(kid, config) ::
+          {:ok, list() | map()} | error
   def get_signing(kid, %Config{} = config) do
     Signing.Get.execute(@endpoint_signing_by_kid, kid, config)
   end
@@ -46,7 +46,8 @@ defmodule Auth0.Management.Keys do
   https://auth0.com/docs/api/management/v2/#!/Keys/post_signing_keys
 
   """
-  @spec rotate_signing(config) :: {:ok, Entity.SigningKey.t(), response_body} | error
+  @spec rotate_signing(config) ::
+          {:ok, list() | map()} | error
   def rotate_signing(%Config{} = config) do
     Signing.Rotate.execute(@endpoint_signing_rotate, config)
   end
@@ -59,7 +60,7 @@ defmodule Auth0.Management.Keys do
 
   """
   @spec revoke_signing(kid, config) ::
-          {:ok, Entity.SigningKey.t(), response_body} | error
+          {:ok, list() | map()} | error
   def revoke_signing(kid, %Config{} = config) do
     Signing.Revoke.execute(@endpoint_signing_revoke, kid, config)
   end

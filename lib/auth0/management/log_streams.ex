@@ -2,7 +2,6 @@ defmodule Auth0.Management.LogStreams do
   @moduledoc false
 
   alias Auth0.Config
-  alias Auth0.Entity
   alias Auth0.Management.LogStreams.List
   alias Auth0.Management.LogStreams.Create
   alias Auth0.Management.LogStreams.Get
@@ -11,7 +10,6 @@ defmodule Auth0.Management.LogStreams do
 
   @type id :: String.t()
   @type config :: Config.t()
-  @type response_body :: String.t()
   @type error :: {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/log_streams"
@@ -24,7 +22,8 @@ defmodule Auth0.Management.LogStreams do
   https://auth0.com/docs/api/management/v2/#!/Log_Streams/get_log_streams
 
   """
-  @spec list(config) :: {:ok, Entity.LogStreams.t(), response_body} | error
+  @spec list(config) ::
+          {:ok, list() | map()} | error
   def list(%Config{} = config) do
     List.execute(@endpoint, config)
   end
@@ -37,7 +36,7 @@ defmodule Auth0.Management.LogStreams do
 
   """
   @spec create(Create.Params.t() | map, config) ::
-          {:ok, Entity.LogStream.t(), response_body} | error
+          {:ok, list() | map()} | error
   def create(%{} = params, %Config{} = config) do
     Create.execute(@endpoint, params, config)
   end
@@ -49,7 +48,8 @@ defmodule Auth0.Management.LogStreams do
   https://auth0.com/docs/api/management/v2/#!/Log_Streams/get_log_streams_by_id
 
   """
-  @spec get(id, config) :: {:ok, Entity.LogStream.t(), response_body} | error
+  @spec get(id, config) ::
+          {:ok, list() | map()} | error
   def get(id, %Config{} = config) do
     Get.execute(@endpoint_by_id, id, config)
   end
@@ -61,7 +61,7 @@ defmodule Auth0.Management.LogStreams do
   https://auth0.com/docs/api/management/v2/#!/Log_Streams/delete_log_streams_by_id
 
   """
-  @spec delete(id, config) :: {:ok, String.t(), response_body} | error
+  @spec delete(id, config) :: {:ok, String.t()} | error
   def delete(id, %Config{} = config) do
     Delete.execute(@endpoint_by_id, id, config)
   end
@@ -74,7 +74,7 @@ defmodule Auth0.Management.LogStreams do
 
   """
   @spec update(id, Patch.Params.t() | map, config) ::
-          {:ok, Entity.LogStream.t(), response_body} | error
+          {:ok, list() | map()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(@endpoint_by_id, id, params, config)
   end

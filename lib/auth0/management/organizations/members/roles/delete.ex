@@ -20,8 +20,7 @@ defmodule Auth0.Management.Organizations.Members.Roles.Delete do
   @type params :: Params.t() | map
   @type config :: Config.t()
   @type entity :: String.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Remove one or more roles from a given user in the context of the provided organization.
@@ -43,7 +42,7 @@ defmodule Auth0.Management.Organizations.Members.Roles.Delete do
     |> String.replace("{user_id}", user_id)
     |> Http.delete(body, config)
     |> case do
-      {:ok, 204, body} -> {:ok, "", body}
+      {:ok, 204, _body} -> {:ok, ""}
       error -> error
     end
   end

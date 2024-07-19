@@ -10,8 +10,7 @@ defmodule Auth0.Management.Clients.Credential.Create do
   @type params :: map()
   @type config :: Config.t()
   @type entity :: map()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Create a client credential.
@@ -28,7 +27,7 @@ defmodule Auth0.Management.Clients.Credential.Create do
     |> String.replace("{client_id}", client_id)
     |> Http.post(body, config)
     |> case do
-      {:ok, 201, body} -> {:ok, body |> Jason.decode!(), body}
+      {:ok, 201, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

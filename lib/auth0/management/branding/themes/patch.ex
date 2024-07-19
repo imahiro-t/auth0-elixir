@@ -4,7 +4,6 @@ defmodule Auth0.Management.Branding.Themes.Patch do
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
-  alias Auth0.Entity.Theme
 
   defmodule Params do
     @moduledoc false
@@ -163,9 +162,8 @@ defmodule Auth0.Management.Branding.Themes.Patch do
   @type theme_id :: String.t()
   @type params :: Params.t() | map()
   @type config :: Config.t()
-  @type entity :: Theme.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type entity :: list() | map()
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Update branding theme.
@@ -186,7 +184,7 @@ defmodule Auth0.Management.Branding.Themes.Patch do
     |> String.replace("{themeId}", theme_id)
     |> Http.patch(body, config)
     |> case do
-      {:ok, 200, body} -> {:ok, Theme.from(body |> Jason.decode!()), body}
+      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

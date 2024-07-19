@@ -2,14 +2,12 @@ defmodule Auth0.Management.RulesConfigs do
   @moduledoc false
 
   alias Auth0.Config
-  alias Auth0.Entity
   alias Auth0.Management.RulesConfigs.List
   alias Auth0.Management.RulesConfigs.Delete
   alias Auth0.Management.RulesConfigs.Put
 
   @type key :: String.t()
   @type config :: Config.t()
-  @type response_body :: String.t()
   @type error :: {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/rules-configs"
@@ -22,7 +20,8 @@ defmodule Auth0.Management.RulesConfigs do
   https://auth0.com/docs/api/management/v2/#!/Rules_Configs/get_rules_configs
 
   """
-  @spec list(config) :: {:ok, Entity.RulesConfigs.t(), response_body} | error
+  @spec list(config) ::
+          {:ok, list() | map()} | error
   def list(%Config{} = config) do
     List.execute(@endpoint, config)
   end
@@ -34,7 +33,7 @@ defmodule Auth0.Management.RulesConfigs do
   https://auth0.com/docs/api/management/v2/#!/Rules_Configs/delete_rules_configs_by_key
 
   """
-  @spec delete(key, config) :: {:ok, String.t(), response_body} | error
+  @spec delete(key, config) :: {:ok, String.t()} | error
   def delete(key, %Config{} = config) do
     Delete.execute(@endpoint_by_key, key, config)
   end
@@ -47,7 +46,7 @@ defmodule Auth0.Management.RulesConfigs do
 
   """
   @spec set(key, Put.Params.t() | map, config) ::
-          {:ok, Entity.RulesConfig.t(), response_body} | error
+          {:ok, list() | map()} | error
   def set(key, %{} = params, %Config{} = config) do
     Put.execute(@endpoint_by_key, key, params, config)
   end

@@ -4,7 +4,6 @@ defmodule Auth0.Management.ResourceServers.Create do
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
-  alias Auth0.Entity.ResourceServer
 
   defmodule Params do
     @moduledoc false
@@ -38,9 +37,8 @@ defmodule Auth0.Management.ResourceServers.Create do
   @type endpoint :: String.t()
   @type params :: Params.t() | map
   @type config :: Config.t()
-  @type entity :: ResourceServer.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type entity :: list() | map()
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Create a resource server.
@@ -59,7 +57,7 @@ defmodule Auth0.Management.ResourceServers.Create do
 
     Http.post(endpoint, body, config)
     |> case do
-      {:ok, 201, body} -> {:ok, ResourceServer.from(body |> Jason.decode!()), body}
+      {:ok, 201, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

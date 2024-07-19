@@ -4,7 +4,6 @@ defmodule Auth0.Management.Users.List do
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
-  alias Auth0.Entity.Users
 
   defmodule Params do
     @moduledoc false
@@ -34,9 +33,8 @@ defmodule Auth0.Management.Users.List do
   @type endpoint :: String.t()
   @type params :: Params.t() | map
   @type config :: Config.t()
-  @type entity :: Users.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type entity :: list() | map()
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   List or Search Users.
@@ -56,7 +54,7 @@ defmodule Auth0.Management.Users.List do
     |> Util.append_query(endpoint)
     |> Http.get(config)
     |> case do
-      {:ok, 200, body} -> {:ok, Users.from(body |> Jason.decode!()), body}
+      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

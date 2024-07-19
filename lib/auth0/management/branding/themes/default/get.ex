@@ -3,13 +3,11 @@ defmodule Auth0.Management.Branding.Themes.Default.Get do
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http
-  alias Auth0.Entity.Theme
 
   @type endpoint :: String.t()
   @type config :: Config.t()
-  @type entity :: Theme.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type entity :: list() | map()
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Retrieve default branding theme.
@@ -22,7 +20,7 @@ defmodule Auth0.Management.Branding.Themes.Default.Get do
   def execute(endpoint, %Config{} = config) do
     Http.get(endpoint, config)
     |> case do
-      {:ok, 200, body} -> {:ok, Theme.from(body |> Jason.decode!()), body}
+      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

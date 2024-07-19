@@ -4,7 +4,6 @@ defmodule Auth0.Management.Actions.Versions.Rollback do
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
-  alias Auth0.Entity.ActionVersion
 
   defmodule Params do
     @moduledoc false
@@ -20,9 +19,8 @@ defmodule Auth0.Management.Actions.Versions.Rollback do
   @type id :: String.t()
   @type params :: Params.t() | map()
   @type config :: Config.t()
-  @type entity :: ActionVersion.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type entity :: list() | map()
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Roll back to a previous action version.
@@ -44,7 +42,7 @@ defmodule Auth0.Management.Actions.Versions.Rollback do
     |> String.replace("{id}", id)
     |> Http.post(body, config)
     |> case do
-      {:ok, 202, body} -> {:ok, ActionVersion.from(body |> Jason.decode!()), body}
+      {:ok, 202, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

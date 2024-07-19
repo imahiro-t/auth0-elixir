@@ -2,7 +2,6 @@ defmodule Auth0.Management.CustomDomains do
   @moduledoc false
 
   alias Auth0.Config
-  alias Auth0.Entity
   alias Auth0.Management.CustomDomains.List
   alias Auth0.Management.CustomDomains.Configure
   alias Auth0.Management.CustomDomains.Get
@@ -12,7 +11,6 @@ defmodule Auth0.Management.CustomDomains do
 
   @type id :: String.t()
   @type config :: Config.t()
-  @type response_body :: String.t()
   @type error :: {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/custom-domains"
@@ -26,7 +24,8 @@ defmodule Auth0.Management.CustomDomains do
   https://auth0.com/docs/api/management/v2/#!/Custom_Domains/get_custom_domains
 
   """
-  @spec list(config) :: {:ok, Entity.CustomDomains.t(), response_body} | error
+  @spec list(config) ::
+          {:ok, list() | map()} | error
   def list(%Config{} = config) do
     List.execute(@endpoint, config)
   end
@@ -39,7 +38,7 @@ defmodule Auth0.Management.CustomDomains do
 
   """
   @spec configure(Configure.Params.t() | map, config) ::
-          {:ok, Entity.CustomDomain.t(), response_body} | error
+          {:ok, list() | map()} | error
   def configure(%{} = params, %Config{} = config) do
     Configure.execute(@endpoint, params, config)
   end
@@ -51,7 +50,8 @@ defmodule Auth0.Management.CustomDomains do
   https://auth0.com/docs/api/management/v2/#!/Custom_Domains/get_custom_domains_by_id
 
   """
-  @spec get(id, config) :: {:ok, Entity.CustomDomain.t(), response_body} | error
+  @spec get(id, config) ::
+          {:ok, list() | map()} | error
   def get(id, %Config{} = config) do
     Get.execute(@endpoint_by_id, id, config)
   end
@@ -63,7 +63,7 @@ defmodule Auth0.Management.CustomDomains do
   https://auth0.com/docs/api/management/v2/#!/Custom_Domains/delete_custom_domains_by_id
 
   """
-  @spec delete(id, config) :: {:ok, String.t(), response_body} | error
+  @spec delete(id, config) :: {:ok, String.t()} | error
   def delete(id, %Config{} = config) do
     Delete.execute(@endpoint_by_id, id, config)
   end
@@ -76,7 +76,7 @@ defmodule Auth0.Management.CustomDomains do
 
   """
   @spec update(id, Patch.Params.t() | map, config) ::
-          {:ok, Entity.CustomDomain.t(), response_body} | error
+          {:ok, list() | map()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(@endpoint_by_id, id, params, config)
   end
@@ -88,7 +88,8 @@ defmodule Auth0.Management.CustomDomains do
   https://auth0.com/docs/api/management/v2/#!/Custom_Domains/post_verify
 
   """
-  @spec verify(id, config) :: {:ok, Entity.CustomDomain.t(), response_body} | error
+  @spec verify(id, config) ::
+          {:ok, list() | map()} | error
   def verify(id, %Config{} = config) do
     Verify.execute(@endpoint_verify, id, config)
   end

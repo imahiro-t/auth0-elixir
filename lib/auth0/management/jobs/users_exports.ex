@@ -4,7 +4,6 @@ defmodule Auth0.Management.Jobs.UsersExport do
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
-  alias Auth0.Entity.JobsUsersExport
 
   defmodule Params do
     @moduledoc false
@@ -24,9 +23,8 @@ defmodule Auth0.Management.Jobs.UsersExport do
   @type endpoint :: String.t()
   @type params :: Params.t() | map
   @type config :: Config.t()
-  @type entity :: JobsUsersExport.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type entity :: list() | map()
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Create export users job.
@@ -46,9 +44,9 @@ defmodule Auth0.Management.Jobs.UsersExport do
     Http.post(endpoint, body, config)
     |> case do
       ## actual
-      {:ok, 200, body} -> {:ok, JobsUsersExport.from(body |> Jason.decode!()), body}
+      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       ## documented
-      {:ok, 201, body} -> {:ok, JobsUsersExport.from(body |> Jason.decode!()), body}
+      {:ok, 201, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

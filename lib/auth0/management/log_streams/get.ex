@@ -3,14 +3,12 @@ defmodule Auth0.Management.LogStreams.Get do
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http
-  alias Auth0.Entity.LogStream
 
   @type endpoint :: String.t()
   @type id :: String.t()
   @type config :: Config.t()
-  @type entity :: LogStream.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type entity :: list() | map()
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Get log stream by ID.
@@ -25,7 +23,7 @@ defmodule Auth0.Management.LogStreams.Get do
     |> String.replace("{id}", id)
     |> Http.get(config)
     |> case do
-      {:ok, 200, body} -> {:ok, LogStream.from(body |> Jason.decode!()), body}
+      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

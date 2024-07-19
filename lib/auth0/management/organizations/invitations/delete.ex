@@ -9,8 +9,7 @@ defmodule Auth0.Management.Organizations.Invitations.Delete do
   @type invitation_id :: String.t()
   @type config :: Config.t()
   @type entity :: String.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Delete an invitation to organization.
@@ -26,7 +25,7 @@ defmodule Auth0.Management.Organizations.Invitations.Delete do
     |> String.replace("{invitation_id}", invitation_id)
     |> Http.delete(config)
     |> case do
-      {:ok, 204, body} -> {:ok, "", body}
+      {:ok, 204} -> {:ok, ""}
       error -> error
     end
   end

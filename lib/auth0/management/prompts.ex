@@ -2,7 +2,6 @@ defmodule Auth0.Management.Prompts do
   @moduledoc false
 
   alias Auth0.Config
-  alias Auth0.Entity
   alias Auth0.Management.Prompts.Get
   alias Auth0.Management.Prompts.Patch
   alias Auth0.Management.Prompts.CustomText
@@ -10,7 +9,6 @@ defmodule Auth0.Management.Prompts do
   @type prompt :: String.t()
   @type language :: String.t()
   @type config :: Config.t()
-  @type response_body :: String.t()
   @type error :: {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/prompts"
@@ -23,7 +21,8 @@ defmodule Auth0.Management.Prompts do
   https://auth0.com/docs/api/management/v2/#!/Prompts/get_prompts
 
   """
-  @spec get(config) :: {:ok, Entity.Prompt.t(), response_body} | error
+  @spec get(config) ::
+          {:ok, list() | map()} | error
   def get(%Config{} = config) do
     Get.execute(@endpoint, config)
   end
@@ -36,7 +35,7 @@ defmodule Auth0.Management.Prompts do
 
   """
   @spec update(Patch.Params.t() | map, config) ::
-          {:ok, Entity.Prompt.t(), response_body} | error
+          {:ok, list() | map()} | error
   def update(%{} = params, %Config{} = config) do
     Patch.execute(@endpoint, params, config)
   end
@@ -49,7 +48,7 @@ defmodule Auth0.Management.Prompts do
 
   """
   @spec get_custom_text(prompt, language, config) ::
-          {:ok, Entity.CustomText.t(), response_body} | error
+          {:ok, list() | map()} | error
   def get_custom_text(prompt, language, %Config{} = config) do
     CustomText.Get.execute(@endpoint_custom_text, prompt, language, config)
   end
@@ -62,7 +61,7 @@ defmodule Auth0.Management.Prompts do
 
   """
   @spec set_custom_text(prompt, language, CustomText.Put.Params.t() | map, config) ::
-          {:ok, Entity.CustomText.t(), response_body} | error
+          {:ok, list() | map()} | error
   def set_custom_text(prompt, language, %{} = params, %Config{} = config) do
     CustomText.Put.execute(@endpoint_custom_text, prompt, language, params, config)
   end

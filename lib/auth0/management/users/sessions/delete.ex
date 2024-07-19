@@ -8,8 +8,7 @@ defmodule Auth0.Management.Users.Sessions.Delete do
   @type user_id :: String.t()
   @type config :: Config.t()
   @type entity :: String.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Delete all sessions for a user.
@@ -24,7 +23,7 @@ defmodule Auth0.Management.Users.Sessions.Delete do
     |> String.replace("{user_id}", user_id)
     |> Http.delete(config)
     |> case do
-      {:ok, 202, body} -> {:ok, "", body}
+      {:ok, 202, _body} -> {:ok, ""}
       error -> error
     end
   end

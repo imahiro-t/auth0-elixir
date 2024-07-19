@@ -4,7 +4,6 @@ defmodule Auth0.Management.Rules.List do
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
-  alias Auth0.Entity.Rules
 
   defmodule Params do
     @moduledoc false
@@ -28,9 +27,8 @@ defmodule Auth0.Management.Rules.List do
   @type endpoint :: String.t()
   @type params :: Params.t() | map
   @type config :: Config.t()
-  @type entity :: Rules.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type entity :: list() | map()
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Get rules.
@@ -50,7 +48,7 @@ defmodule Auth0.Management.Rules.List do
     |> Util.append_query(endpoint)
     |> Http.get(config)
     |> case do
-      {:ok, 200, body} -> {:ok, Rules.from(body |> Jason.decode!()), body}
+      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

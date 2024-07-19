@@ -3,14 +3,12 @@ defmodule Auth0.Management.Users.RecoveryCodeRegeneration.Regenerate do
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http
-  alias Auth0.Entity.RecoveryCodeRegeneration
 
   @type endpoint :: String.t()
   @type id :: String.t()
   @type config :: Config.t()
-  @type entity :: RecoveryCodeRegeneration.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type entity :: list() | map()
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Generate New Multi-factor Authentication Recovery Code.
@@ -26,7 +24,7 @@ defmodule Auth0.Management.Users.RecoveryCodeRegeneration.Regenerate do
     |> Http.post(%{}, config)
     |> case do
       {:ok, 200, body} ->
-        {:ok, RecoveryCodeRegeneration.from(body |> Jason.decode!()), body}
+        {:ok, body |> Jason.decode!()}
 
       error ->
         error

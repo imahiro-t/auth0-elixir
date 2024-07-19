@@ -9,8 +9,7 @@ defmodule Auth0.Management.Clients.Credential.Get do
   @type credential_id :: String.t()
   @type config :: Config.t()
   @type entity :: map()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Get client credential.
@@ -26,7 +25,7 @@ defmodule Auth0.Management.Clients.Credential.Get do
     |> String.replace("{credential_id}", credential_id)
     |> Http.get(config)
     |> case do
-      {:ok, 200, body} -> {:ok, body |> Jason.decode!(), body}
+      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

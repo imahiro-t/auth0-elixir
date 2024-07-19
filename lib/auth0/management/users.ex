@@ -2,7 +2,6 @@ defmodule Auth0.Management.Users do
   @moduledoc false
 
   alias Auth0.Config
-  alias Auth0.Entity
   alias Auth0.Management.Users.List
   alias Auth0.Management.Users.Create
   alias Auth0.Management.Users.Get
@@ -23,7 +22,6 @@ defmodule Auth0.Management.Users do
   @type provider :: String.t()
   @type user_id :: String.t()
   @type config :: Config.t()
-  @type response_body :: String.t()
   @type error :: {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/users"
@@ -48,7 +46,7 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/#!/Users/get_users
 
   """
-  @spec list(List.Params.t() | map, config) :: {:ok, Entity.Users.t(), response_body} | error
+  @spec list(List.Params.t() | map, config) :: {:ok, list() | map()} | error
   def list(%{} = params, %Config{} = config) do
     List.execute(@endpoint, params, config)
   end
@@ -61,7 +59,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec create(Create.Params.t() | map, config) ::
-          {:ok, Entity.User.t(), response_body} | error
+          {:ok, list() | map()} | error
   def create(%{} = params, %Config{} = config) do
     Create.execute(@endpoint, params, config)
   end
@@ -74,7 +72,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec get(id, Get.Params.t() | map, config) ::
-          {:ok, Entity.User.t(), response_body} | error
+          {:ok, list() | map()} | error
   def get(id, %{} = params, %Config{} = config) do
     Get.execute(@endpoint_by_id, id, params, config)
   end
@@ -86,7 +84,7 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/#!/Users/delete_users_by_id
 
   """
-  @spec delete(id, config) :: {:ok, String.t(), response_body} | error
+  @spec delete(id, config) :: {:ok, String.t()} | error
   def delete(id, %Config{} = config) do
     Delete.execute(@endpoint_by_id, id, config)
   end
@@ -99,7 +97,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec update(id, Patch.Params.t() | map, config) ::
-          {:ok, Entity.User.t(), response_body} | error
+          {:ok, list() | map()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(@endpoint_by_id, id, params, config)
   end
@@ -112,7 +110,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec get_enrollments(id, config) ::
-          {:ok, Entity.Enrollments.t(), response_body} | error
+          {:ok, list() | map()} | error
   def get_enrollments(id, %Config{} = config) do
     Enrollments.List.execute(@endpoint_of_enrollments, id, config)
   end
@@ -125,7 +123,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec get_roles(id, Roles.List.Params.t() | map, config) ::
-          {:ok, Entity.Roles.t(), response_body} | error
+          {:ok, list() | map()} | error
   def get_roles(id, %{} = params, %Config{} = config) do
     Roles.List.execute(@endpoint_of_roles, id, params, config)
   end
@@ -138,7 +136,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec remove_roles(id, Roles.Remove.Params.t() | map, config) ::
-          {:ok, String.t(), response_body} | error
+          {:ok, String.t()} | error
   def remove_roles(id, %{} = params, %Config{} = config) do
     Roles.Remove.execute(@endpoint_of_roles, id, params, config)
   end
@@ -151,7 +149,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec assign_roles(id, Roles.Assign.Params.t() | map, config) ::
-          {:ok, String.t(), response_body} | error
+          {:ok, String.t()} | error
   def assign_roles(id, %{} = params, %Config{} = config) do
     Roles.Assign.execute(@endpoint_of_roles, id, params, config)
   end
@@ -164,7 +162,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec get_logs(id, Logs.List.Params.t() | map, config) ::
-          {:ok, Entity.Logs.t(), response_body} | error
+          {:ok, list() | map()} | error
   def get_logs(id, %{} = params, %Config{} = config) do
     Logs.List.execute(@endpoint_of_logs, id, params, config)
   end
@@ -177,7 +175,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec get_organizations(id, Organizations.List.Params.t() | map, config) ::
-          {:ok, Entity.Organizations.t(), response_body} | error
+          {:ok, list() | map()} | error
   def get_organizations(id, %{} = params, %Config{} = config) do
     Organizations.List.execute(@endpoint_of_organizations, id, params, config)
   end
@@ -190,7 +188,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec get_permissions(id, Permissions.List.Params.t() | map, config) ::
-          {:ok, Entity.Permissions.t(), response_body} | error
+          {:ok, list() | map()} | error
   def get_permissions(id, %{} = params, %Config{} = config) do
     Permissions.List.execute(@endpoint_of_permissions, id, params, config)
   end
@@ -203,7 +201,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec remove_permissions(id, Permissions.Remove.Params.t() | map, config) ::
-          {:ok, String.t(), response_body} | error
+          {:ok, String.t()} | error
   def remove_permissions(id, %{} = params, %Config{} = config) do
     Permissions.Remove.execute(@endpoint_of_permissions, id, params, config)
   end
@@ -216,7 +214,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec assign_permissions(id, Permissions.Assign.Params.t() | map, config) ::
-          {:ok, String.t(), response_body} | error
+          {:ok, String.t()} | error
   def assign_permissions(id, %{} = params, %Config{} = config) do
     Permissions.Assign.execute(@endpoint_of_permissions, id, params, config)
   end
@@ -229,7 +227,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec delete_multifactor(id, Multifactor.Delete.Params.t() | map, config) ::
-          {:ok, String.t(), response_body} | error
+          {:ok, String.t()} | error
   def delete_multifactor(
         id,
         %{} = params,
@@ -246,7 +244,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec invalidate_remembered_browser_for_multifactor(id, config) ::
-          {:ok, String.t(), response_body} | error
+          {:ok, String.t()} | error
   def invalidate_remembered_browser_for_multifactor(
         id,
         %Config{} = config
@@ -266,7 +264,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec link_identities(id, Identities.Link.Params.t() | map, config) ::
-          {:ok, Entity.Identities.t(), response_body} | error
+          {:ok, list() | map()} | error
   def link_identities(
         id,
         %{} = params,
@@ -283,7 +281,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec unlink_identities(id, provider, user_id, config) ::
-          {:ok, Entity.Identities.t(), response_body} | error
+          {:ok, list() | map()} | error
   def unlink_identities(
         id,
         provider,
@@ -301,7 +299,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec regenerate_recovery_code(id, config) ::
-          {:ok, Entity.RecoveryCodeRegeneration.t(), response_body} | error
+          {:ok, list() | map()} | error
   def regenerate_recovery_code(
         id,
         %Config{} = config
@@ -321,7 +319,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec get_refresh_tokens(id, RefreshTokens.List.Params.t() | map, config) ::
-          {:ok, Entity.RefreshTokens.t(), response_body} | error
+          {:ok, list() | map()} | error
   def get_refresh_tokens(id, %{} = params, %Config{} = config) do
     RefreshTokens.List.execute(@endpoint_of_refresh_tokens, id, params, config)
   end
@@ -334,7 +332,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec delete_refresh_tokens(id, config) ::
-          {:ok, String.t(), response_body} | error
+          {:ok, String.t()} | error
   def delete_refresh_tokens(id, %Config{} = config) do
     RefreshTokens.Delete.execute(@endpoint_of_refresh_tokens, id, config)
   end
@@ -347,7 +345,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec get_sessions(id, Sessions.List.Params.t() | map, config) ::
-          {:ok, Entity.Sessions.t(), response_body} | error
+          {:ok, list() | map()} | error
   def get_sessions(id, %{} = params, %Config{} = config) do
     Sessions.List.execute(@endpoint_of_sessions, id, params, config)
   end
@@ -360,7 +358,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec delete_sessions(id, config) ::
-          {:ok, String.t(), response_body} | error
+          {:ok, String.t()} | error
   def delete_sessions(id, %Config{} = config) do
     Sessions.Delete.execute(@endpoint_of_sessions, id, config)
   end

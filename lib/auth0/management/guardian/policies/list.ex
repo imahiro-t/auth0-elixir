@@ -7,8 +7,7 @@ defmodule Auth0.Management.Guardian.Policies.List do
   @type endpoint :: String.t()
   @type config :: Config.t()
   @type entity :: list(map)
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Get the Multi-factor Authentication policies.
@@ -22,7 +21,7 @@ defmodule Auth0.Management.Guardian.Policies.List do
     endpoint
     |> Http.get(config)
     |> case do
-      {:ok, 200, body} -> {:ok, body |> Jason.decode!(), body}
+      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

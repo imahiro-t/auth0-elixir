@@ -20,8 +20,7 @@ defmodule Auth0.Management.Blacklist.Tokens.Add do
   @type params :: Params.t() | map()
   @type config :: Config.t()
   @type entity :: String.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Blacklist a token.
@@ -40,7 +39,7 @@ defmodule Auth0.Management.Blacklist.Tokens.Add do
 
     Http.post(endpoint, body, config)
     |> case do
-      {:ok, 204, body} -> {:ok, "", body}
+      {:ok, 204, _body} -> {:ok, ""}
       error -> error
     end
   end

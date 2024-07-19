@@ -3,14 +3,12 @@ defmodule Auth0.Management.Jobs.Errors.Get do
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http
-  alias Auth0.Entity.JobsErrors
 
   @type endpoint :: String.t()
   @type id :: String.t()
   @type config :: Config.t()
-  @type entity :: JobsErrors.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type entity :: list() | map() | String.t()
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Get job error details.
@@ -25,8 +23,8 @@ defmodule Auth0.Management.Jobs.Errors.Get do
     |> String.replace("{id}", id)
     |> Http.get(config)
     |> case do
-      {:ok, 200, body} -> {:ok, JobsErrors.from(body |> Jason.decode!()), body}
-      {:ok, 204, body} -> {:ok, "", body}
+      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
+      {:ok, 204, _body} -> {:ok, ""}
       error -> error
     end
   end

@@ -4,7 +4,6 @@ defmodule Auth0.Management.Jobs.UsersImport do
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
-  alias Auth0.Entity.JobsUsersImport
 
   defmodule Params do
     @moduledoc false
@@ -26,9 +25,8 @@ defmodule Auth0.Management.Jobs.UsersImport do
   @type endpoint :: String.t()
   @type params :: Params.t() | map
   @type config :: Config.t()
-  @type entity :: JobsUsersImport.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type entity :: list() | map()
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Create import users job.
@@ -62,9 +60,9 @@ defmodule Auth0.Management.Jobs.UsersImport do
     Http.multipart_post(endpoint, multipart, config)
     |> case do
       ## documented
-      {:ok, 201, body} -> {:ok, JobsUsersImport.from(body |> Jason.decode!()), body}
+      {:ok, 201, body} -> {:ok, body |> Jason.decode!()}
       ## actual
-      {:ok, 202, body} -> {:ok, JobsUsersImport.from(body |> Jason.decode!()), body}
+      {:ok, 202, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

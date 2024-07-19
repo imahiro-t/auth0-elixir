@@ -8,8 +8,7 @@ defmodule Auth0.Management.Users.Multifactor.InvalidateRememberedBrowser do
   @type id :: String.t()
   @type config :: Config.t()
   @type entity :: String.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Invalidate All Remembered Browsers for Multi-factor Authentication.
@@ -24,7 +23,7 @@ defmodule Auth0.Management.Users.Multifactor.InvalidateRememberedBrowser do
     |> String.replace("{id}", id)
     |> Http.post(%{}, config)
     |> case do
-      {:ok, 204, body} -> {:ok, "", body}
+      {:ok, 204, _body} -> {:ok, ""}
       error -> error
     end
   end

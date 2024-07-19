@@ -19,8 +19,7 @@ defmodule Auth0.Management.Users.Roles.Assign do
   @type params :: Params.t() | map
   @type config :: Config.t()
   @type entity :: String.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Assign roles to a user.
@@ -41,7 +40,7 @@ defmodule Auth0.Management.Users.Roles.Assign do
     |> String.replace("{id}", id)
     |> Http.post(body, config)
     |> case do
-      {:ok, 204, body} -> {:ok, "", body}
+      {:ok, 204, _body} -> {:ok, ""}
       error -> error
     end
   end

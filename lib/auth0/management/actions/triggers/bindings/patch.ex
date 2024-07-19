@@ -4,7 +4,6 @@ defmodule Auth0.Management.Actions.Triggers.Bindings.Patch do
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
-  alias Auth0.Entity.ActionTriggerBindings
 
   defmodule Params do
     @moduledoc false
@@ -41,9 +40,8 @@ defmodule Auth0.Management.Actions.Triggers.Bindings.Patch do
   @type trigger_id :: String.t()
   @type params :: Params.t() | map()
   @type config :: Config.t()
-  @type entity :: ActionTriggerBindings.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type entity :: list() | map()
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Update trigger bindings.
@@ -65,7 +63,7 @@ defmodule Auth0.Management.Actions.Triggers.Bindings.Patch do
     |> Http.patch(body, config)
     |> case do
       {:ok, 200, body} ->
-        {:ok, ActionTriggerBindings.from(body |> Jason.decode!()), body}
+        {:ok, body |> Jason.decode!()}
 
       error ->
         error

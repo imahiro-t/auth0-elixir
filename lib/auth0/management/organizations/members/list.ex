@@ -4,7 +4,6 @@ defmodule Auth0.Management.Organizations.Members.List do
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
-  alias Auth0.Entity.Members
 
   defmodule Params do
     @moduledoc false
@@ -27,9 +26,8 @@ defmodule Auth0.Management.Organizations.Members.List do
   @type id :: String.t()
   @type params :: Params.t() | map
   @type config :: Config.t()
-  @type entity :: Members.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type entity :: list() | map()
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Get members who belong to an organization.
@@ -49,7 +47,7 @@ defmodule Auth0.Management.Organizations.Members.List do
     |> Util.append_query(endpoint |> String.replace("{id}", id))
     |> Http.get(config)
     |> case do
-      {:ok, 200, body} -> {:ok, Members.from(body |> Jason.decode!()), body}
+      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

@@ -2,7 +2,6 @@ defmodule Auth0.Management.Organizations do
   @moduledoc false
 
   alias Auth0.Config
-  alias Auth0.Entity
   alias Auth0.Management.Organizations.List
   alias Auth0.Management.Organizations.Create
   alias Auth0.Management.Organizations.Get
@@ -19,7 +18,6 @@ defmodule Auth0.Management.Organizations do
   @type invitation_id :: String.t()
   @type connection_id :: String.t()
   @type user_id :: String.t()
-  @type response_body :: String.t()
   @type error :: {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/organizations"
@@ -40,7 +38,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec list(List.Params.t() | map, config) ::
-          {:ok, Entity.Organizations.t(), response_body} | error
+          {:ok, list() | map()} | error
   def list(%{} = params, %Config{} = config) do
     List.execute(@endpoint, params, config)
   end
@@ -53,7 +51,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec create(Create.Params.t() | map, config) ::
-          {:ok, Entity.Organization.t(), response_body} | error
+          {:ok, list() | map()} | error
   def create(%{} = params, %Config{} = config) do
     Create.execute(@endpoint, params, config)
   end
@@ -65,7 +63,8 @@ defmodule Auth0.Management.Organizations do
   https://auth0.com/docs/api/management/v2/#!/Organizations/get_organizations_by_id
 
   """
-  @spec get(id, config) :: {:ok, Entity.Organization.t(), response_body} | error
+  @spec get(id, config) ::
+          {:ok, list() | map()} | error
   def get(id, %Config{} = config) do
     Get.execute(@endpoint_by_id, id, config)
   end
@@ -77,7 +76,7 @@ defmodule Auth0.Management.Organizations do
   https://auth0.com/docs/api/management/v2/#!/Organizations/delete_organizations_by_id
 
   """
-  @spec delete(id, config) :: {:ok, String.t(), response_body} | error
+  @spec delete(id, config) :: {:ok, String.t()} | error
   def delete(id, %Config{} = config) do
     Delete.execute(@endpoint_by_id, id, config)
   end
@@ -90,7 +89,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec modify(id, Patch.Params.t() | map, config) ::
-          {:ok, Entity.Organization.t(), response_body} | error
+          {:ok, list() | map()} | error
   def modify(id, %{} = params, %Config{} = config) do
     Patch.execute(@endpoint_by_id, id, params, config)
   end
@@ -103,7 +102,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec get_by_name(name, config) ::
-          {:ok, Entity.Organization.t(), response_body} | error
+          {:ok, list() | map()} | error
   def get_by_name(name, %Config{} = config) do
     Name.Get.execute(@endpoint_by_name, name, config)
   end
@@ -116,7 +115,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec list_connections(id, EnabledConnections.List.Params.t() | map, config) ::
-          {:ok, Entity.EnabledConnections.t(), response_body} | error
+          {:ok, list() | map()} | error
   def list_connections(id, %{} = params, %Config{} = config) do
     EnabledConnections.List.execute(@endpoint_enabled_connections, id, params, config)
   end
@@ -129,7 +128,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec add_connection(id, EnabledConnections.Create.Params.t() | map, config) ::
-          {:ok, Entity.EnabledConnection.t(), response_body} | error
+          {:ok, list() | map()} | error
   def add_connection(id, %{} = params, %Config{} = config) do
     EnabledConnections.Create.execute(@endpoint_enabled_connections, id, params, config)
   end
@@ -142,7 +141,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec get_connection(id, connection_id, config) ::
-          {:ok, Entity.EnabledConnection.t(), response_body} | error
+          {:ok, list() | map()} | error
   def get_connection(id, connection_id, %Config{} = config) do
     EnabledConnections.Get.execute(@endpoint_enabled_connections_by_id, id, connection_id, config)
   end
@@ -154,7 +153,7 @@ defmodule Auth0.Management.Organizations do
   https://auth0.com/docs/api/management/v2/#!/Organizations/delete_enabled_connections_by_connectionId
 
   """
-  @spec delete_connection(id, connection_id, config) :: {:ok, String.t(), response_body} | error
+  @spec delete_connection(id, connection_id, config) :: {:ok, String.t()} | error
   def delete_connection(id, connection_id, %Config{} = config) do
     EnabledConnections.Delete.execute(
       @endpoint_enabled_connections_by_id,
@@ -172,7 +171,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec modify_connection(id, connection_id, EnabledConnections.Patch.Params.t() | map, config) ::
-          {:ok, Entity.EnabledConnection.t(), response_body} | error
+          {:ok, list() | map()} | error
   def modify_connection(
         id,
         connection_id,
@@ -196,7 +195,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec list_invitations(id, Invitations.List.Params.t() | map, config) ::
-          {:ok, Entity.Invitations.t(), response_body} | error
+          {:ok, list() | map()} | error
   def list_invitations(id, %{} = params, %Config{} = config) do
     Invitations.List.execute(@endpoint_invitations, id, params, config)
   end
@@ -209,7 +208,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec create_invitation(id, Invitations.Create.Params.t() | map, config) ::
-          {:ok, Entity.Invitation.t(), response_body} | error
+          {:ok, list() | map()} | error
   def create_invitation(id, %{} = params, %Config{} = config) do
     Invitations.Create.execute(@endpoint_invitations, id, params, config)
   end
@@ -222,7 +221,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec get_invitation(id, invitation_id, Invitations.Get.Params.t() | map, config) ::
-          {:ok, Entity.Invitation.t(), response_body} | error
+          {:ok, list() | map()} | error
   def get_invitation(id, invitation_id, %{} = params, %Config{} = config) do
     Invitations.Get.execute(@endpoint_invitations_by_id, id, invitation_id, params, config)
   end
@@ -234,7 +233,7 @@ defmodule Auth0.Management.Organizations do
   https://auth0.com/docs/api/management/v2/#!/Organizations/delete_invitations_by_invitation_id
 
   """
-  @spec delete_invitation(id, invitation_id, config) :: {:ok, String.t(), response_body} | error
+  @spec delete_invitation(id, invitation_id, config) :: {:ok, String.t()} | error
   def delete_invitation(id, invitation_id, %Config{} = config) do
     Invitations.Delete.execute(@endpoint_invitations_by_id, id, invitation_id, config)
   end
@@ -247,7 +246,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec list_members(id, Members.List.Params.t() | map, config) ::
-          {:ok, Entity.Members.t(), response_body} | error
+          {:ok, list() | map()} | error
   def list_members(id, %{} = params, %Config{} = config) do
     Members.List.execute(@endpoint_members, id, params, config)
   end
@@ -260,7 +259,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec delete_members(id, Members.Delete.Params.t() | map, config) ::
-          {:ok, String.t(), response_body} | error
+          {:ok, String.t()} | error
   def delete_members(id, %{} = params, %Config{} = config) do
     Members.Delete.execute(@endpoint_members, id, params, config)
   end
@@ -273,7 +272,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec add_members(id, Members.Add.Params.t() | map, config) ::
-          {:ok, String.t(), response_body} | error
+          {:ok, String.t()} | error
   def add_members(id, %{} = params, %Config{} = config) do
     Members.Add.execute(@endpoint_members, id, params, config)
   end
@@ -286,7 +285,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec list_roles(id, user_id, Members.Roles.List.Params.t() | map, config) ::
-          {:ok, Entity.Roles.t(), response_body} | error
+          {:ok, list() | map()} | error
   def list_roles(id, user_id, %{} = params, %Config{} = config) do
     Members.Roles.List.execute(@endpoint_roles, id, user_id, params, config)
   end
@@ -299,7 +298,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec delete_roles(id, user_id, Members.Roles.Delete.Params.t() | map, config) ::
-          {:ok, String.t(), response_body} | error
+          {:ok, String.t()} | error
   def delete_roles(id, user_id, %{} = params, %Config{} = config) do
     Members.Roles.Delete.execute(@endpoint_roles, id, user_id, params, config)
   end
@@ -312,7 +311,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec assign_roles(id, user_id, Members.Roles.Add.Params.t() | map, config) ::
-          {:ok, String.t(), response_body} | error
+          {:ok, String.t()} | error
   def assign_roles(id, user_id, %{} = params, %Config{} = config) do
     Members.Roles.Add.execute(@endpoint_roles, id, user_id, params, config)
   end

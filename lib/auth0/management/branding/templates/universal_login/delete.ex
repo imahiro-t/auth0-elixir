@@ -7,8 +7,7 @@ defmodule Auth0.Management.Branding.Templates.UniversalLogin.Delete do
   @type endpoint :: String.t()
   @type config :: Config.t()
   @type entity :: String.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Delete template for New Universal Login Experience.
@@ -21,7 +20,7 @@ defmodule Auth0.Management.Branding.Templates.UniversalLogin.Delete do
   def execute(endpoint, %Config{} = config) do
     Http.delete(endpoint, config)
     |> case do
-      {:ok, 204, body} -> {:ok, "", body}
+      {:ok, 204, _body} -> {:ok, ""}
       error -> error
     end
   end

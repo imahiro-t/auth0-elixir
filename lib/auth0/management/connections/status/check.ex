@@ -8,8 +8,7 @@ defmodule Auth0.Management.Connections.Status.Check do
   @type id :: String.t()
   @type config :: Config.t()
   @type entity :: boolean
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Check connection status.
@@ -24,8 +23,8 @@ defmodule Auth0.Management.Connections.Status.Check do
     |> String.replace("{id}", id)
     |> Http.get(config)
     |> case do
-      {:ok, 200, body} -> {:ok, true, body}
-      {:error, 404, body} -> {:ok, false, body}
+      {:ok, 200, _body} -> {:ok, true}
+      {:error, 404, _body} -> {:ok, false}
       error -> error
     end
   end

@@ -2,7 +2,6 @@ defmodule Auth0.Management.EmailTemplates do
   @moduledoc false
 
   alias Auth0.Config
-  alias Auth0.Entity
   alias Auth0.Management.EmailTemplates.Get
   alias Auth0.Management.EmailTemplates.Patch
   alias Auth0.Management.EmailTemplates.Update
@@ -10,7 +9,6 @@ defmodule Auth0.Management.EmailTemplates do
 
   @type template_name :: String.t()
   @type config :: Config.t()
-  @type response_body :: String.t()
   @type error :: {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/email-templates"
@@ -24,7 +22,7 @@ defmodule Auth0.Management.EmailTemplates do
 
   """
   @spec get(template_name, config) ::
-          {:ok, Entity.EmailTemplate.t(), response_body} | error
+          {:ok, list() | map()} | error
   def get(template_name, %Config{} = config) do
     Get.execute(@endpoint_by_name, template_name, config)
   end
@@ -37,7 +35,7 @@ defmodule Auth0.Management.EmailTemplates do
 
   """
   @spec patch(template_name, Patch.Params.t() | map, config) ::
-          {:ok, Entity.EmailTemplate.t(), response_body} | error
+          {:ok, list() | map()} | error
   def patch(template_name, %{} = params, %Config{} = config) do
     Patch.execute(@endpoint_by_name, template_name, params, config)
   end
@@ -50,7 +48,7 @@ defmodule Auth0.Management.EmailTemplates do
 
   """
   @spec update(template_name, Update.Params.t() | map, config) ::
-          {:ok, Entity.EmailTemplate.t(), response_body} | error
+          {:ok, list() | map()} | error
   def update(template_name, %{} = params, %Config{} = config) do
     Update.execute(@endpoint_by_name, template_name, params, config)
   end
@@ -63,7 +61,7 @@ defmodule Auth0.Management.EmailTemplates do
 
   """
   @spec create(Create.Params.t() | map, config) ::
-          {:ok, Entity.EmailTemplate.t(), response_body} | error
+          {:ok, list() | map()} | error
   def create(%{} = params, %Config{} = config) do
     Create.execute(@endpoint, params, config)
   end

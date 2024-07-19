@@ -4,7 +4,6 @@ defmodule Auth0.Management.ClientGrants.Patch do
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
-  alias Auth0.Entity.ClientGrant
 
   defmodule Params do
     @moduledoc false
@@ -19,9 +18,8 @@ defmodule Auth0.Management.ClientGrants.Patch do
   @type id :: String.t()
   @type params :: Params.t() | map()
   @type config :: Config.t()
-  @type entity :: ClientGrant.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type entity :: list() | map()
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Update client grant.
@@ -42,7 +40,7 @@ defmodule Auth0.Management.ClientGrants.Patch do
     |> String.replace("{id}", id)
     |> Http.patch(body, config)
     |> case do
-      {:ok, 200, body} -> {:ok, ClientGrant.from(body |> Jason.decode!()), body}
+      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

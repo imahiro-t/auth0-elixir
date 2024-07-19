@@ -9,8 +9,7 @@ defmodule Auth0.Management.Organizations.EnabledConnections.Delete do
   @type connection_id :: String.t()
   @type config :: Config.t()
   @type entity :: String.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Delete connections from an organization.
@@ -26,7 +25,7 @@ defmodule Auth0.Management.Organizations.EnabledConnections.Delete do
     |> String.replace("{connectionId}", connection_id)
     |> Http.delete(config)
     |> case do
-      {:ok, 204, body} -> {:ok, "", body}
+      {:ok, 204, _body} -> {:ok, ""}
       error -> error
     end
   end

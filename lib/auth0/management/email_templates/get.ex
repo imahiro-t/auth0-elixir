@@ -3,14 +3,12 @@ defmodule Auth0.Management.EmailTemplates.Get do
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http
-  alias Auth0.Entity.EmailTemplate
 
   @type endpoint :: String.t()
   @type template_name :: String.t()
   @type config :: Config.t()
-  @type entity :: EmailTemplate.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type entity :: list() | map()
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Get an email template.
@@ -25,7 +23,7 @@ defmodule Auth0.Management.EmailTemplates.Get do
     |> String.replace("{templateName}", template_name)
     |> Http.get(config)
     |> case do
-      {:ok, 200, body} -> {:ok, EmailTemplate.from(body |> Jason.decode!()), body}
+      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

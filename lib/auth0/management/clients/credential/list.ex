@@ -8,8 +8,7 @@ defmodule Auth0.Management.Clients.Credential.List do
   @type client_id :: String.t()
   @type config :: Config.t()
   @type entity :: list(map())
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Get client credentials.
@@ -24,7 +23,7 @@ defmodule Auth0.Management.Clients.Credential.List do
     |> String.replace("{client_id}", client_id)
     |> Http.get(config)
     |> case do
-      {:ok, 200, body} -> {:ok, body |> Jason.decode!(), body}
+      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

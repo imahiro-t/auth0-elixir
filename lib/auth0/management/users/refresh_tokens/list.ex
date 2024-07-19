@@ -4,7 +4,6 @@ defmodule Auth0.Management.Users.RefreshTokens.List do
   alias Auth0.Config
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
-  alias Auth0.Entity.RefreshTokens
 
   defmodule Params do
     @moduledoc false
@@ -23,9 +22,8 @@ defmodule Auth0.Management.Users.RefreshTokens.List do
   @type user_id :: String.t()
   @type params :: Params.t() | map
   @type config :: Config.t()
-  @type entity :: RefreshTokens.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type entity :: list() | map()
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @doc """
   Retrieve details for a user's refresh tokens.
@@ -45,7 +43,7 @@ defmodule Auth0.Management.Users.RefreshTokens.List do
     |> Util.append_query(endpoint |> String.replace("{user_id}", user_id))
     |> Http.get(config)
     |> case do
-      {:ok, 200, body} -> {:ok, RefreshTokens.from(body |> Jason.decode!()), body}
+      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end
