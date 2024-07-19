@@ -23,8 +23,7 @@ defmodule Auth0.Authentication.Token.ClientCredentials do
   @type params :: Params.t()
   @type config :: Config.t()
   @type entity :: Token.t()
-  @type response_body :: String.t()
-  @type response :: {:ok, entity, response_body} | {:error, integer, term} | {:error, term}
+  @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @headers %{"Content-Type" => "application/x-www-form-urlencoded"}
 
@@ -49,7 +48,7 @@ defmodule Auth0.Authentication.Token.ClientCredentials do
       config
     )
     |> case do
-      {:ok, 200, body} -> {:ok, Token.from(body |> Jason.decode!()), body}
+      {:ok, 200, body} -> {:ok, Token.from(body |> Jason.decode!())}
       error -> error
     end
   end

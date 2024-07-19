@@ -98,7 +98,7 @@ defmodule Auth0.Common.Management.TokenManager do
     }
     |> Authentication.token_by_client_credentials(config)
     |> case do
-      {:ok, %Token{access_token: access_token} = token, _}
+      {:ok, %Token{access_token: access_token} = token}
       when access_token |> is_binary ->
         token
 

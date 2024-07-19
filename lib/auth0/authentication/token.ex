@@ -6,7 +6,6 @@ defmodule Auth0.Authentication.Token do
   alias Auth0.Authentication.Token.ClientCredentials
 
   @type config :: Config.t()
-  @type response_body :: String.t()
   @type error :: {:error, integer, term} | {:error, term}
 
   @endpoint "/oauth/token"
@@ -19,7 +18,7 @@ defmodule Auth0.Authentication.Token do
 
   """
   @spec token_by_client_credentials(ClientCredentials.Params.t(), config) ::
-          {:ok, Entity.Token.t(), response_body} | error
+          {:ok, Entity.Token.t()} | error
   def token_by_client_credentials(%ClientCredentials.Params{} = params, %Config{} = config) do
     ClientCredentials.execute(@endpoint, params, config)
   end
