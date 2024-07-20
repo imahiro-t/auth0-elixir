@@ -19,12 +19,12 @@ defmodule Auth0.Authentication.Token.ClientCredentials do
           }
   end
 
-  @type endpoint :: String.t()
   @type params :: Params.t()
   @type config :: Config.t()
   @type entity :: Token.t()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/oauth/token"
   @headers %{"Content-Type" => "application/x-www-form-urlencoded"}
 
   @doc """
@@ -34,8 +34,8 @@ defmodule Auth0.Authentication.Token.ClientCredentials do
   https://auth0.com/docs/api/authentication#client-credentials-flow
 
   """
-  @spec execute(endpoint, params, config) :: response
-  def execute(endpoint, %Params{} = params, %Config{} = config) do
+  @spec execute(params, config) :: response
+  def execute(%Params{} = params, %Config{} = config) do
     body =
       params
       |> Util.to_map()
@@ -44,7 +44,7 @@ defmodule Auth0.Authentication.Token.ClientCredentials do
 
     Http.request_with_retry(
       fn url -> HTTPoison.post(url, body, @headers) end,
-      endpoint,
+      @endpoint,
       config
     )
     |> case do

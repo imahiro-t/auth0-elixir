@@ -8,8 +8,6 @@ defmodule Auth0.Authentication.Token do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint "/oauth/token"
-
   @doc """
   Client Credentials Flow.
 
@@ -20,6 +18,6 @@ defmodule Auth0.Authentication.Token do
   @spec token_by_client_credentials(ClientCredentials.Params.t(), config) ::
           {:ok, Entity.Token.t()} | error
   def token_by_client_credentials(%ClientCredentials.Params{} = params, %Config{} = config) do
-    ClientCredentials.execute(@endpoint, params, config)
+    ClientCredentials.execute(params, config)
   end
 end
