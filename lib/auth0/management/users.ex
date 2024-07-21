@@ -8,6 +8,9 @@ defmodule Auth0.Management.Users do
   alias Auth0.Management.Users.Delete
   alias Auth0.Management.Users.Patch
   alias Auth0.Management.Users.Enrollments
+  alias Auth0.Management.Users.AuthenticationMethods
+  alias Auth0.Management.Users.Authenticators
+  alias Auth0.Management.Users.Enrollments
   alias Auth0.Management.Users.Roles
   alias Auth0.Management.Users.Logs
   alias Auth0.Management.Users.Organizations
@@ -19,6 +22,7 @@ defmodule Auth0.Management.Users do
   alias Auth0.Management.Users.Sessions
 
   @type id :: String.t()
+  @type authentication_method_id :: String.t()
   @type provider :: String.t()
   @type user_id :: String.t()
   @type config :: Config.t()
@@ -85,6 +89,110 @@ defmodule Auth0.Management.Users do
           {:ok, list() | map()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(id, params, config)
+  end
+
+  @doc """
+  Retrieve detailed list of authentication methods associated with a specified user.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/get-authentication-methods
+
+  """
+  @spec list_authentication_methods(id, map(), config) ::
+          {:ok, list() | map()} | error
+  def list_authentication_methods(id, %{} = params, %Config{} = config) do
+    AuthenticationMethods.List.execute(id, params, config)
+  end
+
+  @doc """
+  Remove all authentication methods (i.e., enrolled MFA factors) from the specified user account. This action cannot be undone.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/delete-authentication-methods
+
+  """
+  @spec delete_authentication_methods(id, config) ::
+          {:ok, String.t()} | error
+  def delete_authentication_methods(id, %Config{} = config) do
+    AuthenticationMethods.DeleteAll.execute(id, config)
+  end
+
+  @doc """
+  Create an authentication method. Authentication methods created via this endpoint will be auto confirmed and should already have verification completed.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/post-authentication-methods
+
+  """
+  @spec create_authentication_methods(id, map(), config) ::
+          {:ok, list() | map()} | error
+  def create_authentication_methods(id, %{} = params, %Config{} = config) do
+    AuthenticationMethods.Create.execute(id, params, config)
+  end
+
+  @doc """
+  Replace the specified user authentication methods with supplied values.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/put-authentication-methods
+
+  """
+  @spec update_authentication_methods(id, map(), config) ::
+          {:ok, list() | map()} | error
+  def update_authentication_methods(id, %{} = params, %Config{} = config) do
+    AuthenticationMethods.PutAll.execute(id, params, config)
+  end
+
+  @doc """
+  Get an authentication method by ID
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/get-authentication-methods-by-authentication-method-id
+
+  """
+  @spec get_authentication_method(id, authentication_method_id, config) ::
+          {:ok, list() | map()} | error
+  def get_authentication_method(id, authentication_method_id, %Config{} = config) do
+    AuthenticationMethods.Get.execute(id, authentication_method_id, config)
+  end
+
+  @doc """
+  Remove the authentication method with the given ID from the specified user.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/delete-authentication-methods-by-authentication-method-id
+
+  """
+  @spec delete_authentication_method(id, authentication_method_id, config) ::
+          {:ok, String.t()} | error
+  def delete_authentication_method(id, authentication_method_id, %Config{} = config) do
+    AuthenticationMethods.Delete.execute(id, authentication_method_id, config)
+  end
+
+  @doc """
+  Modify the authentication method with the given ID from the specified user.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/patch-authentication-methods-by-authentication-method-id
+
+  """
+  @spec update_authentication_method(id, authentication_method_id, map(), config) ::
+          {:ok, list() | map()} | error
+  def update_authentication_method(id, authentication_method_id, %{} = params, %Config{} = config) do
+    AuthenticationMethods.Patch.execute(id, authentication_method_id, params, config)
+  end
+
+  @doc """
+  Remove all authenticators registered to a given user ID, such as OTP, email, phone, and push-notification. This action cannot be undone.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/delete-authenticators
+
+  """
+  @spec delete_authenticators(id, config) ::
+          {:ok, String.t()} | error
+  def delete_authenticators(id, %Config{} = config) do
+    Authenticators.Delete.execute(id, config)
   end
 
   @doc """

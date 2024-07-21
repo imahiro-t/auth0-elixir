@@ -57,6 +57,7 @@ defmodule Auth0.Api.Management do
   @type ip :: String.t()
   @type client_id :: String.t()
   @type credential_id :: String.t()
+  @type authentication_method_id :: String.t()
   @type error :: {:error, integer, term} | {:error, term}
 
   @doc """
@@ -2598,6 +2599,115 @@ defmodule Auth0.Api.Management do
           {:ok, map} | error
   def update_user(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Users.update(id, params, config)
+  end
+
+  @doc """
+  Retrieve detailed list of authentication methods associated with a specified user.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/get-authentication-methods
+
+  """
+  @spec list_user_authentication_methods(id, map(), config) ::
+          {:ok, list() | map()} | error
+  def list_user_authentication_methods(id, %{} = params, %Config{} = config) do
+    Users.list_authentication_methods(id, params, config)
+  end
+
+  @doc """
+  Remove all authentication methods (i.e., enrolled MFA factors) from the specified user account. This action cannot be undone.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/delete-authentication-methods
+
+  """
+  @spec delete_user_authentication_methods(id, config) ::
+          {:ok, String.t()} | error
+  def delete_user_authentication_methods(id, %Config{} = config) do
+    Users.delete_authentication_methods(id, config)
+  end
+
+  @doc """
+  Create an authentication method. Authentication methods created via this endpoint will be auto confirmed and should already have verification completed.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/post-authentication-methods
+
+  """
+  @spec create_user_authentication_methods(id, map(), config) ::
+          {:ok, list() | map()} | error
+  def create_user_authentication_methods(id, %{} = params, %Config{} = config) do
+    Users.create_authentication_methods(id, params, config)
+  end
+
+  @doc """
+  Replace the specified user authentication methods with supplied values.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/put-authentication-methods
+
+  """
+  @spec update_user_authentication_methods(id, map(), config) ::
+          {:ok, list() | map()} | error
+  def update_user_authentication_methods(id, %{} = params, %Config{} = config) do
+    Users.update_authentication_methods(id, params, config)
+  end
+
+  @doc """
+  Get an authentication method by ID
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/get-authentication-methods-by-authentication-method-id
+
+  """
+  @spec get_user_authentication_method(id, authentication_method_id, config) ::
+          {:ok, list() | map()} | error
+  def get_user_authentication_method(id, authentication_method_id, %Config{} = config) do
+    Users.get_authentication_method(id, authentication_method_id, config)
+  end
+
+  @doc """
+  Remove the authentication method with the given ID from the specified user.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/delete-authentication-methods-by-authentication-method-id
+
+  """
+  @spec delete_user_authentication_method(id, authentication_method_id, config) ::
+          {:ok, String.t()} | error
+  def delete_user_authentication_method(id, authentication_method_id, %Config{} = config) do
+    Users.delete_authentication_method(id, authentication_method_id, config)
+  end
+
+  @doc """
+  Modify the authentication method with the given ID from the specified user.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/patch-authentication-methods-by-authentication-method-id
+
+  """
+  @spec update_user_authentication_method(id, authentication_method_id, map(), config) ::
+          {:ok, list() | map()} | error
+  def update_user_authentication_method(
+        id,
+        authentication_method_id,
+        %{} = params,
+        %Config{} = config
+      ) do
+    Users.update_authentication_method(id, authentication_method_id, params, config)
+  end
+
+  @doc """
+  Remove all authenticators registered to a given user ID, such as OTP, email, phone, and push-notification. This action cannot be undone.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/delete-authenticators
+
+  """
+  @spec delete_user_authenticators(id, config) ::
+          {:ok, String.t()} | error
+  def delete_user_authenticators(id, %Config{} = config) do
+    Users.delete_authenticators(id, config)
   end
 
   @doc """
