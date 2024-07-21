@@ -5,56 +5,26 @@ defmodule Auth0.Management.ResourceServers.Patch do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct name: nil,
-              scopes: nil,
-              signing_alg: nil,
-              signing_secret: nil,
-              allow_offline_access: nil,
-              skip_consent_for_verifiable_first_party_clients: nil,
-              token_lifetime: nil,
-              token_lifetime_for_web: nil,
-              enforce_policies: nil,
-              client: nil
-
-    @type t :: %__MODULE__{
-            name: String.t(),
-            scopes: list(String.t()),
-            signing_alg: String.t(),
-            signing_secret: String.t(),
-            allow_offline_access: boolean,
-            skip_consent_for_verifiable_first_party_clients: boolean,
-            token_lifetime: integer,
-            token_lifetime_for_web: integer,
-            enforce_policies: boolean,
-            client: map
-          }
-  end
-
-  @type endpoint :: String.t()
   @type id :: String.t()
-  @type params :: Params.t() | map
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/resource-servers/{id}"
+
   @doc """
-  Update a resource server.
+  Change an existing API setting by resource server ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Resource_Servers/get_resource_servers_by_id
+  https://auth0.com/docs/api/management/v2/resource-servers/patch-resource-servers-by-id
 
   """
-  @spec execute(endpoint, id, params, config) :: response
-  def execute(endpoint, id, %Params{} = params, %Config{} = config) do
-    execute(endpoint, id, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, id, %{} = params, %Config{} = config) do
+  @spec execute(id, params, config) :: response
+  def execute(id, %{} = params, %Config{} = config) do
     body = params |> Util.remove_nil()
 
-    endpoint
+    @endpoint
     |> String.replace("{id}", id)
     |> Http.patch(body, config)
     |> case do

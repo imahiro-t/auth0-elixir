@@ -12,70 +12,67 @@ defmodule Auth0.Management.ResourceServers do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/resource-servers"
-  @endpoint_by_id "/api/v2/resource-servers/{id}"
-
   @doc """
-  Get resource servers.
+  Retrieve details of all APIs associated with your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Resource_Servers/get_resource_servers
+  https://auth0.com/docs/api/management/v2/resource-servers/get-resource-servers
 
   """
-  @spec list(List.Params.t() | map, config) ::
+  @spec list(map(), config) ::
           {:ok, list() | map()} | error
   def list(%{} = params, %Config{} = config) do
-    List.execute(@endpoint, params, config)
+    List.execute(params, config)
   end
 
   @doc """
-  Create a resource server.
+  Create a new API associated with your tenant. Note that all new APIs must be registered with Auth0.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Resource_Servers/post_resource_servers
+  https://auth0.com/docs/api/management/v2/resource-servers/post-resource-servers
 
   """
-  @spec create(Create.Params.t() | map, config) ::
+  @spec create(map(), config) ::
           {:ok, list() | map()} | error
   def create(%{} = params, %Config{} = config) do
-    Create.execute(@endpoint, params, config)
+    Create.execute(params, config)
   end
 
   @doc """
-  Get a resource server.
+  Retrieve API details with the given ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Resource_Servers/get_resource_servers_by_id
+  https://auth0.com/docs/api/management/v2/resource-servers/get-resource-servers-by-id
 
   """
-  @spec get(id, Get.Params.t() | map, config) ::
+  @spec get(id, map(), config) ::
           {:ok, list() | map()} | error
   def get(id, %{} = params, %Config{} = config) do
-    Get.execute(@endpoint_by_id, id, params, config)
+    Get.execute(id, params, config)
   end
 
   @doc """
-  Delete a resource server.
+  Delete an existing API by ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Resource_Servers/delete_resource_servers_by_id
+  https://auth0.com/docs/api/management/v2/resource-servers/delete-resource-servers-by-id
 
   """
   @spec delete(id, config) :: {:ok, String.t()} | error
   def delete(id, %Config{} = config) do
-    Delete.execute(@endpoint_by_id, id, config)
+    Delete.execute(id, config)
   end
 
   @doc """
-  Update a resource server.
+  Change an existing API setting by resource server ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Resource_Servers/get_resource_servers_by_id
+  https://auth0.com/docs/api/management/v2/resource-servers/patch-resource-servers-by-id
 
   """
-  @spec update(id, Patch.Params.t() | map, config) ::
+  @spec update(id, map(), config) ::
           {:ok, list() | map()} | error
   def update(id, %{} = params, %Config{} = config) do
-    Patch.execute(@endpoint_by_id, id, params, config)
+    Patch.execute(id, params, config)
   end
 end

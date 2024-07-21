@@ -5,39 +5,25 @@ defmodule Auth0.Management.Blacklist.Tokens.Add do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct aud: nil,
-              jti: nil
-
-    @type t :: %__MODULE__{
-            aud: String.t(),
-            jti: String.t()
-          }
-  end
-
-  @type endpoint :: String.t()
-  @type params :: Params.t() | map()
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: String.t()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/blacklists/tokens"
+
   @doc """
-  Blacklist a token.
+  Add the token identified by the jti to a blacklist for the tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Blacklists/post_tokens
+  https://auth0.com/docs/api/management/v2/blacklists/post-tokens
 
   """
-  @spec execute(endpoint, params, config) :: response
-  def execute(endpoint, %Params{} = params, %Config{} = config) do
-    execute(endpoint, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, %{} = params, %Config{} = config) do
+  @spec execute(params, config) :: response
+  def execute(%{} = params, %Config{} = config) do
     body = params |> Util.remove_nil()
 
-    Http.post(endpoint, body, config)
+    Http.post(@endpoint, body, config)
     |> case do
       {:ok, 204, _body} -> {:ok, ""}
       error -> error

@@ -4,21 +4,22 @@ defmodule Auth0.Management.Actions.Triggers.List do
   alias Auth0.Config
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/actions/triggers"
+
   @doc """
-  Get triggers.
+  Retrieve the set of triggers currently available within actions. A trigger is an extensibility point to which actions can be bound.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/get_triggers
+  https://auth0.com/docs/api/management/v2/actions/get-triggers
 
   """
-  @spec execute(endpoint, config) :: response
-  def execute(endpoint, %Config{} = config) do
-    endpoint
+  @spec execute(config) :: response
+  def execute(%Config{} = config) do
+    @endpoint
     |> Http.get(config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}

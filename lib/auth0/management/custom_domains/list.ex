@@ -4,21 +4,22 @@ defmodule Auth0.Management.CustomDomains.List do
   alias Auth0.Config
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/custom-domains"
+
   @doc """
-  Get custom domains configurations.
+  Retrieve details on custom domains.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Custom_Domains/get_custom_domains
+  https://auth0.com/docs/api/management/v2/custom-domains/get-custom-domains
 
   """
-  @spec execute(endpoint, config) :: response
-  def execute(endpoint, %Config{} = config) do
-    endpoint
+  @spec execute(config) :: response
+  def execute(%Config{} = config) do
+    @endpoint
     |> Http.get(config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}

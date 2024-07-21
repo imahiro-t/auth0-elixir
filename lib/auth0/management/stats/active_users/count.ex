@@ -4,21 +4,22 @@ defmodule Auth0.Management.Stats.ActiveUsers.Count do
   alias Auth0.Config
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type config :: Config.t()
   @type entity :: integer
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/stats/active-users"
+
   @doc """
-  Get active users count.
+  Retrieve the number of active users that logged in during the last 30 days.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Stats/get_active_users
+  https://auth0.com/docs/api/management/v2/stats/get-active-users
 
   """
-  @spec execute(endpoint, config) :: response
-  def execute(endpoint, %Config{} = config) do
-    endpoint
+  @spec execute(config) :: response
+  def execute(%Config{} = config) do
+    @endpoint
     |> Http.get(config)
     |> case do
       {:ok, 200, body} -> {:ok, body}

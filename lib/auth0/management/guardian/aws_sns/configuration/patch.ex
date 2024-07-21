@@ -5,45 +5,25 @@ defmodule Auth0.Management.Guardian.AwsSns.Configuration.Patch do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct aws_access_key_id: nil,
-              aws_secret_access_key: nil,
-              aws_region: nil,
-              sns_apns_platform_application_arn: nil,
-              sns_gcm_platform_application_arn: nil
-
-    @type t :: %__MODULE__{
-            aws_access_key_id: String.t(),
-            aws_secret_access_key: String.t(),
-            aws_region: String.t(),
-            sns_apns_platform_application_arn: String.t(),
-            sns_gcm_platform_application_arn: String.t()
-          }
-  end
-
-  @type endpoint :: String.t()
-  @type params :: Params.t() | map()
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/guardian/factors/push-notification/providers/sns"
+
   @doc """
-  Update AWS SNS push notification configuration.
+  Configure the AWS SNS push notification provider configuration (subscription required).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_sns
+  https://auth0.com/docs/api/management/v2/guardian/patch-sns
 
   """
-  @spec execute(endpoint, params, config) :: response
-  def execute(endpoint, %Params{} = params, %Config{} = config) do
-    execute(endpoint, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, %{} = params, %Config{} = config) do
+  @spec execute(params, config) :: response
+  def execute(%{} = params, %Config{} = config) do
     body = params |> Util.remove_nil()
 
-    endpoint
+    @endpoint
     |> Http.patch(body, config)
     |> case do
       {:ok, 200, body} ->

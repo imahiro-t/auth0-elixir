@@ -14,137 +14,132 @@ defmodule Auth0.Management.Roles do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/roles"
-  @endpoint_by_id "/api/v2/roles/{id}"
-  @endpoint_permissions "/api/v2/roles/{id}/permissions"
-  @endpoint_users "/api/v2/roles/{id}/users"
-
   @doc """
-  Get roles.
+  Retrieve detailed list of user roles created in your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/get_roles
+  https://auth0.com/docs/api/management/v2/roles/get-roles
 
   """
-  @spec list(List.Params.t() | map, config) ::
+  @spec list(map(), config) ::
           {:ok, list() | map()} | error
   def list(%{} = params, %Config{} = config) do
-    List.execute(@endpoint, params, config)
+    List.execute(params, config)
   end
 
   @doc """
-  Create a role.
+  Create a user role for Role-Based Access Control.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/post_roles
+  https://auth0.com/docs/api/management/v2/roles/post-roles
 
   """
-  @spec create(Create.Params.t() | map, config) ::
+  @spec create(map(), config) ::
           {:ok, list() | map()} | error
   def create(%{} = params, %Config{} = config) do
-    Create.execute(@endpoint, params, config)
+    Create.execute(params, config)
   end
 
   @doc """
-  Get a role.
+  Retrieve details about a specific user role specified by ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/get_roles_by_id
+  https://auth0.com/docs/api/management/v2/roles/get-roles-by-id
 
   """
   @spec get(id, config) ::
           {:ok, list() | map()} | error
   def get(id, %Config{} = config) do
-    Get.execute(@endpoint_by_id, id, config)
+    Get.execute(id, config)
   end
 
   @doc """
-  Delete a role.
+  Delete a specific user role from your tenant. Once deleted, it is removed from any user who was previously assigned that role. This action cannot be undone.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/delete_roles_by_id
+  https://auth0.com/docs/api/management/v2/roles/delete-roles-by-id
 
   """
   @spec delete(id, config) :: {:ok, String.t()} | error
   def delete(id, %Config{} = config) do
-    Delete.execute(@endpoint_by_id, id, config)
+    Delete.execute(id, config)
   end
 
   @doc """
-  Update a role.
+  Modify the details of a specific user role specified by ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/patch_roles_by_id
+  https://auth0.com/docs/api/management/v2/roles/patch-roles-by-id
 
   """
-  @spec update(id, Patch.Params.t() | map, config) ::
+  @spec update(id, map(), config) ::
           {:ok, list() | map()} | error
   def update(id, %{} = params, %Config{} = config) do
-    Patch.execute(@endpoint_by_id, id, params, config)
+    Patch.execute(id, params, config)
   end
 
   @doc """
-  Get permissions granted by role.
+  Retrieve detailed list (name, description, resource server) of permissions granted by a specified user role.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/get_role_permission
+  https://auth0.com/docs/api/management/v2/roles/get-role-permission
 
   """
-  @spec list_permissions(id, Permissions.List.Params.t() | map, config) ::
+  @spec list_permissions(id, map(), config) ::
           {:ok, list() | map()} | error
   def list_permissions(id, %{} = params, %Config{} = config) do
-    Permissions.List.execute(@endpoint_permissions, id, params, config)
+    Permissions.List.execute(id, params, config)
   end
 
   @doc """
-  Remove permissions from a role.
+  Remove one or more permissions from a specified user role.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/delete_role_permission_assignment
+  https://auth0.com/docs/api/management/v2/roles/delete-role-permission-assignment
 
   """
-  @spec remove_permissions(id, Permissions.Remove.Params.t() | map, config) ::
+  @spec remove_permissions(id, map(), config) ::
           {:ok, String.t()} | error
   def remove_permissions(id, %{} = params, %Config{} = config) do
-    Permissions.Remove.execute(@endpoint_permissions, id, params, config)
+    Permissions.Remove.execute(id, params, config)
   end
 
   @doc """
-  Associate permissions with a role.
+  Add one or more permissions to a specified user role.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/post_role_permission_assignment
+  https://auth0.com/docs/api/management/v2/roles/post-role-permission-assignment
 
   """
-  @spec associate_permissions(id, Permissions.Associate.Params.t() | map, config) ::
+  @spec associate_permissions(id, map(), config) ::
           {:ok, String.t()} | error
   def associate_permissions(id, %{} = params, %Config{} = config) do
-    Permissions.Associate.execute(@endpoint_permissions, id, params, config)
+    Permissions.Associate.execute(id, params, config)
   end
 
   @doc """
-  Get a role's users.
+  Retrieve list of users associated with a specific role.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/get_role_user
+  https://auth0.com/docs/api/management/v2/roles/get-role-user
 
   """
-  @spec list_users(id, Users.List.Params.t() | map, config) ::
+  @spec list_users(id, map(), config) ::
           {:ok, list() | map()} | error
   def list_users(id, %{} = params, %Config{} = config) do
-    Users.List.execute(@endpoint_users, id, params, config)
+    Users.List.execute(id, params, config)
   end
 
   @doc """
-  Assign users to a role.
+  Assign one or more users to an existing user role.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/post_role_users
+  https://auth0.com/docs/api/management/v2/roles/post-role-users
 
   """
-  @spec assign_users(id, Users.Assign.Params.t() | map, config) ::
+  @spec assign_users(id, map(), config) ::
           {:ok, list() | map()} | error
   def assign_users(id, %{} = params, %Config{} = config) do
-    Users.Assign.execute(@endpoint_users, id, params, config)
+    Users.Assign.execute(id, params, config)
   end
 end

@@ -5,49 +5,26 @@ defmodule Auth0.Management.Roles.Permissions.Remove do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defmodule Permission do
-      @moduledoc false
-      defstruct resource_server_identifier: nil,
-                permission_name: nil
-
-      @type t :: %__MODULE__{
-              resource_server_identifier: String.t(),
-              permission_name: String.t()
-            }
-    end
-
-    defstruct permissions: nil
-
-    @type t :: %__MODULE__{
-            permissions: list(Permission.t())
-          }
-  end
-
-  @type endpoint :: String.t()
   @type id :: String.t()
-  @type params :: Params.t() | map
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: String.t()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/roles/{id}/permissions"
+
   @doc """
-  Remove permissions from a role.
+  Remove one or more permissions from a specified user role.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/delete_role_permission_assignment
+  https://auth0.com/docs/api/management/v2/roles/delete-role-permission-assignment
 
   """
-  @spec execute(endpoint, id, params, config) :: response
-  def execute(endpoint, id, %Params{} = params, %Config{} = config) do
-    execute(endpoint, id, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, id, %{} = params, %Config{} = config) do
+  @spec execute(id, params, config) :: response
+  def execute(id, %{} = params, %Config{} = config) do
     body = params |> Util.remove_nil()
 
-    endpoint
+    @endpoint
     |> String.replace("{id}", id)
     |> Http.delete(body, config)
     |> case do

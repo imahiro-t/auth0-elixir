@@ -5,72 +5,26 @@ defmodule Auth0.Management.Organizations.Invitations.Create do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defmodule Inviter do
-      @moduledoc false
-      defstruct name: nil
-
-      @type t :: %__MODULE__{
-              name: String.t()
-            }
-    end
-
-    defmodule Invitee do
-      @moduledoc false
-      defstruct email: nil
-
-      @type t :: %__MODULE__{
-              email: String.t()
-            }
-    end
-
-    defstruct inviter: nil,
-              invitee: nil,
-              client_id: nil,
-              connection_id: nil,
-              app_metadata: nil,
-              user_metadata: nil,
-              ttl_sec: nil,
-              roles: nil,
-              send_invitation_email: nil
-
-    @type t :: %__MODULE__{
-            inviter: Inviter.t(),
-            invitee: Invitee.t(),
-            client_id: String.t(),
-            connection_id: String.t(),
-            app_metadata: map,
-            user_metadata: map,
-            ttl_sec: integer,
-            roles: list(String.t()),
-            send_invitation_email: boolean
-          }
-  end
-
-  @type endpoint :: String.t()
   @type id :: String.t()
-  @type params :: Params.t() | map
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/organizations/{id}/invitations"
+
   @doc """
-  Create invitations to organization.
+  Create a user invitation for a specific Organization. Upon creation, the listed user receives an email inviting them to join the Organization.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/post_invitations
+  https://auth0.com/docs/api/management/v2/organizations/post-invitations
 
   """
-  @spec execute(endpoint, id, params, config) :: response
-  def execute(endpoint, id, %Params{} = params, %Config{} = config) do
-    execute(endpoint, id, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, id, %{} = params, %Config{} = config) do
+  @spec execute(id, params, config) :: response
+  def execute(id, %{} = params, %Config{} = config) do
     body = params |> Util.remove_nil()
 
-    endpoint
+    @endpoint
     |> String.replace("{id}", id)
     |> Http.post(body, config)
     |> case do

@@ -4,22 +4,23 @@ defmodule Auth0.Management.Clients.Credential.List do
   alias Auth0.Config
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type client_id :: String.t()
   @type config :: Config.t()
   @type entity :: list(map())
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/clients/{client_id}/credentials"
+
   @doc """
-  Get client credentials.
+  Get the details of a client credential.
 
   ## see
   https://auth0.com/docs/api/management/v2/clients/get-credentials
 
   """
-  @spec execute(endpoint, client_id, config) :: response
-  def execute(endpoint, client_id, %Config{} = config) do
-    endpoint
+  @spec execute(client_id, config) :: response
+  def execute(client_id, %Config{} = config) do
+    @endpoint
     |> String.replace("{client_id}", client_id)
     |> Http.get(config)
     |> case do

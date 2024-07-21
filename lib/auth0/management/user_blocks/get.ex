@@ -5,39 +5,25 @@ defmodule Auth0.Management.UserBlocks.Get do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct identifier: nil,
-              consider_brute_force_enablement: nil
-
-    @type t :: %__MODULE__{
-            identifier: String.t(),
-            consider_brute_force_enablement: boolean
-          }
-  end
-
-  @type endpoint :: String.t()
-  @type params :: Params.t() | map
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/user-blocks"
+
   @doc """
-  Get blocks by identifier.
+  Retrieve details of all Brute-force Protection blocks for a user with the given identifier (username, phone number, or email).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/User_Blocks/get_user_blocks
+  https://auth0.com/docs/api/management/v2/user-blocks/get-user-blocks
 
   """
-  @spec execute(endpoint, params, config) :: response
-  def execute(endpoint, %Params{} = params, %Config{} = config) do
-    execute(endpoint, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, %{} = params, %Config{} = config) do
+  @spec execute(params, config) :: response
+  def execute(%{} = params, %Config{} = config) do
     params
     |> Util.convert_to_query()
-    |> Util.append_query(endpoint)
+    |> Util.append_query(@endpoint)
     |> Http.get(config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}

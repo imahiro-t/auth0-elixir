@@ -4,21 +4,22 @@ defmodule Auth0.Management.Guardian.Twilio.Sms.Configuration.Get do
   alias Auth0.Config
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/guardian/factors/sms/providers/twilio"
+
   @doc """
-  Retrieve Twilio SMS configuration.
+  Retrieve the Twilio SMS provider configuration (subscription required).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_twilio_0
+  https://auth0.com/docs/api/management/v2/guardian/get-sms-twilio-factor-provider
 
   """
-  @spec execute(endpoint, config) :: response
-  def execute(endpoint, %Config{} = config) do
-    endpoint
+  @spec execute(config) :: response
+  def execute(%Config{} = config) do
+    @endpoint
     |> Http.get(config)
     |> case do
       {:ok, 200, body} ->

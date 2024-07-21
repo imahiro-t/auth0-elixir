@@ -4,21 +4,22 @@ defmodule Auth0.Management.AttackProtection.SuspiciousIpThrottling.Get do
   alias Auth0.Config
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/attack-protection/suspicious-ip-throttling"
+
   @doc """
-  Get the suspicious IP throttling configuration.
+  Retrieve details of the Suspicious IP Throttling configuration of your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/get_suspicious_ip_throttling
+  https://auth0.com/docs/api/management/v2/attack-protection/get-suspicious-ip-throttling
 
   """
-  @spec execute(endpoint, config) :: response
-  def execute(endpoint, %Config{} = config) do
-    Http.get(endpoint, config)
+  @spec execute(config) :: response
+  def execute(%Config{} = config) do
+    Http.get(@endpoint, config)
     |> case do
       {:ok, 200, body} ->
         {:ok, body |> Jason.decode!()}

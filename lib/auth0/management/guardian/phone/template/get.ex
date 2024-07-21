@@ -4,21 +4,22 @@ defmodule Auth0.Management.Guardian.Phone.Template.Get do
   alias Auth0.Config
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/guardian/factors/phone/templates"
+
   @doc """
-  Retrieve Enrollment and Verification Phone Templates.
+  Retrieve details of the multi-factor authentication enrollment and verification templates for phone-type factors available in your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_templates
+  https://auth0.com/docs/api/management/v2/guardian/get-factor-phone-templates
 
   """
-  @spec execute(endpoint, config) :: response
-  def execute(endpoint, %Config{} = config) do
-    endpoint
+  @spec execute(config) :: response
+  def execute(%Config{} = config) do
+    @endpoint
     |> Http.get(config)
     |> case do
       {:ok, 200, body} ->

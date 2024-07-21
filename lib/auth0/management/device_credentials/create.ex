@@ -5,45 +5,25 @@ defmodule Auth0.Management.DeviceCredentials.Create do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct device_name: nil,
-              type: nil,
-              value: nil,
-              device_id: nil,
-              client_id: nil
-
-    @type t :: %__MODULE__{
-            device_name: String.t(),
-            type: String.t(),
-            value: String.t(),
-            device_id: String.t(),
-            client_id: String.t()
-          }
-  end
-
-  @type endpoint :: String.t()
-  @type params :: Params.t() | map()
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/device-credentials"
+
   @doc """
-  Create a device public key credential.
+  Create a device credential public key to manage refresh token rotation for a given user_id. Device Credentials APIs are designed for ad-hoc administrative use only and paging is by default enabled for GET requests.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Device_Credentials/post_device_credentials
+  https://auth0.com/docs/api/management/v2/device-credentials/post-device-credentials
 
   """
-  @spec execute(endpoint, params, config) :: response
-  def execute(endpoint, %Params{} = params, %Config{} = config) do
-    execute(endpoint, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, %{} = params, %Config{} = config) do
+  @spec execute(params, config) :: response
+  def execute(%{} = params, %Config{} = config) do
     body = params |> Util.remove_nil()
 
-    Http.post(endpoint, body, config)
+    Http.post(@endpoint, body, config)
     |> case do
       {:ok, 201, body} -> {:ok, body |> Jason.decode!()}
       error -> error

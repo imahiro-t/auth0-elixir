@@ -5,42 +5,22 @@ defmodule Auth0.Management.Jobs.UsersImport do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct users: nil,
-              connection_id: nil,
-              upsert: nil,
-              external_id: nil,
-              send_completion_email: nil
-
-    @type t :: %__MODULE__{
-            users: String.t(),
-            connection_id: String.t(),
-            upsert: boolean,
-            external_id: String.t(),
-            send_completion_email: boolean
-          }
-  end
-
-  @type endpoint :: String.t()
-  @type params :: Params.t() | map
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/jobs/users-imports"
+
   @doc """
-  Create import users job.
+  Import users from a formatted file into a connection via a long-running job.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Jobs/post_users_imports
+  https://auth0.com/docs/api/management/v2/jobs/post-users-imports
 
   """
-  @spec execute(endpoint, params, config) :: response
-  def execute(endpoint, %Params{} = params, %Config{} = config) do
-    execute(endpoint, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, %{} = params, %Config{} = config) do
+  @spec execute(params, config) :: response
+  def execute(%{} = params, %Config{} = config) do
     multipart =
       {:multipart,
        [
@@ -57,11 +37,8 @@ defmodule Auth0.Management.Jobs.UsersImport do
              ]}
           end))}
 
-    Http.multipart_post(endpoint, multipart, config)
+    Http.multipart_post(@endpoint, multipart, config)
     |> case do
-      ## documented
-      {:ok, 201, body} -> {:ok, body |> Jason.decode!()}
-      ## actual
       {:ok, 202, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end

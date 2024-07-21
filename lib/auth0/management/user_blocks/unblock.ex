@@ -5,37 +5,25 @@ defmodule Auth0.Management.UserBlocks.Unblock do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct identifier: nil
-
-    @type t :: %__MODULE__{
-            identifier: String.t()
-          }
-  end
-
-  @type endpoint :: String.t()
-  @type params :: Params.t() | map
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: String.t()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/user-blocks"
+
   @doc """
-  Unblock by identifier.
+  Remove all Brute-force Protection blocks for the user with the given identifier (username, phone number, or email).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/User_Blocks/delete_user_blocks
+  https://auth0.com/docs/api/management/v2/user-blocks/delete-user-blocks
 
   """
-  @spec execute(endpoint, params, config) :: response
-  def execute(endpoint, %Params{} = params, %Config{} = config) do
-    execute(endpoint, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, %{} = params, %Config{} = config) do
+  @spec execute(params, config) :: response
+  def execute(%{} = params, %Config{} = config) do
     params
     |> Util.convert_to_query()
-    |> Util.append_query(endpoint)
+    |> Util.append_query(@endpoint)
     |> Http.delete(config)
     |> case do
       {:ok, 204, _body} -> {:ok, ""}

@@ -4,23 +4,24 @@ defmodule Auth0.Management.Prompts.CustomText.Get do
   alias Auth0.Config
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type prompt :: String.t()
   @type language :: String.t()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/prompts/{prompt}/custom-text/{language}"
+
   @doc """
-  Get custom text for a prompt.
+  Retrieve custom text for a specific prompt and language.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Prompts/get_custom_text_by_language
+  https://auth0.com/docs/api/management/v2/prompts/get-custom-text-by-language
 
   """
-  @spec execute(endpoint, prompt, language, config) :: response
-  def execute(endpoint, prompt, language, %Config{} = config) do
-    endpoint
+  @spec execute(prompt, language, config) :: response
+  def execute(prompt, language, %Config{} = config) do
+    @endpoint
     |> String.replace("{prompt}", prompt)
     |> String.replace("{language}", language)
     |> Http.get(config)

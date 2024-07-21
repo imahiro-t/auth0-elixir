@@ -4,7 +4,6 @@ defmodule Auth0.Management.Users.Identities.Unlink do
   alias Auth0.Config
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type id :: String.t()
   @type provider :: String.t()
   @type user_id :: String.t()
@@ -12,16 +11,18 @@ defmodule Auth0.Management.Users.Identities.Unlink do
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/users/{id}/identities/{provider}/{user_id}"
+
   @doc """
-  Unlink a User Identity.
+  Unlink a specific secondary account from a target user. This action requires the ID of both the target user and the secondary account.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/delete_user_identity_by_user_id
+  https://auth0.com/docs/api/management/v2/users/delete-user-identity-by-user-id
 
   """
-  @spec execute(endpoint, id, provider, user_id, config) :: response
-  def execute(endpoint, id, provider, user_id, %Config{} = config) do
-    endpoint
+  @spec execute(id, provider, user_id, config) :: response
+  def execute(id, provider, user_id, %Config{} = config) do
+    @endpoint
     |> String.replace("{id}", id)
     |> String.replace("{provider}", provider)
     |> String.replace("{user_id}", user_id)

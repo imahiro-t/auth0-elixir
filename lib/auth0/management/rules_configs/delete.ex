@@ -4,22 +4,23 @@ defmodule Auth0.Management.RulesConfigs.Delete do
   alias Auth0.Config
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type key :: String.t()
   @type config :: Config.t()
   @type entity :: String.t()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/rules-configs/{key}"
+
   @doc """
-  Delete rules config for a given key.
+  Delete a rules config variable identified by its key.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Rules_Configs/delete_rules_configs_by_key
+  https://auth0.com/docs/api/management/v2/rules-configs/delete-rules-configs-by-key
 
   """
-  @spec execute(endpoint, key, config) :: response
-  def execute(endpoint, key, %Config{} = config) do
-    endpoint
+  @spec execute(key, config) :: response
+  def execute(key, %Config{} = config) do
+    @endpoint
     |> String.replace("{key}", key)
     |> Http.delete(config)
     |> case do

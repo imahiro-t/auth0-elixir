@@ -5,41 +5,25 @@ defmodule Auth0.Management.UsersByEmail.List do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct fields: nil,
-              include_fields: nil,
-              email: nil
-
-    @type t :: %__MODULE__{
-            fields: String.t(),
-            include_fields: boolean,
-            email: String.t()
-          }
-  end
-
-  @type endpoint :: String.t()
-  @type params :: Params.t() | map
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/users-by-email"
+
   @doc """
-  Search Users by Email.
+  Find users by email. If Auth0 is the identity provider (idP), the email address associated with a user is saved in lower case, regardless of how you initially provided it.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users_By_Email/get_users_by_email
+  https://auth0.com/docs/api/management/v2/users-by-email/get-users-by-email
 
   """
-  @spec execute(endpoint, params, config) :: response
-  def execute(endpoint, %Params{} = params, %Config{} = config) do
-    execute(endpoint, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, %{} = params, %Config{} = config) do
+  @spec execute(params, config) :: response
+  def execute(%{} = params, %Config{} = config) do
     params
     |> Util.convert_to_query()
-    |> Util.append_query(endpoint)
+    |> Util.append_query(@endpoint)
     |> Http.get(config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}

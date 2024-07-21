@@ -5,38 +5,26 @@ defmodule Auth0.Management.RulesConfigs.Put do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct value: nil
-
-    @type t :: %__MODULE__{
-            value: String.t()
-          }
-  end
-
-  @type endpoint :: String.t()
   @type key :: String.t()
-  @type params :: Params.t() | map
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/rules-configs/{key}"
+
   @doc """
-  Set rules config for a given key.
+  Sets a rules config variable.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Rules_Configs/put_rules_configs_by_key
+  https://auth0.com/docs/api/management/v2/rules-configs/put-rules-configs-by-key
 
   """
-  @spec execute(endpoint, key, params, config) :: response
-  def execute(endpoint, key, %Params{} = params, %Config{} = config) do
-    execute(endpoint, key, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, key, %{} = params, %Config{} = config) do
+  @spec execute(key, params, config) :: response
+  def execute(key, %{} = params, %Config{} = config) do
     body = params |> Util.remove_nil()
 
-    endpoint
+    @endpoint
     |> String.replace("{key}", key)
     |> Http.put(body, config)
     |> case do

@@ -4,22 +4,23 @@ defmodule Auth0.Management.Users.Multifactor.InvalidateRememberedBrowser do
   alias Auth0.Config
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type id :: String.t()
   @type config :: Config.t()
   @type entity :: String.t()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/users/{id}/multifactor/actions/invalidate-remember-browser"
+
   @doc """
-  Invalidate All Remembered Browsers for Multi-factor Authentication.
+  Invalidate all remembered browsers across all authentication factors for a user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/post_invalidate_remember_browser
+  https://auth0.com/docs/api/management/v2/users/post-invalidate-remember-browser
 
   """
-  @spec execute(endpoint, id, config) :: response
-  def execute(endpoint, id, %Config{} = config) do
-    endpoint
+  @spec execute(id, config) :: response
+  def execute(id, %Config{} = config) do
+    @endpoint
     |> String.replace("{id}", id)
     |> Http.post(%{}, config)
     |> case do

@@ -8,60 +8,55 @@ defmodule Auth0.Management.Keys do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint_signing "/api/v2/keys/signing"
-  @endpoint_signing_by_kid "/api/v2/keys/signing/{kid}"
-  @endpoint_signing_rotate "/api/v2/keys/signing/rotate"
-  @endpoint_signing_revoke "/api/v2/keys/signing/{kid}/revoke"
-
   @doc """
-  Get all Application Signing Keys.
+  Retrieve details of all the application signing keys associated with your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Keys/get_signing_keys
+  https://auth0.com/docs/api/management/v2/keys/get-signing-keys
 
   """
   @spec list_signing(config) ::
           {:ok, list() | map()} | error
   def list_signing(%Config{} = config) do
-    Signing.List.execute(@endpoint_signing, config)
+    Signing.List.execute(config)
   end
 
   @doc """
-  Get an Application Signing Key by its key id.
+  Retrieve details of the application signing key with the given ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Keys/get_signing_key
+  https://auth0.com/docs/api/management/v2/keys/get-signing-key
 
   """
   @spec get_signing(kid, config) ::
           {:ok, list() | map()} | error
   def get_signing(kid, %Config{} = config) do
-    Signing.Get.execute(@endpoint_signing_by_kid, kid, config)
+    Signing.Get.execute(kid, config)
   end
 
   @doc """
-  Rotate the Application Signing Key.
+  Rotate the application signing key of your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Keys/post_signing_keys
+  https://auth0.com/docs/api/management/v2/keys/post-signing-keys
 
   """
   @spec rotate_signing(config) ::
           {:ok, list() | map()} | error
   def rotate_signing(%Config{} = config) do
-    Signing.Rotate.execute(@endpoint_signing_rotate, config)
+    Signing.Rotate.execute(config)
   end
 
   @doc """
-  Revoke an Application Signing Key by its key id.
+  Revoke the application signing key with the given ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Keys/put_signing_keys
+  https://auth0.com/docs/api/management/v2/keys/put-signing-keys
 
   """
   @spec revoke_signing(kid, config) ::
           {:ok, list() | map()} | error
   def revoke_signing(kid, %Config{} = config) do
-    Signing.Revoke.execute(@endpoint_signing_revoke, kid, config)
+    Signing.Revoke.execute(kid, config)
   end
 end

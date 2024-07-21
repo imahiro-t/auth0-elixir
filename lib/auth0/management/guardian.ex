@@ -15,338 +15,324 @@ defmodule Auth0.Management.Guardian do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint_factors "/api/v2/guardian/factors"
-  @endpoint_factors_by_name "/api/v2/guardian/factors/{name}"
-  @endpoint_policies "/api/v2/guardian/policies"
-  @endpoint_enrollment_by_id "/api/v2/guardian/enrollments/{id}"
-  @endpoint_phone_factor "/api/v2/guardian/factors/phone/message-types"
-  @endpoint_phone_configuration "/api/v2/guardian/factors/phone/selected-provider"
-  @endpoint_phone_template "/api/v2/guardian/factors/phone/templates"
-  @endpoint_sms_configuration "/api/v2/guardian/factors/sms/selected-provider"
-  @endpoint_sms_template "/api/v2/guardian/factors/sms/templates"
-  @endpoint_twilio_phone_configuration "/api/v2/guardian/factors/phone/providers/twilio"
-  @endpoint_twilio_sms_configuration "/api/v2/guardian/factors/sms/providers/twilio"
-  @endpoint_aws_sns_configuration "/api/v2/guardian/factors/push-notification/providers/sns"
-  @endpoint_enrollment_ticket "/api/v2/guardian/enrollments/ticket"
-
   @doc """
-  Retrieve Factors and their Status.
+  Retrieve details of all multi-factor authentication factors associated with your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_factors
+  https://auth0.com/docs/api/management/v2/guardian/get-factors
 
   """
   @spec list_factors(config) ::
           {:ok, list() | map()} | error
   def list_factors(%Config{} = config) do
-    Factors.List.execute(@endpoint_factors, config)
+    Factors.List.execute(config)
   end
 
   @doc """
-  Update a Multi-factor Authentication Factor.
+  Update the status (i.e., enabled or disabled) of a specific multi-factor authentication factor.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_factors_by_name
+  https://auth0.com/docs/api/management/v2/guardian/put-factors-by-name
 
   """
-  @spec update_factor(name, Factors.Put.Params.t() | map, config) ::
+  @spec update_factor(name, map(), config) ::
           {:ok, list() | map()} | error
   def update_factor(name, %{} = params, %Config{} = config) do
-    Factors.Put.execute(@endpoint_factors_by_name, name, params, config)
+    Factors.Put.execute(name, params, config)
   end
 
   @doc """
-  Get the Multi-factor Authentication policies.
+  Retrieve the multi-factor authentication (MFA) policies configured for your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_policies
+  https://auth0.com/docs/api/management/v2/guardian/get-policies
 
   """
   @spec list_policies(config) :: {:ok, list(map)} | error
   def list_policies(%Config{} = config) do
-    Policies.List.execute(@endpoint_policies, config)
+    Policies.List.execute(config)
   end
 
   @doc """
-  Set the Multi-factor Authentication policies.
+  Set multi-factor authentication (MFA) policies for your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_policies
+  https://auth0.com/docs/api/management/v2/guardian/put-policies
 
   """
   @spec set_policies(map, config) :: {:ok, list(map)} | error
   def set_policies(params, %Config{} = config) do
-    Policies.Put.execute(@endpoint_policies, params, config)
+    Policies.Put.execute(params, config)
   end
 
   @doc """
-  Retrieve a multi-factor authentication enrollment.
+  Retrieve details, such as status and type, for a specific multi-factor authentication enrollment registered to a user account.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_enrollments_by_id
+  https://auth0.com/docs/api/management/v2/guardian/get-enrollments-by-id
 
   """
   @spec get_enrollment(id, config) ::
           {:ok, list() | map()} | error
   def get_enrollment(id, %Config{} = config) do
-    Enrollments.Get.execute(@endpoint_enrollment_by_id, id, config)
+    Enrollments.Get.execute(id, config)
   end
 
   @doc """
-  Delete a multi-factor authentication enrollment.
+  Remove a specific multi-factor authentication (MFA) enrollment from a user's account. This allows the user to re-enroll with MFA.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/delete_enrollments_by_id
+  https://auth0.com/docs/api/management/v2/guardian/delete-enrollments-by-id
 
   """
   @spec delete_enrollment(id, config) :: {:ok, String.t()} | error
   def delete_enrollment(id, %Config{} = config) do
-    Enrollments.Delete.execute(@endpoint_enrollment_by_id, id, config)
+    Enrollments.Delete.execute(id, config)
   end
 
   @doc """
-  Create a multi-factor authentication enrollment ticket.
+  Create a multi-factor authentication (MFA) enrollment ticket, and optionally send an email with the created ticket, to a given user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/post_ticket
+  https://auth0.com/docs/api/management/v2/guardian/post-ticket
 
   """
-  @spec create_enrollment_ticket(Enrollments.Ticket.Params.t() | map, config) ::
+  @spec create_enrollment_ticket(map(), config) ::
           {:ok, list() | map()} | error
   def create_enrollment_ticket(%{} = params, %Config{} = config) do
-    Enrollments.Ticket.execute(@endpoint_enrollment_ticket, params, config)
+    Enrollments.Ticket.execute(params, config)
   end
 
   @doc """
-  Retrieve the Enabled Phone Factors.
+  Retrieve list of phone-type MFA factors (i.e., sms and voice) that are enabled for your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_message_types
+  https://auth0.com/docs/api/management/v2/guardian/get-message-types
 
   """
   @spec get_phone_factor(config) ::
           {:ok, list() | map()} | error
   def get_phone_factor(%Config{} = config) do
-    Phone.Factor.Get.execute(@endpoint_phone_factor, config)
+    Phone.Factor.Get.execute(config)
   end
 
   @doc """
-  Update the Enabled Phone Factors.
+  Replace the list of phone-type MFA factors (i.e., sms and voice) that are enabled for your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_message_types
+  https://auth0.com/docs/api/management/v2/guardian/put-message-types
 
   """
-  @spec update_phone_factor(Phone.Factor.Put.Params.t() | map, config) ::
+  @spec update_phone_factor(map(), config) ::
           {:ok, list() | map()} | error
   def update_phone_factor(%{} = params, %Config{} = config) do
-    Phone.Factor.Put.execute(@endpoint_phone_factor, params, config)
+    Phone.Factor.Put.execute(params, config)
   end
 
   @doc """
-  Retrieve phone configuration (one of auth0|twilio|phone-message-hook).
+  Retrieve details of the multi-factor authentication phone provider configured for your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_selected_provider
+  https://auth0.com/docs/api/management/v2/guardian/get-guardian-phone-providers
 
   """
   @spec get_phone_configuration(config) ::
           {:ok, list() | map()} | error
   def get_phone_configuration(%Config{} = config) do
-    Phone.Configuration.Get.execute(@endpoint_phone_configuration, config)
+    Phone.Configuration.Get.execute(config)
   end
 
   @doc """
-  Update phone configuration (one of auth0|twilio|phone-message-hook).
+  Update phone provider configuration
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_selected_provider
+  https://auth0.com/docs/api/management/v2/guardian/put-phone-providers
 
   """
-  @spec update_phone_configuration(Phone.Configuration.Put.Params.t() | map, config) ::
+  @spec update_phone_configuration(map(), config) ::
           {:ok, list() | map()} | error
   def update_phone_configuration(%{} = params, %Config{} = config) do
-    Phone.Configuration.Put.execute(@endpoint_phone_configuration, params, config)
+    Phone.Configuration.Put.execute(params, config)
   end
 
   @doc """
-  Retrieve Enrollment and Verification Phone Templates.
+  Retrieve details of the multi-factor authentication enrollment and verification templates for phone-type factors available in your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_templates
+  https://auth0.com/docs/api/management/v2/guardian/get-factor-phone-templates
 
   """
   @spec get_phone_template(config) ::
           {:ok, list() | map()} | error
   def get_phone_template(%Config{} = config) do
-    Phone.Template.Get.execute(@endpoint_phone_template, config)
+    Phone.Template.Get.execute(config)
   end
 
   @doc """
-  Update Enrollment and Verification Phone Templates.
+  Customize the messages sent to complete phone enrollment and verification (subscription required).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_templates
+  https://auth0.com/docs/api/management/v2/guardian/put-factor-phone-templates
 
   """
-  @spec update_phone_template(Phone.Template.Put.Params.t() | map, config) ::
+  @spec update_phone_template(map(), config) ::
           {:ok, list() | map()} | error
   def update_phone_template(%{} = params, %Config{} = config) do
-    Phone.Template.Put.execute(@endpoint_phone_template, params, config)
+    Phone.Template.Put.execute(params, config)
   end
 
   @doc """
   Retrieve SMS configuration (one of auth0|twilio|phone-message-hook).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_selected_provider_0
+  https://auth0.com/docs/api/management/v2/guardian/get-sms-providers
 
   """
   @spec get_sms_configuration(config) ::
           {:ok, list() | map()} | error
   def get_sms_configuration(%Config{} = config) do
-    Sms.Configuration.Get.execute(@endpoint_sms_configuration, config)
+    Sms.Configuration.Get.execute(config)
   end
 
   @doc """
   Update SMS configuration (one of auth0|twilio|phone-message-hook).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_selected_provider_0
+  https://auth0.com/docs/api/management/v2/guardian/put-sms-providers
 
   """
-  @spec update_sms_configuration(Sms.Configuration.Put.Params.t() | map, config) ::
+  @spec update_sms_configuration(map(), config) ::
           {:ok, list() | map()} | error
   def update_sms_configuration(%{} = params, %Config{} = config) do
-    Sms.Configuration.Put.execute(@endpoint_sms_configuration, params, config)
+    Sms.Configuration.Put.execute(params, config)
   end
 
   @doc """
   Retrieve SMS Enrollment and Verification Templates.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_templates_0
+  https://auth0.com/docs/api/management/v2/guardian/get-factor-sms-templates
 
   """
   @spec get_sms_template(config) ::
           {:ok, list() | map()} | error
   def get_sms_template(%Config{} = config) do
-    Sms.Template.Get.execute(@endpoint_sms_template, config)
+    Sms.Template.Get.execute(config)
   end
 
   @doc """
   Update SMS Enrollment and Verification Templates.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_templates_0
+  https://auth0.com/docs/api/management/v2/guardian/put-factor-sms-templates
 
   """
-  @spec update_sms_template(Sms.Template.Put.Params.t() | map, config) ::
+  @spec update_sms_template(map(), config) ::
           {:ok, list() | map()} | error
   def update_sms_template(%{} = params, %Config{} = config) do
-    Sms.Template.Put.execute(@endpoint_sms_template, params, config)
+    Sms.Template.Put.execute(params, config)
   end
 
   @doc """
-  Retrieve Twilio phone configuration.
+  Retrieve configuration details for a Twilio phone provider that has been set up in your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_twilio
+  https://auth0.com/docs/api/management/v2/guardian/get-phone-twilio-factor-provider
 
   """
   @spec get_twilio_phone_configuration(config) ::
           {:ok, list() | map()} | error
   def get_twilio_phone_configuration(%Config{} = config) do
-    Twilio.Phone.Configuration.Get.execute(@endpoint_twilio_phone_configuration, config)
+    Twilio.Phone.Configuration.Get.execute(config)
   end
 
   @doc """
-  Update Twilio phone configuration.
+  Update the configuration of a Twilio phone provider that has been set up in your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_twilio
+  https://auth0.com/docs/api/management/v2/guardian/put-twilio
 
   """
-  @spec update_twilio_phone_configuration(Twilio.Phone.Configuration.Put.Params.t() | map, config) ::
+  @spec update_twilio_phone_configuration(map(), config) ::
           {:ok, list() | map()} | error
   def update_twilio_phone_configuration(
         %{} = params,
         %Config{} = config
       ) do
-    Twilio.Phone.Configuration.Put.execute(@endpoint_twilio_phone_configuration, params, config)
+    Twilio.Phone.Configuration.Put.execute(params, config)
   end
 
   @doc """
   Retrieve Twilio SMS configuration.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_twilio_0
+  https://auth0.com/docs/api/management/v2/guardian/get-sms-twilio-factor-provider
 
   """
   @spec get_twilio_sms_configuration(config) ::
           {:ok, list() | map()} | error
   def get_twilio_sms_configuration(%Config{} = config) do
-    Twilio.Sms.Configuration.Get.execute(@endpoint_twilio_sms_configuration, config)
+    Twilio.Sms.Configuration.Get.execute(config)
   end
 
   @doc """
   Update Twilio SMS configuration.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_twilio_0
+  https://auth0.com/docs/api/management/v2/guardian/put-sms-twilio-factor-provider
 
   """
-  @spec update_twilio_sms_configuration(Twilio.Sms.Configuration.Put.Params.t() | map, config) ::
+  @spec update_twilio_sms_configuration(map(), config) ::
           {:ok, list() | map()} | error
   def update_twilio_sms_configuration(
         %{} = params,
         %Config{} = config
       ) do
-    Twilio.Sms.Configuration.Put.execute(@endpoint_twilio_sms_configuration, params, config)
+    Twilio.Sms.Configuration.Put.execute(params, config)
   end
 
   @doc """
-  Retrieve AWS SNS push notification configuration.
+  Retrieve configuration details for an AWS SNS push notification provider that has been enabled for MFA.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_sns
+  https://auth0.com/docs/api/management/v2/guardian/get-sns
 
   """
   @spec get_aws_sns_configuration(config) ::
           {:ok, list() | map()} | error
   def get_aws_sns_configuration(%Config{} = config) do
-    AwsSns.Configuration.Get.execute(@endpoint_aws_sns_configuration, config)
+    AwsSns.Configuration.Get.execute(config)
   end
 
   @doc """
-  Update SNS configuration for push notifications.
+  Configure the AWS SNS push notification provider configuration (subscription required).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/patch_sns
+  https://auth0.com/docs/api/management/v2/guardian/patch-sns
 
   """
-  @spec patch_aws_sns_configuration(AwsSns.Configuration.Patch.Params.t() | map, config) ::
+  @spec patch_aws_sns_configuration(map(), config) ::
           {:ok, list() | map()} | error
   def patch_aws_sns_configuration(
         %{} = params,
         %Config{} = config
       ) do
-    AwsSns.Configuration.Patch.execute(@endpoint_aws_sns_configuration, params, config)
+    AwsSns.Configuration.Patch.execute(params, config)
   end
 
   @doc """
-  Update AWS SNS push notification configuration.
+  Configure the AWS SNS push notification provider configuration (subscription required).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_sns
+  https://auth0.com/docs/api/management/v2/guardian/put-sns
 
   """
-  @spec update_aws_sns_configuration(AwsSns.Configuration.Put.Params.t() | map, config) ::
+  @spec update_aws_sns_configuration(map(), config) ::
           {:ok, list() | map()} | error
   def update_aws_sns_configuration(
         %{} = params,
         %Config{} = config
       ) do
-    AwsSns.Configuration.Put.execute(@endpoint_aws_sns_configuration, params, config)
+    AwsSns.Configuration.Put.execute(params, config)
   end
 end

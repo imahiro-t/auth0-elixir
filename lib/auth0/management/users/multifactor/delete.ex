@@ -2,39 +2,26 @@ defmodule Auth0.Management.Users.Multifactor.Delete do
   @moduledoc false
 
   alias Auth0.Config
-  alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct provider: nil
-
-    @type t :: %__MODULE__{
-            provider: String.t()
-          }
-  end
-
-  @type endpoint :: String.t()
   @type id :: String.t()
-  @type params :: Params.t() | map
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: String.t()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/users/{id}/multifactor/{provider}"
+
   @doc """
-  Delete a User's Multi-factor Provider.
+  Remove a multifactor authentication configuration from a user's account. This forces the user to manually reconfigure the multi-factor provider.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/delete_multifactor_by_provider
+  https://auth0.com/docs/api/management/v2/users/delete-multifactor-by-provider
 
   """
-  @spec execute(endpoint, id, params, config) :: response
-  def execute(endpoint, id, %Params{} = params, %Config{} = config) do
-    execute(endpoint, id, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, id, %{} = params, %Config{} = config) do
-    endpoint
+  @spec execute(id, params, config) :: response
+  def execute(id, %{} = params, %Config{} = config) do
+    @endpoint
     |> String.replace("{id}", id)
     |> String.replace("{provider}", params.provider)
     |> Http.delete(config)

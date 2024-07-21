@@ -5,39 +5,27 @@ defmodule Auth0.Management.Organizations.Members.Roles.Delete do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct roles: nil
-
-    @type t :: %__MODULE__{
-            roles: list(String.t())
-          }
-  end
-
-  @type endpoint :: String.t()
   @type id :: String.t()
   @type user_id :: String.t()
-  @type params :: Params.t() | map
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: String.t()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/organizations/{id}/members/{user_id}/roles"
+
   @doc """
-  Remove one or more roles from a given user in the context of the provided organization.
+  Remove one or more Organization-specific roles from a given user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/delete_organization_member_roles
+  https://auth0.com/docs/api/management/v2/organizations/delete-organization-member-roles
 
   """
-  @spec execute(endpoint, id, user_id, params, config) :: response
-  def execute(endpoint, id, user_id, %Params{} = params, %Config{} = config) do
-    execute(endpoint, id, user_id, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, id, user_id, %{} = params, %Config{} = config) do
+  @spec execute(id, user_id, params, config) :: response
+  def execute(id, user_id, %{} = params, %Config{} = config) do
     body = params |> Util.remove_nil()
 
-    endpoint
+    @endpoint
     |> String.replace("{id}", id)
     |> String.replace("{user_id}", user_id)
     |> Http.delete(body, config)

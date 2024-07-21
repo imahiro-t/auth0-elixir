@@ -7,31 +7,29 @@ defmodule Auth0.Management.Tenants do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint_settings "/api/v2/tenants/settings"
-
   @doc """
-  Get tenant settings.
+  Retrieve tenant settings. A list of fields to include or exclude may also be specified.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Tenants/tenant_settings_route
+  https://auth0.com/docs/api/management/v2/tenants/tenant-settings-route
 
   """
-  @spec get_setting(Settings.Get.Params.t() | map, config) ::
+  @spec get_setting(map(), config) ::
           {:ok, list() | map()} | error
   def get_setting(%{} = params, %Config{} = config) do
-    Settings.Get.execute(@endpoint_settings, params, config)
+    Settings.Get.execute(params, config)
   end
 
   @doc """
-  Update tenant settings.
+  Update settings for a tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Tenants/patch_settings
+  https://auth0.com/docs/api/management/v2/tenants/patch-settings
 
   """
-  @spec update_setting(Settings.Patch.Params.t() | map, config) ::
+  @spec update_setting(map(), config) ::
           {:ok, list() | map()} | error
   def update_setting(%{} = params, %Config{} = config) do
-    Settings.Patch.execute(@endpoint_settings, params, config)
+    Settings.Patch.execute(params, config)
   end
 end

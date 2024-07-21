@@ -16,91 +16,85 @@ defmodule Auth0.Management.Clients do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/clients"
-  @endpoint_by_id "/api/v2/clients/{id}"
-  @endpoint_rotate_secret "/api/v2/clients/{id}/rotate-secret"
-  @endpoint_credential "/api/v2/clients/{client_id}/credentials"
-  @endpoint_credential_by_id "/api/v2/clients/{client_id}/credentials/{credential_id}"
-
   @doc """
-  Get clients.
+  Retrieve clients (applications and SSO integrations) matching provided filters. A list of fields to include or exclude may also be specified.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Clients/get_clients
+  https://auth0.com/docs/api/management/v2/clients/get-clients
 
   """
-  @spec list(List.Params.t() | map, config) ::
+  @spec list(map(), config) ::
           {:ok, list() | map()} | error
   def list(%{} = params, %Config{} = config) do
-    List.execute(@endpoint, params, config)
+    List.execute(params, config)
   end
 
   @doc """
-  Create a client.
+  Create a new client (application or SSO integration).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Clients/post_clients
+  https://auth0.com/docs/api/management/v2/clients/post-clients
 
   """
-  @spec create(Create.Params.t() | map, config) ::
+  @spec create(map(), config) ::
           {:ok, list() | map()} | error
   def create(%{} = params, %Config{} = config) do
-    Create.execute(@endpoint, params, config)
+    Create.execute(params, config)
   end
 
   @doc """
-  Get a client.
+  Retrieve client details by ID. Clients are SSO connections or Applications linked with your Auth0 tenant. A list of fields to include or exclude may also be specified.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Clients/get_clients_by_id
+  https://auth0.com/docs/api/management/v2/clients/get-clients-by-id
 
   """
-  @spec get(id, Get.Params.t() | map, config) ::
+  @spec get(id, map(), config) ::
           {:ok, list() | map()} | error
   def get(id, %{} = params, %Config{} = config) do
-    Get.execute(@endpoint_by_id, id, params, config)
+    Get.execute(id, params, config)
   end
 
   @doc """
-  Delete a client.
+  Delete a client and related configuration (rules, connections, etc).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Clients/delete_clients_by_id
+  https://auth0.com/docs/api/management/v2/clients/delete-clients-by-id
 
   """
   @spec delete(id, config) :: {:ok, String.t()} | error
   def delete(id, %Config{} = config) do
-    Delete.execute(@endpoint_by_id, id, config)
+    Delete.execute(id, config)
   end
 
   @doc """
-  Update a client.
+  Updates a client's settings
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Clients/patch_clients_by_id
+  https://auth0.com/docs/api/management/v2/clients/patch-clients-by-id
 
   """
-  @spec update(id, Patch.Params.t() | map, config) ::
+  @spec update(id, map(), config) ::
           {:ok, list() | map()} | error
   def update(id, %{} = params, %Config{} = config) do
-    Patch.execute(@endpoint_by_id, id, params, config)
+    Patch.execute(id, params, config)
   end
 
   @doc """
   Rotate a client secret.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Clients/post_rotate_secret
+  https://auth0.com/docs/api/management/v2/clients/post-rotate-secret
 
   """
   @spec rotate_secret(id, config) ::
           {:ok, list() | map()} | error
   def rotate_secret(id, %Config{} = config) do
-    RotateSecret.execute(@endpoint_rotate_secret, id, config)
+    RotateSecret.execute(id, config)
   end
 
   @doc """
-  Get client credentials.
+  Get the details of a client credential.
 
   ## see
   https://auth0.com/docs/api/management/v2/clients/get-credentials
@@ -109,11 +103,11 @@ defmodule Auth0.Management.Clients do
   @spec list_credentials(client_id, config) ::
           {:ok, list(map())} | error
   def list_credentials(client_id, %Config{} = config) do
-    Credential.List.execute(@endpoint_credential, client_id, config)
+    Credential.List.execute(client_id, config)
   end
 
   @doc """
-  Create a client credential.
+  Create a client credential associated to your application. The credential will be created but not yet enabled for use with Private Key JWT authentication method. To enable the credential, set the client_authentication_methods property on the client.
 
   ## see
   https://auth0.com/docs/api/management/v2/clients/post-credentials
@@ -122,11 +116,11 @@ defmodule Auth0.Management.Clients do
   @spec create_credential(client_id, map, config) ::
           {:ok, map} | error
   def create_credential(client_id, %{} = params, %Config{} = config) do
-    Credential.Create.execute(@endpoint_credential, client_id, params, config)
+    Credential.Create.execute(client_id, params, config)
   end
 
   @doc """
-  Get client credential.
+  Get the details of a client credential.
 
   ## see
   https://auth0.com/docs/api/management/v2/clients/get-credentials-by-credential-id
@@ -135,11 +129,11 @@ defmodule Auth0.Management.Clients do
   @spec get_credential(client_id, credential_id, config) ::
           {:ok, map} | error
   def get_credential(client_id, credential_id, %Config{} = config) do
-    Credential.Get.execute(@endpoint_credential_by_id, client_id, credential_id, config)
+    Credential.Get.execute(client_id, credential_id, config)
   end
 
   @doc """
-  Delete a client credential.
+  Delete a client credential you previously created. May be enabled or disabled.
 
   ## see
   https://auth0.com/docs/api/management/v2/clients/delete-credentials-by-credential-id
@@ -148,11 +142,11 @@ defmodule Auth0.Management.Clients do
   @spec delete_credential(client_id, credential_id, config) ::
           {:ok, String.t()} | error
   def delete_credential(client_id, credential_id, %Config{} = config) do
-    Credential.Delete.execute(@endpoint_credential_by_id, client_id, credential_id, config)
+    Credential.Delete.execute(client_id, credential_id, config)
   end
 
   @doc """
-  Update a client credential.
+  Change a client credential you previously created. May be enabled or disabled.
 
   ## see
   https://auth0.com/docs/api/management/v2/clients/patch-credentials-by-credential-id
@@ -161,6 +155,6 @@ defmodule Auth0.Management.Clients do
   @spec update_credential(client_id, credential_id, map, config) ::
           {:ok, map} | error
   def update_credential(client_id, credential_id, %{} = params, %Config{} = config) do
-    Credential.Patch.execute(@endpoint_credential_by_id, client_id, credential_id, params, config)
+    Credential.Patch.execute(client_id, credential_id, params, config)
   end
 end

@@ -4,21 +4,22 @@ defmodule Auth0.Management.Guardian.Phone.Configuration.Get do
   alias Auth0.Config
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/guardian/factors/phone/selected-provider"
+
   @doc """
-  Retrieve phone configuration (one of auth0|twilio|phone-message-hook).
+  Retrieve details of the multi-factor authentication phone provider configured for your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_selected_provider
+  https://auth0.com/docs/api/management/v2/guardian/get-guardian-phone-providers
 
   """
-  @spec execute(endpoint, config) :: response
-  def execute(endpoint, %Config{} = config) do
-    endpoint
+  @spec execute(config) :: response
+  def execute(%Config{} = config) do
+    @endpoint
     |> Http.get(config)
     |> case do
       {:ok, 200, body} ->

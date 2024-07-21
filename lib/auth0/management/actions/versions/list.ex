@@ -5,40 +5,26 @@ defmodule Auth0.Management.Actions.Versions.List do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct page: nil,
-              per_page: nil
-
-    @type t :: %__MODULE__{
-            page: integer,
-            per_page: integer
-          }
-  end
-
-  @type endpoint :: String.t()
   @type action_id :: String.t()
-  @type params :: Params.t() | map()
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/actions/actions/{actionId}/versions"
+
   @doc """
-  Get an action's versions.
+  Retrieve all of an action's versions. An action version is created whenever an action is deployed. An action version is immutable, once created.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/get_action_versions
+  https://auth0.com/docs/api/management/v2/actions/get-action-versions
 
   """
-  @spec execute(endpoint, action_id, params, config) :: response
-  def execute(endpoint, action_id, %Params{} = params, %Config{} = config) do
-    execute(endpoint, action_id, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, action_id, %{} = params, %Config{} = config) do
+  @spec execute(action_id, params, config) :: response
+  def execute(action_id, %{} = params, %Config{} = config) do
     params
     |> Util.convert_to_query()
-    |> Util.append_query(endpoint |> String.replace("{actionId}", action_id))
+    |> Util.append_query(@endpoint |> String.replace("{actionId}", action_id))
     |> Http.get(config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}

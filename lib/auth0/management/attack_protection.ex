@@ -9,32 +9,28 @@ defmodule Auth0.Management.AttackProtection do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint_breached_password_detection "/api/v2/attack-protection/breached-password-detection"
-  @endpoint_brute_force_protection "/api/v2/attack-protection/brute-force-protection"
-  @endpoint_suspicious_ip_throttling "/api/v2/attack-protection/suspicious-ip-throttling"
-
   @doc """
-  Get breached password detection settings.
+  Retrieve details of the Breached Password Detection configuration of your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/get_breached_password_detection
+  https://auth0.com/docs/api/management/v2/attack-protection/get-breached-password-detection
 
   """
   @spec get_breached_password_detection(config) ::
           {:ok, list() | map()} | error
   def get_breached_password_detection(%Config{} = config) do
-    BreachedPasswordDetection.Get.execute(@endpoint_breached_password_detection, config)
+    BreachedPasswordDetection.Get.execute(config)
   end
 
   @doc """
-  Update breached password detection settings.
+  Update details of the Breached Password Detection configuration of your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_breached_password_detection
+  https://auth0.com/docs/api/management/v2/attack-protection/patch-breached-password-detection
 
   """
   @spec update_breached_password_detection(
-          BreachedPasswordDetection.Patch.Params.t() | map,
+          map(),
           config
         ) ::
           {:ok, list() | map()} | error
@@ -42,64 +38,64 @@ defmodule Auth0.Management.AttackProtection do
         %{} = params,
         %Config{} = config
       ) do
-    BreachedPasswordDetection.Patch.execute(@endpoint_breached_password_detection, params, config)
+    BreachedPasswordDetection.Patch.execute(params, config)
   end
 
   @doc """
-  Get the brute force configuration.
+  Retrieve details of the Brute-force Protection configuration of your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/get_brute_force_protection
+  https://auth0.com/docs/api/management/v2/attack-protection/get-brute-force-protection
 
   """
   @spec get_brute_force_protection(config) ::
           {:ok, list() | map()} | error
   def get_brute_force_protection(%Config{} = config) do
-    BruteForceProtection.Get.execute(@endpoint_brute_force_protection, config)
+    BruteForceProtection.Get.execute(config)
   end
 
   @doc """
-  Update the brute force configuration.
+  Update the Brute-force Protection configuration of your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_brute_force_protection
+  https://auth0.com/docs/api/management/v2/attack-protection/patch-brute-force-protection
 
   """
-  @spec update_brute_force_protection(BruteForceProtection.Patch.Params.t() | map, config) ::
+  @spec update_brute_force_protection(map(), config) ::
           {:ok, list() | map()} | error
   def update_brute_force_protection(
         %{} = params,
         %Config{} = config
       ) do
-    BruteForceProtection.Patch.execute(@endpoint_brute_force_protection, params, config)
+    BruteForceProtection.Patch.execute(params, config)
   end
 
   @doc """
-  Get the suspicious IP throttling configuration.
+  Retrieve details of the Suspicious IP Throttling configuration of your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/get_suspicious_ip_throttling
+  https://auth0.com/docs/api/management/v2/attack-protection/get-suspicious-ip-throttling
 
   """
   @spec get_suspicious_ip_throttling(config) ::
           {:ok, list() | map()} | error
   def get_suspicious_ip_throttling(%Config{} = config) do
-    SuspiciousIpThrottling.Get.execute(@endpoint_suspicious_ip_throttling, config)
+    SuspiciousIpThrottling.Get.execute(config)
   end
 
   @doc """
-  Update the suspicious IP throttling configuration.
+  Update the details of the Suspicious IP Throttling configuration of your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_suspicious_ip_throttling
+  https://auth0.com/docs/api/management/v2/attack-protection/patch-suspicious-ip-throttling
 
   """
-  @spec update_suspicious_ip_throttling(SuspiciousIpThrottling.Patch.Params.t() | map, config) ::
+  @spec update_suspicious_ip_throttling(map(), config) ::
           {:ok, list() | map()} | error
   def update_suspicious_ip_throttling(
         %{} = params,
         %Config{} = config
       ) do
-    SuspiciousIpThrottling.Patch.execute(@endpoint_suspicious_ip_throttling, params, config)
+    SuspiciousIpThrottling.Patch.execute(params, config)
   end
 end

@@ -5,43 +5,25 @@ defmodule Auth0.Management.AttackProtection.BreachedPasswordDetection.Patch do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct enabled: nil,
-              shields: nil,
-              admin_notification_frequency: nil,
-              method: nil
-
-    @type t :: %__MODULE__{
-            enabled: boolean,
-            shields: list(String.t()),
-            admin_notification_frequency: list(String.t()),
-            method: String.t()
-          }
-  end
-
-  @type endpoint :: String.t()
-  @type params :: Params.t() | map()
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/attack-protection/breached-password-detection"
+
   @doc """
-  Update breached password detection settings.
+  Update details of the Breached Password Detection configuration of your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_breached_password_detection
+  https://auth0.com/docs/api/management/v2/attack-protection/patch-breached-password-detection
 
   """
-  @spec execute(endpoint, params, config) :: response
-  def execute(endpoint, %Params{} = params, %Config{} = config) do
-    execute(endpoint, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, %{} = params, %Config{} = config) do
+  @spec execute(params, config) :: response
+  def execute(%{} = params, %Config{} = config) do
     body = params |> Util.remove_nil()
 
-    Http.patch(endpoint, body, config)
+    Http.patch(@endpoint, body, config)
     |> case do
       {:ok, 200, body} ->
         {:ok, body |> Jason.decode!()}

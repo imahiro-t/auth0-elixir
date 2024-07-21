@@ -10,44 +10,41 @@ defmodule Auth0.Management.RulesConfigs do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/rules-configs"
-  @endpoint_by_key "/api/v2/rules-configs/{key}"
-
   @doc """
-  Retrieve config variable keys for rules (get_rules-configs).
+  Retrieve rules config variable keys.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Rules_Configs/get_rules_configs
+  https://auth0.com/docs/api/management/v2/rules-configs/get-rules-configs
 
   """
   @spec list(config) ::
           {:ok, list() | map()} | error
   def list(%Config{} = config) do
-    List.execute(@endpoint, config)
+    List.execute(config)
   end
 
   @doc """
-  Delete rules config for a given key.
+  Delete a rules config variable identified by its key.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Rules_Configs/delete_rules_configs_by_key
+  https://auth0.com/docs/api/management/v2/rules-configs/delete-rules-configs-by-key
 
   """
   @spec delete(key, config) :: {:ok, String.t()} | error
   def delete(key, %Config{} = config) do
-    Delete.execute(@endpoint_by_key, key, config)
+    Delete.execute(key, config)
   end
 
   @doc """
-  Set rules config for a given key.
+  Sets a rules config variable.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Rules_Configs/put_rules_configs_by_key
+  https://auth0.com/docs/api/management/v2/rules-configs/put-rules-configs-by-key
 
   """
-  @spec set(key, Put.Params.t() | map, config) ::
+  @spec set(key, map(), config) ::
           {:ok, list() | map()} | error
   def set(key, %{} = params, %Config{} = config) do
-    Put.execute(@endpoint_by_key, key, params, config)
+    Put.execute(key, params, config)
   end
 end

@@ -11,58 +11,55 @@ defmodule Auth0.Management.EmailTemplates do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/email-templates"
-  @endpoint_by_name "/api/v2/email-templates/{templateName}"
-
   @doc """
-  Get an email template.
+  Retrieve an email template by pre-defined name. These names are verify_email, verify_email_by_code, reset_email, welcome_email, blocked_account, stolen_credentials, enrollment_email, mfa_oob_code, and user_invitation. The names change_password, and password_reset are also supported for legacy scenarios.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Email_Templates/get_email_templates_by_templateName
+  https://auth0.com/docs/api/management/v2/email-templates/get-email-templates-by-template-name
 
   """
   @spec get(template_name, config) ::
           {:ok, list() | map()} | error
   def get(template_name, %Config{} = config) do
-    Get.execute(@endpoint_by_name, template_name, config)
+    Get.execute(template_name, config)
   end
 
   @doc """
-  Patch an email template.
+  Modify an email template.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Email_Templates/patch_email_templates_by_templateName
+  https://auth0.com/docs/api/management/v2/email-templates/patch-email-templates-by-template-name
 
   """
-  @spec patch(template_name, Patch.Params.t() | map, config) ::
+  @spec patch(template_name, map(), config) ::
           {:ok, list() | map()} | error
   def patch(template_name, %{} = params, %Config{} = config) do
-    Patch.execute(@endpoint_by_name, template_name, params, config)
+    Patch.execute(template_name, params, config)
   end
 
   @doc """
   Update an email template.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Email_Templates/put_email_templates_by_templateName
+  https://auth0.com/docs/api/management/v2/email-templates/put-email-templates-by-template-name
 
   """
-  @spec update(template_name, Update.Params.t() | map, config) ::
+  @spec update(template_name, map(), config) ::
           {:ok, list() | map()} | error
   def update(template_name, %{} = params, %Config{} = config) do
-    Update.execute(@endpoint_by_name, template_name, params, config)
+    Update.execute(template_name, params, config)
   end
 
   @doc """
   Create an email template.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Email_Templates/post_email_templates
+  https://auth0.com/docs/api/management/v2/email-templates/post-email-templates
 
   """
-  @spec create(Create.Params.t() | map, config) ::
+  @spec create(map(), config) ::
           {:ok, list() | map()} | error
   def create(%{} = params, %Config{} = config) do
-    Create.execute(@endpoint, params, config)
+    Create.execute(params, config)
   end
 end

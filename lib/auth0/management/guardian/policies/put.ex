@@ -5,24 +5,25 @@ defmodule Auth0.Management.Guardian.Policies.Put do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type params :: map
   @type config :: Config.t()
   @type entity :: list(map)
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/guardian/policies"
+
   @doc """
-  Set the Multi-factor Authentication policies.
+  Set multi-factor authentication (MFA) policies for your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_policies
+  https://auth0.com/docs/api/management/v2/guardian/put-policies
 
   """
-  @spec execute(endpoint, params, config) :: response
-  def execute(endpoint, %{} = params, %Config{} = config) do
+  @spec execute(params, config) :: response
+  def execute(%{} = params, %Config{} = config) do
     body = params |> Util.remove_nil()
 
-    endpoint
+    @endpoint
     |> Http.put(body, config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}

@@ -4,21 +4,22 @@ defmodule Auth0.Management.Branding.Get do
   alias Auth0.Config
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/branding"
+
   @doc """
-  Get branding settings.
+  Retrieve branding settings.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Branding/get_branding
+  https://auth0.com/docs/api/management/v2/branding/get-branding
 
   """
-  @spec execute(endpoint, config) :: response
-  def execute(endpoint, %Config{} = config) do
-    Http.get(endpoint, config)
+  @spec execute(config) :: response
+  def execute(%Config{} = config) do
+    Http.get(@endpoint, config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error

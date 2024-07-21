@@ -5,39 +5,25 @@ defmodule Auth0.Management.Roles.Create do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct name: nil,
-              description: nil
-
-    @type t :: %__MODULE__{
-            name: String.t(),
-            description: String.t()
-          }
-  end
-
-  @type endpoint :: String.t()
-  @type params :: Params.t() | map
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/roles"
+
   @doc """
-  Create a role.
+  Create a user role for Role-Based Access Control.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/post_roles
+  https://auth0.com/docs/api/management/v2/roles/post-roles
 
   """
-  @spec execute(endpoint, params, config) :: response
-  def execute(endpoint, %Params{} = params, %Config{} = config) do
-    execute(endpoint, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, %{} = params, %Config{} = config) do
+  @spec execute(params, config) :: response
+  def execute(%{} = params, %Config{} = config) do
     body = params |> Util.remove_nil()
 
-    Http.post(endpoint, body, config)
+    Http.post(@endpoint, body, config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error

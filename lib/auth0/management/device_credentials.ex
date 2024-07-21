@@ -10,44 +10,41 @@ defmodule Auth0.Management.DeviceCredentials do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/device-credentials"
-  @endpoint_by_id "/api/v2/device-credentials/{id}"
-
   @doc """
-  Retrieve device credentials.
+  Retrieve device credential information (public_key, refresh_token, or rotating_refresh_token) associated with a specific user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Device_Credentials/get_device_credentials
+  https://auth0.com/docs/api/management/v2/device-credentials/get-device-credentials
 
   """
-  @spec list(List.Params.t() | map, config) ::
+  @spec list(map(), config) ::
           {:ok, list() | map()} | error
   def list(%{} = params, %Config{} = config) do
-    List.execute(@endpoint, params, config)
+    List.execute(params, config)
   end
 
   @doc """
-  Create a device public key credential.
+  Create a device credential public key to manage refresh token rotation for a given user_id. Device Credentials APIs are designed for ad-hoc administrative use only and paging is by default enabled for GET requests.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Device_Credentials/post_device_credentials
+  https://auth0.com/docs/api/management/v2/device-credentials/post-device-credentials
 
   """
-  @spec create(Create.Params.t() | map, config) ::
+  @spec create(map(), config) ::
           {:ok, list() | map()} | error
   def create(%{} = params, %Config{} = config) do
-    Create.execute(@endpoint, params, config)
+    Create.execute(params, config)
   end
 
   @doc """
-  Delete a device credential.
+  Permanently delete a device credential (such as a refresh token or public key) with the given ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Device_Credentials/delete_device_credentials_by_id
+  https://auth0.com/docs/api/management/v2/device-credentials/delete-device-credentials-by-id
 
   """
   @spec delete(id, config) :: {:ok, String.t()} | error
   def delete(id, %Config{} = config) do
-    Delete.execute(@endpoint_by_id, id, config)
+    Delete.execute(id, config)
   end
 end

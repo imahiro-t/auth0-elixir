@@ -5,39 +5,26 @@ defmodule Auth0.Management.Actions.Versions.Rollback do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct update_draft: nil
-
-    @type t :: %__MODULE__{
-            update_draft: boolean
-          }
-  end
-
-  @type endpoint :: String.t()
   @type action_id :: String.t()
   @type id :: String.t()
-  @type params :: Params.t() | map()
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/actions/actions/{actionId}/versions/{id}/deploy"
+
   @doc """
-  Roll back to a previous action version.
+  Performs the equivalent of a roll-back of an action to an earlier, specified version. Creates a new, deployed action version that is identical to the specified version. If this action is currently bound to a trigger, the system will begin executing the newly-created version immediately.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/post_deploy_draft_version
+  https://auth0.com/docs/api/management/v2/actions/post-deploy-draft-version
 
   """
-  @spec execute(endpoint, action_id, id, params, config) :: response
-  def execute(endpoint, action_id, id, %Params{} = params, %Config{} = config) do
-    execute(endpoint, action_id, id, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, action_id, id, %{} = params, %Config{} = config) do
+  def execute(action_id, id, %{} = params, %Config{} = config) do
     body = params |> Util.remove_nil()
 
-    endpoint
+    @endpoint
     |> String.replace("{actionId}", action_id)
     |> String.replace("{id}", id)
     |> Http.post(body, config)

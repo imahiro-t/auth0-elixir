@@ -5,45 +5,23 @@ defmodule Auth0.Management.Users.Permissions.Remove do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defmodule Permission do
-      @moduledoc false
-      defstruct resource_server_identifier: nil, permission_name: nil
-
-      @type t :: %__MODULE__{
-              resource_server_identifier: String.t(),
-              permission_name: String.t()
-            }
-    end
-
-    defstruct permissions: []
-
-    @type t :: %__MODULE__{
-            permissions: Permission.t()
-          }
-  end
-
-  @type endpoint :: String.t()
   @type id :: String.t()
-  @type params :: Params.t() | map
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: String.t()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/users/{id}/permissions"
+
   @doc """
-  Remove Permissions from a User.
+  Remove permissions from a user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/delete_permissions
+  https://auth0.com/docs/api/management/v2/users/delete-permissions
 
   """
-  @spec execute(endpoint, id, params, config) :: response
-  def execute(endpoint, id, %Params{} = params, %Config{} = config) do
-    execute(endpoint, id, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, id, %{} = params, %Config{} = config) do
+  @spec execute(id, params, config) :: response
+  def execute(id, %{} = params, %Config{} = config) do
     body =
       params
       |> Util.remove_nil()
@@ -58,7 +36,7 @@ defmodule Auth0.Management.Users.Permissions.Remove do
           map
       end
 
-    endpoint
+    @endpoint
     |> String.replace("{id}", id)
     |> Http.delete(body, config)
     |> case do

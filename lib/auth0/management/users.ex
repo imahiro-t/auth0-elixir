@@ -24,223 +24,208 @@ defmodule Auth0.Management.Users do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/users"
-  @endpoint_by_id "/api/v2/users/{id}"
-  @endpoint_of_enrollments "/api/v2/users/{id}/enrollments"
-  @endpoint_of_roles "/api/v2/users/{id}/roles"
-  @endpoint_of_logs "/api/v2/users/{id}/logs"
-  @endpoint_of_organizations "/api/v2/users/{id}/organizations"
-  @endpoint_of_permissions "/api/v2/users/{id}/permissions"
-  @endpoint_of_multifactor "/api/v2/users/{id}/multifactor/{provider}"
-  @endpoint_of_multifactor_invalidate_remember_browser "/api/v2/users/{id}/multifactor/actions/invalidate-remember-browser"
-  @endpoint_of_identities "/api/v2/users/{id}/identities"
-  @endpoint_of_identities_by_provider "/api/v2/users/{id}/identities/{provider}/{user_id}"
-  @endpoint_of_recovery_code_regeneration "/api/v2/users/{id}/recovery-code-regeneration"
-  @endpoint_of_refresh_tokens "/api/v2/users/{user_id}/refresh-tokens"
-  @endpoint_of_sessions "/api/v2/users/{user_id}/sessions"
-
   @doc """
-  List or Search Users.
+  Retrieve details of users.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/get_users
+  https://auth0.com/docs/api/management/v2/users/get-users
 
   """
-  @spec list(List.Params.t() | map, config) :: {:ok, list() | map()} | error
+  @spec list(map(), config) :: {:ok, list() | map()} | error
   def list(%{} = params, %Config{} = config) do
-    List.execute(@endpoint, params, config)
+    List.execute(params, config)
   end
 
   @doc """
-  Create a User.
+  Create a new user for a given database or passwordless connection.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/post_users
+  https://auth0.com/docs/api/management/v2/users/post-users
 
   """
-  @spec create(Create.Params.t() | map, config) ::
+  @spec create(map(), config) ::
           {:ok, list() | map()} | error
   def create(%{} = params, %Config{} = config) do
-    Create.execute(@endpoint, params, config)
+    Create.execute(params, config)
   end
 
   @doc """
-  Get a User.
+  Retrieve user details. A list of fields to include or exclude may also be specified.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/get_users_by_id
+  https://auth0.com/docs/api/management/v2/users/get-users-by-id
 
   """
-  @spec get(id, Get.Params.t() | map, config) ::
+  @spec get(id, map(), config) ::
           {:ok, list() | map()} | error
   def get(id, %{} = params, %Config{} = config) do
-    Get.execute(@endpoint_by_id, id, params, config)
+    Get.execute(id, params, config)
   end
 
   @doc """
-  Delete a User.
+  Delete a user by user ID. This action cannot be undone.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/delete_users_by_id
+  https://auth0.com/docs/api/management/v2/users/delete-users-by-id
 
   """
   @spec delete(id, config) :: {:ok, String.t()} | error
   def delete(id, %Config{} = config) do
-    Delete.execute(@endpoint_by_id, id, config)
+    Delete.execute(id, config)
   end
 
   @doc """
-  Update a User.
+  Update a user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/patch_users_by_id
+  https://auth0.com/docs/api/management/v2/users/patch-users-by-id
 
   """
-  @spec update(id, Patch.Params.t() | map, config) ::
+  @spec update(id, map(), config) ::
           {:ok, list() | map()} | error
   def update(id, %{} = params, %Config{} = config) do
-    Patch.execute(@endpoint_by_id, id, params, config)
+    Patch.execute(id, params, config)
   end
 
   @doc """
-  Get the First Confirmed Multi-factor Authentication Enrollment.
+  Retrieve the first multi-factor authentication enrollment that a specific user has confirmed.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/get_enrollments
+  https://auth0.com/docs/api/management/v2/users/get-enrollments
 
   """
   @spec get_enrollments(id, config) ::
           {:ok, list() | map()} | error
   def get_enrollments(id, %Config{} = config) do
-    Enrollments.List.execute(@endpoint_of_enrollments, id, config)
+    Enrollments.List.execute(id, config)
   end
 
   @doc """
-  Get a user's roles.
+  Retrieve detailed list of all user roles currently assigned to a user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/get_user_roles
+  https://auth0.com/docs/api/management/v2/users/get-user-roles
 
   """
-  @spec get_roles(id, Roles.List.Params.t() | map, config) ::
+  @spec get_roles(id, map(), config) ::
           {:ok, list() | map()} | error
   def get_roles(id, %{} = params, %Config{} = config) do
-    Roles.List.execute(@endpoint_of_roles, id, params, config)
+    Roles.List.execute(id, params, config)
   end
 
   @doc """
-  Removes roles from a user.
+  Remove one or more specified user roles assigned to a user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/delete_user_roles
+  https://auth0.com/docs/api/management/v2/users/delete-user-roles
 
   """
-  @spec remove_roles(id, Roles.Remove.Params.t() | map, config) ::
+  @spec remove_roles(id, map(), config) ::
           {:ok, String.t()} | error
   def remove_roles(id, %{} = params, %Config{} = config) do
-    Roles.Remove.execute(@endpoint_of_roles, id, params, config)
+    Roles.Remove.execute(id, params, config)
   end
 
   @doc """
-  Assign roles to a user.
+  Assign one or more existing user roles to a user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/post_user_roles
+  https://auth0.com/docs/api/management/v2/users/post-user-roles
 
   """
-  @spec assign_roles(id, Roles.Assign.Params.t() | map, config) ::
+  @spec assign_roles(id, map(), config) ::
           {:ok, String.t()} | error
   def assign_roles(id, %{} = params, %Config{} = config) do
-    Roles.Assign.execute(@endpoint_of_roles, id, params, config)
+    Roles.Assign.execute(id, params, config)
   end
 
   @doc """
-  Get user's log events.
+  Retrieve log events for a specific user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/get_logs_by_user
+  https://auth0.com/docs/api/management/v2/users/get-logs-by-user
 
   """
-  @spec get_logs(id, Logs.List.Params.t() | map, config) ::
+  @spec get_logs(id, map(), config) ::
           {:ok, list() | map()} | error
   def get_logs(id, %{} = params, %Config{} = config) do
-    Logs.List.execute(@endpoint_of_logs, id, params, config)
+    Logs.List.execute(id, params, config)
   end
 
   @doc """
-  List user's organizations.
+  Retrieve list of the specified user's current Organization memberships. User must be specified by user ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/get_user_organizations
+  https://auth0.com/docs/api/management/v2/users/get-user-organizations
 
   """
-  @spec get_organizations(id, Organizations.List.Params.t() | map, config) ::
+  @spec get_organizations(id, map(), config) ::
           {:ok, list() | map()} | error
   def get_organizations(id, %{} = params, %Config{} = config) do
-    Organizations.List.execute(@endpoint_of_organizations, id, params, config)
+    Organizations.List.execute(id, params, config)
   end
 
   @doc """
-  Get a User's Permissions.
+  Retrieve all permissions associated with the user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/get_permissions
+  https://auth0.com/docs/api/management/v2/users/get-permissions
 
   """
-  @spec get_permissions(id, Permissions.List.Params.t() | map, config) ::
+  @spec get_permissions(id, map(), config) ::
           {:ok, list() | map()} | error
   def get_permissions(id, %{} = params, %Config{} = config) do
-    Permissions.List.execute(@endpoint_of_permissions, id, params, config)
+    Permissions.List.execute(id, params, config)
   end
 
   @doc """
-  Remove Permissions from a User.
+  Remove permissions from a user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/delete_permissions
+  https://auth0.com/docs/api/management/v2/users/delete-permissions
 
   """
-  @spec remove_permissions(id, Permissions.Remove.Params.t() | map, config) ::
+  @spec remove_permissions(id, map(), config) ::
           {:ok, String.t()} | error
   def remove_permissions(id, %{} = params, %Config{} = config) do
-    Permissions.Remove.execute(@endpoint_of_permissions, id, params, config)
+    Permissions.Remove.execute(id, params, config)
   end
 
   @doc """
-  Assign Permissions to a User.
+  Assign permissions to a user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/post_permissions
+  https://auth0.com/docs/api/management/v2/users/post-permissions
 
   """
-  @spec assign_permissions(id, Permissions.Assign.Params.t() | map, config) ::
+  @spec assign_permissions(id, map(), config) ::
           {:ok, String.t()} | error
   def assign_permissions(id, %{} = params, %Config{} = config) do
-    Permissions.Assign.execute(@endpoint_of_permissions, id, params, config)
+    Permissions.Assign.execute(id, params, config)
   end
 
   @doc """
-  Delete a User's Multi-factor Provider.
+  Remove a multifactor authentication configuration from a user's account. This forces the user to manually reconfigure the multi-factor provider.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/delete_multifactor_by_provider
+  https://auth0.com/docs/api/management/v2/users/delete-multifactor-by-provider
 
   """
-  @spec delete_multifactor(id, Multifactor.Delete.Params.t() | map, config) ::
+  @spec delete_multifactor(id, map(), config) ::
           {:ok, String.t()} | error
   def delete_multifactor(
         id,
         %{} = params,
         %Config{} = config
       ) do
-    Multifactor.Delete.execute(@endpoint_of_multifactor, id, params, config)
+    Multifactor.Delete.execute(id, params, config)
   end
 
   @doc """
-  Invalidate All Remembered Browsers for Multi-factor Authentication.
+  Invalidate all remembered browsers across all authentication factors for a user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/post_invalidate_remember_browser
+  https://auth0.com/docs/api/management/v2/users/post-invalidate-remember-browser
 
   """
   @spec invalidate_remembered_browser_for_multifactor(id, config) ::
@@ -250,34 +235,33 @@ defmodule Auth0.Management.Users do
         %Config{} = config
       ) do
     Multifactor.InvalidateRememberedBrowser.execute(
-      @endpoint_of_multifactor_invalidate_remember_browser,
       id,
       config
     )
   end
 
   @doc """
-  Link a User Account.
+  Link two user accounts together forming a primary and secondary relationship. On successful linking, the endpoint returns the new array of the primary account identities.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/post_identities
+  https://auth0.com/docs/api/management/v2/users/post-identities
 
   """
-  @spec link_identities(id, Identities.Link.Params.t() | map, config) ::
+  @spec link_identities(id, map(), config) ::
           {:ok, list() | map()} | error
   def link_identities(
         id,
         %{} = params,
         %Config{} = config
       ) do
-    Identities.Link.execute(@endpoint_of_identities, id, params, config)
+    Identities.Link.execute(id, params, config)
   end
 
   @doc """
-  Unlink a User Identity.
+  Unlink a specific secondary account from a target user. This action requires the ID of both the target user and the secondary account.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/delete_user_identity_by_user_id
+  https://auth0.com/docs/api/management/v2/users/delete-user-identity-by-user-id
 
   """
   @spec unlink_identities(id, provider, user_id, config) ::
@@ -288,14 +272,14 @@ defmodule Auth0.Management.Users do
         user_id,
         %Config{} = config
       ) do
-    Identities.Unlink.execute(@endpoint_of_identities_by_provider, id, provider, user_id, config)
+    Identities.Unlink.execute(id, provider, user_id, config)
   end
 
   @doc """
-  Generate New Multi-factor Authentication Recovery Code.
+  Remove an existing multi-factor authentication (MFA) recovery code and generate a new one. If a user cannot access the original device or account used for MFA enrollment, they can use a recovery code to authenticate.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/post_recovery_code_regeneration
+  https://auth0.com/docs/api/management/v2/users/post-recovery-code-regeneration
 
   """
   @spec regenerate_recovery_code(id, config) ::
@@ -305,7 +289,6 @@ defmodule Auth0.Management.Users do
         %Config{} = config
       ) do
     RecoveryCodeRegeneration.Regenerate.execute(
-      @endpoint_of_recovery_code_regeneration,
       id,
       config
     )
@@ -318,10 +301,10 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/users/get-refresh-tokens-for-user
 
   """
-  @spec get_refresh_tokens(id, RefreshTokens.List.Params.t() | map, config) ::
+  @spec get_refresh_tokens(id, map(), config) ::
           {:ok, list() | map()} | error
   def get_refresh_tokens(id, %{} = params, %Config{} = config) do
-    RefreshTokens.List.execute(@endpoint_of_refresh_tokens, id, params, config)
+    RefreshTokens.List.execute(id, params, config)
   end
 
   @doc """
@@ -334,7 +317,7 @@ defmodule Auth0.Management.Users do
   @spec delete_refresh_tokens(id, config) ::
           {:ok, String.t()} | error
   def delete_refresh_tokens(id, %Config{} = config) do
-    RefreshTokens.Delete.execute(@endpoint_of_refresh_tokens, id, config)
+    RefreshTokens.Delete.execute(id, config)
   end
 
   @doc """
@@ -344,10 +327,10 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/users/get-sessions-for-user
 
   """
-  @spec get_sessions(id, Sessions.List.Params.t() | map, config) ::
+  @spec get_sessions(id, map(), config) ::
           {:ok, list() | map()} | error
   def get_sessions(id, %{} = params, %Config{} = config) do
-    Sessions.List.execute(@endpoint_of_sessions, id, params, config)
+    Sessions.List.execute(id, params, config)
   end
 
   @doc """
@@ -360,6 +343,6 @@ defmodule Auth0.Management.Users do
   @spec delete_sessions(id, config) ::
           {:ok, String.t()} | error
   def delete_sessions(id, %Config{} = config) do
-    Sessions.Delete.execute(@endpoint_of_sessions, id, config)
+    Sessions.Delete.execute(id, config)
   end
 end

@@ -4,22 +4,23 @@ defmodule Auth0.Management.Jobs.Get do
   alias Auth0.Config
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type id :: String.t()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/jobs/{id}"
+
   @doc """
-  Get a job.
+  Retrieves a job. Useful to check its status.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Jobs/get_jobs_by_id
+  https://auth0.com/docs/api/management/v2/jobs/get-jobs-by-id
 
   """
-  @spec execute(endpoint, id, config) :: response
-  def execute(endpoint, id, %Config{} = config) do
-    endpoint
+  @spec execute(id, config) :: response
+  def execute(id, %Config{} = config) do
+    @endpoint
     |> String.replace("{id}", id)
     |> Http.get(config)
     |> case do

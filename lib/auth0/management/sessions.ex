@@ -9,8 +9,6 @@ defmodule Auth0.Management.Sessions do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint_by_id "/api/v2/sessions/{id}"
-
   @doc """
   Retrieve session information.
 
@@ -21,7 +19,7 @@ defmodule Auth0.Management.Sessions do
   @spec get(id, config) ::
           {:ok, list() | map()} | error
   def get(id, %Config{} = config) do
-    Get.execute(@endpoint_by_id, id, config)
+    Get.execute(id, config)
   end
 
   @doc """
@@ -33,6 +31,6 @@ defmodule Auth0.Management.Sessions do
   """
   @spec delete(id, config) :: {:ok, String.t()} | error
   def delete(id, %Config{} = config) do
-    Delete.execute(@endpoint_by_id, id, config)
+    Delete.execute(id, config)
   end
 end

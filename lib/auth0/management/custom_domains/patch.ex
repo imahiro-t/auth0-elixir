@@ -5,40 +5,26 @@ defmodule Auth0.Management.CustomDomains.Patch do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct tls_policy: nil,
-              custom_client_ip_header: nil
-
-    @type t :: %__MODULE__{
-            tls_policy: String.t(),
-            custom_client_ip_header: String.t()
-          }
-  end
-
-  @type endpoint :: String.t()
   @type id :: String.t()
-  @type params :: Params.t() | map()
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/custom-domains/{id}"
+
   @doc """
-  Update custom domain configuration.
+  Update a custom domain.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Custom_Domains/patch_custom_domains_by_id
+  https://auth0.com/docs/api/management/v2/custom-domains/patch-custom-domains-by-id
 
   """
-  @spec execute(endpoint, id, params, config) :: response
-  def execute(endpoint, id, %Params{} = params, %Config{} = config) do
-    execute(endpoint, id, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, id, %{} = params, %Config{} = config) do
+  @spec execute(id, params, config) :: response
+  def execute(id, %{} = params, %Config{} = config) do
     body = params |> Util.remove_nil()
 
-    endpoint
+    @endpoint
     |> String.replace("{id}", id)
     |> Http.patch(body, config)
     |> case do

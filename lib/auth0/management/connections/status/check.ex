@@ -4,22 +4,23 @@ defmodule Auth0.Management.Connections.Status.Check do
   alias Auth0.Config
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type id :: String.t()
   @type config :: Config.t()
   @type entity :: boolean
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/connections/{id}/status"
+
   @doc """
-  Check connection status.
+  Retrieves the status of an ad/ldap connection referenced by its ID. 200 OK http status code response is returned when the connection is online, otherwise a 404 status code is returned along with an error message
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Connections/get_status
+  https://auth0.com/docs/api/management/v2/connections/get-status
 
   """
-  @spec execute(endpoint, id, config) :: response
-  def execute(endpoint, id, %Config{} = config) do
-    endpoint
+  @spec execute(id, config) :: response
+  def execute(id, %Config{} = config) do
+    @endpoint
     |> String.replace("{id}", id)
     |> Http.get(config)
     |> case do

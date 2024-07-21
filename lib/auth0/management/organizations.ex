@@ -20,143 +20,132 @@ defmodule Auth0.Management.Organizations do
   @type user_id :: String.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/organizations"
-  @endpoint_by_id "/api/v2/organizations/{id}"
-  @endpoint_by_name "/api/v2/organizations/name/{name}"
-  @endpoint_enabled_connections "/api/v2/organizations/{id}/enabled_connections"
-  @endpoint_enabled_connections_by_id "/api/v2/organizations/{id}/enabled_connections/{connectionId}"
-  @endpoint_invitations "/api/v2/organizations/{id}/invitations"
-  @endpoint_invitations_by_id "/api/v2/organizations/{id}/invitations/{invitation_id}"
-  @endpoint_members "/api/v2/organizations/{id}/members"
-  @endpoint_roles "/api/v2/organizations/{id}/members/{user_id}/roles"
-
   @doc """
-  Get organizations.
+  Retrive detailed list of all Organizations available in your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/get_organizations
+  https://auth0.com/docs/api/management/v2/organizations/get-organizations
 
   """
-  @spec list(List.Params.t() | map, config) ::
+  @spec list(map(), config) ::
           {:ok, list() | map()} | error
   def list(%{} = params, %Config{} = config) do
-    List.execute(@endpoint, params, config)
+    List.execute(params, config)
   end
 
   @doc """
-  Create an Organization.
+  Create a new Organization within your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/post_organizations
+  https://auth0.com/docs/api/management/v2/organizations/post-organizations
 
   """
-  @spec create(Create.Params.t() | map, config) ::
+  @spec create(map(), config) ::
           {:ok, list() | map()} | error
   def create(%{} = params, %Config{} = config) do
-    Create.execute(@endpoint, params, config)
+    Create.execute(params, config)
   end
 
   @doc """
-  Get organization.
+  Retrieve details about a single Organization specified by ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/get_organizations_by_id
+  https://auth0.com/docs/api/management/v2/organizations/get-organizations-by-id
 
   """
   @spec get(id, config) ::
           {:ok, list() | map()} | error
   def get(id, %Config{} = config) do
-    Get.execute(@endpoint_by_id, id, config)
+    Get.execute(id, config)
   end
 
   @doc """
-  Delete organization.
+  Remove an Organization from your tenant. This action cannot be undone.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/delete_organizations_by_id
+  https://auth0.com/docs/api/management/v2/organizations/delete-organizations-by-id
 
   """
   @spec delete(id, config) :: {:ok, String.t()} | error
   def delete(id, %Config{} = config) do
-    Delete.execute(@endpoint_by_id, id, config)
+    Delete.execute(id, config)
   end
 
   @doc """
-  Modify an Organization.
+  Update the details of a specific Organization, such as name and display name, branding options, and metadata.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/patch_organizations_by_id
+  https://auth0.com/docs/api/management/v2/organizations/patch-organizations-by-id
 
   """
-  @spec modify(id, Patch.Params.t() | map, config) ::
+  @spec modify(id, map(), config) ::
           {:ok, list() | map()} | error
   def modify(id, %{} = params, %Config{} = config) do
-    Patch.execute(@endpoint_by_id, id, params, config)
+    Patch.execute(id, params, config)
   end
 
   @doc """
-  Get organization by name.
+  Retrieve details about a single Organization specified by name.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/get_name_by_name
+  https://auth0.com/docs/api/management/v2/organizations/get-name-by-name
 
   """
   @spec get_by_name(name, config) ::
           {:ok, list() | map()} | error
   def get_by_name(name, %Config{} = config) do
-    Name.Get.execute(@endpoint_by_name, name, config)
+    Name.Get.execute(name, config)
   end
 
   @doc """
-  Get connections enabled for an organization.
+  Retrieve details about a specific connection currently enabled for an Organization. Information returned includes details such as connection ID, name, strategy, and whether the connection automatically grants membership upon login.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/get_enabled_connections
+  https://auth0.com/docs/api/management/v2/organizations/get-enabled-connections
 
   """
-  @spec list_connections(id, EnabledConnections.List.Params.t() | map, config) ::
+  @spec list_connections(id, map(), config) ::
           {:ok, list() | map()} | error
   def list_connections(id, %{} = params, %Config{} = config) do
-    EnabledConnections.List.execute(@endpoint_enabled_connections, id, params, config)
+    EnabledConnections.List.execute(id, params, config)
   end
 
   @doc """
-  Add connections to an organization.
+  Enable a specific connection for a given Organization. To enable a connection, it must already exist within your tenant; connections cannot be created through this action.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/post_enabled_connections
+  https://auth0.com/docs/api/management/v2/organizations/post-enabled-connections
 
   """
-  @spec add_connection(id, EnabledConnections.Create.Params.t() | map, config) ::
+  @spec add_connection(id, map(), config) ::
           {:ok, list() | map()} | error
   def add_connection(id, %{} = params, %Config{} = config) do
-    EnabledConnections.Create.execute(@endpoint_enabled_connections, id, params, config)
+    EnabledConnections.Create.execute(id, params, config)
   end
 
   @doc """
-  Get an enabled connection for an organization.
+  Retrieve details about a specific connection currently enabled for an Organization. Information returned includes details such as connection ID, name, strategy, and whether the connection automatically grants membership upon login.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/get_enabled_connections_by_connectionId
+  https://auth0.com/docs/api/management/v2/organizations/get-enabled-connections-by-connection-id
 
   """
   @spec get_connection(id, connection_id, config) ::
           {:ok, list() | map()} | error
   def get_connection(id, connection_id, %Config{} = config) do
-    EnabledConnections.Get.execute(@endpoint_enabled_connections_by_id, id, connection_id, config)
+    EnabledConnections.Get.execute(id, connection_id, config)
   end
 
   @doc """
-  Delete connections from an organization.
+  Disable a specific connection for an Organization. Once disabled, Organization members can no longer use that connection to authenticate.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/delete_enabled_connections_by_connectionId
+  https://auth0.com/docs/api/management/v2/organizations/delete-enabled-connections-by-connection-id
 
   """
   @spec delete_connection(id, connection_id, config) :: {:ok, String.t()} | error
   def delete_connection(id, connection_id, %Config{} = config) do
     EnabledConnections.Delete.execute(
-      @endpoint_enabled_connections_by_id,
       id,
       connection_id,
       config
@@ -164,13 +153,13 @@ defmodule Auth0.Management.Organizations do
   end
 
   @doc """
-  Modify an Organizations Connection.
+  Modify the details of a specific connection currently enabled for an Organization.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/patch_enabled_connections_by_connectionId
+  https://auth0.com/docs/api/management/v2/organizations/patch-enabled-connections-by-connection-id
 
   """
-  @spec modify_connection(id, connection_id, EnabledConnections.Patch.Params.t() | map, config) ::
+  @spec modify_connection(id, connection_id, map(), config) ::
           {:ok, list() | map()} | error
   def modify_connection(
         id,
@@ -179,7 +168,6 @@ defmodule Auth0.Management.Organizations do
         %Config{} = config
       ) do
     EnabledConnections.Patch.execute(
-      @endpoint_enabled_connections_by_id,
       id,
       connection_id,
       params,
@@ -188,131 +176,131 @@ defmodule Auth0.Management.Organizations do
   end
 
   @doc """
-  Get invitations to organization.
+  Retrieve a detailed list of invitations sent to users for a specific Organization. The list includes details such as inviter and invitee information, invitation URLs, and dates of creation and expiration.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/get_invitations
+  https://auth0.com/docs/api/management/v2/organizations/get-invitations
 
   """
-  @spec list_invitations(id, Invitations.List.Params.t() | map, config) ::
+  @spec list_invitations(id, map(), config) ::
           {:ok, list() | map()} | error
   def list_invitations(id, %{} = params, %Config{} = config) do
-    Invitations.List.execute(@endpoint_invitations, id, params, config)
+    Invitations.List.execute(id, params, config)
   end
 
   @doc """
-  Create invitations to organization.
+  Create a user invitation for a specific Organization. Upon creation, the listed user receives an email inviting them to join the Organization.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/post_invitations
+  https://auth0.com/docs/api/management/v2/organizations/post-invitations
 
   """
-  @spec create_invitation(id, Invitations.Create.Params.t() | map, config) ::
+  @spec create_invitation(id, map(), config) ::
           {:ok, list() | map()} | error
   def create_invitation(id, %{} = params, %Config{} = config) do
-    Invitations.Create.execute(@endpoint_invitations, id, params, config)
+    Invitations.Create.execute(id, params, config)
   end
 
   @doc """
-  Get an invitation to organization.
+  Get a specific invitation to an Organization
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/get_invitations_by_invitation_id
+  https://auth0.com/docs/api/management/v2/organizations/get-invitations-by-invitation-id
 
   """
-  @spec get_invitation(id, invitation_id, Invitations.Get.Params.t() | map, config) ::
+  @spec get_invitation(id, invitation_id, map(), config) ::
           {:ok, list() | map()} | error
   def get_invitation(id, invitation_id, %{} = params, %Config{} = config) do
-    Invitations.Get.execute(@endpoint_invitations_by_id, id, invitation_id, params, config)
+    Invitations.Get.execute(id, invitation_id, params, config)
   end
 
   @doc """
-  Delete an invitation to organization.
+  Delete an invitation to an Organization
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/delete_invitations_by_invitation_id
+  https://auth0.com/docs/api/management/v2/organizations/delete-invitations-by-invitation-id
 
   """
   @spec delete_invitation(id, invitation_id, config) :: {:ok, String.t()} | error
   def delete_invitation(id, invitation_id, %Config{} = config) do
-    Invitations.Delete.execute(@endpoint_invitations_by_id, id, invitation_id, config)
+    Invitations.Delete.execute(id, invitation_id, config)
   end
 
   @doc """
-  Get members who belong to an organization.
+  List organization members.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/get_members
+  https://auth0.com/docs/api/management/v2/organizations/get-members
 
   """
-  @spec list_members(id, Members.List.Params.t() | map, config) ::
+  @spec list_members(id, map(), config) ::
           {:ok, list() | map()} | error
   def list_members(id, %{} = params, %Config{} = config) do
-    Members.List.execute(@endpoint_members, id, params, config)
+    Members.List.execute(id, params, config)
   end
 
   @doc """
-  Delete members from an organization.
+  Delete members from an organization
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/delete_members
+  https://auth0.com/docs/api/management/v2/organizations/delete-members
 
   """
-  @spec delete_members(id, Members.Delete.Params.t() | map, config) ::
+  @spec delete_members(id, map(), config) ::
           {:ok, String.t()} | error
   def delete_members(id, %{} = params, %Config{} = config) do
-    Members.Delete.execute(@endpoint_members, id, params, config)
+    Members.Delete.execute(id, params, config)
   end
 
   @doc """
-  Add members to an organization.
+  Set one or more existing users as members of a specific Organization.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/post_members
+  https://auth0.com/docs/api/management/v2/organizations/post-members
 
   """
-  @spec add_members(id, Members.Add.Params.t() | map, config) ::
+  @spec add_members(id, map(), config) ::
           {:ok, String.t()} | error
   def add_members(id, %{} = params, %Config{} = config) do
-    Members.Add.execute(@endpoint_members, id, params, config)
+    Members.Add.execute(id, params, config)
   end
 
   @doc """
-  Get the roles assigned to an organization member.
+  Retrieve detailed list of roles assigned to a given user within the context of a specific Organization.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/get_organization_member_roles
+  https://auth0.com/docs/api/management/v2/organizations/get-organization-member-roles
 
   """
-  @spec list_roles(id, user_id, Members.Roles.List.Params.t() | map, config) ::
+  @spec list_roles(id, user_id, map(), config) ::
           {:ok, list() | map()} | error
   def list_roles(id, user_id, %{} = params, %Config{} = config) do
-    Members.Roles.List.execute(@endpoint_roles, id, user_id, params, config)
+    Members.Roles.List.execute(id, user_id, params, config)
   end
 
   @doc """
-  Delete members from an organization.
+  Remove one or more Organization-specific roles from a given user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/delete_members
+  https://auth0.com/docs/api/management/v2/organizations/delete-organization-member-roles
 
   """
-  @spec delete_roles(id, user_id, Members.Roles.Delete.Params.t() | map, config) ::
+  @spec delete_roles(id, user_id, map(), config) ::
           {:ok, String.t()} | error
   def delete_roles(id, user_id, %{} = params, %Config{} = config) do
-    Members.Roles.Delete.execute(@endpoint_roles, id, user_id, params, config)
+    Members.Roles.Delete.execute(id, user_id, params, config)
   end
 
   @doc """
-  Add members to an organization.
+  Assign one or more roles to a user to determine their access for a specific Organization.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/post_members
+  https://auth0.com/docs/api/management/v2/organizations/post-organization-member-roles
 
   """
-  @spec assign_roles(id, user_id, Members.Roles.Add.Params.t() | map, config) ::
+  @spec assign_roles(id, user_id, map(), config) ::
           {:ok, String.t()} | error
   def assign_roles(id, user_id, %{} = params, %Config{} = config) do
-    Members.Roles.Add.execute(@endpoint_roles, id, user_id, params, config)
+    Members.Roles.Add.execute(id, user_id, params, config)
   end
 end

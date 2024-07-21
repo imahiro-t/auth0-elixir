@@ -5,69 +5,25 @@ defmodule Auth0.Management.Users.Create do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct email: nil,
-              phone_number: nil,
-              user_metadata: nil,
-              blocked: nil,
-              email_verified: nil,
-              phone_verified: nil,
-              app_metadata: nil,
-              given_name: nil,
-              family_name: nil,
-              name: nil,
-              nickname: nil,
-              picture: nil,
-              user_id: nil,
-              connection: nil,
-              password: nil,
-              verify_email: nil,
-              username: nil
-
-    @type t :: %__MODULE__{
-            email: String.t(),
-            phone_number: String.t(),
-            user_metadata: map,
-            blocked: boolean,
-            email_verified: boolean,
-            phone_verified: boolean,
-            app_metadata: map,
-            given_name: String.t(),
-            family_name: String.t(),
-            name: String.t(),
-            nickname: String.t(),
-            picture: String.t(),
-            user_id: String.t(),
-            connection: String.t(),
-            password: String.t(),
-            verify_email: boolean,
-            username: String.t()
-          }
-  end
-
-  @type endpoint :: String.t()
-  @type params :: Params.t() | map
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/users"
+
   @doc """
-  Create a User.
+  Create a new user for a given database or passwordless connection.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/post_users
+  https://auth0.com/docs/api/management/v2/users/post-users
 
   """
-  @spec execute(endpoint, params, config) :: response
-  def execute(endpoint, %Params{} = params, %Config{} = config) do
-    execute(endpoint, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, %{} = params, %Config{} = config) do
+  @spec execute(params, config) :: response
+  def execute(%{} = params, %Config{} = config) do
     body = params |> Util.remove_nil()
 
-    Http.post(endpoint, body, config)
+    Http.post(@endpoint, body, config)
     |> case do
       {:ok, 201, body} -> {:ok, body |> Jason.decode!()}
       error -> error

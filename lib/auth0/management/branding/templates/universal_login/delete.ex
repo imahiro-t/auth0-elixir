@@ -4,21 +4,22 @@ defmodule Auth0.Management.Branding.Templates.UniversalLogin.Delete do
   alias Auth0.Config
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type config :: Config.t()
   @type entity :: String.t()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/branding/templates/universal-login"
+
   @doc """
-  Delete template for New Universal Login Experience.
+  Delete template for New Universal Login Experience
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Branding/delete_universal_login
+  https://auth0.com/docs/api/management/v2/branding/delete-universal-login
 
   """
-  @spec execute(endpoint, config) :: response
-  def execute(endpoint, %Config{} = config) do
-    Http.delete(endpoint, config)
+  @spec execute(config) :: response
+  def execute(%Config{} = config) do
+    Http.delete(@endpoint, config)
     |> case do
       {:ok, 204, _body} -> {:ok, ""}
       error -> error

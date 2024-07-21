@@ -4,22 +4,23 @@ defmodule Auth0.Management.Hooks.Secrets.Get do
   alias Auth0.Config
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type id :: String.t()
   @type config :: Config.t()
   @type entity :: map
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/hooks/{id}/secrets"
+
   @doc """
-  Get hook secrets.
+  Retrieve a hook's secrets by the ID of the hook.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/get_secrets
+  https://auth0.com/docs/api/management/v2/hooks/get-secrets
 
   """
-  @spec execute(endpoint, id, config) :: response
-  def execute(endpoint, id, %Config{} = config) do
-    endpoint
+  @spec execute(id, config) :: response
+  def execute(id, %Config{} = config) do
+    @endpoint
     |> String.replace("{id}", id)
     |> Http.get(config)
     |> case do

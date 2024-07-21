@@ -5,40 +5,26 @@ defmodule Auth0.Management.Organizations.EnabledConnections.Create do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct connection_id: nil,
-              assign_membership_on_login: nil
-
-    @type t :: %__MODULE__{
-            connection_id: String.t(),
-            assign_membership_on_login: boolean
-          }
-  end
-
-  @type endpoint :: String.t()
   @type id :: String.t()
-  @type params :: Params.t() | map
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/organizations/{id}/enabled_connections"
+
   @doc """
-  Add connections to an organization.
+  Enable a specific connection for a given Organization. To enable a connection, it must already exist within your tenant; connections cannot be created through this action.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/post_enabled_connections
+  https://auth0.com/docs/api/management/v2/organizations/post-enabled-connections
 
   """
-  @spec execute(endpoint, id, params, config) :: response
-  def execute(endpoint, id, %Params{} = params, %Config{} = config) do
-    execute(endpoint, id, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, id, %{} = params, %Config{} = config) do
+  @spec execute(id, params, config) :: response
+  def execute(id, %{} = params, %Config{} = config) do
     body = params |> Util.remove_nil()
 
-    endpoint
+    @endpoint
     |> String.replace("{id}", id)
     |> Http.post(body, config)
     |> case do

@@ -8,30 +8,27 @@ defmodule Auth0.Management.Stats do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint_active_users "/api/v2/stats/active-users"
-  @endpoint_daily "/api/v2/stats/daily"
-
   @doc """
-  Get active users count.
+  Retrieve the number of active users that logged in during the last 30 days.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Stats/get_active_users
+  https://auth0.com/docs/api/management/v2/stats/get-active-users
 
   """
   @spec count_active_users(config) :: {:ok, integer} | error
   def count_active_users(%Config{} = config) do
-    ActiveUsers.Count.execute(@endpoint_active_users, config)
+    ActiveUsers.Count.execute(config)
   end
 
   @doc """
-  Get daily stats.
+  Retrieve the number of logins, signups and breached-password detections (subscription required) that occurred each day within a specified date range.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Stats/get_daily
+  https://auth0.com/docs/api/management/v2/stats/get-daily
 
   """
   @spec list_daily(config) :: {:ok, list() | map()} | error
   def list_daily(%Config{} = config) do
-    Daily.List.execute(@endpoint_daily, config)
+    Daily.List.execute(config)
   end
 end

@@ -9,32 +9,29 @@ defmodule Auth0.Management.Logs do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/logs"
-  @endpoint_by_id "/api/v2/logs/{id}"
-
   @doc """
-  Search log events.
+  Retrieve log entries that match the specified search criteria (or all log entries if no criteria specified).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Logs/get_logs
+  https://auth0.com/docs/api/management/v2/logs/get-logs
 
   """
-  @spec list(List.Params.t() | map, config) ::
+  @spec list(map(), config) ::
           {:ok, list() | map()} | error
   def list(%{} = params, %Config{} = config) do
-    List.execute(@endpoint, params, config)
+    List.execute(params, config)
   end
 
   @doc """
-  Get a log event by id.
+  Retrieve an individual log event.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Logs/get_logs_by_id
+  https://auth0.com/docs/api/management/v2/logs/get-logs-by-id
 
   """
   @spec get(id, config) ::
           {:ok, list() | map()} | error
   def get(id, %Config{} = config) do
-    Get.execute(@endpoint_by_id, id, config)
+    Get.execute(id, config)
   end
 end

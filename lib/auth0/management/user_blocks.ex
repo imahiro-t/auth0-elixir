@@ -10,56 +10,53 @@ defmodule Auth0.Management.UserBlocks do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/user-blocks"
-  @endpoint_by_id "/api/v2/user-blocks/{id}"
-
   @doc """
-  Get blocks by identifier.
+  Retrieve details of all Brute-force Protection blocks for a user with the given identifier (username, phone number, or email).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/User_Blocks/get_user_blocks
+  https://auth0.com/docs/api/management/v2/user-blocks/get-user-blocks
 
   """
-  @spec get(Get.Params.t() | map, config) ::
+  @spec get(map(), config) ::
           {:ok, list() | map()} | error
   def get(%{} = params, %Config{} = config) do
-    Get.execute(@endpoint, params, config)
+    Get.execute(params, config)
   end
 
   @doc """
-  Unblock by identifier.
+  Remove all Brute-force Protection blocks for the user with the given identifier (username, phone number, or email).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/User_Blocks/delete_user_blocks
+  https://auth0.com/docs/api/management/v2/user-blocks/delete-user-blocks
 
   """
-  @spec unblock(Unblock.Params.t() | map, config) :: {:ok, String.t()} | error
+  @spec unblock(map(), config) :: {:ok, String.t()} | error
   def unblock(%{} = params, %Config{} = config) do
-    Unblock.execute(@endpoint, params, config)
+    Unblock.execute(params, config)
   end
 
   @doc """
-  Get a user's blocks.
+  Retrieve details of all Brute-force Protection blocks for the user with the given ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/User_Blocks/get_user_blocks_by_id
+  https://auth0.com/docs/api/management/v2/user-blocks/get-user-blocks-by-id
 
   """
-  @spec get_by_user_id(id, Users.Get.Params.t() | map, config) ::
+  @spec get_by_user_id(id, map(), config) ::
           {:ok, list() | map()} | error
   def get_by_user_id(id, %{} = params, %Config{} = config) do
-    Users.Get.execute(@endpoint_by_id, id, params, config)
+    Users.Get.execute(id, params, config)
   end
 
   @doc """
-  Unblock a user.
+  Remove all Brute-force Protection blocks for the user with the given ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/User_Blocks/delete_user_blocks_by_id
+  https://auth0.com/docs/api/management/v2/user-blocks/delete-user-blocks-by-id
 
   """
   @spec unblock_by_user_id(id, config) :: {:ok, String.t()} | error
   def unblock_by_user_id(id, %Config{} = config) do
-    Users.Unblock.execute(@endpoint_by_id, id, config)
+    Users.Unblock.execute(id, config)
   end
 end

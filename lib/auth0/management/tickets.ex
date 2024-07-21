@@ -8,32 +8,29 @@ defmodule Auth0.Management.Tickets do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint_email_verification "/api/v2/tickets/email-verification"
-  @endpoint_password_change "/api/v2/tickets/password-change"
-
   @doc """
-  Create an email verification ticket.
+  Create an email verification ticket for a given user. An email verification ticket is a generated URL that the user can consume to verify their email address.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Tickets/post_email_verification
+  https://auth0.com/docs/api/management/v2/tickets/post-email-verification
 
   """
-  @spec create_email_verification(EmailVerification.Create.Params.t() | map, config) ::
+  @spec create_email_verification(map(), config) ::
           {:ok, list() | map()} | error
   def create_email_verification(%{} = params, %Config{} = config) do
-    EmailVerification.Create.execute(@endpoint_email_verification, params, config)
+    EmailVerification.Create.execute(params, config)
   end
 
   @doc """
-  Create a password change ticket.
+  Create a password change ticket for a given user. A password change ticket is a generated URL that the user can consume to start a reset password flow.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Tickets/post_password_change
+  https://auth0.com/docs/api/management/v2/tickets/post-password-change
 
   """
-  @spec create_password_change(PasswordChange.Create.Params.t() | map, config) ::
+  @spec create_password_change(map(), config) ::
           {:ok, list() | map()} | error
   def create_password_change(%{} = params, %Config{} = config) do
-    PasswordChange.Create.execute(@endpoint_password_change, params, config)
+    PasswordChange.Create.execute(params, config)
   end
 end

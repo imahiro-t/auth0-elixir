@@ -7,44 +7,42 @@ defmodule Auth0.Management.Emails do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint_provider "/api/v2/emails/provider"
-
   @doc """
-  Get the email provider.
+  Retrieve details of the email provider configuration in your tenant. A list of fields to include or exclude may also be specified.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Emails/get_provider
+  https://auth0.com/docs/api/management/v2/emails/get-provider
 
   """
-  @spec get_provider(Provider.Get.Params.t() | map, config) ::
+  @spec get_provider(map(), config) ::
           {:ok, list() | map()} | error
   def get_provider(%{} = params, %Config{} = config) do
-    Provider.Get.execute(@endpoint_provider, params, config)
+    Provider.Get.execute(params, config)
   end
 
   @doc """
-  Update the email provider.
+  Update an email provider. The credentials object requires different properties depending on the email provider (which is specified using the name property):
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Emails/patch_provider
+  https://auth0.com/docs/api/management/v2/emails/patch-provider
 
   """
-  @spec update_provider(Provider.Patch.Params.t() | map, config) ::
+  @spec update_provider(map(), config) ::
           {:ok, list() | map()} | error
   def update_provider(%{} = params, %Config{} = config) do
-    Provider.Patch.execute(@endpoint_provider, params, config)
+    Provider.Patch.execute(params, config)
   end
 
   @doc """
-  Configure the email provider.
+  Create an email provider. The credentials object requires different properties depending on the email provider (which is specified using the name property):
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Emails/post_provider
+  https://auth0.com/docs/api/management/v2/emails/post-provider
 
   """
-  @spec configure_provider(Provider.Configure.Params.t() | map, config) ::
+  @spec configure_provider(map(), config) ::
           {:ok, list() | map()} | error
   def configure_provider(%{} = params, %Config{} = config) do
-    Provider.Configure.execute(@endpoint_provider, params, config)
+    Provider.Configure.execute(params, config)
   end
 end

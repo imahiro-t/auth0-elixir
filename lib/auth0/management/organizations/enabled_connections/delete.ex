@@ -4,23 +4,24 @@ defmodule Auth0.Management.Organizations.EnabledConnections.Delete do
   alias Auth0.Config
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type id :: String.t()
   @type connection_id :: String.t()
   @type config :: Config.t()
   @type entity :: String.t()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/organizations/{id}/enabled_connections/{connectionId}"
+
   @doc """
-  Delete connections from an organization.
+  Disable a specific connection for an Organization. Once disabled, Organization members can no longer use that connection to authenticate.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/delete_enabled_connections_by_connectionId
+  https://auth0.com/docs/api/management/v2/organizations/delete-enabled-connections-by-connection-id
 
   """
-  @spec execute(endpoint, id, connection_id, config) :: response
-  def execute(endpoint, id, connection_id, %Config{} = config) do
-    endpoint
+  @spec execute(id, connection_id, config) :: response
+  def execute(id, connection_id, %Config{} = config) do
+    @endpoint
     |> String.replace("{id}", id)
     |> String.replace("{connectionId}", connection_id)
     |> Http.delete(config)

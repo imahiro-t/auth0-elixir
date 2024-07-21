@@ -4,22 +4,23 @@ defmodule Auth0.Management.Guardian.Enrollments.Get do
   alias Auth0.Config
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type id :: String.t()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/guardian/enrollments/{id}"
+
   @doc """
-  Retrieve a multi-factor authentication enrollment.
+  Retrieve details, such as status and type, for a specific multi-factor authentication enrollment registered to a user account.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_enrollments_by_id
+  https://auth0.com/docs/api/management/v2/guardian/get-enrollments-by-id
 
   """
-  @spec execute(endpoint, id, config) :: response
-  def execute(endpoint, id, %Config{} = config) do
-    endpoint
+  @spec execute(id, config) :: response
+  def execute(id, %Config{} = config) do
+    @endpoint
     |> String.replace("{id}", id)
     |> Http.get(config)
     |> case do

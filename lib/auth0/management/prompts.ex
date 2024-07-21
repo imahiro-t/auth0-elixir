@@ -11,58 +11,55 @@ defmodule Auth0.Management.Prompts do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/prompts"
-  @endpoint_custom_text "/api/v2/prompts/{prompt}/custom-text/{language}"
-
   @doc """
-  Get prompts settings.
+  Retrieve details of the Universal Login configuration of your tenant. This includes the Identifier First Authentication and WebAuthn with Device Biometrics for MFA features.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Prompts/get_prompts
+  https://auth0.com/docs/api/management/v2/prompts/get-prompts
 
   """
   @spec get(config) ::
           {:ok, list() | map()} | error
   def get(%Config{} = config) do
-    Get.execute(@endpoint, config)
+    Get.execute(config)
   end
 
   @doc """
-  Update prompts settings.
+  Update the Universal Login configuration of your tenant. This includes the Identifier First Authentication and WebAuthn with Device Biometrics for MFA features.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Prompts/patch_prompts
+  https://auth0.com/docs/api/management/v2/prompts/patch-prompts
 
   """
-  @spec update(Patch.Params.t() | map, config) ::
+  @spec update(map(), config) ::
           {:ok, list() | map()} | error
   def update(%{} = params, %Config{} = config) do
-    Patch.execute(@endpoint, params, config)
+    Patch.execute(params, config)
   end
 
   @doc """
-  Get custom text for a prompt.
+  Retrieve custom text for a specific prompt and language.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Prompts/get_custom_text_by_language
+  https://auth0.com/docs/api/management/v2/prompts/get-custom-text-by-language
 
   """
   @spec get_custom_text(prompt, language, config) ::
           {:ok, list() | map()} | error
   def get_custom_text(prompt, language, %Config{} = config) do
-    CustomText.Get.execute(@endpoint_custom_text, prompt, language, config)
+    CustomText.Get.execute(prompt, language, config)
   end
 
   @doc """
-  Set custom text for a specific prompt.
+  Set custom text for a specific prompt. Existing texts will be overwritten.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Prompts/put_custom_text_by_language
+  https://auth0.com/docs/api/management/v2/prompts/put-custom-text-by-language
 
   """
-  @spec set_custom_text(prompt, language, CustomText.Put.Params.t() | map, config) ::
+  @spec set_custom_text(prompt, language, map(), config) ::
           {:ok, list() | map()} | error
   def set_custom_text(prompt, language, %{} = params, %Config{} = config) do
-    CustomText.Put.execute(@endpoint_custom_text, prompt, language, params, config)
+    CustomText.Put.execute(prompt, language, params, config)
   end
 end

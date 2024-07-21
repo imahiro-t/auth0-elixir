@@ -12,70 +12,67 @@ defmodule Auth0.Management.LogStreams do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/log_streams"
-  @endpoint_by_id "/api/v2/log_streams/{id}"
-
   @doc """
-  Get log streams.
+  Retrieve details on log streams.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Log_Streams/get_log_streams
+  https://auth0.com/docs/api/management/v2/log-streams/get-log-streams
 
   """
   @spec list(config) ::
           {:ok, list() | map()} | error
   def list(%Config{} = config) do
-    List.execute(@endpoint, config)
+    List.execute(config)
   end
 
   @doc """
   Create a log stream.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Log_Streams/post_log_streams
+  https://auth0.com/docs/api/management/v2/log-streams/post-log-streams
 
   """
-  @spec create(Create.Params.t() | map, config) ::
+  @spec create(map(), config) ::
           {:ok, list() | map()} | error
   def create(%{} = params, %Config{} = config) do
-    Create.execute(@endpoint, params, config)
+    Create.execute(params, config)
   end
 
   @doc """
-  Get log stream by ID.
+  Retrieve a log stream configuration and status.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Log_Streams/get_log_streams_by_id
+  https://auth0.com/docs/api/management/v2#!/Log_Streams/get_log_streams_by_id
 
   """
   @spec get(id, config) ::
           {:ok, list() | map()} | error
   def get(id, %Config{} = config) do
-    Get.execute(@endpoint_by_id, id, config)
+    Get.execute(id, config)
   end
 
   @doc """
-  Delete log stream.
+  Delete a log stream.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Log_Streams/delete_log_streams_by_id
+  https://auth0.com/docs/api/management/v2/log-streams/delete-log-streams-by-id
 
   """
   @spec delete(id, config) :: {:ok, String.t()} | error
   def delete(id, %Config{} = config) do
-    Delete.execute(@endpoint_by_id, id, config)
+    Delete.execute(id, config)
   end
 
   @doc """
   Update a log stream.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Log_Streams/patch_log_streams_by_id
+  https://auth0.com/docs/api/management/v2/log-streams/patch-log-streams-by-id
 
   """
-  @spec update(id, Patch.Params.t() | map, config) ::
+  @spec update(id, map(), config) ::
           {:ok, list() | map()} | error
   def update(id, %{} = params, %Config{} = config) do
-    Patch.execute(@endpoint_by_id, id, params, config)
+    Patch.execute(id, params, config)
   end
 end

@@ -5,39 +5,25 @@ defmodule Auth0.Management.Emails.Provider.Get do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct fields: nil,
-              include_fields: nil
-
-    @type t :: %__MODULE__{
-            fields: String.t(),
-            include_fields: boolean
-          }
-  end
-
-  @type endpoint :: String.t()
-  @type params :: Params.t() | map()
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/emails/provider"
+
   @doc """
-  Get the email provider.
+  Retrieve details of the email provider configuration in your tenant. A list of fields to include or exclude may also be specified.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Emails/get_provider
+  https://auth0.com/docs/api/management/v2/emails/get-provider
 
   """
-  @spec execute(endpoint, params, config) :: response
-  def execute(endpoint, %Params{} = params, %Config{} = config) do
-    execute(endpoint, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, %{} = params, %Config{} = config) do
+  @spec execute(params, config) :: response
+  def execute(%{} = params, %Config{} = config) do
     params
     |> Util.convert_to_query()
-    |> Util.append_query(endpoint)
+    |> Util.append_query(@endpoint)
     |> Http.get(config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}

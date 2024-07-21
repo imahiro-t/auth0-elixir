@@ -2,41 +2,28 @@ defmodule Auth0.Management.Hooks.Secrets.Add do
   @moduledoc false
 
   alias Auth0.Config
-  alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct value: nil
-
-    @type t :: %__MODULE__{
-            value: map
-          }
-  end
-
-  @type endpoint :: String.t()
   @type id :: String.t()
-  @type params :: Params.t() | map
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: map
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/hooks/{id}/secrets"
+
   @doc """
-  Add hook secrets.
+  Add one or more secrets to an existing hook. Accepts an object of key-value pairs, where the key is the name of the secret. A hook can have a maximum of 20 secrets.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/post_secrets
+  https://auth0.com/docs/api/management/v2/hooks/post-secrets
 
   """
-  @spec execute(endpoint, id, params, config) :: response
-  def execute(endpoint, id, %Params{} = params, %Config{} = config) do
-    execute(endpoint, id, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, id, %{} = params, %Config{} = config) do
+  @spec execute(id, params, config) :: response
+  def execute(id, %{} = params, %Config{} = config) do
     body = params.value
 
-    endpoint
+    @endpoint
     |> String.replace("{id}", id)
     |> Http.post(body, config)
     |> case do

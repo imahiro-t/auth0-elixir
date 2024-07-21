@@ -5,54 +5,25 @@ defmodule Auth0.Management.Jobs.VerificationEmail do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defmodule Identity do
-      @moduledoc false
-      defstruct user_id: nil,
-                provider: nil
-
-      @type t :: %__MODULE__{
-              user_id: String.t(),
-              provider: String.t()
-            }
-    end
-
-    defstruct user_id: nil,
-              client_id: nil,
-              identity: nil,
-              organization_id: nil
-
-    @type t :: %__MODULE__{
-            user_id: String.t(),
-            client_id: String.t(),
-            identity: Identity.t(),
-            organization_id: String.t()
-          }
-  end
-
-  @type endpoint :: String.t()
-  @type params :: Params.t() | map
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/jobs/verification-email"
+
   @doc """
-  Send an email address verification email.
+  Send an email to the specified user that asks them to click a link to verify their email address.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Jobs/post_verification_email
+  https://auth0.com/docs/api/management/v2/jobs/post-verification-email
 
   """
-  @spec execute(endpoint, params, config) :: response
-  def execute(endpoint, %Params{} = params, %Config{} = config) do
-    execute(endpoint, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, %{} = params, %Config{} = config) do
+  @spec execute(params, config) :: response
+  def execute(%{} = params, %Config{} = config) do
     body = params |> Util.remove_nil()
 
-    Http.post(endpoint, body, config)
+    Http.post(@endpoint, body, config)
     |> case do
       {:ok, 201, body} ->
         {:ok, body |> Jason.decode!()}

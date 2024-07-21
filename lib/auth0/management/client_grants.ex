@@ -11,57 +11,54 @@ defmodule Auth0.Management.ClientGrants do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/client-grants"
-  @endpoint_by_id "/api/v2/client-grants/{id}"
-
   @doc """
-  Get client grants.
+  Retrieve a list of client grants, including the scopes associated with the application/API pair.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Client_Grants/get_client_grants
+  https://auth0.com/docs/api/management/v2/client-grants/get-client-grants
 
   """
-  @spec list(List.Params.t() | map, config) ::
+  @spec list(map(), config) ::
           {:ok, list() | map()} | error
   def list(%{} = params, %Config{} = config) do
-    List.execute(@endpoint, params, config)
+    List.execute(params, config)
   end
 
   @doc """
-  Create client grant.
+  Create a client grant for a machine-to-machine login flow.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Client_Grants/post_client_grants
+  https://auth0.com/docs/api/management/v2/client-grants/post-client-grants
 
   """
-  @spec create(Create.Params.t() | map, config) ::
+  @spec create(map(), config) ::
           {:ok, list() | map()} | error
   def create(%{} = params, %Config{} = config) do
-    Create.execute(@endpoint, params, config)
+    Create.execute(params, config)
   end
 
   @doc """
-  Delete client grant.
+  Delete the Client Credential Flow from your machine-to-machine application.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Client_Grants/delete_client_grants_by_id
+  https://auth0.com/docs/api/management/v2/client-grants/delete-client-grants-by-id
 
   """
   @spec delete(id, config) :: {:ok, String.t()} | error
   def delete(id, %Config{} = config) do
-    Delete.execute(@endpoint_by_id, id, config)
+    Delete.execute(id, config)
   end
 
   @doc """
-  Update client grant.
+  Update a client grant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Client_Grants/patch_client_grants_by_id
+  https://auth0.com/docs/api/management/v2/client-grants/patch-client-grants-by-id
 
   """
-  @spec update(id, Patch.Params.t() | map, config) ::
+  @spec update(id, map(), config) ::
           {:ok, list() | map()} | error
   def update(id, %{} = params, %Config{} = config) do
-    Patch.execute(@endpoint_by_id, id, params, config)
+    Patch.execute(id, params, config)
   end
 end

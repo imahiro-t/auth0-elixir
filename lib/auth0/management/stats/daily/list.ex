@@ -4,21 +4,22 @@ defmodule Auth0.Management.Stats.Daily.List do
   alias Auth0.Config
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/stats/daily"
+
   @doc """
-  Get daily stats.
+  Retrieve the number of logins, signups and breached-password detections (subscription required) that occurred each day within a specified date range.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Stats/get_daily
+  https://auth0.com/docs/api/management/v2/stats/get-daily
 
   """
-  @spec execute(endpoint, config) :: response
-  def execute(endpoint, %Config{} = config) do
-    endpoint
+  @spec execute(config) :: response
+  def execute(%Config{} = config) do
+    @endpoint
     |> Http.get(config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}

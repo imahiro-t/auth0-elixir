@@ -5,38 +5,26 @@ defmodule Auth0.Management.Users.Roles.Remove do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct roles: []
-
-    @type t :: %__MODULE__{
-            roles: list(String.t())
-          }
-  end
-
-  @type endpoint :: String.t()
   @type id :: String.t()
-  @type params :: Params.t() | map
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: String.t()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/users/{id}/roles"
+
   @doc """
-  Removes roles from a user.
+  Remove one or more specified user roles assigned to a user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/delete_user_roles
+  https://auth0.com/docs/api/management/v2/users/delete-user-roles
 
   """
-  @spec execute(endpoint, id, params, config) :: response
-  def execute(endpoint, id, %Params{} = params, %Config{} = config) do
-    execute(endpoint, id, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, id, %{} = params, %Config{} = config) do
+  @spec execute(id, params, config) :: response
+  def execute(id, %{} = params, %Config{} = config) do
     body = params |> Util.remove_nil()
 
-    endpoint
+    @endpoint
     |> String.replace("{id}", id)
     |> Http.delete(body, config)
     |> case do

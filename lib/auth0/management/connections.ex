@@ -14,97 +14,92 @@ defmodule Auth0.Management.Connections do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/connections"
-  @endpoint_by_id "/api/v2/connections/{id}"
-  @endpoint_status "/api/v2/connections/{id}/status"
-  @endpoint_users "/api/v2/connections/{id}/users"
-
   @doc """
-  Get all connections.
+  Retrieves detailed list of all connections that match the specified strategy. If no strategy is provided, all connections within your tenant are retrieved. This action can accept a list of fields to include or exclude from the resulting list of connections.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Connections/get_connections
+  https://auth0.com/docs/api/management/v2/connections/get-connections
 
   """
-  @spec list(List.Params.t() | map, config) ::
+  @spec list(map(), config) ::
           {:ok, list() | map()} | error
   def list(%{} = params, %Config{} = config) do
-    List.execute(@endpoint, params, config)
+    List.execute(params, config)
   end
 
   @doc """
-  Create a connection.
+  Creates a new connection according to the JSON object received in body.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Connections/post_connections
+  https://auth0.com/docs/api/management/v2/connections/post-connections
 
   """
-  @spec create(Create.Params.t() | map, config) ::
+  @spec create(map(), config) ::
           {:ok, list() | map()} | error
   def create(%{} = params, %Config{} = config) do
-    Create.execute(@endpoint, params, config)
+    Create.execute(params, config)
   end
 
   @doc """
-  Get a connection.
+  Retrieve details for a specified connection along with options that can be used for identity provider configuration.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Connections/get_connections_by_id
+  https://auth0.com/docs/api/management/v2/connections/get-connections-by-id
 
   """
-  @spec get(id, Get.Params.t() | map, config) ::
+  @spec get(id, map(), config) ::
           {:ok, list() | map()} | error
   def get(id, %{} = params, %Config{} = config) do
-    Get.execute(@endpoint_by_id, id, params, config)
+    Get.execute(id, params, config)
   end
 
   @doc """
-  Delete a connection.
+  Removes a specific connection from your tenant. This action cannot be undone. Once removed, users can no longer use this connection to authenticate.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Connections/delete_connections_by_id
+  https://auth0.com/docs/api/management/v2/connections/delete-connections-by-id
 
   """
   @spec delete(id, config) :: {:ok, String.t()} | error
   def delete(id, %Config{} = config) do
-    Delete.execute(@endpoint_by_id, id, config)
+    Delete.execute(id, config)
   end
 
   @doc """
-  Update a connection.
+  Update details for a specific connection, including option properties for identity provider configuration.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Connections/patch_connections_by_id
+  https://auth0.com/docs/api/management/v2/connections/patch-connections-by-id
 
   """
-  @spec update(id, Patch.Params.t() | map, config) ::
+  @spec update(id, map(), config) ::
           {:ok, list() | map()} | error
   def update(id, %{} = params, %Config{} = config) do
-    Patch.execute(@endpoint_by_id, id, params, config)
+    Patch.execute(id, params, config)
   end
 
   @doc """
-  Check connection status.
+  Retrieves the status of an ad/ldap connection referenced by its ID. 200 OK http status code response is returned when the connection is online, otherwise a 404 status code is returned along with an error message
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Connections/get_status
+  https://auth0.com/docs/api/management/v2/connections/get-status
 
   """
   @spec get_status(id, config) :: {:ok, boolean} | error
   def get_status(id, %Config{} = config) do
-    Status.Check.execute(@endpoint_status, id, config)
+    Status.Check.execute(id, config)
   end
 
   @doc """
-  Delete a connection user.
+  Deletes a specified connection user by its email (you cannot delete all users from specific connection). Currently, only Database Connections are supported.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Connections/delete_users_by_email
+  https://auth0.com/docs/api/management/v2/connections/delete-users-by-email
 
   """
-  @spec delete_users(id, Users.Delete.Params.t() | map, config) ::
+  @spec delete_users(id, map(), config) ::
           {:ok, String.t()} | error
   def delete_users(id, %{} = params, %Config{} = config) do
-    Users.Delete.execute(@endpoint_users, id, params, config)
+    Users.Delete.execute(id, params, config)
   end
 end

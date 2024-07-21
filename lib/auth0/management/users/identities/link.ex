@@ -5,42 +5,26 @@ defmodule Auth0.Management.Users.Identities.Link do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct provider: nil,
-              connection_id: nil,
-              user_id: nil
-
-    @type t :: %__MODULE__{
-            provider: String.t(),
-            connection_id: String.t(),
-            user_id: String.t()
-          }
-  end
-
-  @type endpoint :: String.t()
   @type id :: String.t()
-  @type params :: Params.t() | map
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/users/{id}/identities"
+
   @doc """
-  Link a User Account.
+  Link two user accounts together forming a primary and secondary relationship. On successful linking, the endpoint returns the new array of the primary account identities.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/post_identities
+  https://auth0.com/docs/api/management/v2/users/post-identities
 
   """
-  @spec execute(endpoint, id, params, config) :: response
-  def execute(endpoint, id, %Params{} = params, %Config{} = config) do
-    execute(endpoint, id, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, id, %{} = params, %Config{} = config) do
+  @spec execute(id, params, config) :: response
+  def execute(id, %{} = params, %Config{} = config) do
     body = params |> Util.remove_nil()
 
-    endpoint
+    @endpoint
     |> String.replace("{id}", id)
     |> Http.post(body, config)
     |> case do

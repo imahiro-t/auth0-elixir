@@ -13,122 +13,118 @@ defmodule Auth0.Management.Hooks do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/hooks"
-  @endpoint_by_id "/api/v2/hooks/{id}"
-  @endpoint_secrets "/api/v2/hooks/{id}/secrets"
-
   @doc """
-  Get hooks.
+  Retrieve all hooks. Accepts a list of fields to include or exclude in the result.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/get_hooks
+  https://auth0.com/docs/api/management/v2/hooks/get-hooks
 
   """
-  @spec list(List.Params.t() | map, config) ::
+  @spec list(map(), config) ::
           {:ok, list() | map()} | error
   def list(%{} = params, %Config{} = config) do
-    List.execute(@endpoint, params, config)
+    List.execute(params, config)
   end
 
   @doc """
-  Create a hook.
+  Create a new hook.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/post_hooks
+  https://auth0.com/docs/api/management/v2/hooks/post-hooks
 
   """
-  @spec create(Create.Params.t() | map, config) ::
+  @spec create(map(), config) ::
           {:ok, list() | map()} | error
   def create(%{} = params, %Config{} = config) do
-    Create.execute(@endpoint, params, config)
+    Create.execute(params, config)
   end
 
   @doc """
-  Get a hook.
+  Retrieve a hook by its ID. Accepts a list of fields to include in the result.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/get_hooks_by_id
+  https://auth0.com/docs/api/management/v2/hooks/get-hooks-by-id
 
   """
-  @spec get(id, Get.Params.t() | map, config) ::
+  @spec get(id, map(), config) ::
           {:ok, list() | map()} | error
   def get(id, %{} = params, %Config{} = config) do
-    Get.execute(@endpoint_by_id, id, params, config)
+    Get.execute(id, params, config)
   end
 
   @doc """
   Delete a hook.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/delete_hooks_by_id
+  https://auth0.com/docs/api/management/v2/hooks/delete-hooks-by-id
 
   """
   @spec delete(id, config) :: {:ok, String.t()} | error
   def delete(id, %Config{} = config) do
-    Delete.execute(@endpoint_by_id, id, config)
+    Delete.execute(id, config)
   end
 
   @doc """
-  Update a hook.
+  Update an existing hook.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/patch_hooks_by_id
+  https://auth0.com/docs/api/management/v2/hooks/patch-hooks-by-id
 
   """
-  @spec update(id, Patch.Params.t() | map, config) ::
+  @spec update(id, map(), config) ::
           {:ok, list() | map()} | error
   def update(id, %{} = params, %Config{} = config) do
-    Patch.execute(@endpoint_by_id, id, params, config)
+    Patch.execute(id, params, config)
   end
 
   @doc """
-  Get hook secrets.
+  Retrieve a hook's secrets by the ID of the hook.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/get_secrets
+  https://auth0.com/docs/api/management/v2/hooks/get-secrets
 
   """
   @spec get_secrets(id, config) ::
           {:ok, list() | map()} | error
   def get_secrets(id, %Config{} = config) do
-    Secrets.Get.execute(@endpoint_secrets, id, config)
+    Secrets.Get.execute(id, config)
   end
 
   @doc """
-  Delete hook secrets.
+  Delete one or more existing secrets for a given hook. Accepts an array of secret names to delete.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/delete_secrets
+  https://auth0.com/docs/api/management/v2/hooks/delete-secrets
 
   """
-  @spec delete_secrets(id, Secrets.Delete.Params.t() | map, config) ::
+  @spec delete_secrets(id, map(), config) ::
           {:ok, list() | map()} | error
   def delete_secrets(id, %{} = params, %Config{} = config) do
-    Secrets.Delete.execute(@endpoint_secrets, id, params, config)
+    Secrets.Delete.execute(id, params, config)
   end
 
   @doc """
-  Update hook secrets.
+  Update an existing hook.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/patch_hooks_by_id
+  https://auth0.com/docs/api/management/v2/hooks/patch-hooks-by-id
 
   """
-  @spec update_secrets(id, Secrets.Patch.Params.t() | map, config) ::
+  @spec update_secrets(id, map(), config) ::
           {:ok, map} | error
   def update_secrets(id, %{} = params, %Config{} = config) do
-    Secrets.Patch.execute(@endpoint_secrets, id, params, config)
+    Secrets.Patch.execute(id, params, config)
   end
 
   @doc """
-  Add hook secrets.
+  Add one or more secrets to an existing hook. Accepts an object of key-value pairs, where the key is the name of the secret. A hook can have a maximum of 20 secrets.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/post_secrets
+  https://auth0.com/docs/api/management/v2/hooks/post-secrets
 
   """
-  @spec add_secrets(id, Secrets.Add.Params.t() | map, config) :: {:ok, map} | error
+  @spec add_secrets(id, map(), config) :: {:ok, map} | error
   def add_secrets(id, %{} = params, %Config{} = config) do
-    Secrets.Add.execute(@endpoint_secrets, id, params, config)
+    Secrets.Add.execute(id, params, config)
   end
 end

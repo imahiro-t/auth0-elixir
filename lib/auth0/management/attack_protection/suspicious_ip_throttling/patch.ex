@@ -5,78 +5,25 @@ defmodule Auth0.Management.AttackProtection.SuspiciousIpThrottling.Patch do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defmodule Stage do
-      @moduledoc false
-      defmodule PreLogin do
-        @moduledoc false
-        defstruct max_attempts: nil,
-                  rate: nil
-
-        @type t :: %__MODULE__{
-                max_attempts: integer,
-                rate: integer
-              }
-      end
-
-      defmodule PreUserRegistration do
-        @moduledoc false
-        defstruct max_attempts: nil,
-                  rate: nil
-
-        @type t :: %__MODULE__{
-                max_attempts: integer,
-                rate: integer
-              }
-      end
-
-      alias Auth0.Common.Util
-
-      defstruct pre_login: nil,
-                pre_user_registration: nil
-
-      @type t :: %__MODULE__{
-              pre_login: PreLogin.t(),
-              pre_user_registration: PreUserRegistration.t()
-            }
-    end
-
-    defstruct enabled: nil,
-              shields: nil,
-              allowlist: nil,
-              stage: nil
-
-    @type t :: %__MODULE__{
-            enabled: boolean,
-            shields: list(String.t()),
-            allowlist: list(String.t()),
-            stage: Stage.t()
-          }
-  end
-
-  @type endpoint :: String.t()
-  @type params :: Params.t() | map()
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/attack-protection/suspicious-ip-throttling"
+
   @doc """
-  Update the suspicious IP throttling configuration.
+  Update the details of the Suspicious IP Throttling configuration of your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_suspicious_ip_throttling
+  https://auth0.com/docs/api/management/v2/attack-protection/patch-suspicious-ip-throttling
 
   """
-  @spec execute(endpoint, params, config) :: response
-  def execute(endpoint, %Params{} = params, %Config{} = config) do
-    execute(endpoint, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, %{} = params, %Config{} = config) do
+  @spec execute(params, config) :: response
+  def execute(%{} = params, %Config{} = config) do
     body = params |> Util.remove_nil()
 
-    Http.patch(endpoint, body, config)
+    Http.patch(@endpoint, body, config)
     |> case do
       {:ok, 200, body} ->
         {:ok, body |> Jason.decode!()}

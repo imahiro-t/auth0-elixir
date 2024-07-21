@@ -5,38 +5,25 @@ defmodule Auth0.Management.Guardian.Factors.Put do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct enabled: nil
-
-    @type t :: %__MODULE__{
-            enabled: boolean
-          }
-  end
-
-  @type endpoint :: String.t()
   @type name :: String.t()
-  @type params :: Params.t() | map()
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/guardian/factors/{name}"
+
   @doc """
-  Update a Multi-factor Authentication Factor.
+  Update the status (i.e., enabled or disabled) of a specific multi-factor authentication factor.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_factors_by_name
+  https://auth0.com/docs/api/management/v2/guardian/put-factors-by-name
 
   """
-  @spec execute(endpoint, name, params, config) :: response
-  def execute(endpoint, name, %Params{} = params, %Config{} = config) do
-    execute(endpoint, name, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, name, %{} = params, %Config{} = config) do
+  def execute(name, %{} = params, %Config{} = config) do
     body = params |> Util.remove_nil()
 
-    endpoint
+    @endpoint
     |> String.replace("{name}", name)
     |> Http.put(body, config)
     |> case do

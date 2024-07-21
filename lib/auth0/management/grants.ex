@@ -10,36 +10,33 @@ defmodule Auth0.Management.Grants do
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/grants"
-  @endpoint_by_id "/api/v2/grants/{id}"
-
   @doc """
-  Get grants.
+  Retrieve the grants associated with your account.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Grants/get_grants
+  https://auth0.com/docs/api/management/v2/grants/get-grants
 
   """
-  @spec list(List.Params.t() | map, config) ::
+  @spec list(map(), config) ::
           {:ok, list() | map()} | error
   def list(%{} = params, %Config{} = config) do
-    List.execute(@endpoint, params, config)
+    List.execute(params, config)
   end
 
   @doc """
-  Delete a grant.
+  Delete a grant associated with your account.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Grants/delete_grants_by_id
+  https://auth0.com/docs/api/management/v2/grants/delete-grants-by-id
 
   """
   @spec delete(id, config) :: {:ok, String.t()} | error
   def delete(id, %Config{} = config) do
-    Delete.execute(@endpoint_by_id, id, config)
+    Delete.execute(id, config)
   end
 
   @doc """
-  Delete a grant by user_id.
+  Delete a grant associated with your account.
 
   ## see
   https://auth0.com/docs/api/management/v2/grants/delete-grants-by-user-id
@@ -47,6 +44,6 @@ defmodule Auth0.Management.Grants do
   """
   @spec delete_by_user_id(map, config) :: {:ok, String.t()} | error
   def delete_by_user_id(%{} = params, %Config{} = config) do
-    DeleteByUserId.execute(@endpoint, params, config)
+    DeleteByUserId.execute(params, config)
   end
 end

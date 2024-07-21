@@ -4,22 +4,23 @@ defmodule Auth0.Management.Keys.Signing.Revoke do
   alias Auth0.Config
   alias Auth0.Common.Management.Http
 
-  @type endpoint :: String.t()
   @type kid :: String.t()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/keys/signing/{kid}/revoke"
+
   @doc """
-  Revoke an Application Signing Key by its key id.
+  Revoke the application signing key with the given ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Keys/put_signing_keys
+  https://auth0.com/docs/api/management/v2/keys/put-signing-keys
 
   """
-  @spec execute(endpoint, kid, config) :: response
-  def execute(endpoint, kid, %Config{} = config) do
-    endpoint
+  @spec execute(kid, config) :: response
+  def execute(kid, %Config{} = config) do
+    @endpoint
     |> String.replace("{kid}", kid)
     |> Http.put(%{}, config)
     |> case do

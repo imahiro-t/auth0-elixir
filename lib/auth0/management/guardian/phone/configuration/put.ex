@@ -5,37 +5,25 @@ defmodule Auth0.Management.Guardian.Phone.Configuration.Put do
   alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
-  defmodule Params do
-    @moduledoc false
-    defstruct provider: nil
-
-    @type t :: %__MODULE__{
-            provider: String.t()
-          }
-  end
-
-  @type endpoint :: String.t()
-  @type params :: Params.t() | map()
+  @type params :: map()
   @type config :: Config.t()
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
+  @endpoint "/api/v2/guardian/factors/phone/selected-provider"
+
   @doc """
-  Update phone configuration (one of auth0|twilio|phone-message-hook).
+  Update phone provider configuration
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_selected_provider
+  https://auth0.com/docs/api/management/v2/guardian/put-phone-providers
 
   """
-  @spec execute(endpoint, params, config) :: response
-  def execute(endpoint, %Params{} = params, %Config{} = config) do
-    execute(endpoint, params |> Util.to_map(), config)
-  end
-
-  def execute(endpoint, %{} = params, %Config{} = config) do
+  @spec execute(params, config) :: response
+  def execute(%{} = params, %Config{} = config) do
     body = params |> Util.remove_nil()
 
-    endpoint
+    @endpoint
     |> Http.put(body, config)
     |> case do
       {:ok, 200, body} ->
