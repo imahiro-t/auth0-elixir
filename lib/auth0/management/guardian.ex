@@ -6,7 +6,6 @@ defmodule Auth0.Management.Guardian do
   alias Auth0.Management.Guardian.Policies
   alias Auth0.Management.Guardian.Enrollments
   alias Auth0.Management.Guardian.Phone
-  alias Auth0.Management.Guardian.Sms
   alias Auth0.Management.Guardian.Twilio
   alias Auth0.Management.Guardian.AwsSns
 
@@ -182,58 +181,6 @@ defmodule Auth0.Management.Guardian do
   end
 
   @doc """
-  Retrieve SMS configuration (one of auth0|twilio|phone-message-hook).
-
-  ## see
-  https://auth0.com/docs/api/management/v2/guardian/get-sms-providers
-
-  """
-  @spec get_sms_configuration(config) ::
-          {:ok, list() | map()} | error
-  def get_sms_configuration(%Config{} = config) do
-    Sms.Configuration.Get.execute(config)
-  end
-
-  @doc """
-  Update SMS configuration (one of auth0|twilio|phone-message-hook).
-
-  ## see
-  https://auth0.com/docs/api/management/v2/guardian/put-sms-providers
-
-  """
-  @spec update_sms_configuration(map(), config) ::
-          {:ok, list() | map()} | error
-  def update_sms_configuration(%{} = params, %Config{} = config) do
-    Sms.Configuration.Put.execute(params, config)
-  end
-
-  @doc """
-  Retrieve SMS Enrollment and Verification Templates.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/guardian/get-factor-sms-templates
-
-  """
-  @spec get_sms_template(config) ::
-          {:ok, list() | map()} | error
-  def get_sms_template(%Config{} = config) do
-    Sms.Template.Get.execute(config)
-  end
-
-  @doc """
-  Update SMS Enrollment and Verification Templates.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/guardian/put-factor-sms-templates
-
-  """
-  @spec update_sms_template(map(), config) ::
-          {:ok, list() | map()} | error
-  def update_sms_template(%{} = params, %Config{} = config) do
-    Sms.Template.Put.execute(params, config)
-  end
-
-  @doc """
   Retrieve configuration details for a Twilio phone provider that has been set up in your tenant.
 
   ## see
@@ -260,35 +207,6 @@ defmodule Auth0.Management.Guardian do
         %Config{} = config
       ) do
     Twilio.Phone.Configuration.Put.execute(params, config)
-  end
-
-  @doc """
-  Retrieve Twilio SMS configuration.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/guardian/get-sms-twilio-factor-provider
-
-  """
-  @spec get_twilio_sms_configuration(config) ::
-          {:ok, list() | map()} | error
-  def get_twilio_sms_configuration(%Config{} = config) do
-    Twilio.Sms.Configuration.Get.execute(config)
-  end
-
-  @doc """
-  Update Twilio SMS configuration.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/guardian/put-sms-twilio-factor-provider
-
-  """
-  @spec update_twilio_sms_configuration(map(), config) ::
-          {:ok, list() | map()} | error
-  def update_twilio_sms_configuration(
-        %{} = params,
-        %Config{} = config
-      ) do
-    Twilio.Sms.Configuration.Put.execute(params, config)
   end
 
   @doc """
