@@ -60,10 +60,10 @@ defmodule Auth0.Api.Management do
   @type error :: {:error, integer, term} | {:error, term}
 
   @doc """
-  Get actions.
+  Retrieve all actions.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/get_actions
+  https://auth0.com/docs/api/management/v2/actions/get-actions
 
   """
   @spec get_actions(map, config) ::
@@ -73,10 +73,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Create an action.
+  Create an action. Once an action is created, it must be deployed, and then bound to a trigger before it will be executed as part of a flow.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/post_action
+  https://auth0.com/docs/api/management/v2/actions/post-action
 
   """
   @spec create_action(map, config) ::
@@ -86,10 +86,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get an action.
+  Retrieve an action by its ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/get_action
+  https://auth0.com/docs/api/management/v2/actions/get-action
 
   """
   @spec get_action(id, config) ::
@@ -99,10 +99,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete an action.
+  Deletes an action and all of its associated versions. An action must be unbound from all triggers before it can be deleted.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/delete_action
+  https://auth0.com/docs/api/management/v2/actions/delete-action
 
   """
   @spec delete_action(id, map, config) ::
@@ -112,10 +112,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update an action.
+  Update an existing action. If this action is currently bound to a trigger, updating it will not affect any user flows until the action is deployed.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/patch_action
+  https://auth0.com/docs/api/management/v2/actions/patch-action
 
   """
   @spec update_action(id, map, config) ::
@@ -125,10 +125,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get an action's versions.
+  Retrieve all of an action's versions. An action version is created whenever an action is deployed. An action version is immutable, once created.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/get_action_versions
+  https://auth0.com/docs/api/management/v2/actions/get-action-versions
 
   """
   @spec get_action_versions(action_id, map, config) ::
@@ -138,10 +138,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get a specific version of an action.
+  Retrieve a specific version of an action. An action version is created whenever an action is deployed. An action version is immutable, once created.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/get_action_version
+  https://auth0.com/docs/api/management/v2/actions/get-action-version
 
   """
   @spec get_action_version(action_id, id, config) ::
@@ -151,10 +151,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Roll back to a previous action version.
+  Performs the equivalent of a roll-back of an action to an earlier, specified version. Creates a new, deployed action version that is identical to the specified version. If this action is currently bound to a trigger, the system will begin executing the newly-created version immediately.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/post_deploy_draft_version
+  https://auth0.com/docs/api/management/v2/actions/post-deploy-draft-version
 
   """
   @spec rollback_action_version(action_id, id, map, config) ::
@@ -169,10 +169,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Test an Action.
+  Test an action. After updating an action, it can be tested prior to being deployed to ensure it behaves as expected.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/post_test_action
+  https://auth0.com/docs/api/management/v2/actions/post-test-action
 
   """
   @spec test_action(id, map, config) ::
@@ -182,10 +182,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Deploy an action.
+  Deploy an action. Deploying an action will create a new immutable version of the action. If the action is currently bound to a trigger, then the system will begin executing the newly deployed version of the action immediately. Otherwise, the action will only be executed as a part of a flow once it is bound to that flow.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/post_deploy_action
+  https://auth0.com/docs/api/management/v2/actions/post-deploy-action
 
   """
   @spec deploy_action(id, config) ::
@@ -195,10 +195,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get triggers.
+  Retrieve the set of triggers currently available within actions. A trigger is an extensibility point to which actions can be bound.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/get_triggers
+  https://auth0.com/docs/api/management/v2/actions/get-triggers
 
   """
   @spec get_action_triggers(config) ::
@@ -208,10 +208,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get trigger bindings.
+  Retrieve the actions that are bound to a trigger. Once an action is created and deployed, it must be attached (i.e. bound) to a trigger so that it will be executed as part of a flow. The list of actions returned reflects the order in which they will be executed during the appropriate flow.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/get_bindings
+  https://auth0.com/docs/api/management/v2/actions/get-bindings
 
   """
   @spec get_action_trigger_bindings(trigger_id, map, config) ::
@@ -225,10 +225,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update trigger bindings.
+  Update the actions that are bound (i.e. attached) to a trigger. Once an action is created and deployed, it must be attached (i.e. bound) to a trigger so that it will be executed as part of a flow. The order in which the actions are provided will determine the order in which they are executed.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/patch_bindings
+  https://auth0.com/docs/api/management/v2/actions/patch-bindings
 
   """
   @spec update_action_trigger_bindings(
@@ -246,10 +246,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get an execution.
+  Retrieve information about a specific execution of a trigger. Relevant execution IDs will be included in tenant logs generated as part of that authentication flow. Executions will only be stored for 10 days after their creation.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Actions/get_execution
+  https://auth0.com/docs/api/management/v2/actions/get-execution
 
   """
   @spec get_action_execution(id, config) ::
@@ -259,10 +259,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Check if an IP address is blocked.
+  Check if the given IP address is blocked via the Suspicious IP Throttling due to multiple suspicious attempts.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Anomaly/get_ips_by_id
+  https://auth0.com/docs/api/management/v2/anomaly/get-ips-by-id
 
   """
   @spec check_ip_blocked(ip, config) :: {:ok, boolean} | error
@@ -271,10 +271,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Remove the blocked IP address.
+  Remove a block imposed by Suspicious IP Throttling for the given IP address.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Anomaly/delete_ips_by_id
+  https://auth0.com/docs/api/management/v2/anomaly/delete-ips-by-id
 
   """
   @spec remove_blocked_ip(ip, config) :: {:ok, String.t()} | error
@@ -283,10 +283,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get breached password detection settings.
+  Retrieve details of the Breached Password Detection configuration of your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/get_breached_password_detection
+  https://auth0.com/docs/api/management/v2/attack-protection/get-breached-password-detection
 
   """
   @spec get_attack_protection_breached_password_detection(config) ::
@@ -296,10 +296,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update breached password detection settings.
+  Update details of the Breached Password Detection configuration of your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_breached_password_detection
+  https://auth0.com/docs/api/management/v2/attack-protection/patch-breached-password-detection
 
   """
   @spec update_attack_protection_breached_password_detection(
@@ -315,10 +315,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get the brute force configuration.
+  Retrieve details of the Brute-force Protection configuration of your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/get_brute_force_protection
+  https://auth0.com/docs/api/management/v2/attack-protection/get-brute-force-protection
 
   """
   @spec get_attack_protection_brute_force_protection(config) ::
@@ -328,10 +328,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update the brute force configuration.
+  Update the Brute-force Protection configuration of your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_brute_force_protection
+  https://auth0.com/docs/api/management/v2/attack-protection/patch-brute-force-protection
 
   """
   @spec update_attack_protection_brute_force_protection(
@@ -347,10 +347,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get the suspicious IP throttling configuration.
+  Retrieve details of the Suspicious IP Throttling configuration of your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/get_suspicious_ip_throttling
+  https://auth0.com/docs/api/management/v2/attack-protection/get-suspicious-ip-throttling
 
   """
   @spec get_attack_protection_suspicious_ip_throttling(config) ::
@@ -360,10 +360,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update the suspicious IP throttling configuration.
+  Update the details of the Suspicious IP Throttling configuration of your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Attack_Protection/patch_suspicious_ip_throttling
+  https://auth0.com/docs/api/management/v2/attack-protection/patch-suspicious-ip-throttling
 
   """
   @spec update_attack_protection_suspicious_ip_throttling(
@@ -379,10 +379,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get blacklisted tokens.
+  Retrieve the jti and aud of all tokens that are blacklisted.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Blacklists/get_tokens
+  https://auth0.com/docs/api/management/v2/blacklists/get-tokens
 
   """
   @spec get_blacklisted_tokens(map, config) ::
@@ -392,10 +392,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Blacklist a token.
+  Add the token identified by the jti to a blacklist for the tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Blacklists/post_tokens
+  https://auth0.com/docs/api/management/v2/blacklists/post-tokens
 
   """
   @spec blacklist_token(map, config) ::
@@ -405,10 +405,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get branding settings.
+  Retrieve branding settings.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Branding/get_branding
+  https://auth0.com/docs/api/management/v2/branding/get-branding
 
   """
   @spec get_branding(config) :: {:ok, map} | error
@@ -420,7 +420,7 @@ defmodule Auth0.Api.Management do
   Update branding settings.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Branding/patch_branding
+  https://auth0.com/docs/api/management/v2/branding/patch-branding
 
   """
   @spec update_branding(map, config) ::
@@ -430,10 +430,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get template for New Universal Login Experience.
+  Get template for New Universal Login Experience
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Branding/get_universal_login
+  https://auth0.com/docs/api/management/v2/branding/get-universal-login
 
   """
   @spec get_template_for_universal_login(config) ::
@@ -443,10 +443,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete template for New Universal Login Experience.
+  Delete template for New Universal Login Experience
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Branding/delete_universal_login
+  https://auth0.com/docs/api/management/v2/branding/delete-universal-login
 
   """
   @spec delete_template_for_universal_login(config) :: {:ok, String.t()} | error
@@ -455,10 +455,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Set template for New Universal Login Experience.
+  Update the Universal Login branding template.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Branding/put_universal_login
+  https://auth0.com/docs/api/management/v2/branding/put-universal-login
 
   """
   @spec set_template_for_universal_login(map, config) ::
@@ -474,7 +474,7 @@ defmodule Auth0.Api.Management do
   Retrieve default branding theme.
 
   ## see
-  https://auth0.com/docs/api/management/v2#!/Branding/get_default_branding_theme
+  https://auth0.com/docs/api/management/v2/branding/get-default-branding-theme
 
   """
   @spec get_default_branding_theme(config) ::
@@ -484,10 +484,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get branding theme.
+  Retrieve branding theme.
 
   ## see
-  https://auth0.com/docs/api/management/v2#!/Branding/get_branding_theme
+  https://auth0.com/docs/api/management/v2/branding/get-branding-theme
 
   """
   @spec get_branding_theme(theme_id, config) ::
@@ -500,7 +500,7 @@ defmodule Auth0.Api.Management do
   Delete branding theme.
 
   ## see
-  https://auth0.com/docs/api/management/v2#!/Branding/delete_branding_theme
+  https://auth0.com/docs/api/management/v2/branding/delete-branding-theme
 
   """
   @spec delete_branding_theme(theme_id, config) ::
@@ -513,7 +513,7 @@ defmodule Auth0.Api.Management do
   Update branding theme.
 
   ## see
-  https://auth0.com/docs/api/management/v2#!/Branding/patch_branding_theme
+  https://auth0.com/docs/api/management/v2/branding/patch-branding-theme
 
   """
   @spec update_branding_theme(theme_id, map, config) ::
@@ -526,7 +526,7 @@ defmodule Auth0.Api.Management do
   Create branding theme.
 
   ## see
-  https://auth0.com/docs/api/management/v2#!/Branding/post_branding_theme
+  https://auth0.com/docs/api/management/v2/branding/post-branding-theme
 
   """
   @spec create_branding_theme(map, config) ::
@@ -536,10 +536,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get client grants.
+  Retrieve a list of client grants, including the scopes associated with the application/API pair.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Client_Grants/get_client_grants
+  https://auth0.com/docs/api/management/v2/client-grants/get-client-grants
 
   """
   @spec get_client_grants(map, config) ::
@@ -549,10 +549,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Create client grant.
+  Create a client grant for a machine-to-machine login flow.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Client_Grants/post_client_grants
+  https://auth0.com/docs/api/management/v2/client-grants/post-client-grants
 
   """
   @spec create_client_grant(map, config) ::
@@ -562,10 +562,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete client grant.
+  Delete the Client Credential Flow from your machine-to-machine application.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Client_Grants/delete_client_grants_by_id
+  https://auth0.com/docs/api/management/v2/client-grants/delete-client-grants-by-id
 
   """
   @spec delete_client_grant(id, config) :: {:ok, String.t()} | error
@@ -574,10 +574,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update client grant.
+  Update a client grant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Client_Grants/patch_client_grants_by_id
+  https://auth0.com/docs/api/management/v2/client-grants/patch-client-grants-by-id
 
   """
   @spec update_client_grant(id, map, config) ::
@@ -587,10 +587,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get clients.
+  Retrieve clients (applications and SSO integrations) matching provided filters. A list of fields to include or exclude may also be specified.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Clients/get_clients
+  https://auth0.com/docs/api/management/v2/clients/get-clients
 
   """
   @spec get_clients(map, config) ::
@@ -600,10 +600,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Create a client.
+  Create a new client (application or SSO integration).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Clients/post_clients
+  https://auth0.com/docs/api/management/v2/clients/post-clients
 
   """
   @spec create_client(map, config) ::
@@ -613,10 +613,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get a client.
+  Retrieve client details by ID. Clients are SSO connections or Applications linked with your Auth0 tenant. A list of fields to include or exclude may also be specified.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Clients/get_clients_by_id
+  https://auth0.com/docs/api/management/v2/clients/get-clients-by-id
 
   """
   @spec get_client(id, map, config) ::
@@ -626,10 +626,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete a client.
+  Delete a client and related configuration (rules, connections, etc).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Clients/delete_clients_by_id
+  https://auth0.com/docs/api/management/v2/clients/delete-clients-by-id
 
   """
   @spec delete_client(id, config) :: {:ok, String.t()} | error
@@ -638,10 +638,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update a client.
+  Updates a client's settings
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Clients/patch_clients_by_id
+  https://auth0.com/docs/api/management/v2/clients/patch-clients-by-id
 
   """
   @spec update_client(id, map, config) ::
@@ -654,7 +654,7 @@ defmodule Auth0.Api.Management do
   Rotate a client secret.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Clients/post_rotate_secret
+  https://auth0.com/docs/api/management/v2/clients/post-rotate-secret
 
   """
   @spec rotate_client_secret(id, config) ::
@@ -664,7 +664,7 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get client credentials.
+  Get the details of a client credential.
 
   ## see
   https://auth0.com/docs/api/management/v2/clients/get-credentials
@@ -677,7 +677,7 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Create a client credential.
+  Create a client credential associated to your application. The credential will be created but not yet enabled for use with Private Key JWT authentication method. To enable the credential, set the client_authentication_methods property on the client.
 
   ## see
   https://auth0.com/docs/api/management/v2/clients/post-credentials
@@ -690,7 +690,7 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get client credential.
+  Get the details of a client credential.
 
   ## see
   https://auth0.com/docs/api/management/v2/clients/get-credentials-by-credential-id
@@ -703,7 +703,7 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete a client credential.
+  Delete a client credential you previously created. May be enabled or disabled.
 
   ## see
   https://auth0.com/docs/api/management/v2/clients/delete-credentials-by-credential-id
@@ -716,7 +716,7 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update a client credential.
+  Change a client credential you previously created. May be enabled or disabled.
 
   ## see
   https://auth0.com/docs/api/management/v2/clients/patch-credentials-by-credential-id
@@ -729,10 +729,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get all connections.
+  Retrieves detailed list of all connections that match the specified strategy. If no strategy is provided, all connections within your tenant are retrieved. This action can accept a list of fields to include or exclude from the resulting list of connections.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Connections/get_connections
+  https://auth0.com/docs/api/management/v2/connections/get-connections
 
   """
   @spec get_connections(map, config) ::
@@ -742,10 +742,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Create a connection.
+  Creates a new connection according to the JSON object received in body.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Connections/post_connections
+  https://auth0.com/docs/api/management/v2/connections/post-connections
 
   """
   @spec create_connection(map, config) ::
@@ -755,10 +755,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get a connection.
+  Retrieve details for a specified connection along with options that can be used for identity provider configuration.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Connections/get_connections_by_id
+  https://auth0.com/docs/api/management/v2/connections/get-connections-by-id
 
   """
   @spec get_connection(id, map, config) ::
@@ -768,10 +768,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete a connection.
+  Removes a specific connection from your tenant. This action cannot be undone. Once removed, users can no longer use this connection to authenticate.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Connections/delete_connections_by_id
+  https://auth0.com/docs/api/management/v2/connections/delete-connections-by-id
 
   """
   @spec delete_connection(id, config) :: {:ok, String.t()} | error
@@ -780,10 +780,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update a connection.
+  Update details for a specific connection, including option properties for identity provider configuration.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Connections/patch_connections_by_id
+  https://auth0.com/docs/api/management/v2/connections/patch-connections-by-id
 
   """
   @spec update_connection(id, map, config) ::
@@ -793,10 +793,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Check connection status.
+  Retrieves the status of an ad/ldap connection referenced by its ID. 200 OK http status code response is returned when the connection is online, otherwise a 404 status code is returned along with an error message
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Connections/get_status
+  https://auth0.com/docs/api/management/v2/connections/get-status
 
   """
   @spec get_connection_status(id, config) :: {:ok, boolean} | error
@@ -805,10 +805,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete a connection user.
+  Deletes a specified connection user by its email (you cannot delete all users from specific connection). Currently, only Database Connections are supported.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Connections/delete_users_by_email
+  https://auth0.com/docs/api/management/v2/connections/delete-users-by-email
 
   """
   @spec delete_connection_users(id, map, config) ::
@@ -818,10 +818,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get custom domains configurations.
+  Retrieve details on custom domains.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Custom_Domains/get_custom_domains
+  https://auth0.com/docs/api/management/v2/custom-domains/get-custom-domains
 
   """
   @spec get_custom_domain_configurations(config) ::
@@ -831,10 +831,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Configure a new custom domain.
+  Create a new custom domain.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Custom_Domains/post_custom_domains
+  https://auth0.com/docs/api/management/v2/custom-domains/post-custom-domains
 
   """
   @spec configure_custom_domain(map, config) ::
@@ -847,7 +847,7 @@ defmodule Auth0.Api.Management do
   Get custom domain configuration.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Custom_Domains/get_custom_domains_by_id
+  https://auth0.com/docs/api/management/v2/custom-domains/get-custom-domains-by-id
 
   """
   @spec get_custom_domain_configuration(id, config) ::
@@ -857,10 +857,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete custom domain configuration.
+  Delete a custom domain and stop serving requests for it.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Custom_Domains/delete_custom_domains_by_id
+  https://auth0.com/docs/api/management/v2/custom-domains/delete-custom-domains-by-id
 
   """
   @spec delete_custom_domain_configuration(id, config) :: {:ok, String.t()} | error
@@ -869,10 +869,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update custom domain configuration.
+  Update a custom domain.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Custom_Domains/patch_custom_domains_by_id
+  https://auth0.com/docs/api/management/v2/custom-domains/patch-custom-domains-by-id
 
   """
   @spec update_custom_domain_configuration(id, map, config) ::
@@ -886,10 +886,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Verify a custom domain.
+  Run the verification process on a custom domain.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Custom_Domains/post_verify
+  https://auth0.com/docs/api/management/v2/custom-domains/post-verify
 
   """
   @spec verify_custom_domain(id, config) ::
@@ -899,10 +899,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Retrieve device credentials.
+  Retrieve device credential information (public_key, refresh_token, or rotating_refresh_token) associated with a specific user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Device_Credentials/get_device_credentials
+  https://auth0.com/docs/api/management/v2/device-credentials/get-device-credentials
 
   """
   @spec get_device_credentials(map, config) ::
@@ -912,10 +912,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Create a device public key credential.
+  Create a device credential public key to manage refresh token rotation for a given user_id. Device Credentials APIs are designed for ad-hoc administrative use only and paging is by default enabled for GET requests.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Device_Credentials/post_device_credentials
+  https://auth0.com/docs/api/management/v2/device-credentials/post-device-credentials
 
   """
   @spec create_device_credential(map, config) ::
@@ -925,10 +925,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete a device credential.
+  Permanently delete a device credential (such as a refresh token or public key) with the given ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Device_Credentials/delete_device_credentials_by_id
+  https://auth0.com/docs/api/management/v2/device-credentials/delete-device-credentials-by-id
 
   """
   @spec delete_device_credential(id, config) :: {:ok, String.t()} | error
@@ -937,10 +937,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get an email template.
+  Modify an email template.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Email_Templates/get_email_templates_by_templateName
+  https://auth0.com/docs/api/management/v2/email-templates/patch-email-templates-by-template-name
 
   """
   @spec get_email_template(template_name, config) ::
@@ -950,10 +950,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Patch an email template.
+  Update an email template.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Email_Templates/patch_email_templates_by_templateName
+  https://auth0.com/docs/api/management/v2/email-templates/put-email-templates-by-template-name
 
   """
   @spec patch_email_template(template_name, map, config) ::
@@ -970,7 +970,7 @@ defmodule Auth0.Api.Management do
   Update an email template.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Email_Templates/put_email_templates_by_templateName
+  https://auth0.com/docs/api/management/v2/email-templates/put-email-templates-by-template-name
 
   """
   @spec update_email_template(template_name, map, config) ::
@@ -987,7 +987,7 @@ defmodule Auth0.Api.Management do
   Create an email template.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Email_Templates/post_email_templates
+  https://auth0.com/docs/api/management/v2/email-templates/post-email-templates
 
   """
   @spec create_email_template(map, config) ::
@@ -997,10 +997,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get the email provider.
+  Retrieve details of the email provider configuration in your tenant. A list of fields to include or exclude may also be specified.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Emails/get_provider
+  https://auth0.com/docs/api/management/v2/emails/get-provider
 
   """
   @spec get_email_provider(map, config) ::
@@ -1010,10 +1010,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update the email provider.
+  Update an email provider. The credentials object requires different properties depending on the email provider (which is specified using the name property):
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Emails/patch_provider
+  https://auth0.com/docs/api/management/v2/emails/patch-provider
 
   """
   @spec update_email_provider(map, config) ::
@@ -1023,10 +1023,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Configure the email provider.
+  Create an email provider. The credentials object requires different properties depending on the email provider (which is specified using the name property):
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Emails/post_provider
+  https://auth0.com/docs/api/management/v2/emails/post-provider
 
   """
   @spec configure_email_provider(map, config) ::
@@ -1036,10 +1036,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get grants.
+  Retrieve the grants associated with your account.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Grants/get_grants
+  https://auth0.com/docs/api/management/v2/grants/get-grants
 
   """
   @spec get_grants(map, config) ::
@@ -1049,10 +1049,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete a grant.
+  Delete a grant associated with your account.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Grants/delete_grants_by_id
+  https://auth0.com/docs/api/management/v2/grants/delete-grants-by-id
 
   """
   @spec delete_grant(id, config) :: {:ok, String.t()} | error
@@ -1061,7 +1061,7 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete a grant by user_id.
+  Delete a grant associated with your account.
 
   ## see
   https://auth0.com/docs/api/management/v2/grants/delete-grants-by-user-id
@@ -1073,10 +1073,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Retrieve Factors and their Status.
+  Retrieve details of all multi-factor authentication factors associated with your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_factors
+  https://auth0.com/docs/api/management/v2/guardian/get-factors
 
   """
   @spec get_guardian_factors(config) ::
@@ -1086,10 +1086,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update a Multi-factor Authentication Factor.
+  Update the status (i.e., enabled or disabled) of a specific multi-factor authentication factor.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_factors_by_name
+  https://auth0.com/docs/api/management/v2/guardian/put-factors-by-name
 
   """
   @spec update_guardian_factor(name, map, config) ::
@@ -1099,10 +1099,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get the Multi-factor Authentication policies.
+  Retrieve the multi-factor authentication (MFA) policies configured for your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_policies
+  https://auth0.com/docs/api/management/v2/guardian/get-policies
 
   """
   @spec list_guardian_policies(config) :: {:ok, list(map)} | error
@@ -1111,10 +1111,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Set the Multi-factor Authentication policies.
+  Set multi-factor authentication (MFA) policies for your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_policies
+  https://auth0.com/docs/api/management/v2/guardian/put-policies
 
   """
   @spec set_guardian_policies(map, config) :: {:ok, list(map)} | error
@@ -1123,10 +1123,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Retrieve a multi-factor authentication enrollment.
+  Retrieve details, such as status and type, for a specific multi-factor authentication enrollment registered to a user account.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_enrollments_by_id
+  https://auth0.com/docs/api/management/v2/guardian/get-enrollments-by-id
 
   """
   @spec get_guardian_enrollment(id, config) ::
@@ -1136,10 +1136,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete a multi-factor authentication enrollment.
+  Remove a specific multi-factor authentication (MFA) enrollment from a user's account. This allows the user to re-enroll with MFA.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/delete_enrollments_by_id
+  https://auth0.com/docs/api/management/v2/guardian/delete-enrollments-by-id
 
   """
   @spec delete_guardian_enrollment(id, config) :: {:ok, String.t()} | error
@@ -1148,10 +1148,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Create a multi-factor authentication enrollment ticket.
+  Create a multi-factor authentication (MFA) enrollment ticket, and optionally send an email with the created ticket, to a given user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/post_ticket
+  https://auth0.com/docs/api/management/v2/guardian/post-ticket
 
   """
   @spec create_guardian_enrollment_ticket(map, config) ::
@@ -1164,10 +1164,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Retrieve the Enabled Phone Factors.
+  Retrieve list of phone-type MFA factors (i.e., sms and voice) that are enabled for your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_message_types
+  https://auth0.com/docs/api/management/v2/guardian/get-message-types
 
   """
   @spec get_guardian_phone_factor(config) ::
@@ -1177,10 +1177,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update the Enabled Phone Factors.
+  Replace the list of phone-type MFA factors (i.e., sms and voice) that are enabled for your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_message_types
+  https://auth0.com/docs/api/management/v2/guardian/put-message-types
 
   """
   @spec update_guardian_phone_factor(map, config) ::
@@ -1193,10 +1193,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Retrieve phone configuration (one of auth0|twilio|phone-message-hook).
+  Retrieve details of the multi-factor authentication phone provider configured for your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_selected_provider
+  https://auth0.com/docs/api/management/v2/guardian/get-guardian-phone-providers
 
   """
   @spec get_guardian_phone_configuration(config) ::
@@ -1206,10 +1206,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update phone configuration (one of auth0|twilio|phone-message-hook).
+  Update phone provider configuration
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_selected_provider
+  https://auth0.com/docs/api/management/v2/guardian/put-phone-providers
 
   """
   @spec update_guardian_phone_configuration(map, config) ::
@@ -1222,10 +1222,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Retrieve Enrollment and Verification Phone Templates.
+  Retrieve details of the multi-factor authentication enrollment and verification templates for phone-type factors available in your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_templates
+  https://auth0.com/docs/api/management/v2/guardian/get-factor-phone-templates
 
   """
   @spec get_guardian_phone_template(config) ::
@@ -1235,10 +1235,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update Enrollment and Verification Phone Templates.
+  Customize the messages sent to complete phone enrollment and verification (subscription required).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_templates
+  https://auth0.com/docs/api/management/v2/guardian/put-factor-phone-templates
 
   """
   @spec update_guardian_phone_template(map, config) ::
@@ -1254,7 +1254,7 @@ defmodule Auth0.Api.Management do
   Retrieve SMS configuration (one of auth0|twilio|phone-message-hook).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_selected_provider_0
+  https://auth0.com/docs/api/management/v2/guardian/get-sms-providers
 
   """
   @spec get_guardian_sms_configuration(config) ::
@@ -1267,7 +1267,7 @@ defmodule Auth0.Api.Management do
   Update SMS configuration (one of auth0|twilio|phone-message-hook).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_selected_provider_0
+  https://auth0.com/docs/api/management/v2/guardian/put-sms-providers
 
   """
   @spec update_guardian_sms_configuration(map, config) ::
@@ -1283,7 +1283,7 @@ defmodule Auth0.Api.Management do
   Retrieve SMS Enrollment and Verification Templates.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_templates_0
+  https://auth0.com/docs/api/management/v2/guardian/get-factor-sms-templates
 
   """
   @spec get_guardian_sms_template(config) ::
@@ -1296,7 +1296,7 @@ defmodule Auth0.Api.Management do
   Update SMS Enrollment and Verification Templates.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_templates_0
+  https://auth0.com/docs/api/management/v2/guardian/put-factor-sms-templates
 
   """
   @spec update_guardian_sms_template(map, config) ::
@@ -1309,10 +1309,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Retrieve Twilio phone configuration.
+  Retrieve configuration details for a Twilio phone provider that has been set up in your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_twilio
+  https://auth0.com/docs/api/management/v2/guardian/get-phone-twilio-factor-provider
 
   """
   @spec get_guardian_twilio_phone_configuration(config) ::
@@ -1322,10 +1322,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update Twilio phone configuration.
+  Update the configuration of a Twilio phone provider that has been set up in your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_twilio
+  https://auth0.com/docs/api/management/v2/guardian/put-twilio
 
   """
   @spec update_guardian_twilio_phone_configuration(
@@ -1344,7 +1344,7 @@ defmodule Auth0.Api.Management do
   Retrieve Twilio SMS configuration.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_twilio_0
+  https://auth0.com/docs/api/management/v2/guardian/get-sms-twilio-factor-provider
 
   """
   @spec get_guardian_twilio_sms_configuration(config) ::
@@ -1357,7 +1357,7 @@ defmodule Auth0.Api.Management do
   Update Twilio SMS configuration.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_twilio_0
+  https://auth0.com/docs/api/management/v2/guardian/put-sms-twilio-factor-provider
 
   """
   @spec update_guardian_twilio_sms_configuration(
@@ -1373,10 +1373,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Retrieve AWS SNS push notification configuration.
+  Retrieve configuration details for an AWS SNS push notification provider that has been enabled for MFA.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/get_sns
+  https://auth0.com/docs/api/management/v2/guardian/get-sns
 
   """
   @spec get_guardian_aws_sns_configuration(config) ::
@@ -1386,10 +1386,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update SNS configuration for push notifications.
+  Configure the AWS SNS push notification provider configuration (subscription required).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/patch_sns
+  https://auth0.com/docs/api/management/v2/guardian/patch-sns
 
   """
   @spec patch_guardian_aws_sns_configuration(
@@ -1405,10 +1405,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update AWS SNS push notification configuration.
+  Configure the AWS SNS push notification provider configuration (subscription required).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Guardian/put_sns
+  https://auth0.com/docs/api/management/v2/guardian/put-sns
 
   """
   @spec update_guardian_aws_sns_configuration(
@@ -1424,10 +1424,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get hooks.
+  Retrieve all hooks. Accepts a list of fields to include or exclude in the result.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/get_hooks
+  https://auth0.com/docs/api/management/v2/hooks/get-hooks
 
   """
   @spec get_hooks(map, config) ::
@@ -1437,10 +1437,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Create a hook.
+  Create a new hook.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/post_hooks
+  https://auth0.com/docs/api/management/v2/hooks/post-hooks
 
   """
   @spec create_hook(map, config) ::
@@ -1450,10 +1450,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get a hook.
+  Retrieve a hook by its ID. Accepts a list of fields to include in the result.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/get_hooks_by_id
+  https://auth0.com/docs/api/management/v2/hooks/get-hooks-by-id
 
   """
   @spec get_hook(id, map, config) ::
@@ -1466,7 +1466,7 @@ defmodule Auth0.Api.Management do
   Delete a hook.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/delete_hooks_by_id
+  https://auth0.com/docs/api/management/v2/hooks/delete-hooks-by-id
 
   """
   @spec delete_hook(id, config) :: {:ok, String.t()} | error
@@ -1475,10 +1475,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update a hook.
+  Update an existing hook.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/patch_hooks_by_id
+  https://auth0.com/docs/api/management/v2/hooks/patch-hooks-by-id
 
   """
   @spec update_hook(id, map, config) ::
@@ -1488,10 +1488,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get hook secrets.
+  Retrieve a hook's secrets by the ID of the hook.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/get_secrets
+  https://auth0.com/docs/api/management/v2/hooks/get-secrets
 
   """
   @spec get_hook_secrets(id, config) ::
@@ -1501,10 +1501,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete hook secrets.
+  Delete one or more existing secrets for a given hook. Accepts an array of secret names to delete.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/delete_secrets
+  https://auth0.com/docs/api/management/v2/hooks/delete-secrets
 
   """
   @spec delete_hook_secrets(id, map, config) ::
@@ -1514,10 +1514,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update hook secrets.
+  Update an existing hook.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/patch_hooks_by_id
+  https://auth0.com/docs/api/management/v2/hooks/patch-hooks-by-id
 
   """
   @spec update_hook_secrets(id, map, config) ::
@@ -1527,10 +1527,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Add hook secrets.
+  Add one or more secrets to an existing hook. Accepts an object of key-value pairs, where the key is the name of the secret. A hook can have a maximum of 20 secrets.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Hooks/post_secrets
+  https://auth0.com/docs/api/management/v2/hooks/post-secrets
 
   """
   @spec add_hook_secrets(id, map, config) ::
@@ -1540,10 +1540,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get a job.
+  Retrieves a job. Useful to check its status.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Jobs/get_jobs_by_id
+  https://auth0.com/docs/api/management/v2/jobs/get-jobs-by-id
 
   """
   @spec get_job(id, config) :: {:ok, map} | error
@@ -1552,10 +1552,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get job error details.
+  Retrieve error details of a failed job.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Jobs/get_errors
+  https://auth0.com/docs/api/management/v2/jobs/get-errors
 
   """
   @spec get_job_error(id, config) ::
@@ -1565,10 +1565,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Create export users job.
+  Export all users to a file via a long-running job.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Jobs/post_users_exports
+  https://auth0.com/docs/api/management/v2/jobs/post-users-exports
 
   """
   @spec create_job_users_exports(map, config) ::
@@ -1578,10 +1578,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Create import users job.
+  Import users from a formatted file into a connection via a long-running job.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Jobs/post_users_imports
+  https://auth0.com/docs/api/management/v2/jobs/post-users-imports
 
   """
   @spec create_job_users_imports(map, config) ::
@@ -1591,10 +1591,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Send an email address verification email.
+  Send an email to the specified user that asks them to click a link to verify their email address.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Jobs/post_verification_email
+  https://auth0.com/docs/api/management/v2/jobs/post-verification-email
 
   """
   @spec send_job_verification_email(map, config) ::
@@ -1604,10 +1604,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get all Application Signing Keys.
+  Retrieve details of all the application signing keys associated with your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Keys/get_signing_keys
+  https://auth0.com/docs/api/management/v2/keys/get-signing-keys
 
   """
   @spec get_signing_keys(config) ::
@@ -1617,10 +1617,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get an Application Signing Key by its key id.
+  Retrieve details of the application signing key with the given ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Keys/get_signing_key
+  https://auth0.com/docs/api/management/v2/keys/get-signing-key
 
   """
   @spec get_signing_key(kid, config) ::
@@ -1630,10 +1630,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Rotate the Application Signing Key.
+  Rotate the application signing key of your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Keys/post_signing_keys
+  https://auth0.com/docs/api/management/v2/keys/post-signing-keys
 
   """
   @spec rotate_signing_key(config) ::
@@ -1643,10 +1643,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Revoke an Application Signing Key by its key id.
+  Revoke the application signing key with the given ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Keys/put_signing_keys
+  https://auth0.com/docs/api/management/v2/keys/put-signing-keys
 
   """
   @spec revoke_signing_key(kid, config) ::
@@ -1656,10 +1656,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get log streams.
+  Retrieve details on log streams.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Log_Streams/get_log_streams
+  https://auth0.com/docs/api/management/v2/log-streams/get-log-streams
 
   """
   @spec get_log_streams(config) :: {:ok, map} | error
@@ -1671,7 +1671,7 @@ defmodule Auth0.Api.Management do
   Create a log stream.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Log_Streams/post_log_streams
+  https://auth0.com/docs/api/management/v2/log-streams/post-log-streams
 
   """
   @spec create_log_stream(map, config) ::
@@ -1681,10 +1681,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get log stream by ID.
+  Retrieve a log stream configuration and status.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Log_Streams/get_log_streams_by_id
+  https://auth0.com/docs/api/management/v2#!/Log_Streams/get_log_streams_by_id
 
   """
   @spec get_log_stream(id, config) ::
@@ -1694,10 +1694,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete log stream.
+  Delete a log stream.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Log_Streams/delete_log_streams_by_id
+  https://auth0.com/docs/api/management/v2/log-streams/delete-log-streams-by-id
 
   """
   @spec delete_log_stream(id, config) :: {:ok, String.t()} | error
@@ -1709,7 +1709,7 @@ defmodule Auth0.Api.Management do
   Update a log stream.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Log_Streams/patch_log_streams_by_id
+  https://auth0.com/docs/api/management/v2/log-streams/patch-log-streams-by-id
 
   """
   @spec update_log_stream(id, map, config) ::
@@ -1719,10 +1719,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Search log events.
+  Retrieve log entries that match the specified search criteria (or all log entries if no criteria specified).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Logs/get_logs
+  https://auth0.com/docs/api/management/v2/logs/get-logs
 
   """
   @spec get_log_events(map, config) ::
@@ -1732,10 +1732,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get a log event by id.
+  Retrieve an individual log event.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Logs/get_logs_by_id
+  https://auth0.com/docs/api/management/v2/logs/get-logs-by-id
 
   """
   @spec get_log_event(id, config) :: {:ok, map} | error
@@ -1744,10 +1744,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get organizations.
+  Retrive detailed list of all Organizations available in your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/get_organizations
+  https://auth0.com/docs/api/management/v2/organizations/get-organizations
 
   """
   @spec get_organizations(map, config) ::
@@ -1757,10 +1757,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Create an Organization.
+  Create a new Organization within your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/post_organizations
+  https://auth0.com/docs/api/management/v2/organizations/post-organizations
 
   """
   @spec create_organization(map, config) ::
@@ -1770,10 +1770,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get organization.
+  Retrieve details about a single Organization specified by ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/get_organizations_by_id
+  https://auth0.com/docs/api/management/v2/organizations/get-organizations-by-id
 
   """
   @spec get_organization(id, config) ::
@@ -1783,10 +1783,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete organization.
+  Remove an Organization from your tenant. This action cannot be undone.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/delete_organizations_by_id
+  https://auth0.com/docs/api/management/v2/organizations/delete-organizations-by-id
 
   """
   @spec delete_organization(id, config) :: {:ok, String.t()} | error
@@ -1795,10 +1795,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Modify an Organization.
+  Update the details of a specific Organization, such as name and display name, branding options, and metadata.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/patch_organizations_by_id
+  https://auth0.com/docs/api/management/v2/organizations/patch-organizations-by-id
 
   """
   @spec modify_organization(id, map, config) ::
@@ -1808,10 +1808,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get organization by name.
+  Retrieve details about a single Organization specified by name.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/get_name_by_name
+  https://auth0.com/docs/api/management/v2/organizations/get-name-by-name
 
   """
   @spec get_organization_by_name(name, config) ::
@@ -1821,10 +1821,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get connections enabled for an organization.
+  Retrieve details about a specific connection currently enabled for an Organization. Information returned includes details such as connection ID, name, strategy, and whether the connection automatically grants membership upon login.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/get_enabled_connections
+  https://auth0.com/docs/api/management/v2/organizations/get-enabled-connections
 
   """
   @spec get_organization_connections(id, map, config) ::
@@ -1838,10 +1838,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Add connections to an organization.
+  Enable a specific connection for a given Organization. To enable a connection, it must already exist within your tenant; connections cannot be created through this action.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/post_enabled_connections
+  https://auth0.com/docs/api/management/v2/organizations/post-enabled-connections
 
   """
   @spec add_organization_connection(
@@ -1859,10 +1859,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get an enabled connection for an organization.
+  Retrieve details about a specific connection currently enabled for an Organization. Information returned includes details such as connection ID, name, strategy, and whether the connection automatically grants membership upon login.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/get_enabled_connections_by_connectionId
+  https://auth0.com/docs/api/management/v2/organizations/get-enabled-connections-by-connection-id
 
   """
   @spec get_organization_connection(id, connection_id, config) ::
@@ -1872,10 +1872,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete connections from an organization.
+  Disable a specific connection for an Organization. Once disabled, Organization members can no longer use that connection to authenticate.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/delete_enabled_connections_by_connectionId
+  https://auth0.com/docs/api/management/v2/organizations/delete-enabled-connections-by-connection-id
 
   """
   @spec delete_organization_connection(id, connection_id, config) ::
@@ -1885,10 +1885,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Modify an Organizations Connection.
+  Modify the details of a specific connection currently enabled for an Organization.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/patch_enabled_connections_by_connectionId
+  https://auth0.com/docs/api/management/v2/organizations/patch-enabled-connections-by-connection-id
 
   """
   @spec modify_organization_connection(
@@ -1908,10 +1908,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get invitations to organization.
+  Retrieve a detailed list of invitations sent to users for a specific Organization. The list includes details such as inviter and invitee information, invitation URLs, and dates of creation and expiration.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/get_invitations
+  https://auth0.com/docs/api/management/v2/organizations/get-invitations
 
   """
   @spec get_organization_invitations(id, map, config) ::
@@ -1925,10 +1925,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Create invitations to organization.
+  Create a user invitation for a specific Organization. Upon creation, the listed user receives an email inviting them to join the Organization.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/post_invitations
+  https://auth0.com/docs/api/management/v2/organizations/post-invitations
 
   """
   @spec create_organization_invitation(id, map, config) ::
@@ -1942,10 +1942,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get an invitation to organization.
+  Get a specific invitation to an Organization
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/get_invitations_by_invitation_id
+  https://auth0.com/docs/api/management/v2/organizations/get-invitations-by-invitation-id
 
   """
   @spec get_organization_invitation(
@@ -1965,10 +1965,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete an invitation to organization.
+  Delete an invitation to an Organization
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/delete_invitations_by_invitation_id
+  https://auth0.com/docs/api/management/v2/organizations/delete-invitations-by-invitation-id
 
   """
   @spec delete_organization_invitation(id, invitation_id, config) ::
@@ -1978,10 +1978,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get members who belong to an organization.
+  List organization members.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/get_members
+  https://auth0.com/docs/api/management/v2/organizations/get-members
 
   """
   @spec get_organization_members(id, map, config) ::
@@ -1995,10 +1995,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete members from an organization.
+  Delete members from an organization
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/delete_members
+  https://auth0.com/docs/api/management/v2/organizations/delete-members
 
   """
   @spec delete_organization_members(id, map, config) ::
@@ -2012,10 +2012,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Add members to an organization.
+  Set one or more existing users as members of a specific Organization.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/post_members
+  https://auth0.com/docs/api/management/v2/organizations/post-members
 
   """
   @spec add_organization_members(id, map, config) ::
@@ -2029,10 +2029,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get the roles assigned to an organization member.
+  Retrieve detailed list of roles assigned to a given user within the context of a specific Organization.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/get_organization_member_roles
+  https://auth0.com/docs/api/management/v2/organizations/get-organization-member-roles
 
   """
   @spec get_organization_roles(id, user_id, map, config) ::
@@ -2047,10 +2047,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete members from an organization.
+  Remove one or more Organization-specific roles from a given user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/delete_members
+  https://auth0.com/docs/api/management/v2/organizations/delete-organization-member-roles
 
   """
   @spec delete_organization_roles(
@@ -2070,10 +2070,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Add members to an organization.
+  Assign one or more roles to a user to determine their access for a specific Organization.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Organizations/post_members
+  https://auth0.com/docs/api/management/v2/organizations/post-organization-member-roles
 
   """
   @spec assign_organization_roles(id, user_id, map, config) ::
@@ -2088,10 +2088,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get prompts settings.
+  Retrieve details of the Universal Login configuration of your tenant. This includes the Identifier First Authentication and WebAuthn with Device Biometrics for MFA features.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Prompts/get_prompts
+  https://auth0.com/docs/api/management/v2/prompts/get-prompts
 
   """
   @spec get_prompt_setting(config) :: {:ok, map} | error
@@ -2100,10 +2100,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update prompts settings.
+  Update the Universal Login configuration of your tenant. This includes the Identifier First Authentication and WebAuthn with Device Biometrics for MFA features.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Prompts/patch_prompts
+  https://auth0.com/docs/api/management/v2/prompts/patch-prompts
 
   """
   @spec update_prompt_setting(map, config) ::
@@ -2113,10 +2113,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get custom text for a prompt.
+  Retrieve custom text for a specific prompt and language.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Prompts/get_custom_text_by_language
+  https://auth0.com/docs/api/management/v2/prompts/get-custom-text-by-language
 
   """
   @spec get_prompt_custom_text(prompt, language, config) ::
@@ -2126,10 +2126,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Set custom text for a specific prompt.
+  Set custom text for a specific prompt. Existing texts will be overwritten.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Prompts/put_custom_text_by_language
+  https://auth0.com/docs/api/management/v2/prompts/put-custom-text-by-language
 
   """
   @spec set_prompt_custom_text(prompt, language, map, config) ::
@@ -2170,10 +2170,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get resource servers.
+  Retrieve details of all APIs associated with your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Resource_Servers/get_resource_servers
+  https://auth0.com/docs/api/management/v2/resource-servers/get-resource-servers
 
   """
   @spec get_resource_servers(map, config) ::
@@ -2183,10 +2183,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Create a resource server.
+  Create a new API associated with your tenant. Note that all new APIs must be registered with Auth0.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Resource_Servers/post_resource_servers
+  https://auth0.com/docs/api/management/v2/resource-servers/post-resource-servers
 
   """
   @spec create_resource_server(map, config) ::
@@ -2196,10 +2196,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get a resource server.
+  Retrieve API details with the given ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Resource_Servers/get_resource_servers_by_id
+  https://auth0.com/docs/api/management/v2/resource-servers/get-resource-servers-by-id
 
   """
   @spec get_resource_server(id, map, config) ::
@@ -2209,10 +2209,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete a resource server.
+  Delete an existing API by ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Resource_Servers/delete_resource_servers_by_id
+  https://auth0.com/docs/api/management/v2/resource-servers/delete-resource-servers-by-id
 
   """
   @spec delete_resource_server(id, config) :: {:ok, String.t()} | error
@@ -2221,10 +2221,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update a resource server.
+  Change an existing API setting by resource server ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Resource_Servers/get_resource_servers_by_id
+  https://auth0.com/docs/api/management/v2/resource-servers/patch-resource-servers-by-id
 
   """
   @spec update_resource_server(id, map, config) ::
@@ -2234,10 +2234,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get roles.
+  Retrieve detailed list of user roles created in your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/get_roles
+  https://auth0.com/docs/api/management/v2/roles/get-roles
 
   """
   @spec get_roles(map, config) ::
@@ -2247,10 +2247,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Create a role.
+  Create a user role for Role-Based Access Control.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/post_roles
+  https://auth0.com/docs/api/management/v2/roles/post-roles
 
   """
   @spec create_role(map, config) ::
@@ -2260,10 +2260,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get a role.
+  Retrieve details about a specific user role specified by ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/get_roles_by_id
+  https://auth0.com/docs/api/management/v2/roles/get-roles-by-id
 
   """
   @spec get_role(id, config) :: {:ok, map} | error
@@ -2272,10 +2272,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete a role.
+  Delete a specific user role from your tenant. Once deleted, it is removed from any user who was previously assigned that role. This action cannot be undone.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/delete_roles_by_id
+  https://auth0.com/docs/api/management/v2/roles/delete-roles-by-id
 
   """
   @spec delete_role(id, config) :: {:ok, String.t()} | error
@@ -2284,10 +2284,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update a role.
+  Modify the details of a specific user role specified by ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/patch_roles_by_id
+  https://auth0.com/docs/api/management/v2/roles/patch-roles-by-id
 
   """
   @spec update_role(id, map, config) ::
@@ -2297,10 +2297,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get permissions granted by role.
+  Retrieve detailed list (name, description, resource server) of permissions granted by a specified user role.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/get_role_permission
+  https://auth0.com/docs/api/management/v2/roles/get-role-permission
 
   """
   @spec get_role_permissions(id, map, config) ::
@@ -2310,10 +2310,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Remove permissions from a role.
+  Remove one or more permissions from a specified user role.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/delete_role_permission_assignment
+  https://auth0.com/docs/api/management/v2/roles/delete-role-permission-assignment
 
   """
   @spec remove_role_permissions(id, map, config) ::
@@ -2323,10 +2323,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Associate permissions with a role.
+  Add one or more permissions to a specified user role.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/post_role_permission_assignment
+  https://auth0.com/docs/api/management/v2/roles/post-role-permission-assignment
 
   """
   @spec associate_role_permissions(id, map, config) ::
@@ -2340,10 +2340,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get a role's users.
+  Retrieve list of users associated with a specific role.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/get_role_user
+  https://auth0.com/docs/api/management/v2/roles/get-role-user
 
   """
   @spec get_role_users(id, map, config) ::
@@ -2353,10 +2353,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Assign users to a role.
+  Assign one or more users to an existing user role.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Roles/post_role_users
+  https://auth0.com/docs/api/management/v2/roles/post-role-users
 
   """
   @spec assign_role_users(id, map, config) ::
@@ -2366,10 +2366,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get rules.
+  Retrieve a filtered list of rules. Accepts a list of fields to include or exclude.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Rules/get_rules
+  https://auth0.com/docs/api/management/v2/rules/get-rules
 
   """
   @spec get_rules(map, config) ::
@@ -2379,10 +2379,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Create a rule.
+  Create a new rule.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Rules/post_rules
+  https://auth0.com/docs/api/management/v2/rules/post-rules
 
   """
   @spec create_rule(map, config) ::
@@ -2392,10 +2392,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get a rule.
+  Retrieve rule details. Accepts a list of fields to include or exclude in the result.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Rules/get_rules_by_id
+  https://auth0.com/docs/api/management/v2/rules/get-rules-by-id
 
   """
   @spec get_rule(id, map, config) ::
@@ -2408,7 +2408,7 @@ defmodule Auth0.Api.Management do
   Delete a rule.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Rules/delete_rules_by_id
+  https://auth0.com/docs/api/management/v2/rules/delete-rules-by-id
 
   """
   @spec delete_rule(id, config) :: {:ok, String.t()} | error
@@ -2417,10 +2417,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update a rule.
+  Update an existing rule.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Rules/patch_rules_by_id
+  https://auth0.com/docs/api/management/v2/rules/patch-rules-by-id
 
   """
   @spec update_rule(id, map, config) ::
@@ -2430,10 +2430,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Retrieve config variable keys for rules (get_rules-configs).
+  Retrieve rules config variable keys.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Rules_Configs/get_rules_configs
+  https://auth0.com/docs/api/management/v2/rules-configs/get-rules-configs
 
   """
   @spec get_rules_configs(config) ::
@@ -2443,10 +2443,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete rules config for a given key.
+  Delete a rules config variable identified by its key.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Rules_Configs/delete_rules_configs_by_key
+  https://auth0.com/docs/api/management/v2/rules-configs/delete-rules-configs-by-key
 
   """
   @spec delete_rules_config(key, config) :: {:ok, String.t()} | error
@@ -2455,10 +2455,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Set rules config for a given key.
+  Sets a rules config variable.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Rules_Configs/put_rules_configs_by_key
+  https://auth0.com/docs/api/management/v2/rules-configs/put-rules-configs-by-key
 
   """
   @spec set_rules_config(key, map, config) ::
@@ -2494,10 +2494,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get active users count.
+  Retrieve the number of active users that logged in during the last 30 days.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Stats/get_active_users
+  https://auth0.com/docs/api/management/v2/stats/get-active-users
 
   """
   @spec get_active_users_count(config) :: {:ok, integer} | error
@@ -2506,10 +2506,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get daily stats.
+  Retrieve the number of logins, signups and breached-password detections (subscription required) that occurred each day within a specified date range.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Stats/get_daily
+  https://auth0.com/docs/api/management/v2/stats/get-daily
 
   """
   @spec get_daily_stats(config) :: {:ok, map} | error
@@ -2518,10 +2518,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get tenant settings.
+  Retrieve tenant settings. A list of fields to include or exclude may also be specified.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Tenants/tenant_settings_route
+  https://auth0.com/docs/api/management/v2/tenants/tenant-settings-route
 
   """
   @spec get_tenant_setting(map, config) ::
@@ -2531,10 +2531,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update tenant settings.
+  Update settings for a tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Tenants/patch_settings
+  https://auth0.com/docs/api/management/v2/tenants/patch-settings
 
   """
   @spec update_tenant_setting(map, config) ::
@@ -2544,10 +2544,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Create an email verification ticket.
+  Create an email verification ticket for a given user. An email verification ticket is a generated URL that the user can consume to verify their email address.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Tickets/post_email_verification
+  https://auth0.com/docs/api/management/v2/tickets/post-email-verification
 
   """
   @spec create_email_verification_ticket(map, config) ::
@@ -2560,10 +2560,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Create a password change ticket.
+  Create a password change ticket for a given user. A password change ticket is a generated URL that the user can consume to start a reset password flow.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Tickets/post_password_change
+  https://auth0.com/docs/api/management/v2/tickets/post-password-change
 
   """
   @spec create_password_change_ticket(map, config) ::
@@ -2576,10 +2576,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get blocks by identifier.
+  Retrieve details of all Brute-force Protection blocks for a user with the given identifier (username, phone number, or email).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/User_Blocks/get_user_blocks
+  https://auth0.com/docs/api/management/v2/user-blocks/get-user-blocks
 
   """
   @spec get_user_block(map, config) ::
@@ -2589,10 +2589,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Unblock by identifier.
+  Remove all Brute-force Protection blocks for the user with the given identifier (username, phone number, or email).
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/User_Blocks/delete_user_blocks
+  https://auth0.com/docs/api/management/v2/user-blocks/delete-user-blocks
 
   """
   @spec unblock_user_block(map, config) ::
@@ -2602,10 +2602,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get a user's blocks.
+  Retrieve details of all Brute-force Protection blocks for the user with the given ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/User_Blocks/get_user_blocks_by_id
+  https://auth0.com/docs/api/management/v2/user-blocks/get-user-blocks-by-id
 
   """
   @spec get_user_block_by_user_id(id, map, config) ::
@@ -2615,10 +2615,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Unblock a user.
+  Remove all Brute-force Protection blocks for the user with the given ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/User_Blocks/delete_user_blocks_by_id
+  https://auth0.com/docs/api/management/v2/user-blocks/delete-user-blocks-by-id
 
   """
   @spec unblock_user_block_by_user_id(id, config) :: {:ok, String.t()} | error
@@ -2627,10 +2627,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  List or Search Users.
+  Retrieve details of users.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/get_users
+  https://auth0.com/docs/api/management/v2/users/get-users
 
   """
   @spec get_users(map, config) ::
@@ -2640,10 +2640,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Create a User.
+  Create a new user for a given database or passwordless connection.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/post_users
+  https://auth0.com/docs/api/management/v2/users/post-users
 
   """
   @spec create_user(map, config) ::
@@ -2653,10 +2653,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get a User.
+  Retrieve user details. A list of fields to include or exclude may also be specified.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/get_users_by_id
+  https://auth0.com/docs/api/management/v2/users/get-users-by-id
 
   """
   @spec get_user(id, map, config) ::
@@ -2666,10 +2666,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete a User.
+  Delete a user by user ID. This action cannot be undone.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/delete_users_by_id
+  https://auth0.com/docs/api/management/v2/users/delete-users-by-id
 
   """
   @spec delete_user(id, config) :: {:ok, String.t()} | error
@@ -2678,10 +2678,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update a User.
+  Update a user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/patch_users_by_id
+  https://auth0.com/docs/api/management/v2/users/patch-users-by-id
 
   """
   @spec update_user(id, map, config) ::
@@ -2691,10 +2691,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get the First Confirmed Multi-factor Authentication Enrollment.
+  Retrieve the first multi-factor authentication enrollment that a specific user has confirmed.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/get_enrollments
+  https://auth0.com/docs/api/management/v2/users/get-enrollments
 
   """
   @spec get_user_enrollments(id, config) ::
@@ -2704,10 +2704,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get a user's roles.
+  Retrieve detailed list of all user roles currently assigned to a user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/get_user_roles
+  https://auth0.com/docs/api/management/v2/users/get-user-roles
 
   """
   @spec get_user_roles(id, map, config) ::
@@ -2717,10 +2717,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Removes roles from a user.
+  Remove one or more specified user roles assigned to a user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/delete_user_roles
+  https://auth0.com/docs/api/management/v2/users/delete-user-roles
 
   """
   @spec remove_user_roles(id, map, config) ::
@@ -2730,10 +2730,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Assign roles to a user.
+  Assign one or more existing user roles to a user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/post_user_roles
+  https://auth0.com/docs/api/management/v2/users/post-user-roles
 
   """
   @spec assign_user_roles(id, map, config) ::
@@ -2743,10 +2743,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get user's log events.
+  Retrieve log events for a specific user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/get_logs_by_user
+  https://auth0.com/docs/api/management/v2/users/get-logs-by-user
 
   """
   @spec get_user_logs(id, map, config) ::
@@ -2756,10 +2756,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  List user's organizations.
+  Retrieve list of the specified user's current Organization memberships. User must be specified by user ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/get_user_organizations
+  https://auth0.com/docs/api/management/v2/users/get-user-organizations
 
   """
   @spec get_user_organizations(id, map, config) ::
@@ -2769,10 +2769,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Get a User's Permissions.
+  Retrieve all permissions associated with the user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/get_permissions
+  https://auth0.com/docs/api/management/v2/users/get-permissions
 
   """
   @spec get_user_permissions(id, map, config) ::
@@ -2782,10 +2782,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Remove Permissions from a User.
+  Remove permissions from a user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/delete_permissions
+  https://auth0.com/docs/api/management/v2/users/delete-permissions
 
   """
   @spec remove_user_permissions(id, map, config) ::
@@ -2795,10 +2795,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Assign Permissions to a User.
+  Assign permissions to a user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/post_permissions
+  https://auth0.com/docs/api/management/v2/users/post-permissions
 
   """
   @spec assign_user_permissions(id, map, config) ::
@@ -2808,10 +2808,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete a User's Multi-factor Provider.
+  Remove a multifactor authentication configuration from a user's account. This forces the user to manually reconfigure the multi-factor provider.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/delete_multifactor_by_provider
+  https://auth0.com/docs/api/management/v2/users/delete-multifactor-by-provider
 
   """
   @spec delete_user_multifactor(id, map, config) ::
@@ -2825,10 +2825,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Invalidate All Remembered Browsers for Multi-factor Authentication.
+  Invalidate all remembered browsers across all authentication factors for a user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/post_invalidate_remember_browser
+  https://auth0.com/docs/api/management/v2/users/post-invalidate-remember-browser
 
   """
   @spec invalidate_user_remembered_browser_for_multifactor(id, config) ::
@@ -2841,10 +2841,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Link a User Account.
+  Link two user accounts together forming a primary and secondary relationship. On successful linking, the endpoint returns the new array of the primary account identities.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/post_identities
+  https://auth0.com/docs/api/management/v2/users/post-identities
 
   """
   @spec link_user_identities(id, map, config) ::
@@ -2858,10 +2858,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Unlink a User Identity.
+  Unlink a specific secondary account from a target user. This action requires the ID of both the target user and the secondary account.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/delete_user_identity_by_user_id
+  https://auth0.com/docs/api/management/v2/users/delete-user-identity-by-user-id
 
   """
   @spec unlink_user_identities(id, provider, user_id, config) ::
@@ -2876,10 +2876,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Generate New Multi-factor Authentication Recovery Code.
+  Remove an existing multi-factor authentication (MFA) recovery code and generate a new one. If a user cannot access the original device or account used for MFA enrollment, they can use a recovery code to authenticate.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users/post_recovery_code_regeneration
+  https://auth0.com/docs/api/management/v2/users/post-recovery-code-regeneration
 
   """
   @spec regenerate_user_recovery_code(id, config) ::
@@ -2944,10 +2944,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Search Users by Email.
+  Find users by email. If Auth0 is the identity provider (idP), the email address associated with a user is saved in lower case, regardless of how you initially provided it.
 
   ## see
-  https://auth0.com/docs/api/management/v2/#!/Users_By_Email/get_users_by_email
+  https://auth0.com/docs/api/management/v2/users-by-email/get-users-by-email
 
   """
   @spec get_users_by_email(map, config) ::
