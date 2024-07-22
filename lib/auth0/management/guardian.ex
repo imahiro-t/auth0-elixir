@@ -5,6 +5,7 @@ defmodule Auth0.Management.Guardian do
   alias Auth0.Management.Guardian.Factors
   alias Auth0.Management.Guardian.Policies
   alias Auth0.Management.Guardian.Enrollments
+  alias Auth0.Management.Guardian.Factors.PushNotification
   alias Auth0.Management.Guardian.Phone
   alias Auth0.Management.Guardian.Twilio
   alias Auth0.Management.Guardian.AwsSns
@@ -100,6 +101,144 @@ defmodule Auth0.Management.Guardian do
           {:ok, list() | map()} | error
   def create_enrollment_ticket(%{} = params, %Config{} = config) do
     Enrollments.Ticket.execute(params, config)
+  end
+
+  @doc """
+  Retrieve configuration details for the multi-factor authentication APNS provider associated with your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/get-apns
+
+  """
+  @spec get_apns_configuration(config) ::
+          {:ok, list() | map()} | error
+  def get_apns_configuration(%Config{} = config) do
+    PushNotification.Providers.Apns.Get.execute(config)
+  end
+
+  @doc """
+  Modify configuration details of the multi-factor authentication APNS provider associated with your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/patch-apns
+
+  """
+  @spec patch_apns_configuration(map(), config) ::
+          {:ok, list() | map()} | error
+  def patch_apns_configuration(
+        %{} = params,
+        %Config{} = config
+      ) do
+    PushNotification.Providers.Apns.Patch.execute(params, config)
+  end
+
+  @doc """
+  Overwrite all configuration details of the multi-factor authentication APNS provider associated with your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/put-apns
+
+  """
+  @spec update_apns_configuration(map(), config) ::
+          {:ok, list() | map()} | error
+  def update_apns_configuration(
+        %{} = params,
+        %Config{} = config
+      ) do
+    PushNotification.Providers.Apns.Put.execute(params, config)
+  end
+
+  @doc """
+  Modify configuration details of the multi-factor authentication FCM provider associated with your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/patch-fcm
+
+  """
+  @spec patch_fcm_configuration(map(), config) ::
+          {:ok, list() | map()} | error
+  def patch_fcm_configuration(
+        %{} = params,
+        %Config{} = config
+      ) do
+    PushNotification.Providers.Fcm.Patch.execute(params, config)
+  end
+
+  @doc """
+  Overwrite all configuration details of the multi-factor authentication FCM provider associated with your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/put-fcm
+
+  """
+  @spec update_fcm_configuration(map(), config) ::
+          {:ok, list() | map()} | error
+  def update_fcm_configuration(
+        %{} = params,
+        %Config{} = config
+      ) do
+    PushNotification.Providers.Fcm.Put.execute(params, config)
+  end
+
+  @doc """
+  Modify configuration details of the multi-factor authentication FCMV1 provider associated with your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/patch-fcmv-1
+
+  """
+  @spec patch_fcmv1_configuration(map(), config) ::
+          {:ok, list() | map()} | error
+  def patch_fcmv1_configuration(
+        %{} = params,
+        %Config{} = config
+      ) do
+    PushNotification.Providers.Fcmv1.Patch.execute(params, config)
+  end
+
+  @doc """
+  Overwrite all configuration details of the multi-factor authentication FCMV1 provider associated with your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/put-fcmv-1
+
+  """
+  @spec update_fcmv1_configuration(map(), config) ::
+          {:ok, list() | map()} | error
+  def update_fcmv1_configuration(
+        %{} = params,
+        %Config{} = config
+      ) do
+    PushNotification.Providers.Fcmv1.Put.execute(params, config)
+  end
+
+  @doc """
+  Retrieve the push notification provider configured for your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/get-pn-providers
+
+  """
+  @spec get_notification_provider(config) ::
+          {:ok, list() | map()} | error
+  def get_notification_provider(%Config{} = config) do
+    PushNotification.SelectedProviders.Get.execute(config)
+  end
+
+  @doc """
+  Modify the push notification provider configured for your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/put-pn-providers
+
+  """
+  @spec update_notification_provider(map(), config) ::
+          {:ok, list() | map()} | error
+  def update_notification_provider(
+        %{} = params,
+        %Config{} = config
+      ) do
+    PushNotification.SelectedProviders.Put.execute(params, config)
   end
 
   @doc """

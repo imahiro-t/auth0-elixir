@@ -1165,6 +1165,144 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
+  Retrieve configuration details for the multi-factor authentication APNS provider associated with your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/get-apns
+
+  """
+  @spec get_guardian_apns_configuration(config) ::
+          {:ok, list() | map()} | error
+  def get_guardian_apns_configuration(%Config{} = config) do
+    Guardian.get_apns_configuration(config)
+  end
+
+  @doc """
+  Modify configuration details of the multi-factor authentication APNS provider associated with your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/patch-apns
+
+  """
+  @spec patch_guardian_apns_configuration(map(), config) ::
+          {:ok, list() | map()} | error
+  def patch_guardian_apns_configuration(
+        %{} = params,
+        %Config{} = config
+      ) do
+    Guardian.patch_apns_configuration(params, config)
+  end
+
+  @doc """
+  Overwrite all configuration details of the multi-factor authentication APNS provider associated with your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/put-apns
+
+  """
+  @spec update_guardian_apns_configuration(map(), config) ::
+          {:ok, list() | map()} | error
+  def update_guardian_apns_configuration(
+        %{} = params,
+        %Config{} = config
+      ) do
+    Guardian.update_apns_configuration(params, config)
+  end
+
+  @doc """
+  Modify configuration details of the multi-factor authentication FCM provider associated with your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/patch-fcm
+
+  """
+  @spec patch_guardian_fcm_configuration(map(), config) ::
+          {:ok, list() | map()} | error
+  def patch_guardian_fcm_configuration(
+        %{} = params,
+        %Config{} = config
+      ) do
+    Guardian.patch_fcm_configuration(params, config)
+  end
+
+  @doc """
+  Overwrite all configuration details of the multi-factor authentication FCM provider associated with your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/put-fcm
+
+  """
+  @spec update_guardian_fcm_configuration(map(), config) ::
+          {:ok, list() | map()} | error
+  def update_guardian_fcm_configuration(
+        %{} = params,
+        %Config{} = config
+      ) do
+    Guardian.update_fcm_configuration(params, config)
+  end
+
+  @doc """
+  Modify configuration details of the multi-factor authentication FCMV1 provider associated with your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/patch-fcmv-1
+
+  """
+  @spec patch_guardian_fcmv1_configuration(map(), config) ::
+          {:ok, list() | map()} | error
+  def patch_guardian_fcmv1_configuration(
+        %{} = params,
+        %Config{} = config
+      ) do
+    Guardian.patch_fcmv1_configuration(params, config)
+  end
+
+  @doc """
+  Overwrite all configuration details of the multi-factor authentication FCMV1 provider associated with your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/put-fcmv-1
+
+  """
+  @spec update_guardian_fcmv1_configuration(map(), config) ::
+          {:ok, list() | map()} | error
+  def update_guardian_fcmv1_configuration(
+        %{} = params,
+        %Config{} = config
+      ) do
+    Guardian.update_fcmv1_configuration(params, config)
+  end
+
+  @doc """
+  Retrieve the push notification provider configured for your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/get-pn-providers
+
+  """
+  @spec get_guardian_notification_provider(config) ::
+          {:ok, list() | map()} | error
+  def get_guardian_notification_provider(%Config{} = config) do
+    Guardian.get_notification_provider(config)
+  end
+
+  @doc """
+  Modify the push notification provider configured for your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/put-pn-providers
+
+  """
+  @spec update_guardian_notification_provider(map(), config) ::
+          {:ok, list() | map()} | error
+  def update_guardian_notification_provider(
+        %{} = params,
+        %Config{} = config
+      ) do
+    Guardian.update_notification_provider(params, config)
+  end
+
+  @doc """
   Retrieve list of phone-type MFA factors (i.e., sms and voice) that are enabled for your tenant.
 
   ## see
