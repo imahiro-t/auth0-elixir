@@ -1,4 +1,4 @@
-defmodule Auth0.Management.Guardian.Phone.Factor.Put do
+defmodule Auth0.Management.Guardian.Factors.Phone.SelectedProviders.Put do
   @moduledoc false
 
   alias Auth0.Config
@@ -10,13 +10,13 @@ defmodule Auth0.Management.Guardian.Phone.Factor.Put do
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/guardian/factors/phone/message-types"
+  @endpoint "/api/v2/guardian/factors/phone/selected-provider"
 
   @doc """
-  Replace the list of phone-type MFA factors (i.e., sms and voice) that are enabled for your tenant.
+  Update phone provider configuration
 
   ## see
-  https://auth0.com/docs/api/management/v2/guardian/put-message-types
+  https://auth0.com/docs/api/management/v2/guardian/put-phone-providers
 
   """
   @spec execute(params, config) :: response
@@ -26,8 +26,11 @@ defmodule Auth0.Management.Guardian.Phone.Factor.Put do
     @endpoint
     |> Http.put(body, config)
     |> case do
-      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
-      error -> error
+      {:ok, 200, body} ->
+        {:ok, body |> Jason.decode!()}
+
+      error ->
+        error
     end
   end
 end

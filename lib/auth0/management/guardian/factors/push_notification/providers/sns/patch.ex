@@ -1,4 +1,4 @@
-defmodule Auth0.Management.Guardian.Phone.Configuration.Put do
+defmodule Auth0.Management.Guardian.Factors.PushNotification.Providers.Sns.Patch do
   @moduledoc false
 
   alias Auth0.Config
@@ -10,13 +10,13 @@ defmodule Auth0.Management.Guardian.Phone.Configuration.Put do
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/guardian/factors/phone/selected-provider"
+  @endpoint "/api/v2/guardian/factors/push-notification/providers/sns"
 
   @doc """
-  Update phone provider configuration
+  Configure the AWS SNS push notification provider configuration (subscription required).
 
   ## see
-  https://auth0.com/docs/api/management/v2/guardian/put-phone-providers
+  https://auth0.com/docs/api/management/v2/guardian/patch-sns
 
   """
   @spec execute(params, config) :: response
@@ -24,7 +24,7 @@ defmodule Auth0.Management.Guardian.Phone.Configuration.Put do
     body = params |> Util.remove_nil()
 
     @endpoint
-    |> Http.put(body, config)
+    |> Http.patch(body, config)
     |> case do
       {:ok, 200, body} ->
         {:ok, body |> Jason.decode!()}

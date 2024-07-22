@@ -1,4 +1,4 @@
-defmodule Auth0.Management.Guardian.Twilio.Phone.Configuration.Put do
+defmodule Auth0.Management.Guardian.Factors.Phone.Providers.Twilio.Put do
   @moduledoc false
 
   alias Auth0.Config

@@ -1,4 +1,4 @@
-defmodule Auth0.Management.Guardian.Twilio.Phone.Configuration.Get do
+defmodule Auth0.Management.Guardian.Factors.Phone.SelectedProviders.Get do
   @moduledoc false
 
   alias Auth0.Config
@@ -8,13 +8,13 @@ defmodule Auth0.Management.Guardian.Twilio.Phone.Configuration.Get do
   @type entity :: list() | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/guardian/factors/phone/providers/twilio"
+  @endpoint "/api/v2/guardian/factors/phone/selected-provider"
 
   @doc """
-  Retrieve configuration details for a Twilio phone provider that has been set up in your tenant.
+  Retrieve details of the multi-factor authentication phone provider configured for your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/guardian/get-phone-twilio-factor-provider
+  https://auth0.com/docs/api/management/v2/guardian/get-guardian-phone-providers
 
   """
   @spec execute(config) :: response

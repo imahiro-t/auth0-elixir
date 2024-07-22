@@ -1,4 +1,4 @@
-defmodule Auth0.Management.Guardian.Phone.Template.Put do
+defmodule Auth0.Management.Guardian.Factors.Phone.Templates.Put do
   @moduledoc false
 
   alias Auth0.Config

@@ -5,10 +5,8 @@ defmodule Auth0.Management.Guardian do
   alias Auth0.Management.Guardian.Factors
   alias Auth0.Management.Guardian.Policies
   alias Auth0.Management.Guardian.Enrollments
+  alias Auth0.Management.Guardian.Factors.Phone
   alias Auth0.Management.Guardian.Factors.PushNotification
-  alias Auth0.Management.Guardian.Phone
-  alias Auth0.Management.Guardian.Twilio
-  alias Auth0.Management.Guardian.AwsSns
 
   @type id :: String.t()
   @type name :: String.t()
@@ -251,7 +249,7 @@ defmodule Auth0.Management.Guardian do
   @spec get_phone_factor(config) ::
           {:ok, list() | map()} | error
   def get_phone_factor(%Config{} = config) do
-    Phone.Factor.Get.execute(config)
+    Phone.MessageTypes.Get.execute(config)
   end
 
   @doc """
@@ -264,7 +262,7 @@ defmodule Auth0.Management.Guardian do
   @spec update_phone_factor(map(), config) ::
           {:ok, list() | map()} | error
   def update_phone_factor(%{} = params, %Config{} = config) do
-    Phone.Factor.Put.execute(params, config)
+    Phone.MessageTypes.Put.execute(params, config)
   end
 
   @doc """
@@ -277,7 +275,7 @@ defmodule Auth0.Management.Guardian do
   @spec get_phone_configuration(config) ::
           {:ok, list() | map()} | error
   def get_phone_configuration(%Config{} = config) do
-    Phone.Configuration.Get.execute(config)
+    Phone.SelectedProviders.Get.execute(config)
   end
 
   @doc """
@@ -290,7 +288,7 @@ defmodule Auth0.Management.Guardian do
   @spec update_phone_configuration(map(), config) ::
           {:ok, list() | map()} | error
   def update_phone_configuration(%{} = params, %Config{} = config) do
-    Phone.Configuration.Put.execute(params, config)
+    Phone.SelectedProviders.Put.execute(params, config)
   end
 
   @doc """
@@ -303,7 +301,7 @@ defmodule Auth0.Management.Guardian do
   @spec get_phone_template(config) ::
           {:ok, list() | map()} | error
   def get_phone_template(%Config{} = config) do
-    Phone.Template.Get.execute(config)
+    Phone.Templates.Get.execute(config)
   end
 
   @doc """
@@ -316,7 +314,7 @@ defmodule Auth0.Management.Guardian do
   @spec update_phone_template(map(), config) ::
           {:ok, list() | map()} | error
   def update_phone_template(%{} = params, %Config{} = config) do
-    Phone.Template.Put.execute(params, config)
+    Phone.Templates.Put.execute(params, config)
   end
 
   @doc """
@@ -329,7 +327,7 @@ defmodule Auth0.Management.Guardian do
   @spec get_twilio_phone_configuration(config) ::
           {:ok, list() | map()} | error
   def get_twilio_phone_configuration(%Config{} = config) do
-    Twilio.Phone.Configuration.Get.execute(config)
+    Phone.Providers.Twilio.Get.execute(config)
   end
 
   @doc """
@@ -345,7 +343,7 @@ defmodule Auth0.Management.Guardian do
         %{} = params,
         %Config{} = config
       ) do
-    Twilio.Phone.Configuration.Put.execute(params, config)
+    Phone.Providers.Twilio.Put.execute(params, config)
   end
 
   @doc """
@@ -358,7 +356,7 @@ defmodule Auth0.Management.Guardian do
   @spec get_aws_sns_configuration(config) ::
           {:ok, list() | map()} | error
   def get_aws_sns_configuration(%Config{} = config) do
-    AwsSns.Configuration.Get.execute(config)
+    PushNotification.Providers.Sns.Get.execute(config)
   end
 
   @doc """
@@ -374,7 +372,7 @@ defmodule Auth0.Management.Guardian do
         %{} = params,
         %Config{} = config
       ) do
-    AwsSns.Configuration.Patch.execute(params, config)
+    PushNotification.Providers.Sns.Patch.execute(params, config)
   end
 
   @doc """
@@ -390,6 +388,6 @@ defmodule Auth0.Management.Guardian do
         %{} = params,
         %Config{} = config
       ) do
-    AwsSns.Configuration.Put.execute(params, config)
+    PushNotification.Providers.Sns.Put.execute(params, config)
   end
 end

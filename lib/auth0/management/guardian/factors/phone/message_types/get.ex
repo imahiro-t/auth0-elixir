@@ -1,4 +1,4 @@
-defmodule Auth0.Management.Guardian.Phone.Factor.Get do
+defmodule Auth0.Management.Guardian.Factors.Phone.MessageTypes.Get do
   @moduledoc false
 
   alias Auth0.Config
