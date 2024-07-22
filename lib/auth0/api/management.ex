@@ -2055,6 +2055,36 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
+  Get template partials for a prompt
+
+  ## see
+  https://auth0.com/docs/api/management/v2/prompts/get-partials
+
+  """
+  @spec get_prompt_partials(prompt, config) ::
+          {:ok, map} | error
+  def get_prompt_partials(prompt, %Config{} = config \\ %Config{}) do
+    Prompts.get_partials(prompt, config)
+  end
+
+  @doc """
+  Set template partials for a prompt
+
+  ## see
+  https://auth0.com/docs/api/management/v2/prompts/put-partials
+
+  """
+  @spec set_prompt_partials(prompt, map, config) ::
+          {:ok, map} | error
+  def set_prompt_partials(
+        prompt,
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    Prompts.set_partials(prompt, params, config)
+  end
+
+  @doc """
   Retrieve refresh token information.
 
   ## see

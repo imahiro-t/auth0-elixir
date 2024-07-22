@@ -5,6 +5,7 @@ defmodule Auth0.Management.Prompts do
   alias Auth0.Management.Prompts.Get
   alias Auth0.Management.Prompts.Patch
   alias Auth0.Management.Prompts.CustomText
+  alias Auth0.Management.Prompts.Partials
 
   @type prompt :: String.t()
   @type language :: String.t()
@@ -61,5 +62,31 @@ defmodule Auth0.Management.Prompts do
           {:ok, list() | map()} | error
   def set_custom_text(prompt, language, %{} = params, %Config{} = config) do
     CustomText.Put.execute(prompt, language, params, config)
+  end
+
+  @doc """
+  Get template partials for a prompt
+
+  ## see
+  https://auth0.com/docs/api/management/v2/prompts/get-partials
+
+  """
+  @spec get_partials(prompt, config) ::
+          {:ok, list() | map()} | error
+  def get_partials(prompt, %Config{} = config) do
+    Partials.Get.execute(prompt, config)
+  end
+
+  @doc """
+  Set template partials for a prompt
+
+  ## see
+  https://auth0.com/docs/api/management/v2/prompts/put-partials
+
+  """
+  @spec set_partials(prompt, map(), config) ::
+          {:ok, list() | map()} | error
+  def set_partials(prompt, %{} = params, %Config{} = config) do
+    Partials.Put.execute(prompt, params, config)
   end
 end
