@@ -4,9 +4,11 @@ defmodule Auth0.Management.Branding do
   alias Auth0.Config
   alias Auth0.Management.Branding.Get
   alias Auth0.Management.Branding.Patch
+  alias Auth0.Management.Branding.Phone
   alias Auth0.Management.Branding.Templates.UniversalLogin
   alias Auth0.Management.Branding.Themes
 
+  @type id :: String.t()
   @type theme_id :: String.t()
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
@@ -35,6 +37,175 @@ defmodule Auth0.Management.Branding do
           {:ok, list() | map()} | error
   def update(%{} = params, %Config{} = config) do
     Patch.execute(params, config)
+  end
+
+  @doc """
+  Retrieve a list ofphone providers details set for a Tenant. A list of fields to include or exclude may also be specified.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/branding/get-branding-phone-providers
+
+  """
+  @spec list_phone_providers(map(), config) ::
+          {:ok, map()} | error
+  def list_phone_providers(%{} = params, %Config{} = config) do
+    Phone.Providers.List.execute(params, config)
+  end
+
+  @doc """
+  Create an phone provider.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/branding/create-phone-provider
+
+  """
+  @spec configure_phone_provider(map(), config) ::
+          {:ok, map()} | error
+  def configure_phone_provider(%{} = params, %Config{} = config) do
+    Phone.Providers.Configure.execute(params, config)
+  end
+
+  @doc """
+  Retrieve phone provider details. A list of fields to include or exclude may also be specified.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/branding/get-phone-provider
+
+  """
+  @spec get_phone_provider(id, config) ::
+          {:ok, map()} | error
+  def get_phone_provider(id, %Config{} = config) do
+    Phone.Providers.Get.execute(id, config)
+  end
+
+  @doc """
+  Delete the configured phone provider.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/branding/delete-phone-provider
+
+  """
+  @spec delete_phone_provider(id, config) ::
+          {:ok, map()} | error
+  def delete_phone_provider(id, %Config{} = config) do
+    Phone.Providers.Delete.execute(id, config)
+  end
+
+  @doc """
+  Update an phone provider.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/branding/update-phone-provider
+
+  """
+  @spec update_phone_provider(id, map(), config) ::
+          {:ok, map()} | error
+  def update_phone_provider(id, %{} = params, %Config{} = config) do
+    Phone.Providers.Patch.execute(id, params, config)
+  end
+
+  @doc """
+  Send a test phone notification for the configured provider
+
+  ## see
+  https://auth0.com/docs/api/management/v2/branding/try-phone-provider
+
+  """
+  @spec test_phone_provider(id, map(), config) ::
+          {:ok, map()} | error
+  def test_phone_provider(id, %{} = params, %Config{} = config) do
+    Phone.Providers.Try.execute(id, params, config)
+  end
+
+  @doc """
+  Get a list of phone notification templates
+
+  ## see
+  https://auth0.com/docs/api/management/v2/branding/get-phone-templates
+
+  """
+  @spec list_phone_templates(map(), config) ::
+          {:ok, map()} | error
+  def list_phone_templates(%{} = params, %Config{} = config) do
+    Phone.Templates.List.execute(params, config)
+  end
+
+  @doc """
+  Create a phone notification template
+
+  ## see
+  https://auth0.com/docs/api/management/v2/branding/create-phone-template
+
+  """
+  @spec create_phone_template(map(), config) ::
+          {:ok, map()} | error
+  def create_phone_template(%{} = params, %Config{} = config) do
+    Phone.Templates.Create.execute(params, config)
+  end
+
+  @doc """
+  Get a phone notification template
+
+  ## see
+  https://auth0.com/docs/api/management/v2/branding/get-phone-template
+
+  """
+  @spec get_phone_template(id, config) ::
+          {:ok, map()} | error
+  def get_phone_template(id, %Config{} = config) do
+    Phone.Templates.Get.execute(id, config)
+  end
+
+  @doc """
+  Delete a phone notification template
+
+  ## see
+  https://auth0.com/docs/api/management/v2/branding/delete-phone-template
+
+  """
+  @spec delete_phone_template(id, config) ::
+          {:ok, map()} | error
+  def delete_phone_template(id, %Config{} = config) do
+    Phone.Templates.Delete.execute(id, config)
+  end
+
+  @doc """
+  Update a phone notification template
+
+  ## see
+  https://auth0.com/docs/api/management/v2/branding/update-phone-template
+
+  """
+  @spec update_phone_template(id, map(), config) ::
+          {:ok, map()} | error
+  def update_phone_template(id, %{} = params, %Config{} = config) do
+    Phone.Templates.Patch.execute(id, params, config)
+  end
+
+  @doc """
+  Resets a phone notification template values
+
+  ## see
+  https://auth0.com/docs/api/management/v2/branding/reset-phone-template
+
+  """
+  @spec reset_phone_template(id, map(), config) ::
+          {:ok, map()} | error
+  def reset_phone_template(id, %{} = params, %Config{} = config) do
+    Phone.Templates.Reset.execute(id, params, config)
+  end
+
+  @doc """
+  Send a test phone notification for the configured template
+
+  ## see
+  https://auth0.com/docs/api/management/v2/branding/try-phone-template
+
+  """
+  @spec test_phone_template(id, map(), config) ::
+          {:ok, list() | map()} | error
+  def test_phone_template(id, %{} = params, %Config{} = config) do
+    Phone.Templates.Try.execute(id, params, config)
   end
 
   @doc """
