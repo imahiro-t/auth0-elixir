@@ -7,10 +7,12 @@ defmodule Auth0.Management.Connections do
   alias Auth0.Management.Connections.Get
   alias Auth0.Management.Connections.Delete
   alias Auth0.Management.Connections.Patch
+  alias Auth0.Management.Connections.ScimConfiguration
   alias Auth0.Management.Connections.Status
   alias Auth0.Management.Connections.Users
 
   @type id :: String.t()
+  @type token_id :: String.t()
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
 
@@ -76,6 +78,102 @@ defmodule Auth0.Management.Connections do
           {:ok, list() | map()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(id, params, config)
+  end
+
+  @doc """
+  Retrieves a scim configuration by its connectionId.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/get-scim-configuration
+
+  """
+  @spec get_scim_configuration(id, config) :: {:ok, list() | map()} | error
+  def get_scim_configuration(id, %Config{} = config) do
+    ScimConfiguration.Get.execute(id, config)
+  end
+
+  @doc """
+  Deletes a scim configuration by its connectionId.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/delete-scim-configuration
+
+  """
+  @spec delete_scim_configuration(id, config) :: {:ok, String.t()} | error
+  def delete_scim_configuration(id, %Config{} = config) do
+    ScimConfiguration.Delete.execute(id, config)
+  end
+
+  @doc """
+  Update a scim configuration by its connectionId.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/patch-scim-configuration
+
+  """
+  @spec update_scim_configuration(id, map(), config) :: {:ok, list() | map()} | error
+  def update_scim_configuration(id, %{} = params, %Config{} = config) do
+    ScimConfiguration.Patch.execute(id, params, config)
+  end
+
+  @doc """
+  Create a scim configuration for a connection.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/post-scim-configuration
+
+  """
+  @spec create_scim_configuration(id, map(), config) :: {:ok, list() | map()} | error
+  def create_scim_configuration(id, %{} = params, %Config{} = config) do
+    ScimConfiguration.Create.execute(id, params, config)
+  end
+
+  @doc """
+  Retrieves a scim configuration's default mapping by its connectionId.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/get-default-mapping
+
+  """
+  @spec get_scim_configuration_default_mapping(id, config) :: {:ok, list() | map()} | error
+  def get_scim_configuration_default_mapping(id, %Config{} = config) do
+    ScimConfiguration.DefaultMapping.Get.execute(id, config)
+  end
+
+  @doc """
+  Retrieves all scim tokens by its connection id.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/get-scim-tokens
+
+  """
+  @spec get_scim_configuration_tokens(id, config) :: {:ok, list() | map()} | error
+  def get_scim_configuration_tokens(id, %Config{} = config) do
+    ScimConfiguration.Tokens.Get.execute(id, config)
+  end
+
+  @doc """
+  Create a scim token for a scim client.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/post-scim-token
+
+  """
+  @spec create_scim_configuration_tokens(id, map(), config) :: {:ok, list() | map()} | error
+  def create_scim_configuration_tokens(id, %{} = params, %Config{} = config) do
+    ScimConfiguration.Tokens.Create.execute(id, params, config)
+  end
+
+  @doc """
+  Deletes a scim token by its connection id and tokenId.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/delete-tokens-by-token-id
+
+  """
+  @spec delete_scim_configuration_tokens(id, token_id, config) :: {:ok, String.t()} | error
+  def delete_scim_configuration_tokens(id, token_id, %Config{} = config) do
+    ScimConfiguration.Tokens.Delete.execute(id, token_id, config)
   end
 
   @doc """
