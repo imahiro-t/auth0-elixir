@@ -1,6 +1,4 @@
 defmodule Auth0.Management.Organizations do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.Organizations.List
   alias Auth0.Management.Organizations.Create

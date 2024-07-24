@@ -1,6 +1,4 @@
 defmodule Auth0.Management.Stats do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.Stats.ActiveUsers
   alias Auth0.Management.Stats.Daily

@@ -1,6 +1,4 @@
 defmodule Auth0.Management.ResourceServers do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.ResourceServers.List
   alias Auth0.Management.ResourceServers.Create

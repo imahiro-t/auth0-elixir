@@ -1,6 +1,4 @@
 defmodule Auth0.Management.Sessions do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.Sessions.Get
   alias Auth0.Management.Sessions.Delete

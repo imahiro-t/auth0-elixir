@@ -1,6 +1,4 @@
 defmodule Auth0.Management.AttackProtection do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.AttackProtection.BreachedPasswordDetection
   alias Auth0.Management.AttackProtection.BruteForceProtection

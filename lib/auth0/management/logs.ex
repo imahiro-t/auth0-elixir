@@ -1,6 +1,4 @@
 defmodule Auth0.Management.Logs do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.Logs.List
   alias Auth0.Management.Logs.Get

@@ -1,6 +1,4 @@
 defmodule Auth0.Management.Grants do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.Grants.List
   alias Auth0.Management.Grants.Delete

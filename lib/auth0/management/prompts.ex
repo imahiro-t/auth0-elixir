@@ -1,6 +1,4 @@
 defmodule Auth0.Management.Prompts do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.Prompts.Get
   alias Auth0.Management.Prompts.Patch

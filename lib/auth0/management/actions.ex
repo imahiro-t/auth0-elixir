@@ -1,6 +1,4 @@
 defmodule Auth0.Management.Actions do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.Actions.List
   alias Auth0.Management.Actions.Create

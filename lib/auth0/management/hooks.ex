@@ -1,6 +1,4 @@
 defmodule Auth0.Management.Hooks do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.Hooks.List
   alias Auth0.Management.Hooks.Create

@@ -1,6 +1,4 @@
 defmodule Auth0.Management.Users do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.Users.List
   alias Auth0.Management.Users.Create

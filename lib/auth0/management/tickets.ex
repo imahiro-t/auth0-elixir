@@ -1,6 +1,4 @@
 defmodule Auth0.Management.Tickets do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.Tickets.EmailVerification
   alias Auth0.Management.Tickets.PasswordChange

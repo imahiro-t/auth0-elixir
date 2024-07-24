@@ -1,6 +1,4 @@
 defmodule Auth0.Management.Branding do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.Branding.Get
   alias Auth0.Management.Branding.Patch

@@ -1,6 +1,4 @@
 defmodule Auth0.Management.Guardian do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.Guardian.Factors
   alias Auth0.Management.Guardian.Policies

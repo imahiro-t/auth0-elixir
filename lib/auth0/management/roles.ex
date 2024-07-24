@@ -1,6 +1,4 @@
 defmodule Auth0.Management.Roles do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.Roles.List
   alias Auth0.Management.Roles.Create

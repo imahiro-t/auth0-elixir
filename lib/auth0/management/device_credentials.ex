@@ -1,6 +1,4 @@
 defmodule Auth0.Management.DeviceCredentials do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.DeviceCredentials.List
   alias Auth0.Management.DeviceCredentials.Create

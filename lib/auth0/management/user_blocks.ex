@@ -1,6 +1,4 @@
 defmodule Auth0.Management.UserBlocks do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.UserBlocks.Get
   alias Auth0.Management.UserBlocks.Unblock

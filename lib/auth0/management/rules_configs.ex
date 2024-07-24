@@ -1,6 +1,4 @@
 defmodule Auth0.Management.RulesConfigs do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.RulesConfigs.List
   alias Auth0.Management.RulesConfigs.Delete

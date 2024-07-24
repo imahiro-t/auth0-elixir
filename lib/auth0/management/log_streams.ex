@@ -1,6 +1,4 @@
 defmodule Auth0.Management.LogStreams do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.LogStreams.List
   alias Auth0.Management.LogStreams.Create

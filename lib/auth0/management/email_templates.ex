@@ -1,6 +1,4 @@
 defmodule Auth0.Management.EmailTemplates do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.EmailTemplates.Get
   alias Auth0.Management.EmailTemplates.Patch

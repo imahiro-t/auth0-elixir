@@ -1,6 +1,4 @@
 defmodule Auth0.Management.ClientGrants do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.ClientGrants.List
   alias Auth0.Management.ClientGrants.Create

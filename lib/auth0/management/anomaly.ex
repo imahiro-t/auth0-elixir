@@ -1,6 +1,4 @@
 defmodule Auth0.Management.Anomaly do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.Anomaly.Blocks
 

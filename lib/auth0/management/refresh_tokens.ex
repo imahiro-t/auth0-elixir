@@ -1,6 +1,4 @@
 defmodule Auth0.Management.RefreshTokens do
-  @moduledoc false
-
   alias Auth0.Config
   alias Auth0.Management.RefreshTokens.Get
   alias Auth0.Management.RefreshTokens.Delete
