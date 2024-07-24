@@ -15,7 +15,7 @@ defmodule Auth0.Management.Tenants do
 
   """
   @spec get_setting(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get_setting(%{} = params, %Config{} = config) do
     Settings.Get.execute(params, config)
   end
@@ -28,7 +28,7 @@ defmodule Auth0.Management.Tenants do
 
   """
   @spec update_setting(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def update_setting(%{} = params, %Config{} = config) do
     Settings.Patch.execute(params, config)
   end

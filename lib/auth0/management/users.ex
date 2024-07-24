@@ -35,7 +35,7 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/users/get-users
 
   """
-  @spec list(map(), config) :: {:ok, list() | map()} | error
+  @spec list(map(), config) :: {:ok, list(map()) | map()} | error
   def list(%{} = params, %Config{} = config) do
     List.execute(params, config)
   end
@@ -48,7 +48,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec create(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def create(%{} = params, %Config{} = config) do
     Create.execute(params, config)
   end
@@ -61,7 +61,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec get(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get(id, %{} = params, %Config{} = config) do
     Get.execute(id, params, config)
   end
@@ -86,7 +86,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec update(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(id, params, config)
   end
@@ -99,7 +99,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec list_authentication_methods(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map()) | map()} | error
   def list_authentication_methods(id, %{} = params, %Config{} = config) do
     AuthenticationMethods.List.execute(id, params, config)
   end
@@ -125,7 +125,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec create_authentication_methods(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def create_authentication_methods(id, %{} = params, %Config{} = config) do
     AuthenticationMethods.Create.execute(id, params, config)
   end
@@ -138,7 +138,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec update_authentication_methods(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map())} | error
   def update_authentication_methods(id, %{} = params, %Config{} = config) do
     AuthenticationMethods.PutAll.execute(id, params, config)
   end
@@ -151,7 +151,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec get_authentication_method(id, authentication_method_id, config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get_authentication_method(id, authentication_method_id, %Config{} = config) do
     AuthenticationMethods.Get.execute(id, authentication_method_id, config)
   end
@@ -177,7 +177,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec update_authentication_method(id, authentication_method_id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def update_authentication_method(id, authentication_method_id, %{} = params, %Config{} = config) do
     AuthenticationMethods.Patch.execute(id, authentication_method_id, params, config)
   end
@@ -203,48 +203,44 @@ defmodule Auth0.Management.Users do
 
   """
   @spec get_enrollments(id, config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map())} | error
   def get_enrollments(id, %Config{} = config) do
     Enrollments.List.execute(id, config)
   end
 
   @doc """
-  Retrieve detailed list of all user roles currently assigned to a user.
+  Link two user accounts together forming a primary and secondary relationship. On successful linking, the endpoint returns the new array of the primary account identities.
 
   ## see
-  https://auth0.com/docs/api/management/v2/users/get-user-roles
+  https://auth0.com/docs/api/management/v2/users/post-identities
 
   """
-  @spec get_roles(id, map(), config) ::
-          {:ok, list() | map()} | error
-  def get_roles(id, %{} = params, %Config{} = config) do
-    Roles.List.execute(id, params, config)
+  @spec link_identities(id, map(), config) ::
+          {:ok, list(map())} | error
+  def link_identities(
+        id,
+        %{} = params,
+        %Config{} = config
+      ) do
+    Identities.Link.execute(id, params, config)
   end
 
   @doc """
-  Remove one or more specified user roles assigned to a user.
+  Unlink a specific secondary account from a target user. This action requires the ID of both the target user and the secondary account.
 
   ## see
-  https://auth0.com/docs/api/management/v2/users/delete-user-roles
+  https://auth0.com/docs/api/management/v2/users/delete-user-identity-by-user-id
 
   """
-  @spec remove_roles(id, map(), config) ::
-          {:ok, String.t()} | error
-  def remove_roles(id, %{} = params, %Config{} = config) do
-    Roles.Remove.execute(id, params, config)
-  end
-
-  @doc """
-  Assign one or more existing user roles to a user.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/users/post-user-roles
-
-  """
-  @spec assign_roles(id, map(), config) ::
-          {:ok, String.t()} | error
-  def assign_roles(id, %{} = params, %Config{} = config) do
-    Roles.Assign.execute(id, params, config)
+  @spec unlink_identities(id, provider, user_id, config) ::
+          {:ok, list(map())} | error
+  def unlink_identities(
+        id,
+        provider,
+        user_id,
+        %Config{} = config
+      ) do
+    Identities.Unlink.execute(id, provider, user_id, config)
   end
 
   @doc """
@@ -255,9 +251,45 @@ defmodule Auth0.Management.Users do
 
   """
   @spec get_logs(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map()) | map()} | error
   def get_logs(id, %{} = params, %Config{} = config) do
     Logs.List.execute(id, params, config)
+  end
+
+  @doc """
+  Invalidate all remembered browsers across all authentication factors for a user.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/post-invalidate-remember-browser
+
+  """
+  @spec invalidate_remembered_browser_for_multifactor(id, config) ::
+          {:ok, String.t()} | error
+  def invalidate_remembered_browser_for_multifactor(
+        id,
+        %Config{} = config
+      ) do
+    Multifactor.InvalidateRememberedBrowser.execute(
+      id,
+      config
+    )
+  end
+
+  @doc """
+  Remove a multifactor authentication configuration from a user's account. This forces the user to manually reconfigure the multi-factor provider.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/delete-multifactor-by-provider
+
+  """
+  @spec delete_multifactor(id, map(), config) ::
+          {:ok, String.t()} | error
+  def delete_multifactor(
+        id,
+        %{} = params,
+        %Config{} = config
+      ) do
+    Multifactor.Delete.execute(id, params, config)
   end
 
   @doc """
@@ -268,7 +300,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec get_organizations(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map()) | map()} | error
   def get_organizations(id, %{} = params, %Config{} = config) do
     Organizations.List.execute(id, params, config)
   end
@@ -281,7 +313,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec get_permissions(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map()) | map()} | error
   def get_permissions(id, %{} = params, %Config{} = config) do
     Permissions.List.execute(id, params, config)
   end
@@ -313,77 +345,6 @@ defmodule Auth0.Management.Users do
   end
 
   @doc """
-  Remove a multifactor authentication configuration from a user's account. This forces the user to manually reconfigure the multi-factor provider.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/users/delete-multifactor-by-provider
-
-  """
-  @spec delete_multifactor(id, map(), config) ::
-          {:ok, String.t()} | error
-  def delete_multifactor(
-        id,
-        %{} = params,
-        %Config{} = config
-      ) do
-    Multifactor.Delete.execute(id, params, config)
-  end
-
-  @doc """
-  Invalidate all remembered browsers across all authentication factors for a user.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/users/post-invalidate-remember-browser
-
-  """
-  @spec invalidate_remembered_browser_for_multifactor(id, config) ::
-          {:ok, String.t()} | error
-  def invalidate_remembered_browser_for_multifactor(
-        id,
-        %Config{} = config
-      ) do
-    Multifactor.InvalidateRememberedBrowser.execute(
-      id,
-      config
-    )
-  end
-
-  @doc """
-  Link two user accounts together forming a primary and secondary relationship. On successful linking, the endpoint returns the new array of the primary account identities.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/users/post-identities
-
-  """
-  @spec link_identities(id, map(), config) ::
-          {:ok, list() | map()} | error
-  def link_identities(
-        id,
-        %{} = params,
-        %Config{} = config
-      ) do
-    Identities.Link.execute(id, params, config)
-  end
-
-  @doc """
-  Unlink a specific secondary account from a target user. This action requires the ID of both the target user and the secondary account.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/users/delete-user-identity-by-user-id
-
-  """
-  @spec unlink_identities(id, provider, user_id, config) ::
-          {:ok, list() | map()} | error
-  def unlink_identities(
-        id,
-        provider,
-        user_id,
-        %Config{} = config
-      ) do
-    Identities.Unlink.execute(id, provider, user_id, config)
-  end
-
-  @doc """
   Remove an existing multi-factor authentication (MFA) recovery code and generate a new one. If a user cannot access the original device or account used for MFA enrollment, they can use a recovery code to authenticate.
 
   ## see
@@ -391,7 +352,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec regenerate_recovery_code(id, config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def regenerate_recovery_code(
         id,
         %Config{} = config
@@ -403,6 +364,45 @@ defmodule Auth0.Management.Users do
   end
 
   @doc """
+  Retrieve detailed list of all user roles currently assigned to a user.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/get-user-roles
+
+  """
+  @spec get_roles(id, map(), config) ::
+          {:ok, list(map()) | map()} | error
+  def get_roles(id, %{} = params, %Config{} = config) do
+    Roles.List.execute(id, params, config)
+  end
+
+  @doc """
+  Remove one or more specified user roles assigned to a user.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/delete-user-roles
+
+  """
+  @spec remove_roles(id, map(), config) ::
+          {:ok, String.t()} | error
+  def remove_roles(id, %{} = params, %Config{} = config) do
+    Roles.Remove.execute(id, params, config)
+  end
+
+  @doc """
+  Assign one or more existing user roles to a user.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/post-user-roles
+
+  """
+  @spec assign_roles(id, map(), config) ::
+          {:ok, String.t()} | error
+  def assign_roles(id, %{} = params, %Config{} = config) do
+    Roles.Assign.execute(id, params, config)
+  end
+
+  @doc """
   Retrieve details for a user's refresh tokens.
 
   ## see
@@ -410,7 +410,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec get_refresh_tokens(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get_refresh_tokens(id, %{} = params, %Config{} = config) do
     RefreshTokens.List.execute(id, params, config)
   end
@@ -436,7 +436,7 @@ defmodule Auth0.Management.Users do
 
   """
   @spec get_sessions(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get_sessions(id, %{} = params, %Config{} = config) do
     Sessions.List.execute(id, params, config)
   end

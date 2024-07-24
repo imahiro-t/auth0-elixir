@@ -18,7 +18,7 @@ defmodule Auth0.Management.RulesConfigs do
 
   """
   @spec list(config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map())} | error
   def list(%Config{} = config) do
     List.execute(config)
   end
@@ -43,7 +43,7 @@ defmodule Auth0.Management.RulesConfigs do
 
   """
   @spec set(key, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def set(key, %{} = params, %Config{} = config) do
     Put.execute(key, params, config)
   end

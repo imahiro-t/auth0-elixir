@@ -15,7 +15,7 @@ defmodule Auth0.Management.Blacklist do
 
   """
   @spec list_tokens(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map())} | error
   def list_tokens(%{} = params, %Config{} = config) do
     Tokens.List.execute(params, config)
   end

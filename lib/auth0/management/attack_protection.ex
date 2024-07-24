@@ -17,7 +17,7 @@ defmodule Auth0.Management.AttackProtection do
 
   """
   @spec get_breached_password_detection(config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get_breached_password_detection(%Config{} = config) do
     BreachedPasswordDetection.Get.execute(config)
   end
@@ -33,7 +33,7 @@ defmodule Auth0.Management.AttackProtection do
           map(),
           config
         ) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def update_breached_password_detection(
         %{} = params,
         %Config{} = config
@@ -49,7 +49,7 @@ defmodule Auth0.Management.AttackProtection do
 
   """
   @spec get_brute_force_protection(config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get_brute_force_protection(%Config{} = config) do
     BruteForceProtection.Get.execute(config)
   end
@@ -62,7 +62,7 @@ defmodule Auth0.Management.AttackProtection do
 
   """
   @spec update_brute_force_protection(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def update_brute_force_protection(
         %{} = params,
         %Config{} = config
@@ -78,7 +78,7 @@ defmodule Auth0.Management.AttackProtection do
 
   """
   @spec get_suspicious_ip_throttling(config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get_suspicious_ip_throttling(%Config{} = config) do
     SuspiciousIpThrottling.Get.execute(config)
   end
@@ -91,7 +91,7 @@ defmodule Auth0.Management.AttackProtection do
 
   """
   @spec update_suspicious_ip_throttling(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def update_suspicious_ip_throttling(
         %{} = params,
         %Config{} = config

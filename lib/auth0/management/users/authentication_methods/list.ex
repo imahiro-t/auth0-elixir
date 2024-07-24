@@ -8,7 +8,7 @@ defmodule Auth0.Management.Users.AuthenticationMethods.List do
   @type id :: String.t()
   @type params :: map()
   @type config :: Config.t()
-  @type entity :: list() | map()
+  @type entity :: list(map()) | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/users/{id}/authentication-methods"

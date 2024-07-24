@@ -6,7 +6,7 @@ defmodule Auth0.Management.Jobs.Get do
 
   @type id :: String.t()
   @type config :: Config.t()
-  @type entity :: list() | map()
+  @type entity :: list(map()) | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/jobs/{id}"

@@ -25,8 +25,8 @@ defmodule Auth0.Management.Branding.Templates.UniversalLogin.Put do
 
     Http.put(@endpoint, body, config)
     |> case do
-      {:ok, 201, body} -> {:ok, body}
-      {:ok, 204, body} -> {:ok, body}
+      {:ok, 201, _body} -> {:ok, ""}
+      {:ok, 204, _body} -> {:ok, ""}
       error -> error
     end
   end

@@ -7,7 +7,7 @@ defmodule Auth0.Management.Prompts.Partials.Put do
   @type prompt :: String.t()
   @type params :: map()
   @type config :: Config.t()
-  @type entity :: list() | map()
+  @type entity :: String.t()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/prompts/{prompt}/partials"
@@ -27,7 +27,7 @@ defmodule Auth0.Management.Prompts.Partials.Put do
     |> String.replace("{prompt}", prompt)
     |> Http.put(body, config)
     |> case do
-      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
+      {:ok, 200, _body} -> {:ok, ""}
       error -> error
     end
   end

@@ -21,7 +21,7 @@ defmodule Auth0.Management.Branding do
 
   """
   @spec get(config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get(%Config{} = config) do
     Get.execute(config)
   end
@@ -34,7 +34,7 @@ defmodule Auth0.Management.Branding do
 
   """
   @spec update(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def update(%{} = params, %Config{} = config) do
     Patch.execute(params, config)
   end
@@ -203,7 +203,7 @@ defmodule Auth0.Management.Branding do
 
   """
   @spec test_phone_template(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def test_phone_template(id, %{} = params, %Config{} = config) do
     Phone.Templates.Try.execute(id, params, config)
   end
@@ -216,7 +216,7 @@ defmodule Auth0.Management.Branding do
 
   """
   @spec get_universal_login(config) ::
-          {:ok, list() | map()} | error
+          {:ok, map() | String.t()} | error
   def get_universal_login(%Config{} = config) do
     UniversalLogin.Get.execute(config)
   end
@@ -247,6 +247,19 @@ defmodule Auth0.Management.Branding do
   end
 
   @doc """
+  Create branding theme.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/branding/post-branding-theme
+
+  """
+  @spec create_theme(map(), config) ::
+          {:ok, map()} | error
+  def create_theme(%{} = params, %Config{} = config) do
+    Themes.Create.execute(params, config)
+  end
+
+  @doc """
   Retrieve default branding theme.
 
   ## see
@@ -254,7 +267,7 @@ defmodule Auth0.Management.Branding do
 
   """
   @spec get_default_theme(config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get_default_theme(%Config{} = config) do
     Themes.Default.Get.execute(config)
   end
@@ -267,7 +280,7 @@ defmodule Auth0.Management.Branding do
 
   """
   @spec get_theme(theme_id, config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get_theme(theme_id, %Config{} = config) do
     Themes.Get.execute(theme_id, config)
   end
@@ -280,7 +293,7 @@ defmodule Auth0.Management.Branding do
 
   """
   @spec delete_theme(theme_id, config) ::
-          {:ok, list() | map()} | error
+          {:ok, String.t()} | error
   def delete_theme(theme_id, %Config{} = config) do
     Themes.Delete.execute(theme_id, config)
   end
@@ -293,21 +306,8 @@ defmodule Auth0.Management.Branding do
 
   """
   @spec update_theme(theme_id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def update_theme(theme_id, %{} = params, %Config{} = config) do
     Themes.Patch.execute(theme_id, params, config)
-  end
-
-  @doc """
-  Create branding theme.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/branding/post-branding-theme
-
-  """
-  @spec create_theme(map(), config) ::
-          {:ok, list() | map()} | error
-  def create_theme(%{} = params, %Config{} = config) do
-    Themes.Create.execute(params, config)
   end
 end

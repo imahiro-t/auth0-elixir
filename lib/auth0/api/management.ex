@@ -68,8 +68,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/actions/get-actions
 
   """
-  @spec get_actions(map, config) ::
-          {:ok, map} | error
+  @spec get_actions(map(), config) ::
+          {:ok, map()} | error
   def get_actions(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Actions.list(params, config)
   end
@@ -81,49 +81,10 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/actions/post-action
 
   """
-  @spec create_action(map, config) ::
-          {:ok, map} | error
+  @spec create_action(map(), config) ::
+          {:ok, map()} | error
   def create_action(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Actions.create(params, config)
-  end
-
-  @doc """
-  Retrieve an action by its ID.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/actions/get-action
-
-  """
-  @spec get_action(id, config) ::
-          {:ok, map} | error
-  def get_action(id, %Config{} = config \\ %Config{}) do
-    Actions.get(id, config)
-  end
-
-  @doc """
-  Deletes an action and all of its associated versions. An action must be unbound from all triggers before it can be deleted.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/actions/delete-action
-
-  """
-  @spec delete_action(id, map, config) ::
-          {:ok, String.t()} | error
-  def delete_action(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Actions.delete(id, params, config)
-  end
-
-  @doc """
-  Update an existing action. If this action is currently bound to a trigger, updating it will not affect any user flows until the action is deployed.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/actions/patch-action
-
-  """
-  @spec update_action(id, map, config) ::
-          {:ok, map} | error
-  def update_action(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Actions.update(id, params, config)
   end
 
   @doc """
@@ -133,8 +94,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/actions/get-action-versions
 
   """
-  @spec get_action_versions(action_id, map, config) ::
-          {:ok, map} | error
+  @spec get_action_versions(action_id, map(), config) ::
+          {:ok, map()} | error
   def get_action_versions(action_id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Actions.list_versions(action_id, params, config)
   end
@@ -147,7 +108,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_action_version(action_id, id, config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_action_version(action_id, id, %Config{} = config \\ %Config{}) do
     Actions.get_version(action_id, id, config)
   end
@@ -159,8 +120,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/actions/post-deploy-draft-version
 
   """
-  @spec rollback_action_version(action_id, id, map, config) ::
-          {:ok, map} | error
+  @spec rollback_action_version(action_id, id, map(), config) ::
+          {:ok, map()} | error
   def rollback_action_version(
         action_id,
         id,
@@ -171,16 +132,42 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Test an action. After updating an action, it can be tested prior to being deployed to ensure it behaves as expected.
+  Retrieve an action by its ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/actions/post-test-action
+  https://auth0.com/docs/api/management/v2/actions/get-action
 
   """
-  @spec test_action(id, map, config) ::
-          {:ok, map} | error
-  def test_action(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Actions.test(id, params, config)
+  @spec get_action(id, config) ::
+          {:ok, map()} | error
+  def get_action(id, %Config{} = config \\ %Config{}) do
+    Actions.get(id, config)
+  end
+
+  @doc """
+  Deletes an action and all of its associated versions. An action must be unbound from all triggers before it can be deleted.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/actions/delete-action
+
+  """
+  @spec delete_action(id, map(), config) ::
+          {:ok, String.t()} | error
+  def delete_action(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Actions.delete(id, params, config)
+  end
+
+  @doc """
+  Update an existing action. If this action is currently bound to a trigger, updating it will not affect any user flows until the action is deployed.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/actions/patch-action
+
+  """
+  @spec update_action(id, map(), config) ::
+          {:ok, map()} | error
+  def update_action(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Actions.update(id, params, config)
   end
 
   @doc """
@@ -191,9 +178,35 @@ defmodule Auth0.Api.Management do
 
   """
   @spec deploy_action(id, config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def deploy_action(id, %Config{} = config \\ %Config{}) do
     Actions.deploy(id, config)
+  end
+
+  @doc """
+  Test an action. After updating an action, it can be tested prior to being deployed to ensure it behaves as expected.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/actions/post-test-action
+
+  """
+  @spec test_action(id, map(), config) ::
+          {:ok, map()} | error
+  def test_action(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Actions.test(id, params, config)
+  end
+
+  @doc """
+  Retrieve information about a specific execution of a trigger. Relevant execution IDs will be included in tenant logs generated as part of that authentication flow. Executions will only be stored for 10 days after their creation.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/actions/get-execution
+
+  """
+  @spec get_action_execution(id, config) ::
+          {:ok, map()} | error
+  def get_action_execution(id, %Config{} = config \\ %Config{}) do
+    Actions.get_execution(id, config)
   end
 
   @doc """
@@ -204,7 +217,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_action_triggers(config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_action_triggers(%Config{} = config \\ %Config{}) do
     Actions.get_triggers(config)
   end
@@ -216,8 +229,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/actions/get-bindings
 
   """
-  @spec get_action_trigger_bindings(trigger_id, map, config) ::
-          {:ok, map} | error
+  @spec get_action_trigger_bindings(trigger_id, map(), config) ::
+          {:ok, map()} | error
   def get_action_trigger_bindings(
         trigger_id,
         %{} = params \\ %{},
@@ -235,29 +248,16 @@ defmodule Auth0.Api.Management do
   """
   @spec update_action_trigger_bindings(
           trigger_id,
-          map,
+          map(),
           config
         ) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def update_action_trigger_bindings(
         trigger_id,
         %{} = params \\ %{},
         %Config{} = config \\ %Config{}
       ) do
     Actions.update_bindings(trigger_id, params, config)
-  end
-
-  @doc """
-  Retrieve information about a specific execution of a trigger. Relevant execution IDs will be included in tenant logs generated as part of that authentication flow. Executions will only be stored for 10 days after their creation.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/actions/get-execution
-
-  """
-  @spec get_action_execution(id, config) ::
-          {:ok, map} | error
-  def get_action_execution(id, %Config{} = config \\ %Config{}) do
-    Actions.get_execution(id, config)
   end
 
   @doc """
@@ -292,7 +292,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_attack_protection_breached_password_detection(config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_attack_protection_breached_password_detection(%Config{} = config \\ %Config{}) do
     AttackProtection.get_breached_password_detection(config)
   end
@@ -305,10 +305,10 @@ defmodule Auth0.Api.Management do
 
   """
   @spec update_attack_protection_breached_password_detection(
-          map,
+          map(),
           config
         ) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def update_attack_protection_breached_password_detection(
         %{} = params \\ %{},
         %Config{} = config \\ %Config{}
@@ -324,7 +324,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_attack_protection_brute_force_protection(config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_attack_protection_brute_force_protection(%Config{} = config \\ %Config{}) do
     AttackProtection.get_brute_force_protection(config)
   end
@@ -337,10 +337,10 @@ defmodule Auth0.Api.Management do
 
   """
   @spec update_attack_protection_brute_force_protection(
-          map,
+          map(),
           config
         ) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def update_attack_protection_brute_force_protection(
         %{} = params \\ %{},
         %Config{} = config \\ %Config{}
@@ -356,7 +356,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_attack_protection_suspicious_ip_throttling(config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_attack_protection_suspicious_ip_throttling(%Config{} = config \\ %Config{}) do
     AttackProtection.get_suspicious_ip_throttling(config)
   end
@@ -369,10 +369,10 @@ defmodule Auth0.Api.Management do
 
   """
   @spec update_attack_protection_suspicious_ip_throttling(
-          map,
+          map(),
           config
         ) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def update_attack_protection_suspicious_ip_throttling(
         %{} = params \\ %{},
         %Config{} = config \\ %Config{}
@@ -387,8 +387,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/blacklists/get-tokens
 
   """
-  @spec get_blacklisted_tokens(map, config) ::
-          {:ok, map} | error
+  @spec get_blacklisted_tokens(map(), config) ::
+          {:ok, list(map())} | error
   def get_blacklisted_tokens(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Blacklist.list_tokens(params, config)
   end
@@ -400,7 +400,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/blacklists/post-tokens
 
   """
-  @spec blacklist_token(map, config) ::
+  @spec blacklist_token(map(), config) ::
           {:ok, String.t()} | error
   def blacklist_token(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Blacklist.add_token(params, config)
@@ -413,7 +413,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/branding/get-branding
 
   """
-  @spec get_branding(config) :: {:ok, map} | error
+  @spec get_branding(config) :: {:ok, map()} | error
   def get_branding(%Config{} = config \\ %Config{}) do
     Branding.get(config)
   end
@@ -425,8 +425,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/branding/patch-branding
 
   """
-  @spec update_branding(map, config) ::
-          {:ok, map} | error
+  @spec update_branding(map(), config) ::
+          {:ok, map()} | error
   def update_branding(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Branding.update(params, config)
   end
@@ -595,7 +595,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec test_branding_phone_template(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def test_branding_phone_template(id, %{} = params, %Config{} = config) do
     Branding.test_phone_template(id, params, config)
   end
@@ -608,7 +608,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_template_for_universal_login(config) ::
-          {:ok, map} | error
+          {:ok, map() | String.t()} | error
   def get_template_for_universal_login(%Config{} = config \\ %Config{}) do
     Branding.get_universal_login(config)
   end
@@ -632,13 +632,26 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/branding/put-universal-login
 
   """
-  @spec set_template_for_universal_login(map, config) ::
+  @spec set_template_for_universal_login(map(), config) ::
           {:ok, String.t()} | error
   def set_template_for_universal_login(
         %{} = params \\ %{},
         %Config{} = config \\ %Config{}
       ) do
     Branding.set_universal_login(params, config)
+  end
+
+  @doc """
+  Create branding theme.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/branding/post-branding-theme
+
+  """
+  @spec create_branding_theme(map(), config) ::
+          {:ok, map()} | error
+  def create_branding_theme(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Branding.create_theme(params, config)
   end
 
   @doc """
@@ -649,7 +662,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_default_branding_theme(config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_default_branding_theme(%Config{} = config \\ %Config{}) do
     Branding.get_default_theme(config)
   end
@@ -662,7 +675,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_branding_theme(theme_id, config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_branding_theme(theme_id, %Config{} = config \\ %Config{}) do
     Branding.get_theme(theme_id, config)
   end
@@ -687,23 +700,10 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/branding/patch-branding-theme
 
   """
-  @spec update_branding_theme(theme_id, map, config) ::
-          {:ok, map} | error
+  @spec update_branding_theme(theme_id, map(), config) ::
+          {:ok, map()} | error
   def update_branding_theme(theme_id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Branding.update_theme(theme_id, params, config)
-  end
-
-  @doc """
-  Create branding theme.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/branding/post-branding-theme
-
-  """
-  @spec create_branding_theme(map, config) ::
-          {:ok, map} | error
-  def create_branding_theme(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Branding.create_theme(params, config)
   end
 
   @doc """
@@ -713,8 +713,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/client-grants/get-client-grants
 
   """
-  @spec get_client_grants(map, config) ::
-          {:ok, map} | error
+  @spec get_client_grants(map(), config) ::
+          {:ok, list(map()) | map()} | error
   def get_client_grants(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     ClientGrants.list(params, config)
   end
@@ -726,8 +726,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/client-grants/post-client-grants
 
   """
-  @spec create_client_grant(map, config) ::
-          {:ok, map} | error
+  @spec create_client_grant(map(), config) ::
+          {:ok, map()} | error
   def create_client_grant(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     ClientGrants.create(params, config)
   end
@@ -751,8 +751,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/client-grants/patch-client-grants-by-id
 
   """
-  @spec update_client_grant(id, map, config) ::
-          {:ok, map} | error
+  @spec update_client_grant(id, map(), config) ::
+          {:ok, map()} | error
   def update_client_grant(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     ClientGrants.update(id, params, config)
   end
@@ -764,8 +764,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/clients/get-clients
 
   """
-  @spec get_clients(map, config) ::
-          {:ok, map} | error
+  @spec get_clients(map(), config) ::
+          {:ok, list(map()) | map()} | error
   def get_clients(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Clients.list(params, config)
   end
@@ -777,61 +777,10 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/clients/post-clients
 
   """
-  @spec create_client(map, config) ::
-          {:ok, map} | error
+  @spec create_client(map(), config) ::
+          {:ok, map()} | error
   def create_client(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Clients.create(params, config)
-  end
-
-  @doc """
-  Retrieve client details by ID. Clients are SSO connections or Applications linked with your Auth0 tenant. A list of fields to include or exclude may also be specified.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/clients/get-clients-by-id
-
-  """
-  @spec get_client(id, map, config) ::
-          {:ok, map} | error
-  def get_client(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Clients.get(id, params, config)
-  end
-
-  @doc """
-  Delete a client and related configuration (rules, connections, etc).
-
-  ## see
-  https://auth0.com/docs/api/management/v2/clients/delete-clients-by-id
-
-  """
-  @spec delete_client(id, config) :: {:ok, String.t()} | error
-  def delete_client(id, %Config{} = config \\ %Config{}) do
-    Clients.delete(id, config)
-  end
-
-  @doc """
-  Updates a client's settings
-
-  ## see
-  https://auth0.com/docs/api/management/v2/clients/patch-clients-by-id
-
-  """
-  @spec update_client(id, map, config) ::
-          {:ok, map} | error
-  def update_client(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Clients.update(id, params, config)
-  end
-
-  @doc """
-  Rotate a client secret.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/clients/post-rotate-secret
-
-  """
-  @spec rotate_client_secret(id, config) ::
-          {:ok, map} | error
-  def rotate_client_secret(id, %Config{} = config \\ %Config{}) do
-    Clients.rotate_secret(id, config)
   end
 
   @doc """
@@ -854,8 +803,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/clients/post-credentials
 
   """
-  @spec create_credential(client_id, map, config) ::
-          {:ok, map} | error
+  @spec create_credential(client_id, map(), config) ::
+          {:ok, map()} | error
   def create_credential(client_id, %{} = params, %Config{} = config \\ %Config{}) do
     Clients.create_credential(client_id, params, config)
   end
@@ -868,7 +817,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_credential(client_id, credential_id, config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_credential(client_id, credential_id, %Config{} = config \\ %Config{}) do
     Clients.get_credential(client_id, credential_id, config)
   end
@@ -893,10 +842,61 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/clients/patch-credentials-by-credential-id
 
   """
-  @spec update_credential(client_id, credential_id, map, config) ::
-          {:ok, map} | error
+  @spec update_credential(client_id, credential_id, map(), config) ::
+          {:ok, map()} | error
   def update_credential(client_id, credential_id, %{} = params, %Config{} = config \\ %Config{}) do
     Clients.update_credential(client_id, credential_id, params, config)
+  end
+
+  @doc """
+  Retrieve client details by ID. Clients are SSO connections or Applications linked with your Auth0 tenant. A list of fields to include or exclude may also be specified.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/clients/get-clients-by-id
+
+  """
+  @spec get_client(id, map(), config) ::
+          {:ok, map()} | error
+  def get_client(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Clients.get(id, params, config)
+  end
+
+  @doc """
+  Delete a client and related configuration (rules, connections, etc).
+
+  ## see
+  https://auth0.com/docs/api/management/v2/clients/delete-clients-by-id
+
+  """
+  @spec delete_client(id, config) :: {:ok, String.t()} | error
+  def delete_client(id, %Config{} = config \\ %Config{}) do
+    Clients.delete(id, config)
+  end
+
+  @doc """
+  Updates a client's settings
+
+  ## see
+  https://auth0.com/docs/api/management/v2/clients/patch-clients-by-id
+
+  """
+  @spec update_client(id, map(), config) ::
+          {:ok, map()} | error
+  def update_client(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Clients.update(id, params, config)
+  end
+
+  @doc """
+  Rotate a client secret.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/clients/post-rotate-secret
+
+  """
+  @spec rotate_client_secret(id, config) ::
+          {:ok, map()} | error
+  def rotate_client_secret(id, %Config{} = config \\ %Config{}) do
+    Clients.rotate_secret(id, config)
   end
 
   @doc """
@@ -906,8 +906,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/connections/get-connections
 
   """
-  @spec get_connections(map, config) ::
-          {:ok, map} | error
+  @spec get_connections(map(), config) ::
+          {:ok, list(map()) | map()} | error
   def get_connections(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Connections.list(params, config)
   end
@@ -919,8 +919,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/connections/post-connections
 
   """
-  @spec create_connection(map, config) ::
-          {:ok, map} | error
+  @spec create_connection(map(), config) ::
+          {:ok, map()} | error
   def create_connection(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Connections.create(params, config)
   end
@@ -932,8 +932,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/connections/get-connections-by-id
 
   """
-  @spec get_connection(id, map, config) ::
-          {:ok, map} | error
+  @spec get_connection(id, map(), config) ::
+          {:ok, map()} | error
   def get_connection(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Connections.get(id, params, config)
   end
@@ -957,8 +957,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/connections/patch-connections-by-id
 
   """
-  @spec update_connection(id, map, config) ::
-          {:ok, map} | error
+  @spec update_connection(id, map(), config) ::
+          {:ok, map()} | error
   def update_connection(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Connections.update(id, params, config)
   end
@@ -970,7 +970,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/connections/get-scim-configuration
 
   """
-  @spec get_connection_scim_configuration(id, config) :: {:ok, list() | map()} | error
+  @spec get_connection_scim_configuration(id, config) :: {:ok, map()} | error
   def get_connection_scim_configuration(id, %Config{} = config) do
     Connections.get_scim_configuration(id, config)
   end
@@ -994,7 +994,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/connections/patch-scim-configuration
 
   """
-  @spec update_connection_scim_configuration(id, map(), config) :: {:ok, list() | map()} | error
+  @spec update_connection_scim_configuration(id, map(), config) :: {:ok, map()} | error
   def update_connection_scim_configuration(id, %{} = params, %Config{} = config) do
     Connections.update_scim_configuration(id, params, config)
   end
@@ -1006,7 +1006,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/connections/post-scim-configuration
 
   """
-  @spec create_connection_scim_configuration(id, map(), config) :: {:ok, list() | map()} | error
+  @spec create_connection_scim_configuration(id, map(), config) :: {:ok, map()} | error
   def create_connection_scim_configuration(id, %{} = params, %Config{} = config) do
     Connections.create_scim_configuration(id, params, config)
   end
@@ -1019,7 +1019,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_connection_scim_configuration_default_mapping(id, config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get_connection_scim_configuration_default_mapping(id, %Config{} = config) do
     Connections.get_scim_configuration_default_mapping(id, config)
   end
@@ -1031,7 +1031,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/connections/get-scim-tokens
 
   """
-  @spec get_connection_scim_configuration_tokens(id, config) :: {:ok, list() | map()} | error
+  @spec get_connection_scim_configuration_tokens(id, config) :: {:ok, list(map())} | error
   def get_connection_scim_configuration_tokens(id, %Config{} = config) do
     Connections.get_scim_configuration_tokens(id, config)
   end
@@ -1044,7 +1044,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec create_connection_scim_configuration_tokens(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def create_connection_scim_configuration_tokens(id, %{} = params, %Config{} = config) do
     Connections.create_scim_configuration_tokens(id, params, config)
   end
@@ -1081,7 +1081,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/connections/delete-users-by-email
 
   """
-  @spec delete_connection_users(id, map, config) ::
+  @spec delete_connection_users(id, map(), config) ::
           {:ok, String.t()} | error
   def delete_connection_users(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Connections.delete_users(id, params, config)
@@ -1095,7 +1095,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_custom_domain_configurations(config) ::
-          {:ok, map} | error
+          {:ok, list(map())} | error
   def get_custom_domain_configurations(%Config{} = config \\ %Config{}) do
     CustomDomains.list(config)
   end
@@ -1107,8 +1107,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/custom-domains/post-custom-domains
 
   """
-  @spec configure_custom_domain(map, config) ::
-          {:ok, map} | error
+  @spec configure_custom_domain(map(), config) ::
+          {:ok, map()} | error
   def configure_custom_domain(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     CustomDomains.configure(params, config)
   end
@@ -1121,7 +1121,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_custom_domain_configuration(id, config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_custom_domain_configuration(id, %Config{} = config \\ %Config{}) do
     CustomDomains.get(id, config)
   end
@@ -1145,8 +1145,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/custom-domains/patch-custom-domains-by-id
 
   """
-  @spec update_custom_domain_configuration(id, map, config) ::
-          {:ok, map} | error
+  @spec update_custom_domain_configuration(id, map(), config) ::
+          {:ok, map()} | error
   def update_custom_domain_configuration(
         id,
         %{} = params \\ %{},
@@ -1163,7 +1163,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec verify_custom_domain(id, config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def verify_custom_domain(id, %Config{} = config \\ %Config{}) do
     CustomDomains.verify(id, config)
   end
@@ -1175,8 +1175,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/device-credentials/get-device-credentials
 
   """
-  @spec get_device_credentials(map, config) ::
-          {:ok, map} | error
+  @spec get_device_credentials(map(), config) ::
+          {:ok, list(map())} | error
   def get_device_credentials(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     DeviceCredentials.list(params, config)
   end
@@ -1188,8 +1188,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/device-credentials/post-device-credentials
 
   """
-  @spec create_device_credential(map, config) ::
-          {:ok, map} | error
+  @spec create_device_credential(map(), config) ::
+          {:ok, map()} | error
   def create_device_credential(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     DeviceCredentials.create(params, config)
   end
@@ -1207,27 +1207,40 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
+  Create an email template.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/email-templates/post-email-templates
+
+  """
+  @spec create_email_template(map(), config) ::
+          {:ok, map()} | error
+  def create_email_template(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    EmailTemplates.create(params, config)
+  end
+
+  @doc """
+  Retrieve an email template by pre-defined name. These names are verify_email, verify_email_by_code, reset_email, welcome_email, blocked_account, stolen_credentials, enrollment_email, mfa_oob_code, and user_invitation. The names change_password, and password_reset are also supported for legacy scenarios.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/email-templates/get-email-templates-by-template-name
+
+  """
+  @spec get_email_template(template_name, config) ::
+          {:ok, map()} | error
+  def get_email_template(template_name, %Config{} = config \\ %Config{}) do
+    EmailTemplates.get(template_name, config)
+  end
+
+  @doc """
   Modify an email template.
 
   ## see
   https://auth0.com/docs/api/management/v2/email-templates/patch-email-templates-by-template-name
 
   """
-  @spec get_email_template(template_name, config) ::
-          {:ok, map} | error
-  def get_email_template(template_name, %Config{} = config \\ %Config{}) do
-    EmailTemplates.get(template_name, config)
-  end
-
-  @doc """
-  Update an email template.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/email-templates/put-email-templates-by-template-name
-
-  """
-  @spec patch_email_template(template_name, map, config) ::
-          {:ok, map} | error
+  @spec patch_email_template(template_name, map(), config) ::
+          {:ok, map()} | error
   def patch_email_template(
         template_name,
         %{} = params \\ %{},
@@ -1243,8 +1256,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/email-templates/put-email-templates-by-template-name
 
   """
-  @spec update_email_template(template_name, map, config) ::
-          {:ok, map} | error
+  @spec update_email_template(template_name, map(), config) ::
+          {:ok, map()} | error
   def update_email_template(
         template_name,
         %{} = params \\ %{},
@@ -1254,27 +1267,14 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Create an email template.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/email-templates/post-email-templates
-
-  """
-  @spec create_email_template(map, config) ::
-          {:ok, map} | error
-  def create_email_template(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    EmailTemplates.create(params, config)
-  end
-
-  @doc """
   Retrieve details of the email provider configuration in your tenant. A list of fields to include or exclude may also be specified.
 
   ## see
   https://auth0.com/docs/api/management/v2/emails/get-provider
 
   """
-  @spec get_email_provider(map, config) ::
-          {:ok, map} | error
+  @spec get_email_provider(map(), config) ::
+          {:ok, map()} | error
   def get_email_provider(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Emails.get_provider(params, config)
   end
@@ -1286,8 +1286,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/emails/patch-provider
 
   """
-  @spec update_email_provider(map, config) ::
-          {:ok, map} | error
+  @spec update_email_provider(map(), config) ::
+          {:ok, map()} | error
   def update_email_provider(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Emails.update_provider(params, config)
   end
@@ -1299,8 +1299,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/emails/post-provider
 
   """
-  @spec configure_email_provider(map, config) ::
-          {:ok, map} | error
+  @spec configure_email_provider(map(), config) ::
+          {:ok, map()} | error
   def configure_email_provider(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Emails.configure_provider(params, config)
   end
@@ -1312,8 +1312,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/grants/get-grants
 
   """
-  @spec get_grants(map, config) ::
-          {:ok, map} | error
+  @spec get_grants(map(), config) ::
+          {:ok, list(map()) | map()} | error
   def get_grants(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Grants.list(params, config)
   end
@@ -1337,59 +1337,25 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/grants/delete-grants-by-user-id
 
   """
-  @spec delete_grant_by_user_id(map, config) :: {:ok, String.t()} | error
+  @spec delete_grant_by_user_id(map(), config) :: {:ok, String.t()} | error
   def delete_grant_by_user_id(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Grants.delete_by_user_id(params, config)
   end
 
   @doc """
-  Retrieve details of all multi-factor authentication factors associated with your tenant.
+  Create a multi-factor authentication (MFA) enrollment ticket, and optionally send an email with the created ticket, to a given user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/guardian/get-factors
+  https://auth0.com/docs/api/management/v2/guardian/post-ticket
 
   """
-  @spec get_guardian_factors(config) ::
-          {:ok, map} | error
-  def get_guardian_factors(%Config{} = config \\ %Config{}) do
-    Guardian.list_factors(config)
-  end
-
-  @doc """
-  Update the status (i.e., enabled or disabled) of a specific multi-factor authentication factor.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/guardian/put-factors-by-name
-
-  """
-  @spec update_guardian_factor(name, map, config) ::
-          {:ok, map} | error
-  def update_guardian_factor(name, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Guardian.update_factor(name, params, config)
-  end
-
-  @doc """
-  Retrieve the multi-factor authentication (MFA) policies configured for your tenant.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/guardian/get-policies
-
-  """
-  @spec list_guardian_policies(config) :: {:ok, list(map)} | error
-  def list_guardian_policies(%Config{} = config \\ %Config{}) do
-    Guardian.list_policies(config)
-  end
-
-  @doc """
-  Set multi-factor authentication (MFA) policies for your tenant.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/guardian/put-policies
-
-  """
-  @spec set_guardian_policies(map, config) :: {:ok, list(map)} | error
-  def set_guardian_policies(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Guardian.set_policies(params, config)
+  @spec create_guardian_enrollment_ticket(map(), config) ::
+          {:ok, map()} | error
+  def create_guardian_enrollment_ticket(
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    Guardian.create_enrollment_ticket(params, config)
   end
 
   @doc """
@@ -1400,7 +1366,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_guardian_enrollment(id, config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_guardian_enrollment(id, %Config{} = config \\ %Config{}) do
     Guardian.get_enrollment(id, config)
   end
@@ -1418,157 +1384,16 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Create a multi-factor authentication (MFA) enrollment ticket, and optionally send an email with the created ticket, to a given user.
+  Retrieve details of all multi-factor authentication factors associated with your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/guardian/post-ticket
+  https://auth0.com/docs/api/management/v2/guardian/get-factors
 
   """
-  @spec create_guardian_enrollment_ticket(map, config) ::
-          {:ok, map} | error
-  def create_guardian_enrollment_ticket(
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    Guardian.create_enrollment_ticket(params, config)
-  end
-
-  @doc """
-  Retrieve configuration details for the multi-factor authentication APNS provider associated with your tenant.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/guardian/get-apns
-
-  """
-  @spec get_guardian_apns_configuration(config) ::
-          {:ok, list() | map()} | error
-  def get_guardian_apns_configuration(%Config{} = config) do
-    Guardian.get_apns_configuration(config)
-  end
-
-  @doc """
-  Modify configuration details of the multi-factor authentication APNS provider associated with your tenant.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/guardian/patch-apns
-
-  """
-  @spec patch_guardian_apns_configuration(map(), config) ::
-          {:ok, list() | map()} | error
-  def patch_guardian_apns_configuration(
-        %{} = params,
-        %Config{} = config
-      ) do
-    Guardian.patch_apns_configuration(params, config)
-  end
-
-  @doc """
-  Overwrite all configuration details of the multi-factor authentication APNS provider associated with your tenant.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/guardian/put-apns
-
-  """
-  @spec update_guardian_apns_configuration(map(), config) ::
-          {:ok, list() | map()} | error
-  def update_guardian_apns_configuration(
-        %{} = params,
-        %Config{} = config
-      ) do
-    Guardian.update_apns_configuration(params, config)
-  end
-
-  @doc """
-  Modify configuration details of the multi-factor authentication FCM provider associated with your tenant.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/guardian/patch-fcm
-
-  """
-  @spec patch_guardian_fcm_configuration(map(), config) ::
-          {:ok, list() | map()} | error
-  def patch_guardian_fcm_configuration(
-        %{} = params,
-        %Config{} = config
-      ) do
-    Guardian.patch_fcm_configuration(params, config)
-  end
-
-  @doc """
-  Overwrite all configuration details of the multi-factor authentication FCM provider associated with your tenant.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/guardian/put-fcm
-
-  """
-  @spec update_guardian_fcm_configuration(map(), config) ::
-          {:ok, list() | map()} | error
-  def update_guardian_fcm_configuration(
-        %{} = params,
-        %Config{} = config
-      ) do
-    Guardian.update_fcm_configuration(params, config)
-  end
-
-  @doc """
-  Modify configuration details of the multi-factor authentication FCMV1 provider associated with your tenant.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/guardian/patch-fcmv-1
-
-  """
-  @spec patch_guardian_fcmv1_configuration(map(), config) ::
-          {:ok, list() | map()} | error
-  def patch_guardian_fcmv1_configuration(
-        %{} = params,
-        %Config{} = config
-      ) do
-    Guardian.patch_fcmv1_configuration(params, config)
-  end
-
-  @doc """
-  Overwrite all configuration details of the multi-factor authentication FCMV1 provider associated with your tenant.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/guardian/put-fcmv-1
-
-  """
-  @spec update_guardian_fcmv1_configuration(map(), config) ::
-          {:ok, list() | map()} | error
-  def update_guardian_fcmv1_configuration(
-        %{} = params,
-        %Config{} = config
-      ) do
-    Guardian.update_fcmv1_configuration(params, config)
-  end
-
-  @doc """
-  Retrieve the push notification provider configured for your tenant.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/guardian/get-pn-providers
-
-  """
-  @spec get_guardian_notification_provider(config) ::
-          {:ok, list() | map()} | error
-  def get_guardian_notification_provider(%Config{} = config) do
-    Guardian.get_notification_provider(config)
-  end
-
-  @doc """
-  Modify the push notification provider configured for your tenant.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/guardian/put-pn-providers
-
-  """
-  @spec update_guardian_notification_provider(map(), config) ::
-          {:ok, list() | map()} | error
-  def update_guardian_notification_provider(
-        %{} = params,
-        %Config{} = config
-      ) do
-    Guardian.update_notification_provider(params, config)
+  @spec get_guardian_factors(config) ::
+          {:ok, list(map())} | error
+  def get_guardian_factors(%Config{} = config \\ %Config{}) do
+    Guardian.list_factors(config)
   end
 
   @doc """
@@ -1579,7 +1404,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_guardian_phone_factor(config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_guardian_phone_factor(%Config{} = config \\ %Config{}) do
     Guardian.get_phone_factor(config)
   end
@@ -1591,13 +1416,45 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/guardian/put-message-types
 
   """
-  @spec update_guardian_phone_factor(map, config) ::
-          {:ok, map} | error
+  @spec update_guardian_phone_factor(map(), config) ::
+          {:ok, map()} | error
   def update_guardian_phone_factor(
         %{} = params \\ %{},
         %Config{} = config \\ %Config{}
       ) do
     Guardian.update_phone_factor(params, config)
+  end
+
+  @doc """
+  Retrieve configuration details for a Twilio phone provider that has been set up in your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/get-phone-twilio-factor-provider
+
+  """
+  @spec get_guardian_twilio_phone_configuration(config) ::
+          {:ok, map()} | error
+  def get_guardian_twilio_phone_configuration(%Config{} = config \\ %Config{}) do
+    Guardian.get_twilio_phone_configuration(config)
+  end
+
+  @doc """
+  Update the configuration of a Twilio phone provider that has been set up in your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/put-twilio
+
+  """
+  @spec update_guardian_twilio_phone_configuration(
+          map(),
+          config
+        ) ::
+          {:ok, map()} | error
+  def update_guardian_twilio_phone_configuration(
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    Guardian.update_twilio_phone_configuration(params, config)
   end
 
   @doc """
@@ -1608,7 +1465,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_guardian_phone_configuration(config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_guardian_phone_configuration(%Config{} = config \\ %Config{}) do
     Guardian.get_phone_configuration(config)
   end
@@ -1620,8 +1477,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/guardian/put-phone-providers
 
   """
-  @spec update_guardian_phone_configuration(map, config) ::
-          {:ok, map} | error
+  @spec update_guardian_phone_configuration(map(), config) ::
+          {:ok, map()} | error
   def update_guardian_phone_configuration(
         %{} = params \\ %{},
         %Config{} = config \\ %Config{}
@@ -1637,7 +1494,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_guardian_phone_template(config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_guardian_phone_template(%Config{} = config \\ %Config{}) do
     Guardian.get_phone_template(config)
   end
@@ -1649,8 +1506,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/guardian/put-factor-phone-templates
 
   """
-  @spec update_guardian_phone_template(map, config) ::
-          {:ok, map} | error
+  @spec update_guardian_phone_template(map(), config) ::
+          {:ok, map()} | error
   def update_guardian_phone_template(
         %{} = params \\ %{},
         %Config{} = config \\ %Config{}
@@ -1659,35 +1516,112 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Retrieve configuration details for a Twilio phone provider that has been set up in your tenant.
+  Retrieve configuration details for the multi-factor authentication APNS provider associated with your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/guardian/get-phone-twilio-factor-provider
+  https://auth0.com/docs/api/management/v2/guardian/get-apns
 
   """
-  @spec get_guardian_twilio_phone_configuration(config) ::
-          {:ok, map} | error
-  def get_guardian_twilio_phone_configuration(%Config{} = config \\ %Config{}) do
-    Guardian.get_twilio_phone_configuration(config)
+  @spec get_guardian_apns_configuration(config) ::
+          {:ok, map()} | error
+  def get_guardian_apns_configuration(%Config{} = config) do
+    Guardian.get_apns_configuration(config)
   end
 
   @doc """
-  Update the configuration of a Twilio phone provider that has been set up in your tenant.
+  Modify configuration details of the multi-factor authentication APNS provider associated with your tenant.
 
   ## see
-  https://auth0.com/docs/api/management/v2/guardian/put-twilio
+  https://auth0.com/docs/api/management/v2/guardian/patch-apns
 
   """
-  @spec update_guardian_twilio_phone_configuration(
-          map,
-          config
-        ) ::
-          {:ok, map} | error
-  def update_guardian_twilio_phone_configuration(
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
+  @spec patch_guardian_apns_configuration(map(), config) ::
+          {:ok, map()} | error
+  def patch_guardian_apns_configuration(
+        %{} = params,
+        %Config{} = config
       ) do
-    Guardian.update_twilio_phone_configuration(params, config)
+    Guardian.patch_apns_configuration(params, config)
+  end
+
+  @doc """
+  Overwrite all configuration details of the multi-factor authentication APNS provider associated with your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/put-apns
+
+  """
+  @spec update_guardian_apns_configuration(map(), config) ::
+          {:ok, map()} | error
+  def update_guardian_apns_configuration(
+        %{} = params,
+        %Config{} = config
+      ) do
+    Guardian.update_apns_configuration(params, config)
+  end
+
+  @doc """
+  Modify configuration details of the multi-factor authentication FCM provider associated with your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/patch-fcm
+
+  """
+  @spec patch_guardian_fcm_configuration(map(), config) ::
+          {:ok, map()} | error
+  def patch_guardian_fcm_configuration(
+        %{} = params,
+        %Config{} = config
+      ) do
+    Guardian.patch_fcm_configuration(params, config)
+  end
+
+  @doc """
+  Overwrite all configuration details of the multi-factor authentication FCM provider associated with your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/put-fcm
+
+  """
+  @spec update_guardian_fcm_configuration(map(), config) ::
+          {:ok, map()} | error
+  def update_guardian_fcm_configuration(
+        %{} = params,
+        %Config{} = config
+      ) do
+    Guardian.update_fcm_configuration(params, config)
+  end
+
+  @doc """
+  Modify configuration details of the multi-factor authentication FCMV1 provider associated with your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/patch-fcmv-1
+
+  """
+  @spec patch_guardian_fcmv1_configuration(map(), config) ::
+          {:ok, map()} | error
+  def patch_guardian_fcmv1_configuration(
+        %{} = params,
+        %Config{} = config
+      ) do
+    Guardian.patch_fcmv1_configuration(params, config)
+  end
+
+  @doc """
+  Overwrite all configuration details of the multi-factor authentication FCMV1 provider associated with your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/put-fcmv-1
+
+  """
+  @spec update_guardian_fcmv1_configuration(map(), config) ::
+          {:ok, map()} | error
+  def update_guardian_fcmv1_configuration(
+        %{} = params,
+        %Config{} = config
+      ) do
+    Guardian.update_fcmv1_configuration(params, config)
   end
 
   @doc """
@@ -1698,7 +1632,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_guardian_aws_sns_configuration(config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_guardian_aws_sns_configuration(%Config{} = config \\ %Config{}) do
     Guardian.get_aws_sns_configuration(config)
   end
@@ -1711,10 +1645,10 @@ defmodule Auth0.Api.Management do
 
   """
   @spec patch_guardian_aws_sns_configuration(
-          map,
+          map(),
           config
         ) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def patch_guardian_aws_sns_configuration(
         %{} = params \\ %{},
         %Config{} = config \\ %Config{}
@@ -1730,15 +1664,81 @@ defmodule Auth0.Api.Management do
 
   """
   @spec update_guardian_aws_sns_configuration(
-          map,
+          map(),
           config
         ) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def update_guardian_aws_sns_configuration(
         %{} = params \\ %{},
         %Config{} = config \\ %Config{}
       ) do
     Guardian.update_aws_sns_configuration(params, config)
+  end
+
+  @doc """
+  Retrieve the push notification provider configured for your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/get-pn-providers
+
+  """
+  @spec get_guardian_notification_provider(config) ::
+          {:ok, map()} | error
+  def get_guardian_notification_provider(%Config{} = config) do
+    Guardian.get_notification_provider(config)
+  end
+
+  @doc """
+  Modify the push notification provider configured for your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/put-pn-providers
+
+  """
+  @spec update_guardian_notification_provider(map(), config) ::
+          {:ok, map()} | error
+  def update_guardian_notification_provider(
+        %{} = params,
+        %Config{} = config
+      ) do
+    Guardian.update_notification_provider(params, config)
+  end
+
+  @doc """
+  Update the status (i.e., enabled or disabled) of a specific multi-factor authentication factor.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/put-factors-by-name
+
+  """
+  @spec update_guardian_factor(name, map(), config) ::
+          {:ok, map()} | error
+  def update_guardian_factor(name, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Guardian.update_factor(name, params, config)
+  end
+
+  @doc """
+  Retrieve the multi-factor authentication (MFA) policies configured for your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/get-policies
+
+  """
+  @spec list_guardian_policies(config) :: {:ok, list()} | error
+  def list_guardian_policies(%Config{} = config \\ %Config{}) do
+    Guardian.list_policies(config)
+  end
+
+  @doc """
+  Set multi-factor authentication (MFA) policies for your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/put-policies
+
+  """
+  @spec set_guardian_policies(map(), config) :: {:ok, list()} | error
+  def set_guardian_policies(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Guardian.set_policies(params, config)
   end
 
   @doc """
@@ -1748,8 +1748,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/hooks/get-hooks
 
   """
-  @spec get_hooks(map, config) ::
-          {:ok, map} | error
+  @spec get_hooks(map(), config) ::
+          {:ok, list(map()) | map()} | error
   def get_hooks(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Hooks.list(params, config)
   end
@@ -1761,8 +1761,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/hooks/post-hooks
 
   """
-  @spec create_hook(map, config) ::
-          {:ok, map} | error
+  @spec create_hook(map(), config) ::
+          {:ok, map()} | error
   def create_hook(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Hooks.create(params, config)
   end
@@ -1774,8 +1774,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/hooks/get-hooks-by-id
 
   """
-  @spec get_hook(id, map, config) ::
-          {:ok, map} | error
+  @spec get_hook(id, map(), config) ::
+          {:ok, map()} | error
   def get_hook(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Hooks.get(id, params, config)
   end
@@ -1799,8 +1799,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/hooks/patch-hooks-by-id
 
   """
-  @spec update_hook(id, map, config) ::
-          {:ok, map} | error
+  @spec update_hook(id, map(), config) ::
+          {:ok, map()} | error
   def update_hook(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Hooks.update(id, params, config)
   end
@@ -1813,7 +1813,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_hook_secrets(id, config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_hook_secrets(id, %Config{} = config \\ %Config{}) do
     Hooks.get_secrets(id, config)
   end
@@ -1825,7 +1825,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/hooks/delete-secrets
 
   """
-  @spec delete_hook_secrets(id, map, config) ::
+  @spec delete_hook_secrets(id, map(), config) ::
           {:ok, String.t()} | error
   def delete_hook_secrets(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Hooks.delete_secrets(id, params, config)
@@ -1838,8 +1838,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/hooks/patch-hooks-by-id
 
   """
-  @spec update_hook_secrets(id, map, config) ::
-          {:ok, map} | error
+  @spec update_hook_secrets(id, map(), config) ::
+          {:ok, map()} | error
   def update_hook_secrets(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Hooks.update_secrets(id, params, config)
   end
@@ -1851,10 +1851,49 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/hooks/post-secrets
 
   """
-  @spec add_hook_secrets(id, map, config) ::
-          {:ok, map} | error
+  @spec add_hook_secrets(id, map(), config) ::
+          {:ok, map()} | error
   def add_hook_secrets(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Hooks.add_secrets(id, params, config)
+  end
+
+  @doc """
+  Export all users to a file via a long-running job.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/jobs/post-users-exports
+
+  """
+  @spec create_job_users_exports(map(), config) ::
+          {:ok, map()} | error
+  def create_job_users_exports(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Jobs.create_users_exports(params, config)
+  end
+
+  @doc """
+  Import users from a formatted file into a connection via a long-running job.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/jobs/post-users-imports
+
+  """
+  @spec create_job_users_imports(map(), config) ::
+          {:ok, map()} | error
+  def create_job_users_imports(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Jobs.create_users_imports(params, config)
+  end
+
+  @doc """
+  Send an email to the specified user that asks them to click a link to verify their email address.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/jobs/post-verification-email
+
+  """
+  @spec send_job_verification_email(map(), config) ::
+          {:ok, map()} | error
+  def send_job_verification_email(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Jobs.send_verification_email(params, config)
   end
 
   @doc """
@@ -1864,7 +1903,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/jobs/get-jobs-by-id
 
   """
-  @spec get_job(id, config) :: {:ok, map} | error
+  @spec get_job(id, config) :: {:ok, list(map()) | map()} | error
   def get_job(id, %Config{} = config \\ %Config{}) do
     Jobs.get(id, config)
   end
@@ -1877,48 +1916,9 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_job_error(id, config) ::
-          {:ok, map} | error
+          {:ok, list(map()) | map()} | error
   def get_job_error(id, %Config{} = config \\ %Config{}) do
     Jobs.get_error(id, config)
-  end
-
-  @doc """
-  Export all users to a file via a long-running job.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/jobs/post-users-exports
-
-  """
-  @spec create_job_users_exports(map, config) ::
-          {:ok, map} | error
-  def create_job_users_exports(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Jobs.create_users_exports(params, config)
-  end
-
-  @doc """
-  Import users from a formatted file into a connection via a long-running job.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/jobs/post-users-imports
-
-  """
-  @spec create_job_users_imports(map, config) ::
-          {:ok, map} | error
-  def create_job_users_imports(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Jobs.create_users_imports(params, config)
-  end
-
-  @doc """
-  Send an email to the specified user that asks them to click a link to verify their email address.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/jobs/post-verification-email
-
-  """
-  @spec send_job_verification_email(map, config) ::
-          {:ok, map} | error
-  def send_job_verification_email(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Jobs.send_verification_email(params, config)
   end
 
   @doc """
@@ -1929,7 +1929,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_signing_keys(config) ::
-          {:ok, map} | error
+          {:ok, list(map())} | error
   def get_signing_keys(%Config{} = config \\ %Config{}) do
     Keys.list_signing(config)
   end
@@ -1942,7 +1942,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_signing_key(kid, config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_signing_key(kid, %Config{} = config \\ %Config{}) do
     Keys.get_signing(kid, config)
   end
@@ -1955,7 +1955,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec rotate_signing_key(config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def rotate_signing_key(%Config{} = config \\ %Config{}) do
     Keys.rotate_signing(config)
   end
@@ -1968,7 +1968,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec revoke_signing_key(kid, config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def revoke_signing_key(kid, %Config{} = config \\ %Config{}) do
     Keys.revoke_signing(kid, config)
   end
@@ -1980,7 +1980,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/log-streams/get-log-streams
 
   """
-  @spec get_log_streams(config) :: {:ok, map} | error
+  @spec get_log_streams(config) :: {:ok, map()} | error
   def get_log_streams(%Config{} = config \\ %Config{}) do
     LogStreams.list(config)
   end
@@ -1992,8 +1992,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/log-streams/post-log-streams
 
   """
-  @spec create_log_stream(map, config) ::
-          {:ok, map} | error
+  @spec create_log_stream(map(), config) ::
+          {:ok, map()} | error
   def create_log_stream(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     LogStreams.create(params, config)
   end
@@ -2006,7 +2006,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_log_stream(id, config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_log_stream(id, %Config{} = config \\ %Config{}) do
     LogStreams.get(id, config)
   end
@@ -2030,8 +2030,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/log-streams/patch-log-streams-by-id
 
   """
-  @spec update_log_stream(id, map, config) ::
-          {:ok, map} | error
+  @spec update_log_stream(id, map(), config) ::
+          {:ok, map()} | error
   def update_log_stream(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     LogStreams.update(id, params, config)
   end
@@ -2043,8 +2043,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/logs/get-logs
 
   """
-  @spec get_log_events(map, config) ::
-          {:ok, map} | error
+  @spec get_log_events(map(), config) ::
+          {:ok, list(map()) | map()} | error
   def get_log_events(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Logs.list(params, config)
   end
@@ -2056,7 +2056,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/logs/get-logs-by-id
 
   """
-  @spec get_log_event(id, config) :: {:ok, map} | error
+  @spec get_log_event(id, config) :: {:ok, map()} | error
   def get_log_event(id, %Config{} = config \\ %Config{}) do
     Logs.get(id, config)
   end
@@ -2068,8 +2068,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/organizations/get-organizations
 
   """
-  @spec get_organizations(map, config) ::
-          {:ok, map} | error
+  @spec get_organizations(map(), config) ::
+          {:ok, list(map()) | map()} | error
   def get_organizations(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Organizations.list(params, config)
   end
@@ -2081,10 +2081,23 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/organizations/post-organizations
 
   """
-  @spec create_organization(map, config) ::
-          {:ok, map} | error
+  @spec create_organization(map(), config) ::
+          {:ok, map()} | error
   def create_organization(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Organizations.create(params, config)
+  end
+
+  @doc """
+  Retrieve details about a single Organization specified by name.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/organizations/get-name-by-name
+
+  """
+  @spec get_organization_by_name(name, config) ::
+          {:ok, map()} | error
+  def get_organization_by_name(name, %Config{} = config \\ %Config{}) do
+    Organizations.get_by_name(name, config)
   end
 
   @doc """
@@ -2095,7 +2108,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_organization(id, config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_organization(id, %Config{} = config \\ %Config{}) do
     Organizations.get(id, config)
   end
@@ -2119,23 +2132,10 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/organizations/patch-organizations-by-id
 
   """
-  @spec modify_organization(id, map, config) ::
-          {:ok, map} | error
+  @spec modify_organization(id, map(), config) ::
+          {:ok, map()} | error
   def modify_organization(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Organizations.modify(id, params, config)
-  end
-
-  @doc """
-  Retrieve details about a single Organization specified by name.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/organizations/get-name-by-name
-
-  """
-  @spec get_organization_by_name(name, config) ::
-          {:ok, map} | error
-  def get_organization_by_name(name, %Config{} = config \\ %Config{}) do
-    Organizations.get_by_name(name, config)
   end
 
   @doc """
@@ -2145,8 +2145,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/organizations/get-enabled-connections
 
   """
-  @spec get_organization_connections(id, map, config) ::
-          {:ok, map} | error
+  @spec get_organization_connections(id, map(), config) ::
+          {:ok, list(map()) | map()} | error
   def get_organization_connections(
         id,
         %{} = params \\ %{},
@@ -2164,10 +2164,10 @@ defmodule Auth0.Api.Management do
   """
   @spec add_organization_connection(
           id,
-          map,
+          map(),
           config
         ) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def add_organization_connection(
         id,
         %{} = params \\ %{},
@@ -2184,7 +2184,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_organization_connection(id, connection_id, config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_organization_connection(id, connection_id, %Config{} = config \\ %Config{}) do
     Organizations.get_connection(id, connection_id, config)
   end
@@ -2212,10 +2212,10 @@ defmodule Auth0.Api.Management do
   @spec modify_organization_connection(
           id,
           connection_id,
-          map,
+          map(),
           config
         ) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def modify_organization_connection(
         id,
         connection_id,
@@ -2232,8 +2232,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/organizations/get-invitations
 
   """
-  @spec get_organization_invitations(id, map, config) ::
-          {:ok, map} | error
+  @spec get_organization_invitations(id, map(), config) ::
+          {:ok, list(map()) | map()} | error
   def get_organization_invitations(
         id,
         %{} = params \\ %{},
@@ -2249,8 +2249,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/organizations/post-invitations
 
   """
-  @spec create_organization_invitation(id, map, config) ::
-          {:ok, map} | error
+  @spec create_organization_invitation(id, map(), config) ::
+          {:ok, map()} | error
   def create_organization_invitation(
         id,
         %{} = params \\ %{},
@@ -2269,10 +2269,10 @@ defmodule Auth0.Api.Management do
   @spec get_organization_invitation(
           id,
           invitation_id,
-          map,
+          map(),
           config
         ) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_organization_invitation(
         id,
         invitation_id,
@@ -2302,8 +2302,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/organizations/get-members
 
   """
-  @spec get_organization_members(id, map, config) ::
-          {:ok, map} | error
+  @spec get_organization_members(id, map(), config) ::
+          {:ok, list(map()) | map()} | error
   def get_organization_members(
         id,
         %{} = params \\ %{},
@@ -2319,7 +2319,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/organizations/delete-members
 
   """
-  @spec delete_organization_members(id, map, config) ::
+  @spec delete_organization_members(id, map(), config) ::
           {:ok, String.t()} | error
   def delete_organization_members(
         id,
@@ -2336,7 +2336,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/organizations/post-members
 
   """
-  @spec add_organization_members(id, map, config) ::
+  @spec add_organization_members(id, map(), config) ::
           {:ok, String.t()} | error
   def add_organization_members(
         id,
@@ -2353,8 +2353,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/organizations/get-organization-member-roles
 
   """
-  @spec get_organization_roles(id, user_id, map, config) ::
-          {:ok, map} | error
+  @spec get_organization_roles(id, user_id, map(), config) ::
+          {:ok, list(map()) | map()} | error
   def get_organization_roles(
         id,
         user_id,
@@ -2374,7 +2374,7 @@ defmodule Auth0.Api.Management do
   @spec delete_organization_roles(
           id,
           user_id,
-          map,
+          map(),
           config
         ) ::
           {:ok, String.t()} | error
@@ -2394,7 +2394,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/organizations/post-organization-member-roles
 
   """
-  @spec assign_organization_roles(id, user_id, map, config) ::
+  @spec assign_organization_roles(id, user_id, map(), config) ::
           {:ok, String.t()} | error
   def assign_organization_roles(
         id,
@@ -2412,7 +2412,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/prompts/get-prompts
 
   """
-  @spec get_prompt_setting(config) :: {:ok, map} | error
+  @spec get_prompt_setting(config) :: {:ok, map()} | error
   def get_prompt_setting(%Config{} = config \\ %Config{}) do
     Prompts.get(config)
   end
@@ -2424,8 +2424,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/prompts/patch-prompts
 
   """
-  @spec update_prompt_setting(map, config) ::
-          {:ok, map} | error
+  @spec update_prompt_setting(map(), config) ::
+          {:ok, map()} | error
   def update_prompt_setting(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Prompts.update(params, config)
   end
@@ -2438,7 +2438,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_prompt_custom_text(prompt, language, config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_prompt_custom_text(prompt, language, %Config{} = config \\ %Config{}) do
     Prompts.get_custom_text(prompt, language, config)
   end
@@ -2450,8 +2450,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/prompts/put-custom-text-by-language
 
   """
-  @spec set_prompt_custom_text(prompt, language, map, config) ::
-          {:ok, map} | error
+  @spec set_prompt_custom_text(prompt, language, map(), config) ::
+          {:ok, String.t()} | error
   def set_prompt_custom_text(
         prompt,
         language,
@@ -2469,7 +2469,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_prompt_partials(prompt, config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_prompt_partials(prompt, %Config{} = config \\ %Config{}) do
     Prompts.get_partials(prompt, config)
   end
@@ -2481,8 +2481,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/prompts/put-partials
 
   """
-  @spec set_prompt_partials(prompt, map, config) ::
-          {:ok, map} | error
+  @spec set_prompt_partials(prompt, map(), config) ::
+          {:ok, String.t()} | error
   def set_prompt_partials(
         prompt,
         %{} = params \\ %{},
@@ -2499,7 +2499,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_refresh_token(id, config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_refresh_token(id, %Config{} = config \\ %Config{}) do
     RefreshTokens.get(id, config)
   end
@@ -2512,7 +2512,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec delete_refresh_token(id, config) ::
-          {:ok, map} | error
+          {:ok, String.t()} | error
   def delete_refresh_token(id, %Config{} = config \\ %Config{}) do
     RefreshTokens.delete(id, config)
   end
@@ -2524,8 +2524,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/resource-servers/get-resource-servers
 
   """
-  @spec get_resource_servers(map, config) ::
-          {:ok, map} | error
+  @spec get_resource_servers(map(), config) ::
+          {:ok, list(map()) | map()} | error
   def get_resource_servers(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     ResourceServers.list(params, config)
   end
@@ -2537,8 +2537,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/resource-servers/post-resource-servers
 
   """
-  @spec create_resource_server(map, config) ::
-          {:ok, map} | error
+  @spec create_resource_server(map(), config) ::
+          {:ok, map()} | error
   def create_resource_server(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     ResourceServers.create(params, config)
   end
@@ -2550,8 +2550,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/resource-servers/get-resource-servers-by-id
 
   """
-  @spec get_resource_server(id, map, config) ::
-          {:ok, map} | error
+  @spec get_resource_server(id, map(), config) ::
+          {:ok, map()} | error
   def get_resource_server(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     ResourceServers.get(id, params, config)
   end
@@ -2575,8 +2575,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/resource-servers/patch-resource-servers-by-id
 
   """
-  @spec update_resource_server(id, map, config) ::
-          {:ok, map} | error
+  @spec update_resource_server(id, map(), config) ::
+          {:ok, map()} | error
   def update_resource_server(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     ResourceServers.update(id, params, config)
   end
@@ -2588,8 +2588,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/roles/get-roles
 
   """
-  @spec get_roles(map, config) ::
-          {:ok, map} | error
+  @spec get_roles(map(), config) ::
+          {:ok, list(map()) | map()} | error
   def get_roles(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Roles.list(params, config)
   end
@@ -2601,8 +2601,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/roles/post-roles
 
   """
-  @spec create_role(map, config) ::
-          {:ok, map} | error
+  @spec create_role(map(), config) ::
+          {:ok, map()} | error
   def create_role(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Roles.create(params, config)
   end
@@ -2614,7 +2614,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/roles/get-roles-by-id
 
   """
-  @spec get_role(id, config) :: {:ok, map} | error
+  @spec get_role(id, config) :: {:ok, map()} | error
   def get_role(id, %Config{} = config \\ %Config{}) do
     Roles.get(id, config)
   end
@@ -2638,8 +2638,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/roles/patch-roles-by-id
 
   """
-  @spec update_role(id, map, config) ::
-          {:ok, map} | error
+  @spec update_role(id, map(), config) ::
+          {:ok, map()} | error
   def update_role(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Roles.update(id, params, config)
   end
@@ -2651,8 +2651,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/roles/get-role-permission
 
   """
-  @spec get_role_permissions(id, map, config) ::
-          {:ok, map} | error
+  @spec get_role_permissions(id, map(), config) ::
+          {:ok, list(map()) | map()} | error
   def get_role_permissions(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Roles.list_permissions(id, params, config)
   end
@@ -2664,7 +2664,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/roles/delete-role-permission-assignment
 
   """
-  @spec remove_role_permissions(id, map, config) ::
+  @spec remove_role_permissions(id, map(), config) ::
           {:ok, String.t()} | error
   def remove_role_permissions(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Roles.remove_permissions(id, params, config)
@@ -2677,7 +2677,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/roles/post-role-permission-assignment
 
   """
-  @spec associate_role_permissions(id, map, config) ::
+  @spec associate_role_permissions(id, map(), config) ::
           {:ok, String.t()} | error
   def associate_role_permissions(
         id,
@@ -2694,8 +2694,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/roles/get-role-user
 
   """
-  @spec get_role_users(id, map, config) ::
-          {:ok, map} | error
+  @spec get_role_users(id, map(), config) ::
+          {:ok, list(map()) | map()} | error
   def get_role_users(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Roles.list_users(id, params, config)
   end
@@ -2707,7 +2707,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/roles/post-role-users
 
   """
-  @spec assign_role_users(id, map, config) ::
+  @spec assign_role_users(id, map(), config) ::
           {:ok, String.t()} | error
   def assign_role_users(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Roles.assign_users(id, params, config)
@@ -2720,8 +2720,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/rules/get-rules
 
   """
-  @spec get_rules(map, config) ::
-          {:ok, map} | error
+  @spec get_rules(map(), config) ::
+          {:ok, list(map()) | map()} | error
   def get_rules(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Rules.list(params, config)
   end
@@ -2733,8 +2733,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/rules/post-rules
 
   """
-  @spec create_rule(map, config) ::
-          {:ok, map} | error
+  @spec create_rule(map(), config) ::
+          {:ok, map()} | error
   def create_rule(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Rules.create(params, config)
   end
@@ -2746,8 +2746,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/rules/get-rules-by-id
 
   """
-  @spec get_rule(id, map, config) ::
-          {:ok, map} | error
+  @spec get_rule(id, map(), config) ::
+          {:ok, map()} | error
   def get_rule(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Rules.get(id, params, config)
   end
@@ -2771,8 +2771,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/rules/patch-rules-by-id
 
   """
-  @spec update_rule(id, map, config) ::
-          {:ok, map} | error
+  @spec update_rule(id, map(), config) ::
+          {:ok, map()} | error
   def update_rule(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Rules.update(id, params, config)
   end
@@ -2785,7 +2785,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_rules_configs(config) ::
-          {:ok, map} | error
+          {:ok, list(map())} | error
   def get_rules_configs(%Config{} = config \\ %Config{}) do
     RulesConfigs.list(config)
   end
@@ -2809,8 +2809,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/rules-configs/put-rules-configs-by-key
 
   """
-  @spec set_rules_config(key, map, config) ::
-          {:ok, map} | error
+  @spec set_rules_config(key, map(), config) ::
+          {:ok, map()} | error
   def set_rules_config(key, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     RulesConfigs.set(key, params, config)
   end
@@ -2823,7 +2823,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_session(id, config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_session(id, %Config{} = config \\ %Config{}) do
     Sessions.get(id, config)
   end
@@ -2836,7 +2836,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec delete_session(id, config) ::
-          {:ok, map} | error
+          {:ok, String.t()} | error
   def delete_session(id, %Config{} = config \\ %Config{}) do
     Sessions.delete(id, config)
   end
@@ -2860,7 +2860,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/stats/get-daily
 
   """
-  @spec get_daily_stats(config) :: {:ok, map} | error
+  @spec get_daily_stats(config) :: {:ok, list(map())} | error
   def get_daily_stats(%Config{} = config \\ %Config{}) do
     Stats.list_daily(config)
   end
@@ -2872,8 +2872,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/tenants/tenant-settings-route
 
   """
-  @spec get_tenant_setting(map, config) ::
-          {:ok, map} | error
+  @spec get_tenant_setting(map(), config) ::
+          {:ok, map()} | error
   def get_tenant_setting(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Tenants.get_setting(params, config)
   end
@@ -2885,8 +2885,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/tenants/patch-settings
 
   """
-  @spec update_tenant_setting(map, config) ::
-          {:ok, map} | error
+  @spec update_tenant_setting(map(), config) ::
+          {:ok, map()} | error
   def update_tenant_setting(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Tenants.update_setting(params, config)
   end
@@ -2898,8 +2898,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/tickets/post-email-verification
 
   """
-  @spec create_email_verification_ticket(map, config) ::
-          {:ok, map} | error
+  @spec create_email_verification_ticket(map(), config) ::
+          {:ok, map()} | error
   def create_email_verification_ticket(
         %{} = params \\ %{},
         %Config{} = config \\ %Config{}
@@ -2914,8 +2914,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/tickets/post-password-change
 
   """
-  @spec create_password_change_ticket(map, config) ::
-          {:ok, map} | error
+  @spec create_password_change_ticket(map(), config) ::
+          {:ok, map()} | error
   def create_password_change_ticket(
         %{} = params \\ %{},
         %Config{} = config \\ %Config{}
@@ -2930,8 +2930,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/user-blocks/get-user-blocks
 
   """
-  @spec get_user_block(map, config) ::
-          {:ok, map} | error
+  @spec get_user_block(map(), config) ::
+          {:ok, map()} | error
   def get_user_block(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     UserBlocks.get(params, config)
   end
@@ -2943,7 +2943,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/user-blocks/delete-user-blocks
 
   """
-  @spec unblock_user_block(map, config) ::
+  @spec unblock_user_block(map(), config) ::
           {:ok, String.t()} | error
   def unblock_user_block(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     UserBlocks.unblock(params, config)
@@ -2956,8 +2956,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/user-blocks/get-user-blocks-by-id
 
   """
-  @spec get_user_block_by_user_id(id, map, config) ::
-          {:ok, map} | error
+  @spec get_user_block_by_user_id(id, map(), config) ::
+          {:ok, map()} | error
   def get_user_block_by_user_id(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     UserBlocks.get_by_user_id(id, params, config)
   end
@@ -2981,8 +2981,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/users/get-users
 
   """
-  @spec get_users(map, config) ::
-          {:ok, map} | error
+  @spec get_users(map(), config) ::
+          {:ok, list(map()) | map()} | error
   def get_users(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Users.list(params, config)
   end
@@ -2994,8 +2994,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/users/post-users
 
   """
-  @spec create_user(map, config) ::
-          {:ok, map} | error
+  @spec create_user(map(), config) ::
+          {:ok, map()} | error
   def create_user(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Users.create(params, config)
   end
@@ -3007,8 +3007,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/users/get-users-by-id
 
   """
-  @spec get_user(id, map, config) ::
-          {:ok, map} | error
+  @spec get_user(id, map(), config) ::
+          {:ok, map()} | error
   def get_user(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Users.get(id, params, config)
   end
@@ -3032,8 +3032,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/users/patch-users-by-id
 
   """
-  @spec update_user(id, map, config) ::
-          {:ok, map} | error
+  @spec update_user(id, map(), config) ::
+          {:ok, map()} | error
   def update_user(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Users.update(id, params, config)
   end
@@ -3046,7 +3046,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec list_user_authentication_methods(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map()) | map()} | error
   def list_user_authentication_methods(id, %{} = params, %Config{} = config) do
     Users.list_authentication_methods(id, params, config)
   end
@@ -3072,7 +3072,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec create_user_authentication_methods(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def create_user_authentication_methods(id, %{} = params, %Config{} = config) do
     Users.create_authentication_methods(id, params, config)
   end
@@ -3085,7 +3085,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec update_user_authentication_methods(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map())} | error
   def update_user_authentication_methods(id, %{} = params, %Config{} = config) do
     Users.update_authentication_methods(id, params, config)
   end
@@ -3098,7 +3098,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_user_authentication_method(id, authentication_method_id, config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get_user_authentication_method(id, authentication_method_id, %Config{} = config) do
     Users.get_authentication_method(id, authentication_method_id, config)
   end
@@ -3124,7 +3124,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec update_user_authentication_method(id, authentication_method_id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def update_user_authentication_method(
         id,
         authentication_method_id,
@@ -3155,48 +3155,44 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_user_enrollments(id, config) ::
-          {:ok, map} | error
+          {:ok, list(map())} | error
   def get_user_enrollments(id, %Config{} = config \\ %Config{}) do
     Users.get_enrollments(id, config)
   end
 
   @doc """
-  Retrieve detailed list of all user roles currently assigned to a user.
+  Link two user accounts together forming a primary and secondary relationship. On successful linking, the endpoint returns the new array of the primary account identities.
 
   ## see
-  https://auth0.com/docs/api/management/v2/users/get-user-roles
+  https://auth0.com/docs/api/management/v2/users/post-identities
 
   """
-  @spec get_user_roles(id, map, config) ::
-          {:ok, map} | error
-  def get_user_roles(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Users.get_roles(id, params, config)
+  @spec link_user_identities(id, map(), config) ::
+          {:ok, list(map())} | error
+  def link_user_identities(
+        id,
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    Users.link_identities(id, params, config)
   end
 
   @doc """
-  Remove one or more specified user roles assigned to a user.
+  Unlink a specific secondary account from a target user. This action requires the ID of both the target user and the secondary account.
 
   ## see
-  https://auth0.com/docs/api/management/v2/users/delete-user-roles
+  https://auth0.com/docs/api/management/v2/users/delete-user-identity-by-user-id
 
   """
-  @spec remove_user_roles(id, map, config) ::
-          {:ok, String.t()} | error
-  def remove_user_roles(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Users.remove_roles(id, params, config)
-  end
-
-  @doc """
-  Assign one or more existing user roles to a user.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/users/post-user-roles
-
-  """
-  @spec assign_user_roles(id, map, config) ::
-          {:ok, String.t()} | error
-  def assign_user_roles(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Users.assign_roles(id, params, config)
+  @spec unlink_user_identities(id, provider, user_id, config) ::
+          {:ok, list(map())} | error
+  def unlink_user_identities(
+        id,
+        provider,
+        user_id,
+        %Config{} = config \\ %Config{}
+      ) do
+    Users.unlink_identities(id, provider, user_id, config)
   end
 
   @doc """
@@ -3206,79 +3202,10 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/users/get-logs-by-user
 
   """
-  @spec get_user_logs(id, map, config) ::
-          {:ok, map} | error
+  @spec get_user_logs(id, map(), config) ::
+          {:ok, list(map()) | map()} | error
   def get_user_logs(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Users.get_logs(id, params, config)
-  end
-
-  @doc """
-  Retrieve list of the specified user's current Organization memberships. User must be specified by user ID.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/users/get-user-organizations
-
-  """
-  @spec get_user_organizations(id, map, config) ::
-          {:ok, map} | error
-  def get_user_organizations(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Users.get_organizations(id, params, config)
-  end
-
-  @doc """
-  Retrieve all permissions associated with the user.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/users/get-permissions
-
-  """
-  @spec get_user_permissions(id, map, config) ::
-          {:ok, map} | error
-  def get_user_permissions(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Users.get_permissions(id, params, config)
-  end
-
-  @doc """
-  Remove permissions from a user.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/users/delete-permissions
-
-  """
-  @spec remove_user_permissions(id, map, config) ::
-          {:ok, String.t()} | error
-  def remove_user_permissions(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Users.remove_permissions(id, params, config)
-  end
-
-  @doc """
-  Assign permissions to a user.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/users/post-permissions
-
-  """
-  @spec assign_user_permissions(id, map, config) ::
-          {:ok, String.t()} | error
-  def assign_user_permissions(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Users.assign_permissions(id, params, config)
-  end
-
-  @doc """
-  Remove a multifactor authentication configuration from a user's account. This forces the user to manually reconfigure the multi-factor provider.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/users/delete-multifactor-by-provider
-
-  """
-  @spec delete_user_multifactor(id, map, config) ::
-          {:ok, String.t()} | error
-  def delete_user_multifactor(
-        id,
-        %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
-      ) do
-    Users.delete_multifactor(id, params, config)
   end
 
   @doc """
@@ -3298,38 +3225,72 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Link two user accounts together forming a primary and secondary relationship. On successful linking, the endpoint returns the new array of the primary account identities.
+  Remove a multifactor authentication configuration from a user's account. This forces the user to manually reconfigure the multi-factor provider.
 
   ## see
-  https://auth0.com/docs/api/management/v2/users/post-identities
+  https://auth0.com/docs/api/management/v2/users/delete-multifactor-by-provider
 
   """
-  @spec link_user_identities(id, map, config) ::
-          {:ok, map} | error
-  def link_user_identities(
+  @spec delete_user_multifactor(id, map(), config) ::
+          {:ok, String.t()} | error
+  def delete_user_multifactor(
         id,
         %{} = params \\ %{},
         %Config{} = config \\ %Config{}
       ) do
-    Users.link_identities(id, params, config)
+    Users.delete_multifactor(id, params, config)
   end
 
   @doc """
-  Unlink a specific secondary account from a target user. This action requires the ID of both the target user and the secondary account.
+  Retrieve list of the specified user's current Organization memberships. User must be specified by user ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/users/delete-user-identity-by-user-id
+  https://auth0.com/docs/api/management/v2/users/get-user-organizations
 
   """
-  @spec unlink_user_identities(id, provider, user_id, config) ::
-          {:ok, map} | error
-  def unlink_user_identities(
-        id,
-        provider,
-        user_id,
-        %Config{} = config \\ %Config{}
-      ) do
-    Users.unlink_identities(id, provider, user_id, config)
+  @spec get_user_organizations(id, map(), config) ::
+          {:ok, list(map()) | map()} | error
+  def get_user_organizations(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Users.get_organizations(id, params, config)
+  end
+
+  @doc """
+  Retrieve all permissions associated with the user.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/get-permissions
+
+  """
+  @spec get_user_permissions(id, map(), config) ::
+          {:ok, list(map()) | map()} | error
+  def get_user_permissions(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Users.get_permissions(id, params, config)
+  end
+
+  @doc """
+  Remove permissions from a user.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/delete-permissions
+
+  """
+  @spec remove_user_permissions(id, map(), config) ::
+          {:ok, String.t()} | error
+  def remove_user_permissions(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Users.remove_permissions(id, params, config)
+  end
+
+  @doc """
+  Assign permissions to a user.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/post-permissions
+
+  """
+  @spec assign_user_permissions(id, map(), config) ::
+          {:ok, String.t()} | error
+  def assign_user_permissions(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Users.assign_permissions(id, params, config)
   end
 
   @doc """
@@ -3340,12 +3301,51 @@ defmodule Auth0.Api.Management do
 
   """
   @spec regenerate_user_recovery_code(id, config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def regenerate_user_recovery_code(
         id,
         %Config{} = config \\ %Config{}
       ) do
     Users.regenerate_recovery_code(id, config)
+  end
+
+  @doc """
+  Retrieve detailed list of all user roles currently assigned to a user.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/get-user-roles
+
+  """
+  @spec get_user_roles(id, map(), config) ::
+          {:ok, list(map()) | map()} | error
+  def get_user_roles(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Users.get_roles(id, params, config)
+  end
+
+  @doc """
+  Remove one or more specified user roles assigned to a user.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/delete-user-roles
+
+  """
+  @spec remove_user_roles(id, map(), config) ::
+          {:ok, String.t()} | error
+  def remove_user_roles(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Users.remove_roles(id, params, config)
+  end
+
+  @doc """
+  Assign one or more existing user roles to a user.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/post-user-roles
+
+  """
+  @spec assign_user_roles(id, map(), config) ::
+          {:ok, String.t()} | error
+  def assign_user_roles(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Users.assign_roles(id, params, config)
   end
 
   @doc """
@@ -3355,8 +3355,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/users/get-refresh-tokens-for-user
 
   """
-  @spec get_user_refresh_tokens(id, map, config) ::
-          {:ok, map} | error
+  @spec get_user_refresh_tokens(id, map(), config) ::
+          {:ok, map()} | error
   def get_user_refresh_tokens(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Users.get_refresh_tokens(id, params, config)
   end
@@ -3369,7 +3369,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec delete_user_refresh_tokens(id, config) ::
-          {:ok, map} | error
+          {:ok, String.t()} | error
   def delete_user_refresh_tokens(id, %Config{} = config \\ %Config{}) do
     Users.delete_refresh_tokens(id, config)
   end
@@ -3381,8 +3381,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/users/get-sessions-for-user
 
   """
-  @spec get_user_sessions(id, map, config) ::
-          {:ok, map} | error
+  @spec get_user_sessions(id, map(), config) ::
+          {:ok, map()} | error
   def get_user_sessions(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Users.get_sessions(id, params, config)
   end
@@ -3395,7 +3395,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec delete_user_sessions(id, config) ::
-          {:ok, map} | error
+          {:ok, String.t()} | error
   def delete_user_sessions(id, %Config{} = config \\ %Config{}) do
     Users.delete_sessions(id, config)
   end
@@ -3407,8 +3407,8 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/users-by-email/get-users-by-email
 
   """
-  @spec get_users_by_email(map, config) ::
-          {:ok, map} | error
+  @spec get_users_by_email(map(), config) ::
+          {:ok, list(map())} | error
   def get_users_by_email(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     UsersByEmail.list(params, config)
   end

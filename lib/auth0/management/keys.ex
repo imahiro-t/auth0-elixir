@@ -16,7 +16,7 @@ defmodule Auth0.Management.Keys do
 
   """
   @spec list_signing(config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map())} | error
   def list_signing(%Config{} = config) do
     Signing.List.execute(config)
   end
@@ -29,7 +29,7 @@ defmodule Auth0.Management.Keys do
 
   """
   @spec get_signing(kid, config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get_signing(kid, %Config{} = config) do
     Signing.Get.execute(kid, config)
   end
@@ -42,7 +42,7 @@ defmodule Auth0.Management.Keys do
 
   """
   @spec rotate_signing(config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def rotate_signing(%Config{} = config) do
     Signing.Rotate.execute(config)
   end
@@ -55,7 +55,7 @@ defmodule Auth0.Management.Keys do
 
   """
   @spec revoke_signing(kid, config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def revoke_signing(kid, %Config{} = config) do
     Signing.Revoke.execute(kid, config)
   end

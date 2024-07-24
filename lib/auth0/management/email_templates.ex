@@ -12,6 +12,19 @@ defmodule Auth0.Management.EmailTemplates do
   @type error :: {:error, integer, term} | {:error, term}
 
   @doc """
+  Create an email template.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/email-templates/post-email-templates
+
+  """
+  @spec create(map(), config) ::
+          {:ok, map()} | error
+  def create(%{} = params, %Config{} = config) do
+    Create.execute(params, config)
+  end
+
+  @doc """
   Retrieve an email template by pre-defined name. These names are verify_email, verify_email_by_code, reset_email, welcome_email, blocked_account, stolen_credentials, enrollment_email, mfa_oob_code, and user_invitation. The names change_password, and password_reset are also supported for legacy scenarios.
 
   ## see
@@ -19,7 +32,7 @@ defmodule Auth0.Management.EmailTemplates do
 
   """
   @spec get(template_name, config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get(template_name, %Config{} = config) do
     Get.execute(template_name, config)
   end
@@ -32,7 +45,7 @@ defmodule Auth0.Management.EmailTemplates do
 
   """
   @spec patch(template_name, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def patch(template_name, %{} = params, %Config{} = config) do
     Patch.execute(template_name, params, config)
   end
@@ -45,21 +58,8 @@ defmodule Auth0.Management.EmailTemplates do
 
   """
   @spec update(template_name, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def update(template_name, %{} = params, %Config{} = config) do
     Update.execute(template_name, params, config)
-  end
-
-  @doc """
-  Create an email template.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/email-templates/post-email-templates
-
-  """
-  @spec create(map(), config) ::
-          {:ok, list() | map()} | error
-  def create(%{} = params, %Config{} = config) do
-    Create.execute(params, config)
   end
 end

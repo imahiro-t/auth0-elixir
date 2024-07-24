@@ -7,7 +7,7 @@ defmodule Auth0.Management.Hooks.Secrets.Patch do
   @type id :: String.t()
   @type params :: map()
   @type config :: Config.t()
-  @type entity :: map
+  @type entity :: map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/hooks/{id}"

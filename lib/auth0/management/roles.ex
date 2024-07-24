@@ -22,7 +22,7 @@ defmodule Auth0.Management.Roles do
 
   """
   @spec list(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map()) | map()} | error
   def list(%{} = params, %Config{} = config) do
     List.execute(params, config)
   end
@@ -35,7 +35,7 @@ defmodule Auth0.Management.Roles do
 
   """
   @spec create(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def create(%{} = params, %Config{} = config) do
     Create.execute(params, config)
   end
@@ -48,7 +48,7 @@ defmodule Auth0.Management.Roles do
 
   """
   @spec get(id, config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get(id, %Config{} = config) do
     Get.execute(id, config)
   end
@@ -73,7 +73,7 @@ defmodule Auth0.Management.Roles do
 
   """
   @spec update(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(id, params, config)
   end
@@ -86,7 +86,7 @@ defmodule Auth0.Management.Roles do
 
   """
   @spec list_permissions(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map()) | map()} | error
   def list_permissions(id, %{} = params, %Config{} = config) do
     Permissions.List.execute(id, params, config)
   end
@@ -125,7 +125,7 @@ defmodule Auth0.Management.Roles do
 
   """
   @spec list_users(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map()) | map()} | error
   def list_users(id, %{} = params, %Config{} = config) do
     Users.List.execute(id, params, config)
   end
@@ -138,7 +138,7 @@ defmodule Auth0.Management.Roles do
 
   """
   @spec assign_users(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, String.t()} | error
   def assign_users(id, %{} = params, %Config{} = config) do
     Users.Assign.execute(id, params, config)
   end

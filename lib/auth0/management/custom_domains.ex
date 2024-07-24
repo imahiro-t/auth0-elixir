@@ -21,7 +21,7 @@ defmodule Auth0.Management.CustomDomains do
 
   """
   @spec list(config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map())} | error
   def list(%Config{} = config) do
     List.execute(config)
   end
@@ -34,7 +34,7 @@ defmodule Auth0.Management.CustomDomains do
 
   """
   @spec configure(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def configure(%{} = params, %Config{} = config) do
     Configure.execute(params, config)
   end
@@ -47,7 +47,7 @@ defmodule Auth0.Management.CustomDomains do
 
   """
   @spec get(id, config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get(id, %Config{} = config) do
     Get.execute(id, config)
   end
@@ -72,7 +72,7 @@ defmodule Auth0.Management.CustomDomains do
 
   """
   @spec update(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(id, params, config)
   end
@@ -85,7 +85,7 @@ defmodule Auth0.Management.CustomDomains do
 
   """
   @spec verify(id, config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def verify(id, %Config{} = config) do
     Verify.execute(id, config)
   end

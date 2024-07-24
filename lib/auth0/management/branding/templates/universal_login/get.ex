@@ -2,10 +2,11 @@ defmodule Auth0.Management.Branding.Templates.UniversalLogin.Get do
   @moduledoc false
 
   alias Auth0.Config
+  alias Auth0.Common.Util
   alias Auth0.Common.Management.Http
 
   @type config :: Config.t()
-  @type entity :: list() | map()
+  @type entity :: map() | String.t()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/branding/templates/universal-login"
@@ -21,7 +22,7 @@ defmodule Auth0.Management.Branding.Templates.UniversalLogin.Get do
   def execute(%Config{} = config) do
     Http.get(@endpoint, config)
     |> case do
-      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
+      {:ok, 200, body} -> {:ok, body |> Util.decode_json_or_string!()}
       error -> error
     end
   end

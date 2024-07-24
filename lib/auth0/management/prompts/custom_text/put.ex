@@ -8,7 +8,7 @@ defmodule Auth0.Management.Prompts.CustomText.Put do
   @type language :: String.t()
   @type params :: map()
   @type config :: Config.t()
-  @type entity :: list() | map()
+  @type entity :: String.t()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/prompts/{prompt}/custom-text/{language}"
@@ -29,7 +29,7 @@ defmodule Auth0.Management.Prompts.CustomText.Put do
     |> String.replace("{language}", language)
     |> Http.put(body, config)
     |> case do
-      {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
+      {:ok, 200, _body} -> {:ok, ""}
       error -> error
     end
   end

@@ -24,7 +24,7 @@ defmodule Auth0.Management.Connections do
 
   """
   @spec list(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map()) | map()} | error
   def list(%{} = params, %Config{} = config) do
     List.execute(params, config)
   end
@@ -37,7 +37,7 @@ defmodule Auth0.Management.Connections do
 
   """
   @spec create(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def create(%{} = params, %Config{} = config) do
     Create.execute(params, config)
   end
@@ -50,7 +50,7 @@ defmodule Auth0.Management.Connections do
 
   """
   @spec get(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get(id, %{} = params, %Config{} = config) do
     Get.execute(id, params, config)
   end
@@ -75,7 +75,7 @@ defmodule Auth0.Management.Connections do
 
   """
   @spec update(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(id, params, config)
   end
@@ -87,7 +87,7 @@ defmodule Auth0.Management.Connections do
   https://auth0.com/docs/api/management/v2/connections/get-scim-configuration
 
   """
-  @spec get_scim_configuration(id, config) :: {:ok, list() | map()} | error
+  @spec get_scim_configuration(id, config) :: {:ok, map()} | error
   def get_scim_configuration(id, %Config{} = config) do
     ScimConfiguration.Get.execute(id, config)
   end
@@ -111,7 +111,7 @@ defmodule Auth0.Management.Connections do
   https://auth0.com/docs/api/management/v2/connections/patch-scim-configuration
 
   """
-  @spec update_scim_configuration(id, map(), config) :: {:ok, list() | map()} | error
+  @spec update_scim_configuration(id, map(), config) :: {:ok, map()} | error
   def update_scim_configuration(id, %{} = params, %Config{} = config) do
     ScimConfiguration.Patch.execute(id, params, config)
   end
@@ -123,7 +123,7 @@ defmodule Auth0.Management.Connections do
   https://auth0.com/docs/api/management/v2/connections/post-scim-configuration
 
   """
-  @spec create_scim_configuration(id, map(), config) :: {:ok, list() | map()} | error
+  @spec create_scim_configuration(id, map(), config) :: {:ok, map()} | error
   def create_scim_configuration(id, %{} = params, %Config{} = config) do
     ScimConfiguration.Create.execute(id, params, config)
   end
@@ -135,7 +135,7 @@ defmodule Auth0.Management.Connections do
   https://auth0.com/docs/api/management/v2/connections/get-default-mapping
 
   """
-  @spec get_scim_configuration_default_mapping(id, config) :: {:ok, list() | map()} | error
+  @spec get_scim_configuration_default_mapping(id, config) :: {:ok, map()} | error
   def get_scim_configuration_default_mapping(id, %Config{} = config) do
     ScimConfiguration.DefaultMapping.Get.execute(id, config)
   end
@@ -147,7 +147,7 @@ defmodule Auth0.Management.Connections do
   https://auth0.com/docs/api/management/v2/connections/get-scim-tokens
 
   """
-  @spec get_scim_configuration_tokens(id, config) :: {:ok, list() | map()} | error
+  @spec get_scim_configuration_tokens(id, config) :: {:ok, list(map())} | error
   def get_scim_configuration_tokens(id, %Config{} = config) do
     ScimConfiguration.Tokens.Get.execute(id, config)
   end
@@ -159,7 +159,7 @@ defmodule Auth0.Management.Connections do
   https://auth0.com/docs/api/management/v2/connections/post-scim-token
 
   """
-  @spec create_scim_configuration_tokens(id, map(), config) :: {:ok, list() | map()} | error
+  @spec create_scim_configuration_tokens(id, map(), config) :: {:ok, map()} | error
   def create_scim_configuration_tokens(id, %{} = params, %Config{} = config) do
     ScimConfiguration.Tokens.Create.execute(id, params, config)
   end

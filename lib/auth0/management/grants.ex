@@ -18,7 +18,7 @@ defmodule Auth0.Management.Grants do
 
   """
   @spec list(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map()) | map()} | error
   def list(%{} = params, %Config{} = config) do
     List.execute(params, config)
   end

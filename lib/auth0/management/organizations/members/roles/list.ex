@@ -9,7 +9,7 @@ defmodule Auth0.Management.Organizations.Members.Roles.List do
   @type user_id :: String.t()
   @type params :: map()
   @type config :: Config.t()
-  @type entity :: list() | map()
+  @type entity :: list(map()) | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/organizations/{id}/members/{user_id}/roles"

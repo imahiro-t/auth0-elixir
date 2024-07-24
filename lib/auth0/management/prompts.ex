@@ -20,7 +20,7 @@ defmodule Auth0.Management.Prompts do
 
   """
   @spec get(config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get(%Config{} = config) do
     Get.execute(config)
   end
@@ -33,7 +33,7 @@ defmodule Auth0.Management.Prompts do
 
   """
   @spec update(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def update(%{} = params, %Config{} = config) do
     Patch.execute(params, config)
   end
@@ -46,7 +46,7 @@ defmodule Auth0.Management.Prompts do
 
   """
   @spec get_custom_text(prompt, language, config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get_custom_text(prompt, language, %Config{} = config) do
     CustomText.Get.execute(prompt, language, config)
   end
@@ -59,7 +59,7 @@ defmodule Auth0.Management.Prompts do
 
   """
   @spec set_custom_text(prompt, language, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, String.t()} | error
   def set_custom_text(prompt, language, %{} = params, %Config{} = config) do
     CustomText.Put.execute(prompt, language, params, config)
   end
@@ -72,7 +72,7 @@ defmodule Auth0.Management.Prompts do
 
   """
   @spec get_partials(prompt, config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get_partials(prompt, %Config{} = config) do
     Partials.Get.execute(prompt, config)
   end
@@ -85,7 +85,7 @@ defmodule Auth0.Management.Prompts do
 
   """
   @spec set_partials(prompt, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, String.t()} | error
   def set_partials(prompt, %{} = params, %Config{} = config) do
     Partials.Put.execute(prompt, params, config)
   end

@@ -5,7 +5,7 @@ defmodule Auth0.Management.RulesConfigs.List do
   alias Auth0.Common.Management.Http
 
   @type config :: Config.t()
-  @type entity :: list() | map()
+  @type entity :: list(map())
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/rules-configs"

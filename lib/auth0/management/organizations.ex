@@ -28,7 +28,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec list(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map()) | map()} | error
   def list(%{} = params, %Config{} = config) do
     List.execute(params, config)
   end
@@ -41,9 +41,22 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec create(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def create(%{} = params, %Config{} = config) do
     Create.execute(params, config)
+  end
+
+  @doc """
+  Retrieve details about a single Organization specified by name.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/organizations/get-name-by-name
+
+  """
+  @spec get_by_name(name, config) ::
+          {:ok, map()} | error
+  def get_by_name(name, %Config{} = config) do
+    Name.Get.execute(name, config)
   end
 
   @doc """
@@ -54,7 +67,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec get(id, config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get(id, %Config{} = config) do
     Get.execute(id, config)
   end
@@ -79,22 +92,9 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec modify(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def modify(id, %{} = params, %Config{} = config) do
     Patch.execute(id, params, config)
-  end
-
-  @doc """
-  Retrieve details about a single Organization specified by name.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/organizations/get-name-by-name
-
-  """
-  @spec get_by_name(name, config) ::
-          {:ok, list() | map()} | error
-  def get_by_name(name, %Config{} = config) do
-    Name.Get.execute(name, config)
   end
 
   @doc """
@@ -105,7 +105,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec list_connections(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map()) | map()} | error
   def list_connections(id, %{} = params, %Config{} = config) do
     EnabledConnections.List.execute(id, params, config)
   end
@@ -118,7 +118,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec add_connection(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def add_connection(id, %{} = params, %Config{} = config) do
     EnabledConnections.Create.execute(id, params, config)
   end
@@ -131,7 +131,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec get_connection(id, connection_id, config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get_connection(id, connection_id, %Config{} = config) do
     EnabledConnections.Get.execute(id, connection_id, config)
   end
@@ -160,7 +160,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec modify_connection(id, connection_id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def modify_connection(
         id,
         connection_id,
@@ -183,7 +183,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec list_invitations(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map()) | map()} | error
   def list_invitations(id, %{} = params, %Config{} = config) do
     Invitations.List.execute(id, params, config)
   end
@@ -196,7 +196,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec create_invitation(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def create_invitation(id, %{} = params, %Config{} = config) do
     Invitations.Create.execute(id, params, config)
   end
@@ -209,7 +209,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec get_invitation(id, invitation_id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get_invitation(id, invitation_id, %{} = params, %Config{} = config) do
     Invitations.Get.execute(id, invitation_id, params, config)
   end
@@ -234,7 +234,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec list_members(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map()) | map()} | error
   def list_members(id, %{} = params, %Config{} = config) do
     Members.List.execute(id, params, config)
   end
@@ -273,7 +273,7 @@ defmodule Auth0.Management.Organizations do
 
   """
   @spec list_roles(id, user_id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map()) | map()} | error
   def list_roles(id, user_id, %{} = params, %Config{} = config) do
     Members.Roles.List.execute(id, user_id, params, config)
   end

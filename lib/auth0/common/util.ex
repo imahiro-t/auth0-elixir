@@ -170,6 +170,19 @@ defmodule Auth0.Common.Util do
   end
 
   @doc """
+  Decode json or String.
+  """
+  @spec decode_json_or_string!(String.t()) :: map() | String.t()
+  def decode_json_or_string!(value) do
+    value
+    |> Jason.decode()
+    |> case do
+      {:ok, json} -> json
+      {:error, _} -> value
+    end
+  end
+
+  @doc """
   Decode json using atom key.
   """
   @spec decode_json!(String.t()) :: map | list

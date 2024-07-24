@@ -6,7 +6,7 @@ defmodule Auth0.Management.Users.RecoveryCodeRegeneration.Regenerate do
 
   @type id :: String.t()
   @type config :: Config.t()
-  @type entity :: list() | map()
+  @type entity :: map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/users/{id}/recovery-code-regeneration"

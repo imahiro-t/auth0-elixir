@@ -16,7 +16,7 @@ defmodule Auth0.Management.Tickets do
 
   """
   @spec create_email_verification(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def create_email_verification(%{} = params, %Config{} = config) do
     EmailVerification.Create.execute(params, config)
   end
@@ -29,7 +29,7 @@ defmodule Auth0.Management.Tickets do
 
   """
   @spec create_password_change(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def create_password_change(%{} = params, %Config{} = config) do
     PasswordChange.Create.execute(params, config)
   end

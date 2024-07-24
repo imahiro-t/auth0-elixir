@@ -27,7 +27,7 @@ defmodule Auth0.Management.Stats do
   https://auth0.com/docs/api/management/v2/stats/get-daily
 
   """
-  @spec list_daily(config) :: {:ok, list() | map()} | error
+  @spec list_daily(config) :: {:ok, list(map())} | error
   def list_daily(%Config{} = config) do
     Daily.List.execute(config)
   end

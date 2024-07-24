@@ -7,7 +7,7 @@ defmodule Auth0.Management.Organizations.EnabledConnections.Get do
   @type id :: String.t()
   @type connection_id :: String.t()
   @type config :: Config.t()
-  @type entity :: list() | map()
+  @type entity :: map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/organizations/{id}/enabled_connections/{connectionId}"

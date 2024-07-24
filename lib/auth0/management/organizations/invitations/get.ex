@@ -9,7 +9,7 @@ defmodule Auth0.Management.Organizations.Invitations.Get do
   @type invitation_id :: String.t()
   @type params :: map()
   @type config :: Config.t()
-  @type entity :: list() | map()
+  @type entity :: map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/organizations/{id}/invitations/{invitation_id}"

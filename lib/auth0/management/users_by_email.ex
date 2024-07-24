@@ -14,7 +14,7 @@ defmodule Auth0.Management.UsersByEmail do
   https://auth0.com/docs/api/management/v2/users-by-email/get-users-by-email
 
   """
-  @spec list(map(), config) :: {:ok, list() | map()} | error
+  @spec list(map(), config) :: {:ok, list(map())} | error
   def list(%{} = params, %Config{} = config) do
     List.execute(params, config)
   end

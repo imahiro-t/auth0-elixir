@@ -20,7 +20,7 @@ defmodule Auth0.Management.LogStreams do
 
   """
   @spec list(config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def list(%Config{} = config) do
     List.execute(config)
   end
@@ -33,7 +33,7 @@ defmodule Auth0.Management.LogStreams do
 
   """
   @spec create(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def create(%{} = params, %Config{} = config) do
     Create.execute(params, config)
   end
@@ -46,7 +46,7 @@ defmodule Auth0.Management.LogStreams do
 
   """
   @spec get(id, config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get(id, %Config{} = config) do
     Get.execute(id, config)
   end
@@ -71,7 +71,7 @@ defmodule Auth0.Management.LogStreams do
 
   """
   @spec update(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(id, params, config)
   end

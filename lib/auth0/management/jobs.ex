@@ -13,32 +13,6 @@ defmodule Auth0.Management.Jobs do
   @type error :: {:error, integer, term} | {:error, term}
 
   @doc """
-  Retrieves a job. Useful to check its status.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/jobs/get-jobs-by-id
-
-  """
-  @spec get(id, config) ::
-          {:ok, list() | map()} | error
-  def get(id, %Config{} = config) do
-    Get.execute(id, config)
-  end
-
-  @doc """
-  Retrieve error details of a failed job.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/jobs/get-errors
-
-  """
-  @spec get_error(id, config) ::
-          {:ok, list() | map()} | error
-  def get_error(id, %Config{} = config) do
-    Errors.Get.execute(id, config)
-  end
-
-  @doc """
   Export all users to a file via a long-running job.
 
   ## see
@@ -46,7 +20,7 @@ defmodule Auth0.Management.Jobs do
 
   """
   @spec create_users_exports(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def create_users_exports(%{} = params, %Config{} = config) do
     UsersExport.execute(params, config)
   end
@@ -59,7 +33,7 @@ defmodule Auth0.Management.Jobs do
 
   """
   @spec create_users_imports(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def create_users_imports(%{} = params, %Config{} = config) do
     UsersImport.execute(params, config)
   end
@@ -72,8 +46,34 @@ defmodule Auth0.Management.Jobs do
 
   """
   @spec send_verification_email(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def send_verification_email(%{} = params, %Config{} = config) do
     VerificationEmail.execute(params, config)
+  end
+
+  @doc """
+  Retrieves a job. Useful to check its status.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/jobs/get-jobs-by-id
+
+  """
+  @spec get(id, config) ::
+          {:ok, list(map()) | map()} | error
+  def get(id, %Config{} = config) do
+    Get.execute(id, config)
+  end
+
+  @doc """
+  Retrieve error details of a failed job.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/jobs/get-errors
+
+  """
+  @spec get_error(id, config) ::
+          {:ok, list(map()) | map()} | error
+  def get_error(id, %Config{} = config) do
+    Errors.Get.execute(id, config)
   end
 end

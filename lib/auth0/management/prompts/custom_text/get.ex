@@ -7,7 +7,7 @@ defmodule Auth0.Management.Prompts.CustomText.Get do
   @type prompt :: String.t()
   @type language :: String.t()
   @type config :: Config.t()
-  @type entity :: list() | map()
+  @type entity :: map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/prompts/{prompt}/custom-text/{language}"

@@ -18,7 +18,7 @@ defmodule Auth0.Management.DeviceCredentials do
 
   """
   @spec list(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map())} | error
   def list(%{} = params, %Config{} = config) do
     List.execute(params, config)
   end
@@ -31,7 +31,7 @@ defmodule Auth0.Management.DeviceCredentials do
 
   """
   @spec create(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def create(%{} = params, %Config{} = config) do
     Create.execute(params, config)
   end

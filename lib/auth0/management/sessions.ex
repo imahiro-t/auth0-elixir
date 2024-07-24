@@ -17,7 +17,7 @@ defmodule Auth0.Management.Sessions do
 
   """
   @spec get(id, config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get(id, %Config{} = config) do
     Get.execute(id, config)
   end

@@ -7,7 +7,7 @@ defmodule Auth0.Management.Rules.Create do
 
   @type params :: map()
   @type config :: Config.t()
-  @type entity :: list() | map()
+  @type entity :: map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/rules"

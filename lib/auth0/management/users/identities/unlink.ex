@@ -8,7 +8,7 @@ defmodule Auth0.Management.Users.Identities.Unlink do
   @type provider :: String.t()
   @type user_id :: String.t()
   @type config :: Config.t()
-  @type entity :: list() | map()
+  @type entity :: list(map())
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/users/{id}/identities/{provider}/{user_id}"

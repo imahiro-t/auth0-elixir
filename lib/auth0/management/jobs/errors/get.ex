@@ -6,7 +6,7 @@ defmodule Auth0.Management.Jobs.Errors.Get do
 
   @type id :: String.t()
   @type config :: Config.t()
-  @type entity :: list() | map() | String.t()
+  @type entity :: list(map()) | map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/jobs/{id}/errors"
@@ -25,7 +25,7 @@ defmodule Auth0.Management.Jobs.Errors.Get do
     |> Http.get(config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
-      {:ok, 204, _body} -> {:ok, ""}
+      {:ok, 204, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
   end

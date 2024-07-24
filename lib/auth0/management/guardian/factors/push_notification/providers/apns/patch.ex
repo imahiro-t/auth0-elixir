@@ -7,7 +7,7 @@ defmodule Auth0.Management.Guardian.Factors.PushNotification.Providers.Apns.Patc
 
   @type params :: map()
   @type config :: Config.t()
-  @type entity :: list() | map()
+  @type entity :: map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/guardian/factors/push-notification/providers/apns"

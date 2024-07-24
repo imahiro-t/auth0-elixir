@@ -6,7 +6,7 @@ defmodule Auth0.Management.Keys.Signing.Get do
 
   @type kid :: String.t()
   @type config :: Config.t()
-  @type entity :: list() | map()
+  @type entity :: map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/keys/signing/{kid}"

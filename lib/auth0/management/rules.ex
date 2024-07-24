@@ -19,7 +19,7 @@ defmodule Auth0.Management.Rules do
   https://auth0.com/docs/api/management/v2/rules/get-rules
 
   """
-  @spec list(map(), config) :: {:ok, list() | map()} | error
+  @spec list(map(), config) :: {:ok, list(map()) | map()} | error
   def list(%{} = params, %Config{} = config) do
     List.execute(params, config)
   end
@@ -32,7 +32,7 @@ defmodule Auth0.Management.Rules do
 
   """
   @spec create(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def create(%{} = params, %Config{} = config) do
     Create.execute(params, config)
   end
@@ -45,7 +45,7 @@ defmodule Auth0.Management.Rules do
 
   """
   @spec get(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get(id, %{} = params, %Config{} = config) do
     Get.execute(id, params, config)
   end
@@ -70,7 +70,7 @@ defmodule Auth0.Management.Rules do
 
   """
   @spec update(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(id, params, config)
   end

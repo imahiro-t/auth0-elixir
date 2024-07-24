@@ -15,7 +15,7 @@ defmodule Auth0.Management.Emails do
 
   """
   @spec get_provider(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get_provider(%{} = params, %Config{} = config) do
     Provider.Get.execute(params, config)
   end
@@ -28,7 +28,7 @@ defmodule Auth0.Management.Emails do
 
   """
   @spec update_provider(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def update_provider(%{} = params, %Config{} = config) do
     Provider.Patch.execute(params, config)
   end
@@ -41,7 +41,7 @@ defmodule Auth0.Management.Emails do
 
   """
   @spec configure_provider(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def configure_provider(%{} = params, %Config{} = config) do
     Provider.Configure.execute(params, config)
   end

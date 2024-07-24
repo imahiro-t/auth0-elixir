@@ -18,7 +18,7 @@ defmodule Auth0.Management.UserBlocks do
 
   """
   @spec get(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get(%{} = params, %Config{} = config) do
     Get.execute(params, config)
   end
@@ -43,7 +43,7 @@ defmodule Auth0.Management.UserBlocks do
 
   """
   @spec get_by_user_id(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get_by_user_id(id, %{} = params, %Config{} = config) do
     Users.Get.execute(id, params, config)
   end

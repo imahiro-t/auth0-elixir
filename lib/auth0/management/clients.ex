@@ -24,7 +24,7 @@ defmodule Auth0.Management.Clients do
 
   """
   @spec list(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map()) | map()} | error
   def list(%{} = params, %Config{} = config) do
     List.execute(params, config)
   end
@@ -37,60 +37,9 @@ defmodule Auth0.Management.Clients do
 
   """
   @spec create(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def create(%{} = params, %Config{} = config) do
     Create.execute(params, config)
-  end
-
-  @doc """
-  Retrieve client details by ID. Clients are SSO connections or Applications linked with your Auth0 tenant. A list of fields to include or exclude may also be specified.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/clients/get-clients-by-id
-
-  """
-  @spec get(id, map(), config) ::
-          {:ok, list() | map()} | error
-  def get(id, %{} = params, %Config{} = config) do
-    Get.execute(id, params, config)
-  end
-
-  @doc """
-  Delete a client and related configuration (rules, connections, etc).
-
-  ## see
-  https://auth0.com/docs/api/management/v2/clients/delete-clients-by-id
-
-  """
-  @spec delete(id, config) :: {:ok, String.t()} | error
-  def delete(id, %Config{} = config) do
-    Delete.execute(id, config)
-  end
-
-  @doc """
-  Updates a client's settings
-
-  ## see
-  https://auth0.com/docs/api/management/v2/clients/patch-clients-by-id
-
-  """
-  @spec update(id, map(), config) ::
-          {:ok, list() | map()} | error
-  def update(id, %{} = params, %Config{} = config) do
-    Patch.execute(id, params, config)
-  end
-
-  @doc """
-  Rotate a client secret.
-
-  ## see
-  https://auth0.com/docs/api/management/v2/clients/post-rotate-secret
-
-  """
-  @spec rotate_secret(id, config) ::
-          {:ok, list() | map()} | error
-  def rotate_secret(id, %Config{} = config) do
-    RotateSecret.execute(id, config)
   end
 
   @doc """
@@ -113,8 +62,8 @@ defmodule Auth0.Management.Clients do
   https://auth0.com/docs/api/management/v2/clients/post-credentials
 
   """
-  @spec create_credential(client_id, map, config) ::
-          {:ok, map} | error
+  @spec create_credential(client_id, map(), config) ::
+          {:ok, map()} | error
   def create_credential(client_id, %{} = params, %Config{} = config) do
     Credential.Create.execute(client_id, params, config)
   end
@@ -127,7 +76,7 @@ defmodule Auth0.Management.Clients do
 
   """
   @spec get_credential(client_id, credential_id, config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def get_credential(client_id, credential_id, %Config{} = config) do
     Credential.Get.execute(client_id, credential_id, config)
   end
@@ -152,9 +101,60 @@ defmodule Auth0.Management.Clients do
   https://auth0.com/docs/api/management/v2/clients/patch-credentials-by-credential-id
 
   """
-  @spec update_credential(client_id, credential_id, map, config) ::
-          {:ok, map} | error
+  @spec update_credential(client_id, credential_id, map(), config) ::
+          {:ok, map()} | error
   def update_credential(client_id, credential_id, %{} = params, %Config{} = config) do
     Credential.Patch.execute(client_id, credential_id, params, config)
+  end
+
+  @doc """
+  Retrieve client details by ID. Clients are SSO connections or Applications linked with your Auth0 tenant. A list of fields to include or exclude may also be specified.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/clients/get-clients-by-id
+
+  """
+  @spec get(id, map(), config) ::
+          {:ok, map()} | error
+  def get(id, %{} = params, %Config{} = config) do
+    Get.execute(id, params, config)
+  end
+
+  @doc """
+  Delete a client and related configuration (rules, connections, etc).
+
+  ## see
+  https://auth0.com/docs/api/management/v2/clients/delete-clients-by-id
+
+  """
+  @spec delete(id, config) :: {:ok, String.t()} | error
+  def delete(id, %Config{} = config) do
+    Delete.execute(id, config)
+  end
+
+  @doc """
+  Updates a client's settings
+
+  ## see
+  https://auth0.com/docs/api/management/v2/clients/patch-clients-by-id
+
+  """
+  @spec update(id, map(), config) ::
+          {:ok, map()} | error
+  def update(id, %{} = params, %Config{} = config) do
+    Patch.execute(id, params, config)
+  end
+
+  @doc """
+  Rotate a client secret.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/clients/post-rotate-secret
+
+  """
+  @spec rotate_secret(id, config) ::
+          {:ok, map()} | error
+  def rotate_secret(id, %Config{} = config) do
+    RotateSecret.execute(id, config)
   end
 end

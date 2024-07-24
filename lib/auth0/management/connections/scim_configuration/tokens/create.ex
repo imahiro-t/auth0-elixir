@@ -8,7 +8,7 @@ defmodule Auth0.Management.Connections.ScimConfiguration.Tokens.Create do
   @type id :: String.t()
   @type params :: map()
   @type config :: Config.t()
-  @type entity :: list() | map()
+  @type entity :: map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/connections/{id}/scim-configuration/tokens"

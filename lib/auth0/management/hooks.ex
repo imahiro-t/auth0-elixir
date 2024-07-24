@@ -21,7 +21,7 @@ defmodule Auth0.Management.Hooks do
 
   """
   @spec list(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, list(map()) | map()} | error
   def list(%{} = params, %Config{} = config) do
     List.execute(params, config)
   end
@@ -34,7 +34,7 @@ defmodule Auth0.Management.Hooks do
 
   """
   @spec create(map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def create(%{} = params, %Config{} = config) do
     Create.execute(params, config)
   end
@@ -47,7 +47,7 @@ defmodule Auth0.Management.Hooks do
 
   """
   @spec get(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get(id, %{} = params, %Config{} = config) do
     Get.execute(id, params, config)
   end
@@ -72,7 +72,7 @@ defmodule Auth0.Management.Hooks do
 
   """
   @spec update(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(id, params, config)
   end
@@ -85,7 +85,7 @@ defmodule Auth0.Management.Hooks do
 
   """
   @spec get_secrets(id, config) ::
-          {:ok, list() | map()} | error
+          {:ok, map()} | error
   def get_secrets(id, %Config{} = config) do
     Secrets.Get.execute(id, config)
   end
@@ -98,7 +98,7 @@ defmodule Auth0.Management.Hooks do
 
   """
   @spec delete_secrets(id, map(), config) ::
-          {:ok, list() | map()} | error
+          {:ok, String.t()} | error
   def delete_secrets(id, %{} = params, %Config{} = config) do
     Secrets.Delete.execute(id, params, config)
   end
@@ -111,7 +111,7 @@ defmodule Auth0.Management.Hooks do
 
   """
   @spec update_secrets(id, map(), config) ::
-          {:ok, map} | error
+          {:ok, map()} | error
   def update_secrets(id, %{} = params, %Config{} = config) do
     Secrets.Patch.execute(id, params, config)
   end
@@ -123,7 +123,7 @@ defmodule Auth0.Management.Hooks do
   https://auth0.com/docs/api/management/v2/hooks/post-secrets
 
   """
-  @spec add_secrets(id, map(), config) :: {:ok, map} | error
+  @spec add_secrets(id, map(), config) :: {:ok, map()} | error
   def add_secrets(id, %{} = params, %Config{} = config) do
     Secrets.Add.execute(id, params, config)
   end
