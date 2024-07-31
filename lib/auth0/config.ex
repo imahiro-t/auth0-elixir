@@ -34,12 +34,12 @@ defmodule Auth0.Config do
             clear_token_cache: false
 
   @type t :: %__MODULE__{
-          domain: String.t(),
-          api_token: String.t(),
-          client_id: String.t(),
-          client_secret: String.t(),
-          max_request_retry_count: integer,
-          correlation_id: String.t(),
+          domain: String.t() | nil,
+          api_token: String.t() | nil,
+          client_id: String.t() | nil,
+          client_secret: String.t() | nil,
+          max_request_retry_count: integer | nil,
+          correlation_id: String.t() | nil,
           token_cache_disabled: boolean,
           clear_token_cache: boolean
         }
