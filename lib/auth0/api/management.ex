@@ -3388,10 +3388,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Retrieve details for a user's sessions.
+  Delete all sessions for a user.
 
   ## see
-  https://auth0.com/docs/api/management/v2/users/get-sessions-for-user
+  https://auth0.com/docs/api/management/v2/users/delete-sessions-for-user
 
   """
   @spec delete_user_sessions(id, config) ::
