@@ -17,6 +17,7 @@ defmodule Auth0.Api.Management do
   alias Auth0.Management.DeviceCredentials
   alias Auth0.Management.EmailTemplates
   alias Auth0.Management.Emails
+  alias Auth0.Management.Forms
   alias Auth0.Management.Grants
   alias Auth0.Management.Guardian
   alias Auth0.Management.Hooks
@@ -1303,6 +1304,58 @@ defmodule Auth0.Api.Management do
           {:ok, map()} | error
   def configure_email_provider(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Emails.configure_provider(params, config)
+  end
+
+  @doc """
+  Get forms.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/forms/get-forms
+
+  """
+  @spec get_forms(map(), config) ::
+          {:ok, map()} | error
+  def get_forms(%{} = params, %Config{} = config) do
+    Forms.list(params, config)
+  end
+
+  @doc """
+  Create a form.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/forms/post-forms
+
+  """
+  @spec create_form(map(), config) ::
+          {:ok, map()} | error
+  def create_form(%{} = params, %Config{} = config) do
+    Forms.create(params, config)
+  end
+
+  @doc """
+  Get a form.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/forms/get-forms-by-id
+
+  """
+  @spec get_form(id, map(), config) ::
+          {:ok, map()} | error
+  def get_form(id, %{} = params, %Config{} = config) do
+    Forms.get(id, params, config)
+  end
+
+  @doc """
+  Update a form.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/forms/patch-forms-by-id
+
+  """
+  @spec update_form(id, map(), config) ::
+          {:ok, map()} | error
+  def update_form(id, %{} = params, %Config{} = config) do
+    Forms.update(id, params, config)
   end
 
   @doc """
