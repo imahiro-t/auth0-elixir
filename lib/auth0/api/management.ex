@@ -33,6 +33,7 @@ defmodule Auth0.Api.Management do
   alias Auth0.Management.Roles
   alias Auth0.Management.Rules
   alias Auth0.Management.RulesConfigs
+  alias Auth0.Management.SelfServiceProfiles
   alias Auth0.Management.Sessions
   alias Auth0.Management.Stats
   alias Auth0.Management.Tenants
@@ -2919,6 +2920,84 @@ defmodule Auth0.Api.Management do
           {:ok, map()} | error
   def set_rules_config(key, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     RulesConfigs.set(key, params, config)
+  end
+
+  @doc """
+  Retrieves self-service profiles. Currently only one profile can be created per tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/self-service-profiles/get-self-service-profiles
+
+  """
+  @spec get_self_service_profiles(map(), config) ::
+          {:ok, map()} | error
+  def get_self_service_profiles(%{} = params, %Config{} = config) do
+    SelfServiceProfiles.list(params, config)
+  end
+
+  @doc """
+  Creates a self-service profile. Currently only one profile can be created per tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/self-service-profiles/post-self-service-profiles
+
+  """
+  @spec create_self_service_profile(map(), config) ::
+          {:ok, map()} | error
+  def create_self_service_profile(%{} = params, %Config{} = config) do
+    SelfServiceProfiles.create(params, config)
+  end
+
+  @doc """
+  Retrieves a self-service profile by Id.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/self-service-profiles/get-self-service-profiles-by-id
+
+  """
+  @spec get_self_service_profile(id, config) ::
+          {:ok, map()} | error
+  def get_self_service_profile(id, %Config{} = config) do
+    SelfServiceProfiles.get(id, config)
+  end
+
+  @doc """
+  Deletes a self-service profile by Id.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/self-service-profiles/delete-self-service-profiles-by-id
+
+  """
+  @spec delete_self_service_profile(id, config) ::
+          {:ok, map()} | error
+  def delete_self_service_profile(id, %Config{} = config) do
+    SelfServiceProfiles.delete(id, config)
+  end
+
+  @doc """
+  Updates a self-service profile.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/self-service-profiles/patch-self-service-profiles-by-id
+
+  """
+  @spec update_self_service_profile(id, map(), config) ::
+          {:ok, map()} | error
+  def update_self_service_profile(id, %{} = params, %Config{} = config) do
+    SelfServiceProfiles.update(id, params, config)
+  end
+
+  @doc """
+  Creates an sso-access ticket to initiate the Self Service SSO Flow using a self-service profile.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/self-service-profiles/post-sso-ticket
+
+  """
+  @spec create_self_service_profile_sso_ticket(id, map(), config) ::
+          {:ok, map()} | error
+  def create_self_service_profile_sso_ticket(id, %{} = params, %Config{} = config) do
+    SelfServiceProfiles.create_sso_ticket(id, params, config)
   end
 
   @doc """
