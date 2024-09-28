@@ -17,6 +17,7 @@ defmodule Auth0.Api.Management do
   alias Auth0.Management.DeviceCredentials
   alias Auth0.Management.EmailTemplates
   alias Auth0.Management.Emails
+  alias Auth0.Management.Flows
   alias Auth0.Management.Forms
   alias Auth0.Management.Grants
   alias Auth0.Management.Guardian
@@ -1304,6 +1305,58 @@ defmodule Auth0.Api.Management do
           {:ok, map()} | error
   def configure_email_provider(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Emails.configure_provider(params, config)
+  end
+
+  @doc """
+  Get flows.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/flows/get-flows
+
+  """
+  @spec get_flows(map(), config) ::
+          {:ok, map()} | error
+  def get_flows(%{} = params, %Config{} = config) do
+    Flows.list(params, config)
+  end
+
+  @doc """
+  Create a flow.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/flows/post-flows
+
+  """
+  @spec create_flow(map(), config) ::
+          {:ok, map()} | error
+  def create_flow(%{} = params, %Config{} = config) do
+    Flows.create(params, config)
+  end
+
+  @doc """
+  Get a flow.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/flows/get-flows-by-id
+
+  """
+  @spec get_flow(id, map(), config) ::
+          {:ok, map()} | error
+  def get_flow(id, %{} = params, %Config{} = config) do
+    Flows.get(id, params, config)
+  end
+
+  @doc """
+  Update a flow.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/flows/patch-flows-by-id
+
+  """
+  @spec update_flow(id, map(), config) ::
+          {:ok, map()} | error
+  def update_flow(id, %{} = params, %Config{} = config) do
+    Flows.update(id, params, config)
   end
 
   @doc """
