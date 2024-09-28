@@ -2842,6 +2842,19 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
+  Revokes a session by ID and all associated refresh tokens.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/sessions/revoke-session
+
+  """
+  @spec revoke_session(id, config) ::
+          {:ok, String.t()} | error
+  def revoke_session(id, %Config{} = config \\ %Config{}) do
+    Sessions.revoke(id, config)
+  end
+
+  @doc """
   Retrieve the number of active users that logged in during the last 30 days.
 
   ## see
@@ -3307,6 +3320,19 @@ defmodule Auth0.Api.Management do
         %Config{} = config \\ %Config{}
       ) do
     Users.regenerate_recovery_code(id, config)
+  end
+
+  @doc """
+  Revokes selected resources related to a user (sessions, refresh tokens, ...).
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/user-revoke-access
+
+  """
+  @spec revoke_user_selected_resources(id, map(), config) ::
+          {:ok, String.t()} | error
+  def revoke_user_selected_resources(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Users.revoke_selected_resources(id, params, config)
   end
 
   @doc """

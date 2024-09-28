@@ -18,6 +18,7 @@ defmodule Auth0.Management.Users do
   alias Auth0.Management.Users.RecoveryCodeRegeneration
   alias Auth0.Management.Users.RefreshTokens
   alias Auth0.Management.Users.Sessions
+  alias Auth0.Management.Users.RevokeAccess
 
   @type id :: String.t()
   @type authentication_method_id :: String.t()
@@ -359,6 +360,19 @@ defmodule Auth0.Management.Users do
       id,
       config
     )
+  end
+
+  @doc """
+  Revokes selected resources related to a user (sessions, refresh tokens, ...).
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/user-revoke-access
+
+  """
+  @spec revoke_selected_resources(id, map(), config) ::
+          {:ok, String.t()} | error
+  def revoke_selected_resources(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    RevokeAccess.Revoke.execute(id, params, config)
   end
 
   @doc """
