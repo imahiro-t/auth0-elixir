@@ -2081,6 +2081,97 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
+  Retrieve details of all the encryption keys associated with your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/keys/get-encryption-keys
+
+  """
+  @spec get_encryption_keys(map(), config) ::
+          {:ok, list(map()) | map()} | error
+  def get_encryption_keys(%{} = params, %Config{} = config) do
+    Keys.get_encryption_keys(params, config)
+  end
+
+  @doc """
+  Create the new, pre-activated encryption key, without the key material.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/keys/post-encryption
+
+  """
+  @spec create_encryption_key(map(), config) ::
+          {:ok, map()} | error
+  def create_encryption_key(%{} = params, %Config{} = config) do
+    Keys.create_encryption_key(params, config)
+  end
+
+  @doc """
+  Perform rekeying operation on the key hierarchy.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/keys/post-encryption-rekey
+
+  """
+  @spec rekey_encryption_key(config) ::
+          {:ok, String.t()} | error
+  def rekey_encryption_key(%Config{} = config) do
+    Keys.rekey_encryption_key(config)
+  end
+
+  @doc """
+  Retrieve details of the encryption key with the given ID.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/keys/get-encryption-key
+
+  """
+  @spec get_encryption_key(kid, config) ::
+          {:ok, map()} | error
+  def get_encryption_key(kid, %Config{} = config) do
+    Keys.get_encryption_key(kid, config)
+  end
+
+  @doc """
+  Delete the custom provided encryption key with the given ID and move back to using native encryption key.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/keys/delete-encryption-key
+
+  """
+  @spec delete_encryption_key(kid, config) ::
+          {:ok, String.t()} | error
+  def delete_encryption_key(kid, %Config{} = config) do
+    Keys.delete_encryption_key(kid, config)
+  end
+
+  @doc """
+  Import wrapped key material and activate encryption key.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/keys/post-encryption-key
+
+  """
+  @spec import_encryption_key(kid, map(), config) ::
+          {:ok, map()} | error
+  def import_encryption_key(kid, %{} = params, %Config{} = config) do
+    Keys.import_encryption_key(kid, params, config)
+  end
+
+  @doc """
+  Create the public wrapping key to wrap your own encryption key material.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/keys/post-encryption-wrapping-key
+
+  """
+  @spec create_encryption_wrapping_key(kid, config) ::
+          {:ok, map()} | error
+  def create_encryption_wrapping_key(kid, %Config{} = config) do
+    Keys.create_encryption_wrapping_key(kid, config)
+  end
+
+  @doc """
   Retrieve details on log streams.
 
   ## see
