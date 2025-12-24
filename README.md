@@ -76,6 +76,8 @@ The library handles Auth0's rate limiting automatically. When a `429 Too Many Re
 - ✨ Add Session Update endpoint
 - ✨ Add Client Secret Rotation endpoint
 - ✨ Add Connection Status endpoint
+- ✨ Add Connection Profiles management endpoints
+- ✨ Add Event Streams management endpoints
 - ⚠️ Deprecate Rules and Hooks APIs
 
 

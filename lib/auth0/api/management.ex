@@ -13,10 +13,12 @@ defmodule Auth0.Api.Management do
   alias Auth0.Management.ClientGrants
   alias Auth0.Management.Clients
   alias Auth0.Management.Connections
+  alias Auth0.Management.ConnectionProfiles
   alias Auth0.Management.CustomDomains
   alias Auth0.Management.DeviceCredentials
   alias Auth0.Management.EmailTemplates
   alias Auth0.Management.Emails
+  alias Auth0.Management.EventStreams
   alias Auth0.Management.Flows
   alias Auth0.Management.Forms
   alias Auth0.Management.Grants
@@ -903,6 +905,39 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
+  Retrieve a list of connection profiles.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connection-profiles/get-connection-profiles
+  """
+  @spec get_connection_profiles(map(), config) :: {:ok, list(map())} | error
+  def get_connection_profiles(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    ConnectionProfiles.list(params, config)
+  end
+
+  @doc """
+  Retrieve a connection profile by its ID.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connection-profiles/get-connection-profiles-by-id
+  """
+  @spec get_connection_profile(id, config) :: {:ok, map()} | error
+  def get_connection_profile(id, %Config{} = config \\ %Config{}) do
+    ConnectionProfiles.get(id, config)
+  end
+
+  @doc """
+  Update a connection profile.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connection-profiles/patch-connection-profiles-by-id
+  """
+  @spec update_connection_profile(id, map(), config) :: {:ok, map()} | error
+  def update_connection_profile(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    ConnectionProfiles.update(id, params, config)
+  end
+
+  @doc """
   Retrieves detailed list of all connections that match the specified strategy. If no strategy is provided, all connections within your tenant are retrieved. This action can accept a list of fields to include or exclude from the resulting list of connections.
 
   ## see
@@ -1306,6 +1341,61 @@ defmodule Auth0.Api.Management do
           {:ok, map()} | error
   def configure_email_provider(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Emails.configure_provider(params, config)
+  end
+
+  @doc """
+  Retrieve all event streams.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/event-streams/get-event-streams
+  """
+  @spec get_event_streams(map(), config) :: {:ok, list(map())} | error
+  def get_event_streams(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    EventStreams.list(params, config)
+  end
+
+  @doc """
+  Create an event stream.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/event-streams/post-event-streams
+  """
+  @spec create_event_stream(map(), config) :: {:ok, map()} | error
+  def create_event_stream(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    EventStreams.create(params, config)
+  end
+
+  @doc """
+  Retrieve an event stream by its ID.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/event-streams/get-event-streams-by-id
+  """
+  @spec get_event_stream(id, config) :: {:ok, map()} | error
+  def get_event_stream(id, %Config{} = config \\ %Config{}) do
+    EventStreams.get(id, config)
+  end
+
+  @doc """
+  Delete an event stream.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/event-streams/delete-event-streams-by-id
+  """
+  @spec delete_event_stream(id, config) :: {:ok, String.t()} | error
+  def delete_event_stream(id, %Config{} = config \\ %Config{}) do
+    EventStreams.delete(id, config)
+  end
+
+  @doc """
+  Update an event stream.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/event-streams/patch-event-streams-by-id
+  """
+  @spec update_event_stream(id, map(), config) :: {:ok, map()} | error
+  def update_event_stream(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    EventStreams.update(id, params, config)
   end
 
   @doc """
