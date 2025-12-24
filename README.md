@@ -78,6 +78,12 @@ The library handles Auth0's rate limiting automatically. When a `429 Too Many Re
 - ✨ Add Connection Status endpoint
 - ✨ Add Connection Profiles management endpoints
 - ✨ Add Event Streams management endpoints
+- ✨ Add Network ACLs management endpoints
+- ✨ Add User Attribute Profiles management endpoints
+- ✨ Add Token Exchange Profiles management endpoints
+- ✨ Add Verifiable Credentials management endpoints
+- ✨ Add Risk Assessments management endpoints
+- ✨ Add Supplemental Signals management endpoints
 - ⚠️ Deprecate Rules and Hooks APIs
 
 
