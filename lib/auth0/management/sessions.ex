@@ -3,6 +3,7 @@ defmodule Auth0.Management.Sessions do
   alias Auth0.Management.Sessions.Get
   alias Auth0.Management.Sessions.Delete
   alias Auth0.Management.Sessions.Revoke
+  alias Auth0.Management.Sessions.Patch
 
   @type id :: String.t()
   @type config :: Config.t()
@@ -43,5 +44,17 @@ defmodule Auth0.Management.Sessions do
   @spec revoke(id, config) :: {:ok, String.t()} | error
   def revoke(id, %Config{} = config) do
     Revoke.execute(id, config)
+  end
+
+  @doc """
+  Update a session.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/sessions/patch-session
+
+  """
+  @spec update(id, map(), config) :: {:ok, map()} | error
+  def update(id, %{} = params, %Config{} = config) do
+    Patch.execute(id, params, config)
   end
 end
