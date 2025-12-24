@@ -181,9 +181,9 @@ defmodule Auth0.Management.Connections do
   https://auth0.com/docs/api/management/v2/connections/get-status
 
   """
-  @spec get_status(id, config) :: {:ok, boolean} | error
+  @spec get_status(id, config) :: {:ok, map()} | error
   def get_status(id, %Config{} = config) do
-    Status.Check.execute(id, config)
+    Status.execute(id, config)
   end
 
   @doc """

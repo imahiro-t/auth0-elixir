@@ -74,6 +74,8 @@ The library handles Auth0's rate limiting automatically. When a `429 Too Many Re
 - ✨ Add Bot Detection Management endpoints
 - ✨ Add Prompts Rendering & Partials endpoints
 - ✨ Add Session Update endpoint
+- ✨ Add Client Secret Rotation endpoint
+- ✨ Add Connection Status endpoint
 - ⚠️ Deprecate Rules and Hooks APIs
 
 
