@@ -28,21 +28,27 @@ defmodule Auth0.Api.Management do
   alias Auth0.Management.Keys
   alias Auth0.Management.LogStreams
   alias Auth0.Management.Logs
+  alias Auth0.Management.NetworkAcls
   alias Auth0.Management.Organizations
   alias Auth0.Management.Prompts
   alias Auth0.Management.RefreshTokens
   alias Auth0.Management.ResourceServers
+  alias Auth0.Management.RiskAssessments
   alias Auth0.Management.Roles
   alias Auth0.Management.Rules
   alias Auth0.Management.RulesConfigs
   alias Auth0.Management.SelfServiceProfiles
   alias Auth0.Management.Sessions
   alias Auth0.Management.Stats
+  alias Auth0.Management.SupplementalSignals
   alias Auth0.Management.Tenants
   alias Auth0.Management.Tickets
+  alias Auth0.Management.TokenExchangeProfiles
+  alias Auth0.Management.UserAttributeProfiles
   alias Auth0.Management.UserBlocks
   alias Auth0.Management.Users
   alias Auth0.Management.UsersByEmail
+  alias Auth0.Management.VerifiableCredentials
 
   @type config :: Config.t()
   @type theme_id :: String.t()
@@ -2350,6 +2356,61 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
+  Retrieve a list of network ACLs.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/network-acls/get-network-acls
+  """
+  @spec get_network_acls(map(), config) :: {:ok, list(map())} | error
+  def get_network_acls(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    NetworkAcls.list(params, config)
+  end
+
+  @doc """
+  Create a network ACL.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/network-acls/post-network-acls
+  """
+  @spec create_network_acl(map(), config) :: {:ok, map()} | error
+  def create_network_acl(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    NetworkAcls.create(params, config)
+  end
+
+  @doc """
+  Retrieve a network ACL by its ID.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/network-acls/get-network-acls-by-id
+  """
+  @spec get_network_acl(id, config) :: {:ok, map()} | error
+  def get_network_acl(id, %Config{} = config \\ %Config{}) do
+    NetworkAcls.get(id, config)
+  end
+
+  @doc """
+  Delete a network ACL.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/network-acls/delete-network-acls-by-id
+  """
+  @spec delete_network_acl(id, config) :: {:ok, String.t()} | error
+  def delete_network_acl(id, %Config{} = config \\ %Config{}) do
+    NetworkAcls.delete(id, config)
+  end
+
+  @doc """
+  Update a network ACL.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/network-acls/patch-network-acls-by-id
+  """
+  @spec update_network_acl(id, map(), config) :: {:ok, map()} | error
+  def update_network_acl(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    NetworkAcls.update(id, params, config)
+  end
+
+  @doc """
   Retrive detailed list of all Organizations available in your tenant.
 
   ## see
@@ -2870,6 +2931,28 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
+  Create a risk assessment.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/risk-assessments/post-risk-assessments
+  """
+  @spec create_risk_assessment(map(), config) :: {:ok, map()} | error
+  def create_risk_assessment(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    RiskAssessments.create(params, config)
+  end
+
+  @doc """
+  Retrieve a risk assessment by its ID.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/risk-assessments/get-risk-assessments-by-id
+  """
+  @spec get_risk_assessment(id, config) :: {:ok, map()} | error
+  def get_risk_assessment(id, %Config{} = config \\ %Config{}) do
+    RiskAssessments.get(id, config)
+  end
+
+  @doc """
   Retrieve detailed list of user roles created in your tenant.
 
   ## see
@@ -2999,6 +3082,28 @@ defmodule Auth0.Api.Management do
           {:ok, String.t()} | error
   def assign_role_users(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Roles.assign_users(id, params, config)
+  end
+
+  @doc """
+  Create a supplemental signal.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/supplemental-signals/post-supplemental-signals
+  """
+  @spec create_supplemental_signal(map(), config) :: {:ok, map()} | error
+  def create_supplemental_signal(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    SupplementalSignals.create(params, config)
+  end
+
+  @doc """
+  Retrieve a supplemental signal by its ID.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/supplemental-signals/get-supplemental-signals-by-id
+  """
+  @spec get_supplemental_signal(id, config) :: {:ok, map()} | error
+  def get_supplemental_signal(id, %Config{} = config \\ %Config{}) do
+    SupplementalSignals.get(id, config)
   end
 
   @doc """
@@ -3377,6 +3482,171 @@ defmodule Auth0.Api.Management do
           {:ok, map()} | error
   def create_user(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Users.create(params, config)
+  end
+
+  @doc """
+  Retrieve a list of token exchange profiles.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/token-exchange-profiles/get-token-exchange-profiles
+  """
+  @spec get_token_exchange_profiles(map(), config) :: {:ok, list(map())} | error
+  def get_token_exchange_profiles(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    TokenExchangeProfiles.list(params, config)
+  end
+
+  @doc """
+  Create a token exchange profile.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/token-exchange-profiles/post-token-exchange-profiles
+  """
+  @spec create_token_exchange_profile(map(), config) :: {:ok, map()} | error
+  def create_token_exchange_profile(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    TokenExchangeProfiles.create(params, config)
+  end
+
+  @doc """
+  Retrieve a token exchange profile by its ID.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/token-exchange-profiles/get-token-exchange-profiles-by-id
+  """
+  @spec get_token_exchange_profile(id, config) :: {:ok, map()} | error
+  def get_token_exchange_profile(id, %Config{} = config \\ %Config{}) do
+    TokenExchangeProfiles.get(id, config)
+  end
+
+  @doc """
+  Delete a token exchange profile.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/token-exchange-profiles/delete-token-exchange-profiles-by-id
+  """
+  @spec delete_token_exchange_profile(id, config) :: {:ok, String.t()} | error
+  def delete_token_exchange_profile(id, %Config{} = config \\ %Config{}) do
+    TokenExchangeProfiles.delete(id, config)
+  end
+
+  @doc """
+  Update a token exchange profile.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/token-exchange-profiles/patch-token-exchange-profiles-by-id
+  """
+  @spec update_token_exchange_profile(id, map(), config) :: {:ok, map()} | error
+  def update_token_exchange_profile(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    TokenExchangeProfiles.update(id, params, config)
+  end
+
+  @doc """
+  Retrieve a list of verifiable credentials.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/verifiable-credentials/get-verifiable-credentials
+  """
+  @spec get_verifiable_credentials(map(), config) :: {:ok, list(map())} | error
+  def get_verifiable_credentials(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    VerifiableCredentials.list(params, config)
+  end
+
+  @doc """
+  Create a verifiable credential.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/verifiable-credentials/post-verifiable-credentials
+  """
+  @spec create_verifiable_credential(map(), config) :: {:ok, map()} | error
+  def create_verifiable_credential(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    VerifiableCredentials.create(params, config)
+  end
+
+  @doc """
+  Retrieve a verifiable credential by its ID.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/verifiable-credentials/get-verifiable-credentials-by-id
+  """
+  @spec get_verifiable_credential(id, config) :: {:ok, map()} | error
+  def get_verifiable_credential(id, %Config{} = config \\ %Config{}) do
+    VerifiableCredentials.get(id, config)
+  end
+
+  @doc """
+  Delete a verifiable credential.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/verifiable-credentials/delete-verifiable-credentials-by-id
+  """
+  @spec delete_verifiable_credential(id, config) :: {:ok, String.t()} | error
+  def delete_verifiable_credential(id, %Config{} = config \\ %Config{}) do
+    VerifiableCredentials.delete(id, config)
+  end
+
+  @doc """
+  Update a verifiable credential.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/verifiable-credentials/patch-verifiable-credentials-by-id
+  """
+  @spec update_verifiable_credential(id, map(), config) :: {:ok, map()} | error
+  def update_verifiable_credential(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    VerifiableCredentials.update(id, params, config)
+  end
+
+  @doc """
+  Retrieve a list of user attribute profiles.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/user-attribute-profiles/get-user-attribute-profiles
+  """
+  @spec get_user_attribute_profiles(map(), config) :: {:ok, list(map())} | error
+  def get_user_attribute_profiles(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    UserAttributeProfiles.list(params, config)
+  end
+
+  @doc """
+  Create a user attribute profile.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/user-attribute-profiles/post-user-attribute-profiles
+  """
+  @spec create_user_attribute_profile(map(), config) :: {:ok, map()} | error
+  def create_user_attribute_profile(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    UserAttributeProfiles.create(params, config)
+  end
+
+  @doc """
+  Retrieve a user attribute profile by its ID.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/user-attribute-profiles/get-user-attribute-profiles-by-id
+  """
+  @spec get_user_attribute_profile(id, config) :: {:ok, map()} | error
+  def get_user_attribute_profile(id, %Config{} = config \\ %Config{}) do
+    UserAttributeProfiles.get(id, config)
+  end
+
+  @doc """
+  Delete a user attribute profile.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/user-attribute-profiles/delete-user-attribute-profiles-by-id
+  """
+  @spec delete_user_attribute_profile(id, config) :: {:ok, String.t()} | error
+  def delete_user_attribute_profile(id, %Config{} = config \\ %Config{}) do
+    UserAttributeProfiles.delete(id, config)
+  end
+
+  @doc """
+  Update a user attribute profile.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/user-attribute-profiles/patch-user-attribute-profiles-by-id
+  """
+  @spec update_user_attribute_profile(id, map(), config) :: {:ok, map()} | error
+  def update_user_attribute_profile(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    UserAttributeProfiles.update(id, params, config)
   end
 
   @doc """
