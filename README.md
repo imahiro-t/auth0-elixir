@@ -57,7 +57,22 @@ headers = %{}
 Auth0.Common.Management.Http.raw_request(:get, "/api/v2/users?include_totals=true", body, headers, config)
 ```
 
+
+## Rate Limiting
+
+The library handles Auth0's rate limiting automatically. When a `429 Too Many Requests` response is received, it checks the `Retry-After` header and waits for the specified duration before retrying. If the header is missing, it falls back to an exponential backoff strategy.
+
+## Deprecations
+
+- **Rules & Hooks**: Auth0 has announced the End-of-Life for Rules and Hooks. These modules (`Auth0.Management.Rules`, `Auth0.Management.Hooks`) are now marked as deprecated. Please migrate to [Auth0 Actions](https://auth0.com/docs/customize/actions).
+
 ## Release Notes
+
+### 2.3.0
+
+- ✨ Support `Retry-After` header for rate limiting
+- ⚠️ Deprecate Rules and Hooks APIs
+
 
 ### 2.2.0
 

@@ -1,4 +1,5 @@
 defmodule Auth0.Management.Rules do
+  @deprecated "Auth0 Rules are deprecated and will be removed. Migrate to Actions."
   alias Auth0.Config
   alias Auth0.Management.Rules.List
   alias Auth0.Management.Rules.Create

@@ -1,4 +1,5 @@
 defmodule Auth0.Management.Hooks do
+  @deprecated "Auth0 Hooks are deprecated and will be removed. Migrate to Actions."
   alias Auth0.Config
   alias Auth0.Management.Hooks.List
   alias Auth0.Management.Hooks.Create

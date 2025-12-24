@@ -184,9 +184,10 @@ defmodule Auth0.Common.Management.Http do
     max_request_retry_count = config |> get_max_request_retry_count
 
     case request_func.(url) do
-      {:ok, %HTTPoison.Response{status_code: 429}} when max_request_retry_count > retry_count ->
+      {:ok, %HTTPoison.Response{status_code: 429, headers: headers}}
+      when max_request_retry_count > retry_count ->
         retry_count = retry_count + 1
-        exponential_delay(retry_count)
+        wait_for_retry(retry_count, headers)
         request_with_retry(request_func, endpoint, config, retry_count)
 
       {:ok, %HTTPoison.Response{status_code: status_code, body: body}}
@@ -236,6 +237,29 @@ defmodule Auth0.Common.Management.Http do
 
   defp get_max_request_retry_count(%Config{} = config),
     do: min(Config.get_max_request_retry_count(config), @max_request_retry_count)
+
+  defp wait_for_retry(retry_count, headers) do
+    retry_after =
+      Enum.find_value(headers, fn {k, v} ->
+        if String.downcase(k) == "retry-after", do: v, else: nil
+      end)
+
+    if retry_after do
+      # If Retry-After is present, use it. It can be seconds or a date.
+      # Auth0 usually sends seconds.
+      case Integer.parse(retry_after) do
+        {seconds, _} ->
+          # Sleep for the specified seconds + small buffer (100ms)
+          Process.sleep(seconds * 1000 + 100)
+
+        :error ->
+          # If parsing fails, fall back to exponential backoff
+          exponential_delay(retry_count)
+      end
+    else
+      exponential_delay(retry_count)
+    end
+  end
 
   defp exponential_delay(retry_count) do
     request_retry_jitter = Enum.random(0..@max_request_retry_jitter)
