@@ -31,7 +31,8 @@ defmodule Auth0.Config do
             max_request_retry_count: nil,
             correlation_id: nil,
             token_cache_disabled: false,
-            clear_token_cache: false
+            clear_token_cache: false,
+            http_protocol: "https"
 
   @type t :: %__MODULE__{
           domain: String.t(),
@@ -41,7 +42,8 @@ defmodule Auth0.Config do
           max_request_retry_count: integer,
           correlation_id: String.t(),
           token_cache_disabled: boolean,
-          clear_token_cache: boolean
+          clear_token_cache: boolean,
+          http_protocol: String.t()
         }
 
   @type config :: Config.t()
@@ -95,4 +97,11 @@ defmodule Auth0.Config do
 
   def get_max_request_retry_count(%Config{max_request_retry_count: max_request_retry_count}),
     do: max_request_retry_count
+
+  @doc """
+  get HTTP Protocol. defaults to "https".
+  """
+  @spec get_http_protocol(config) :: String.t()
+  def get_http_protocol(%Config{http_protocol: nil}), do: "https"
+  def get_http_protocol(%Config{http_protocol: http_protocol}), do: http_protocol
 end

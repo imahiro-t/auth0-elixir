@@ -52,7 +52,8 @@ defmodule Auth0Api.MixProject do
     [
       {:httpoison, "~> 2.2"},
       {:jason, "~> 1.4"},
-      {:ex_doc, "~> 0.31", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.31", only: :dev, runtime: false},
+      {:bypass, "~> 2.1", only: :test}
     ]
   end
 end

@@ -211,7 +211,7 @@ defmodule Auth0.Common.Management.Http do
   end
 
   defp get_url(endpoint, %Config{} = config) do
-    "https://#{Config.get_domain(config)}#{endpoint}"
+    "#{Config.get_http_protocol(config)}://#{Config.get_domain(config)}#{endpoint}"
   end
 
   defp set_correlation_id(headers, %Config{correlation_id: nil}), do: headers
