@@ -3,9 +3,32 @@ defmodule Auth0.Management.AttackProtection do
   alias Auth0.Management.AttackProtection.BreachedPasswordDetection
   alias Auth0.Management.AttackProtection.BruteForceProtection
   alias Auth0.Management.AttackProtection.SuspiciousIpThrottling
+  alias Auth0.Management.AttackProtection.BotDetection
 
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
+
+  @doc """
+  Retrieve details of the Bot Detection configuration of your tenant.
+
+  ## see
+  There is no public documentation for this endpoint yet, but it follows the standard pattern.
+  """
+  @spec get_bot_detection(config) :: {:ok, map()} | error
+  def get_bot_detection(%Config{} = config) do
+    BotDetection.Get.execute(config)
+  end
+
+  @doc """
+  Update details of the Bot Detection configuration of your tenant.
+
+  ## see
+  There is no public documentation for this endpoint yet, but it follows the standard pattern.
+  """
+  @spec update_bot_detection(map(), config) :: {:ok, map()} | error
+  def update_bot_detection(%{} = params, %Config{} = config) do
+    BotDetection.Patch.execute(params, config)
+  end
 
   @doc """
   Retrieve details of the Breached Password Detection configuration of your tenant.
