@@ -17,7 +17,8 @@ defmodule Auth0Api.MixProject do
       docs: [
         main: "readme",
         extras: [
-          "README.md"
+          "README.md",
+          "CHANGELOG.md"
         ]
       ],
       dialyzer: [
