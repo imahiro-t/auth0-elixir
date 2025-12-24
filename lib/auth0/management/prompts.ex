@@ -1,11 +1,13 @@
 defmodule Auth0.Management.Prompts do
-  alias Auth0.Config
+  alias Auth0.Management.Prompts.Rendering
   alias Auth0.Management.Prompts.Get
   alias Auth0.Management.Prompts.Patch
   alias Auth0.Management.Prompts.CustomText
   alias Auth0.Management.Prompts.Partials
+  alias Auth0.Config
 
   @type prompt :: String.t()
+  @type screen :: String.t()
   @type language :: String.t()
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
@@ -15,7 +17,6 @@ defmodule Auth0.Management.Prompts do
 
   ## see
   https://auth0.com/docs/api/management/v2/prompts/get-prompts
-
   """
   @spec get(config) ::
           {:ok, map()} | error
@@ -28,7 +29,6 @@ defmodule Auth0.Management.Prompts do
 
   ## see
   https://auth0.com/docs/api/management/v2/prompts/patch-prompts
-
   """
   @spec update(map(), config) ::
           {:ok, map()} | error
@@ -41,7 +41,6 @@ defmodule Auth0.Management.Prompts do
 
   ## see
   https://auth0.com/docs/api/management/v2/prompts/get-custom-text-by-language
-
   """
   @spec get_custom_text(prompt, language, config) ::
           {:ok, map()} | error
@@ -54,7 +53,6 @@ defmodule Auth0.Management.Prompts do
 
   ## see
   https://auth0.com/docs/api/management/v2/prompts/put-custom-text-by-language
-
   """
   @spec set_custom_text(prompt, language, map(), config) ::
           {:ok, String.t()} | error
@@ -67,7 +65,6 @@ defmodule Auth0.Management.Prompts do
 
   ## see
   https://auth0.com/docs/api/management/v2/prompts/get-partials
-
   """
   @spec get_partials(prompt, config) ::
           {:ok, map()} | error
@@ -80,11 +77,34 @@ defmodule Auth0.Management.Prompts do
 
   ## see
   https://auth0.com/docs/api/management/v2/prompts/put-partials
-
   """
   @spec set_partials(prompt, map(), config) ::
           {:ok, String.t()} | error
   def set_partials(prompt, %{} = params, %Config{} = config) do
     Partials.Put.execute(prompt, params, config)
+  end
+
+  @doc """
+  Retrieve the rendering configuration for a single screen.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/prompts/get-rendering-configuration
+  """
+  @spec get_rendering_configuration(prompt, screen, config) ::
+          {:ok, map()} | error
+  def get_rendering_configuration(prompt, screen, %Config{} = config) do
+    Rendering.Get.execute(prompt, screen, config)
+  end
+
+  @doc """
+  Configures ACUL settings on a single screen.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/prompts/patch-rendering-configuration
+  """
+  @spec set_rendering_configuration(prompt, screen, map(), config) ::
+          {:ok, map()} | error
+  def set_rendering_configuration(prompt, screen, %{} = params, %Config{} = config) do
+    Rendering.Patch.execute(prompt, screen, params, config)
   end
 end
