@@ -71,6 +71,9 @@ The library handles Auth0's rate limiting automatically. When a `429 Too Many Re
 ### 2.3.0
 
 - ✨ Support `Retry-After` header for rate limiting
+- ✨ Add Bot Detection Management endpoints
+- ✨ Add Prompts Rendering & Partials endpoints
+- ✨ Add Session Update endpoint
 - ⚠️ Deprecate Rules and Hooks APIs
 
 
