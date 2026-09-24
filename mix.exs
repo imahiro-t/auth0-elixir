@@ -1,7 +1,7 @@
 defmodule Auth0Api.MixProject do
   use Mix.Project
 
-  @description "Management API for Auth0"
+  @description "Elixir client for the Auth0 Management API v2 and the Authentication API (client credentials)"
   @source_url "https://github.com/imahiro-t/auth0-elixir"
 
   def project do
@@ -41,9 +41,12 @@ defmodule Auth0Api.MixProject do
 
   defp package do
     [
-      maintainers: ["erin"],
+      maintainers: ["Takashi Imahiro"],
       licenses: ["MIT"],
-      links: %{"Github" => @source_url}
+      links: %{
+        "GitHub" => @source_url,
+        "Changelog" => "https://hexdocs.pm/auth0_api/changelog.html"
+      }
     ]
   end
 
