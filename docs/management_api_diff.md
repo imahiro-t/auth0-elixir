@@ -9,6 +9,7 @@
   4. 参考指摘 1: A-121（`GET /guardian/factors/sms/providers/twilio`）の description を再確認し、移行先の利用を明示的に求めていたため、対応方法を「手順5」から「対象外」に変えた（区分は「追加」のまま。理由は A-121 の行）。
   5. 参考指摘 2: D-028〜D-031 の注記先に `get_connection`・`get_connections` を含めた（理由は各行）。
 - 件数の変化: 追加 191 → 197（+6）、変更 16、非推奨・廃止 32、合計 239 → 245。対象外 31 → 32（A-121）。
+- **実装ノード（AUTH0-00001-06）による追記**: 「追加」区分のうち実装した 153 項目（A-001〜A-005、A-017〜A-191 の手順5）の「対応する関数名」欄に、追加した `Auth0.Api.Management` の関数名を記入した。A-006〜A-016・A-192〜A-197 は既存の関数名のまま（新しいアリティ／オプション、`Util.convert_to_query/1` の修正で対応）。仕様・件数・区分は変えていない。
 
 ## 基準とした仕様と比較対象
 
@@ -135,11 +136,11 @@
 
 | ID | メソッド | パス | operationId | 区分 | 対応方法 | 対応する関数名 | 備考・対象外理由 |
 |---|---|---|---|---|---|---|---|
-| A-001 | GET | `/api/v2/attack-protection/bot-detection` | get_bot-detection | 追加 | 手順5（公開 API の関数のみ追加） | —（公開関数なし） | エンドポイントモジュール `AttackProtection.BotDetection.Get` とファサードの関数は実装済みだが、`Auth0.Api.Management` に公開関数がなく利用者から呼べない。公開関数と Bypass テストを追加する。 |
-| A-002 | PATCH | `/api/v2/attack-protection/bot-detection` | patch_bot-detection | 追加 | 手順5（公開 API の関数のみ追加） | —（公開関数なし） | エンドポイントモジュール `AttackProtection.BotDetection.Patch` とファサードの関数は実装済みだが、`Auth0.Api.Management` に公開関数がなく利用者から呼べない。公開関数と Bypass テストを追加する。 |
-| A-003 | GET | `/api/v2/prompts/{prompt}/screen/{screen}/rendering` | get_rendering | 追加 | 手順5（公開 API の関数のみ追加） | —（公開関数なし） | エンドポイントモジュール `Prompts.Rendering.Get` とファサードの関数は実装済みだが、`Auth0.Api.Management` に公開関数がなく利用者から呼べない。公開関数と Bypass テストを追加する。 |
-| A-004 | PATCH | `/api/v2/prompts/{prompt}/screen/{screen}/rendering` | patch_rendering | 追加 | 手順5（公開 API の関数のみ追加） | —（公開関数なし） | エンドポイントモジュール `Prompts.Rendering.Patch` とファサードの関数は実装済みだが、`Auth0.Api.Management` に公開関数がなく利用者から呼べない。公開関数と Bypass テストを追加する。 |
-| A-005 | PATCH | `/api/v2/sessions/{id}` | patch_sessions_by_id | 追加 | 手順5（公開 API の関数のみ追加） | —（公開関数なし） | エンドポイントモジュール `Sessions.Patch` とファサードの関数は実装済みだが、`Auth0.Api.Management` に公開関数がなく利用者から呼べない。公開関数と Bypass テストを追加する。 |
+| A-001 | GET | `/api/v2/attack-protection/bot-detection` | get_bot-detection | 追加 | 手順5（公開 API の関数のみ追加） | `get_attack_protection_bot_detection` | エンドポイントモジュール `AttackProtection.BotDetection.Get` とファサードの関数は実装済みだが、`Auth0.Api.Management` に公開関数がなく利用者から呼べない。公開関数と Bypass テストを追加する。 |
+| A-002 | PATCH | `/api/v2/attack-protection/bot-detection` | patch_bot-detection | 追加 | 手順5（公開 API の関数のみ追加） | `update_attack_protection_bot_detection` | エンドポイントモジュール `AttackProtection.BotDetection.Patch` とファサードの関数は実装済みだが、`Auth0.Api.Management` に公開関数がなく利用者から呼べない。公開関数と Bypass テストを追加する。 |
+| A-003 | GET | `/api/v2/prompts/{prompt}/screen/{screen}/rendering` | get_rendering | 追加 | 手順5（公開 API の関数のみ追加） | `get_prompt_rendering` | エンドポイントモジュール `Prompts.Rendering.Get` とファサードの関数は実装済みだが、`Auth0.Api.Management` に公開関数がなく利用者から呼べない。公開関数と Bypass テストを追加する。 |
+| A-004 | PATCH | `/api/v2/prompts/{prompt}/screen/{screen}/rendering` | patch_rendering | 追加 | 手順5（公開 API の関数のみ追加） | `update_prompt_rendering` | エンドポイントモジュール `Prompts.Rendering.Patch` とファサードの関数は実装済みだが、`Auth0.Api.Management` に公開関数がなく利用者から呼べない。公開関数と Bypass テストを追加する。 |
+| A-005 | PATCH | `/api/v2/sessions/{id}` | patch_sessions_by_id | 追加 | 手順5（公開 API の関数のみ追加） | `update_session` | エンドポイントモジュール `Sessions.Patch` とファサードの関数は実装済みだが、`Auth0.Api.Management` に公開関数がなく利用者から呼べない。公開関数と Bypass テストを追加する。 |
 | A-006 | POST | `/api/v2/branding/phone/templates/{id}/try` | try_phone_template | 追加 | 手順5（パラメータ追加） | `test_branding_phone_template` | ヘッダ `auth0-custom-domain`（メール内リンク等に使うカスタムドメインの指定）を送る手段がない。任意指定のヘッダとして送れるよう、既存関数はそのままに新しいアリティ（またはオプション引数）を追加する。 |
 | A-007 | GET | `/api/v2/custom-domains` | get_custom-domains | 追加 | 手順5（パラメータ追加） | `get_custom_domain_configurations` | 仕様にあるクエリ `take,from,q,fields,include_fields,sort` を送れない（関数が params を受け取らない）。既存のアリティを残して params を受け取るアリティを追加する。 |
 | A-008 | POST | `/api/v2/guardian/enrollments/ticket` | post_ticket | 追加 | 手順5（パラメータ追加） | `create_guardian_enrollment_ticket` | ヘッダ `auth0-custom-domain`（メール内リンク等に使うカスタムドメインの指定）を送る手段がない。任意指定のヘッダとして送れるよう、既存関数はそのままに新しいアリティ（またはオプション引数）を追加する。 |
@@ -151,61 +152,61 @@
 | A-014 | POST | `/api/v2/tickets/password-change` | post_password-change | 追加 | 手順5（パラメータ追加） | `create_password_change_ticket` | ヘッダ `auth0-custom-domain`（メール内リンク等に使うカスタムドメインの指定）を送る手段がない。任意指定のヘッダとして送れるよう、既存関数はそのままに新しいアリティ（またはオプション引数）を追加する。 |
 | A-015 | POST | `/api/v2/users` | post_users | 追加 | 手順5（パラメータ追加） | `create_user` | ヘッダ `auth0-custom-domain`（メール内リンク等に使うカスタムドメインの指定）を送る手段がない。任意指定のヘッダとして送れるよう、既存関数はそのままに新しいアリティ（またはオプション引数）を追加する。 |
 | A-016 | PATCH | `/api/v2/users/{id}` | patch_users_by_id | 追加 | 手順5（パラメータ追加） | `update_user` | ヘッダ `auth0-custom-domain`（メール内リンク等に使うカスタムドメインの指定）を送る手段がない。任意指定のヘッダとして送れるよう、既存関数はそのままに新しいアリティ（またはオプション引数）を追加する。 |
-| A-017 | GET | `/api/v2/actions/modules` | get_action_modules | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-018 | POST | `/api/v2/actions/modules` | post_action_module | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-019 | GET | `/api/v2/actions/modules/{id}` | get_action_module | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-020 | PATCH | `/api/v2/actions/modules/{id}` | patch_action_module | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-021 | DELETE | `/api/v2/actions/modules/{id}` | delete_action_module | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-022 | GET | `/api/v2/actions/modules/{id}/actions` | get_action_module_actions | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-023 | POST | `/api/v2/actions/modules/{id}/rollback` | post_action_module_rollback | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-024 | GET | `/api/v2/actions/modules/{id}/versions` | get_action_module_versions | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-025 | POST | `/api/v2/actions/modules/{id}/versions` | post_action_module_version | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-026 | GET | `/api/v2/actions/modules/{id}/versions/{versionId}` | get_action_module_version | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-027 | GET | `/api/v2/agents` | get_agents | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-028 | POST | `/api/v2/agents` | post_agent | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-029 | GET | `/api/v2/agents/{id}` | get_agent | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-030 | PATCH | `/api/v2/agents/{id}` | patch_agent | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-031 | DELETE | `/api/v2/agents/{id}` | delete_agent | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-032 | GET | `/api/v2/attack-protection/captcha` | get_captcha | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-033 | PATCH | `/api/v2/attack-protection/captcha` | patch_captcha | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-034 | GET | `/api/v2/attack-protection/phone-provider-protection` | get_phone-provider-protection | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-035 | PATCH | `/api/v2/attack-protection/phone-provider-protection` | patch_phone-provider-protection | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-036 | GET | `/api/v2/client-grants/{id}` | get_client-grant | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-037 | GET | `/api/v2/client-grants/{id}/organizations` | get_client-grant-organizations | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-038 | POST | `/api/v2/clients/cimd/preview` | post_clients_cimd_preview | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-039 | POST | `/api/v2/clients/cimd/register` | post_clients_cimd_register | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
+| A-017 | GET | `/api/v2/actions/modules` | get_action_modules | 追加 | 手順5 | `get_action_modules` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-018 | POST | `/api/v2/actions/modules` | post_action_module | 追加 | 手順5 | `create_action_module` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-019 | GET | `/api/v2/actions/modules/{id}` | get_action_module | 追加 | 手順5 | `get_action_module` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-020 | PATCH | `/api/v2/actions/modules/{id}` | patch_action_module | 追加 | 手順5 | `update_action_module` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-021 | DELETE | `/api/v2/actions/modules/{id}` | delete_action_module | 追加 | 手順5 | `delete_action_module` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-022 | GET | `/api/v2/actions/modules/{id}/actions` | get_action_module_actions | 追加 | 手順5 | `get_action_module_actions` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-023 | POST | `/api/v2/actions/modules/{id}/rollback` | post_action_module_rollback | 追加 | 手順5 | `rollback_action_module` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-024 | GET | `/api/v2/actions/modules/{id}/versions` | get_action_module_versions | 追加 | 手順5 | `get_action_module_versions` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-025 | POST | `/api/v2/actions/modules/{id}/versions` | post_action_module_version | 追加 | 手順5 | `create_action_module_version` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-026 | GET | `/api/v2/actions/modules/{id}/versions/{versionId}` | get_action_module_version | 追加 | 手順5 | `get_action_module_version` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-027 | GET | `/api/v2/agents` | get_agents | 追加 | 手順5 | `get_agents` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-028 | POST | `/api/v2/agents` | post_agent | 追加 | 手順5 | `create_agent` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-029 | GET | `/api/v2/agents/{id}` | get_agent | 追加 | 手順5 | `get_agent` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-030 | PATCH | `/api/v2/agents/{id}` | patch_agent | 追加 | 手順5 | `update_agent` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-031 | DELETE | `/api/v2/agents/{id}` | delete_agent | 追加 | 手順5 | `delete_agent` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-032 | GET | `/api/v2/attack-protection/captcha` | get_captcha | 追加 | 手順5 | `get_attack_protection_captcha` | lifecycle: GA。 |
+| A-033 | PATCH | `/api/v2/attack-protection/captcha` | patch_captcha | 追加 | 手順5 | `update_attack_protection_captcha` | lifecycle: GA。 |
+| A-034 | GET | `/api/v2/attack-protection/phone-provider-protection` | get_phone-provider-protection | 追加 | 手順5 | `get_attack_protection_phone_provider_protection` | lifecycle: GA。 |
+| A-035 | PATCH | `/api/v2/attack-protection/phone-provider-protection` | patch_phone-provider-protection | 追加 | 手順5 | `update_attack_protection_phone_provider_protection` | lifecycle: GA。 |
+| A-036 | GET | `/api/v2/client-grants/{id}` | get_client-grant | 追加 | 手順5 | `get_client_grant` | lifecycle: GA。 |
+| A-037 | GET | `/api/v2/client-grants/{id}/organizations` | get_client-grant-organizations | 追加 | 手順5 | `get_client_grant_organizations` | lifecycle: GA。 |
+| A-038 | POST | `/api/v2/clients/cimd/preview` | post_clients_cimd_preview | 追加 | 手順5 | `preview_client_cimd_metadata` | lifecycle: GA。 |
+| A-039 | POST | `/api/v2/clients/cimd/register` | post_clients_cimd_register | 追加 | 手順5 | `register_cimd_client` | lifecycle: GA。 |
 | A-040 | GET | `/api/v2/clients/search` | get_clients_search | 追加 | 対象外 | —（実装時に記入） | lifecycle: beta。仕様で `x-release-lifecycle: beta` の操作で、予告なく変わりうるため 2.5.0 の対象外とする（計画 手順3-5）。 |
-| A-041 | GET | `/api/v2/clients/{id}/connections` | get_client_connections | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-042 | POST | `/api/v2/connection-profiles` | post_connection-profiles | 追加 | 手順5 | —（実装時に記入） | lifecycle: 操作に記載なし（既存の connection-profiles と同じ扱い）。 |
-| A-043 | GET | `/api/v2/connection-profiles/templates` | get_connection_profile_templates | 追加 | 手順5 | —（実装時に記入） | lifecycle: 操作に記載なし（既存の connection-profiles と同じ扱い）。 |
-| A-044 | GET | `/api/v2/connection-profiles/templates/{id}` | get_connection_profile_template | 追加 | 手順5 | —（実装時に記入） | lifecycle: 操作に記載なし（既存の connection-profiles と同じ扱い）。 |
-| A-045 | DELETE | `/api/v2/connection-profiles/{id}` | delete_connection-profiles_by_id | 追加 | 手順5 | —（実装時に記入） | lifecycle: 操作に記載なし（既存の connection-profiles と同じ扱い）。 |
-| A-046 | GET | `/api/v2/connections-directory-provisionings` | get_connections-directory-provisionings | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-047 | GET | `/api/v2/connections-scim-configurations` | get_connections-scim-configurations | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-048 | GET | `/api/v2/connections/{id}/clients` | get_connection_clients | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-049 | PATCH | `/api/v2/connections/{id}/clients` | patch_clients | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-050 | GET | `/api/v2/connections/{id}/directory-provisioning` | get_directory-provisioning | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-051 | POST | `/api/v2/connections/{id}/directory-provisioning` | post_directory-provisioning | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-052 | PATCH | `/api/v2/connections/{id}/directory-provisioning` | patch_directory-provisioning | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-053 | DELETE | `/api/v2/connections/{id}/directory-provisioning` | delete_directory-provisioning | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-054 | GET | `/api/v2/connections/{id}/directory-provisioning/default-mapping` | get_directory_provisioning_default_mapping | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-055 | POST | `/api/v2/connections/{id}/directory-provisioning/synchronizations` | post_synchronizations | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-056 | GET | `/api/v2/connections/{id}/directory-provisioning/synchronized-groups` | get_synchronized-groups | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-057 | POST | `/api/v2/connections/{id}/directory-provisioning/synchronized-groups` | post_synchronized-groups | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-058 | PUT | `/api/v2/connections/{id}/directory-provisioning/synchronized-groups` | put_synchronized-groups | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-059 | DELETE | `/api/v2/connections/{id}/directory-provisioning/synchronized-groups` | delete_synchronized-groups | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-060 | GET | `/api/v2/connections/{id}/keys` | get_keys | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-061 | POST | `/api/v2/connections/{id}/keys` | post_keys | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-062 | POST | `/api/v2/connections/{id}/keys/rotate` | post_rotate | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-063 | GET | `/api/v2/custom-domains/default` | get_default | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-064 | PATCH | `/api/v2/custom-domains/default` | patch_default | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-065 | POST | `/api/v2/custom-domains/{id}/test` | post_test_domain | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-066 | DELETE | `/api/v2/emails/provider` | delete_provider | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-067 | GET | `/api/v2/event-streams/{id}/deliveries` | get_event_deliveries | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-068 | GET | `/api/v2/event-streams/{id}/deliveries/{event_id}` | get_deliveries_by_event_id | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-069 | POST | `/api/v2/event-streams/{id}/redeliver` | post_redeliver | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-070 | POST | `/api/v2/event-streams/{id}/redeliver/{event_id}` | post_redeliver_by_event_id | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-071 | POST | `/api/v2/event-streams/{id}/test` | post_test_event | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
+| A-041 | GET | `/api/v2/clients/{id}/connections` | get_client_connections | 追加 | 手順5 | `get_client_connections` | lifecycle: GA。 |
+| A-042 | POST | `/api/v2/connection-profiles` | post_connection-profiles | 追加 | 手順5 | `create_connection_profile` | lifecycle: 操作に記載なし（既存の connection-profiles と同じ扱い）。 |
+| A-043 | GET | `/api/v2/connection-profiles/templates` | get_connection_profile_templates | 追加 | 手順5 | `get_connection_profile_templates` | lifecycle: 操作に記載なし（既存の connection-profiles と同じ扱い）。 |
+| A-044 | GET | `/api/v2/connection-profiles/templates/{id}` | get_connection_profile_template | 追加 | 手順5 | `get_connection_profile_template` | lifecycle: 操作に記載なし（既存の connection-profiles と同じ扱い）。 |
+| A-045 | DELETE | `/api/v2/connection-profiles/{id}` | delete_connection-profiles_by_id | 追加 | 手順5 | `delete_connection_profile` | lifecycle: 操作に記載なし（既存の connection-profiles と同じ扱い）。 |
+| A-046 | GET | `/api/v2/connections-directory-provisionings` | get_connections-directory-provisionings | 追加 | 手順5 | `get_connections_directory_provisionings` | lifecycle: GA。 |
+| A-047 | GET | `/api/v2/connections-scim-configurations` | get_connections-scim-configurations | 追加 | 手順5 | `get_connections_scim_configurations` | lifecycle: GA。 |
+| A-048 | GET | `/api/v2/connections/{id}/clients` | get_connection_clients | 追加 | 手順5 | `get_connection_clients` | lifecycle: GA。 |
+| A-049 | PATCH | `/api/v2/connections/{id}/clients` | patch_clients | 追加 | 手順5 | `update_connection_clients` | lifecycle: GA。 |
+| A-050 | GET | `/api/v2/connections/{id}/directory-provisioning` | get_directory-provisioning | 追加 | 手順5 | `get_connection_directory_provisioning` | lifecycle: GA。 |
+| A-051 | POST | `/api/v2/connections/{id}/directory-provisioning` | post_directory-provisioning | 追加 | 手順5 | `create_connection_directory_provisioning` | lifecycle: GA。 |
+| A-052 | PATCH | `/api/v2/connections/{id}/directory-provisioning` | patch_directory-provisioning | 追加 | 手順5 | `update_connection_directory_provisioning` | lifecycle: GA。 |
+| A-053 | DELETE | `/api/v2/connections/{id}/directory-provisioning` | delete_directory-provisioning | 追加 | 手順5 | `delete_connection_directory_provisioning` | lifecycle: GA。 |
+| A-054 | GET | `/api/v2/connections/{id}/directory-provisioning/default-mapping` | get_directory_provisioning_default_mapping | 追加 | 手順5 | `get_connection_directory_provisioning_default_mapping` | lifecycle: GA。 |
+| A-055 | POST | `/api/v2/connections/{id}/directory-provisioning/synchronizations` | post_synchronizations | 追加 | 手順5 | `create_connection_directory_provisioning_synchronization` | lifecycle: GA。 |
+| A-056 | GET | `/api/v2/connections/{id}/directory-provisioning/synchronized-groups` | get_synchronized-groups | 追加 | 手順5 | `get_connection_directory_provisioning_synchronized_groups` | lifecycle: GA。 |
+| A-057 | POST | `/api/v2/connections/{id}/directory-provisioning/synchronized-groups` | post_synchronized-groups | 追加 | 手順5 | `add_connection_directory_provisioning_synchronized_groups` | lifecycle: GA。 |
+| A-058 | PUT | `/api/v2/connections/{id}/directory-provisioning/synchronized-groups` | put_synchronized-groups | 追加 | 手順5 | `set_connection_directory_provisioning_synchronized_groups` | lifecycle: GA。 |
+| A-059 | DELETE | `/api/v2/connections/{id}/directory-provisioning/synchronized-groups` | delete_synchronized-groups | 追加 | 手順5 | `delete_connection_directory_provisioning_synchronized_groups` | lifecycle: GA。 |
+| A-060 | GET | `/api/v2/connections/{id}/keys` | get_keys | 追加 | 手順5 | `get_connection_keys` | lifecycle: GA。 |
+| A-061 | POST | `/api/v2/connections/{id}/keys` | post_keys | 追加 | 手順5 | `create_connection_keys` | lifecycle: GA。 |
+| A-062 | POST | `/api/v2/connections/{id}/keys/rotate` | post_rotate | 追加 | 手順5 | `rotate_connection_keys` | lifecycle: GA。 |
+| A-063 | GET | `/api/v2/custom-domains/default` | get_default | 追加 | 手順5 | `get_default_custom_domain` | lifecycle: GA。 |
+| A-064 | PATCH | `/api/v2/custom-domains/default` | patch_default | 追加 | 手順5 | `set_default_custom_domain` | lifecycle: GA。 |
+| A-065 | POST | `/api/v2/custom-domains/{id}/test` | post_test_domain | 追加 | 手順5 | `test_custom_domain` | lifecycle: GA。 |
+| A-066 | DELETE | `/api/v2/emails/provider` | delete_provider | 追加 | 手順5 | `delete_email_provider` | lifecycle: GA。 |
+| A-067 | GET | `/api/v2/event-streams/{id}/deliveries` | get_event_deliveries | 追加 | 手順5 | `get_event_stream_deliveries` | lifecycle: GA。 |
+| A-068 | GET | `/api/v2/event-streams/{id}/deliveries/{event_id}` | get_deliveries_by_event_id | 追加 | 手順5 | `get_event_stream_delivery` | lifecycle: GA。 |
+| A-069 | POST | `/api/v2/event-streams/{id}/redeliver` | post_redeliver | 追加 | 手順5 | `redeliver_event_stream_events` | lifecycle: GA。 |
+| A-070 | POST | `/api/v2/event-streams/{id}/redeliver/{event_id}` | post_redeliver_by_event_id | 追加 | 手順5 | `redeliver_event_stream_event` | lifecycle: GA。 |
+| A-071 | POST | `/api/v2/event-streams/{id}/test` | post_test_event | 追加 | 手順5 | `test_event_stream` | lifecycle: GA。 |
 | A-072 | GET | `/api/v2/events` | subscribe_events | 追加 | 対象外 | —（実装時に記入） | lifecycle: GA。Server-Sent Events（`text/event-stream`）の購読 API で、本ライブラリの HTTP 層（HTTPoison の同期リクエストと JSON デコード）では扱えないため対象外とする。 |
 | A-073 | GET | `/api/v2/experimentation/experiments` | get_experiments | 追加 | 対象外 | —（実装時に記入） | lifecycle: beta。仕様で `x-release-lifecycle: beta` の操作で、予告なく変わりうるため 2.5.0 の対象外とする（計画 手順3-5）。 |
 | A-074 | POST | `/api/v2/experimentation/experiments` | create_experiment | 追加 | 対象外 | —（実装時に記入） | lifecycle: beta。仕様で `x-release-lifecycle: beta` の操作で、予告なく変わりうるため 2.5.0 の対象外とする（計画 手順3-5）。 |
@@ -231,101 +232,101 @@
 | A-094 | GET | `/api/v2/experimentation/segments/{id}` | get_segment | 追加 | 対象外 | —（実装時に記入） | lifecycle: beta。仕様で `x-release-lifecycle: beta` の操作で、予告なく変わりうるため 2.5.0 の対象外とする（計画 手順3-5）。 |
 | A-095 | PATCH | `/api/v2/experimentation/segments/{id}` | update_segment | 追加 | 対象外 | —（実装時に記入） | lifecycle: beta。仕様で `x-release-lifecycle: beta` の操作で、予告なく変わりうるため 2.5.0 の対象外とする（計画 手順3-5）。 |
 | A-096 | DELETE | `/api/v2/experimentation/segments/{id}` | delete_segment | 追加 | 対象外 | —（実装時に記入） | lifecycle: beta。仕様で `x-release-lifecycle: beta` の操作で、予告なく変わりうるため 2.5.0 の対象外とする（計画 手順3-5）。 |
-| A-097 | GET | `/api/v2/flows/vault/connections` | get_flows_vault_connections | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-098 | POST | `/api/v2/flows/vault/connections` | post_flows_vault_connections | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-099 | GET | `/api/v2/flows/vault/connections/{id}` | get_flows_vault_connections_by_id | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-100 | PATCH | `/api/v2/flows/vault/connections/{id}` | patch_flows_vault_connections_by_id | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-101 | DELETE | `/api/v2/flows/vault/connections/{id}` | delete_flows_vault_connections_by_id | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-102 | GET | `/api/v2/flows/{flow_id}/executions` | get_flows_executions | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-103 | GET | `/api/v2/flows/{flow_id}/executions/{execution_id}` | get_flows_executions_by_execution_id | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-104 | DELETE | `/api/v2/flows/{flow_id}/executions/{execution_id}` | delete_flows_executions_by_execution_id | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-105 | DELETE | `/api/v2/flows/{id}` | delete_flows_by_id | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-106 | DELETE | `/api/v2/forms/{id}` | delete_form | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-107 | GET | `/api/v2/groups` | get_groups | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-108 | GET | `/api/v2/groups/{id}` | get_group | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-109 | DELETE | `/api/v2/groups/{id}` | delete_group | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-110 | GET | `/api/v2/groups/{id}/members` | get_group_members | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-111 | GET | `/api/v2/groups/{id}/roles` | get_group_roles | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-112 | POST | `/api/v2/groups/{id}/roles` | post_group_roles | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-113 | DELETE | `/api/v2/groups/{id}/roles` | delete_group_roles | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-114 | GET | `/api/v2/guardian/factors/duo/settings` | get_factor_duo_settings | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-115 | PUT | `/api/v2/guardian/factors/duo/settings` | put_factor_duo_settings | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-116 | PATCH | `/api/v2/guardian/factors/duo/settings` | patch_factor_duo_settings | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-117 | GET | `/api/v2/guardian/factors/email/settings` | get_email_factor_settings | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-118 | PUT | `/api/v2/guardian/factors/email/settings` | set_email_factor_settings | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-119 | GET | `/api/v2/guardian/factors/phone/settings` | get_phone_factor_settings | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-120 | PUT | `/api/v2/guardian/factors/phone/settings` | set_phone_factor_settings | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
+| A-097 | GET | `/api/v2/flows/vault/connections` | get_flows_vault_connections | 追加 | 手順5 | `get_flows_vault_connections` | lifecycle: GA。 |
+| A-098 | POST | `/api/v2/flows/vault/connections` | post_flows_vault_connections | 追加 | 手順5 | `create_flows_vault_connection` | lifecycle: GA。 |
+| A-099 | GET | `/api/v2/flows/vault/connections/{id}` | get_flows_vault_connections_by_id | 追加 | 手順5 | `get_flows_vault_connection` | lifecycle: GA。 |
+| A-100 | PATCH | `/api/v2/flows/vault/connections/{id}` | patch_flows_vault_connections_by_id | 追加 | 手順5 | `update_flows_vault_connection` | lifecycle: GA。 |
+| A-101 | DELETE | `/api/v2/flows/vault/connections/{id}` | delete_flows_vault_connections_by_id | 追加 | 手順5 | `delete_flows_vault_connection` | lifecycle: GA。 |
+| A-102 | GET | `/api/v2/flows/{flow_id}/executions` | get_flows_executions | 追加 | 手順5 | `get_flow_executions` | lifecycle: GA。 |
+| A-103 | GET | `/api/v2/flows/{flow_id}/executions/{execution_id}` | get_flows_executions_by_execution_id | 追加 | 手順5 | `get_flow_execution` | lifecycle: GA。 |
+| A-104 | DELETE | `/api/v2/flows/{flow_id}/executions/{execution_id}` | delete_flows_executions_by_execution_id | 追加 | 手順5 | `delete_flow_execution` | lifecycle: GA。 |
+| A-105 | DELETE | `/api/v2/flows/{id}` | delete_flows_by_id | 追加 | 手順5 | `delete_flow` | lifecycle: GA。 |
+| A-106 | DELETE | `/api/v2/forms/{id}` | delete_form | 追加 | 手順5 | `delete_form` | lifecycle: GA。 |
+| A-107 | GET | `/api/v2/groups` | get_groups | 追加 | 手順5 | `get_groups` | lifecycle: GA。 |
+| A-108 | GET | `/api/v2/groups/{id}` | get_group | 追加 | 手順5 | `get_group` | lifecycle: GA。 |
+| A-109 | DELETE | `/api/v2/groups/{id}` | delete_group | 追加 | 手順5 | `delete_group` | lifecycle: GA。 |
+| A-110 | GET | `/api/v2/groups/{id}/members` | get_group_members | 追加 | 手順5 | `get_group_members` | lifecycle: GA。 |
+| A-111 | GET | `/api/v2/groups/{id}/roles` | get_group_roles | 追加 | 手順5 | `get_group_roles` | lifecycle: GA。 |
+| A-112 | POST | `/api/v2/groups/{id}/roles` | post_group_roles | 追加 | 手順5 | `assign_group_roles` | lifecycle: GA。 |
+| A-113 | DELETE | `/api/v2/groups/{id}/roles` | delete_group_roles | 追加 | 手順5 | `remove_group_roles` | lifecycle: GA。 |
+| A-114 | GET | `/api/v2/guardian/factors/duo/settings` | get_factor_duo_settings | 追加 | 手順5 | `get_guardian_duo_settings` | lifecycle: GA。 |
+| A-115 | PUT | `/api/v2/guardian/factors/duo/settings` | put_factor_duo_settings | 追加 | 手順5 | `update_guardian_duo_settings` | lifecycle: GA。 |
+| A-116 | PATCH | `/api/v2/guardian/factors/duo/settings` | patch_factor_duo_settings | 追加 | 手順5 | `patch_guardian_duo_settings` | lifecycle: GA。 |
+| A-117 | GET | `/api/v2/guardian/factors/email/settings` | get_email_factor_settings | 追加 | 手順5 | `get_guardian_email_settings` | lifecycle: GA。 |
+| A-118 | PUT | `/api/v2/guardian/factors/email/settings` | set_email_factor_settings | 追加 | 手順5 | `update_guardian_email_settings` | lifecycle: GA。 |
+| A-119 | GET | `/api/v2/guardian/factors/phone/settings` | get_phone_factor_settings | 追加 | 手順5 | `get_guardian_phone_settings` | lifecycle: GA。 |
+| A-120 | PUT | `/api/v2/guardian/factors/phone/settings` | set_phone_factor_settings | 追加 | 手順5 | `update_guardian_phone_settings` | lifecycle: GA。 |
 | A-121 | GET | `/api/v2/guardian/factors/sms/providers/twilio` | get_sms_twilio_factor_provider | 追加 | 対象外 | —（実装時に記入） | lifecycle: GA。仕様にフラグはなく、description も「deprecated」とは書いていないが、「A new endpoint is available to retrieve the Twilio configuration related to phone factors (…). It has the same payload as this one. Please use it instead.」と、同じペイロードを返す移行先 `GET /api/v2/guardian/factors/phone/providers/twilio` の利用を明示的に求めている。移行先は実装済み（`get_guardian_twilio_phone_configuration`）で、対になる `PUT` を含む sms 系の他の 5 操作は description で非推奨と明記されている（D-001〜D-005、いずれも未実装・対象外）。利用を止めるよう案内されている旧パスに新しい公開関数を増やすと、追加直後から非推奨の注記が必要になるだけで利用者に得がないため、対象外とする（第 1 版では追加（手順5）としていたが、レビューの参考指摘を受けて description を再確認し変更した）。 |
-| A-122 | GET | `/api/v2/guardian/settings` | get_guardian_settings | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-123 | PUT | `/api/v2/guardian/settings` | set_guardian_settings | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-124 | GET | `/api/v2/keys/custom-signing` | get_custom_signing_keys | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-125 | PUT | `/api/v2/keys/custom-signing` | put_custom_signing_keys | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-126 | DELETE | `/api/v2/keys/custom-signing` | delete_custom_signing_keys | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-127 | GET | `/api/v2/keys/network-acls` | get_all_keys_network_acls | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-128 | POST | `/api/v2/keys/network-acls` | create_keys_network_acls | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-129 | GET | `/api/v2/keys/network-acls/{id}` | get_keys_network_acls | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-130 | DELETE | `/api/v2/keys/network-acls/{id}` | delete_keys_network_acls | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-131 | PUT | `/api/v2/network-acls/{id}` | put_network-acls_by_id | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-132 | GET | `/api/v2/organizations/search` | get_search | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-133 | GET | `/api/v2/organizations/{id}/client-grants` | get_organization-client-grants | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-134 | POST | `/api/v2/organizations/{id}/client-grants` | create_organization-client-grants | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-135 | DELETE | `/api/v2/organizations/{id}/client-grants/{grant_id}` | delete_client-grants_by_grant_id | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-136 | GET | `/api/v2/organizations/{id}/clients` | get_organization_clients | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-137 | POST | `/api/v2/organizations/{id}/clients` | post_organization_clients | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-138 | DELETE | `/api/v2/organizations/{id}/clients` | delete_organization_clients | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-139 | GET | `/api/v2/organizations/{id}/clients/{client_id}` | get_organization_client | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-140 | PATCH | `/api/v2/organizations/{id}/clients/{client_id}` | patch_organization_client | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-141 | GET | `/api/v2/organizations/{id}/connections` | get_organization_connections | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-142 | POST | `/api/v2/organizations/{id}/connections` | post_organization_connection | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-143 | GET | `/api/v2/organizations/{id}/connections/{connection_id}` | get_organization_connection | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-144 | PATCH | `/api/v2/organizations/{id}/connections/{connection_id}` | patch_organization_connection | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-145 | DELETE | `/api/v2/organizations/{id}/connections/{connection_id}` | delete_organization_connection | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-146 | GET | `/api/v2/organizations/{id}/discovery-domains` | get_discovery-domains | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-147 | POST | `/api/v2/organizations/{id}/discovery-domains` | post_discovery-domains | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-148 | GET | `/api/v2/organizations/{id}/discovery-domains/name/{discovery_domain}` | get_name_by_discovery_domain | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-149 | GET | `/api/v2/organizations/{id}/discovery-domains/{discovery_domain_id}` | get_discovery-domains_by_discovery_domain_id | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-150 | PATCH | `/api/v2/organizations/{id}/discovery-domains/{discovery_domain_id}` | patch_discovery-domains_by_discovery_domain_id | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-151 | DELETE | `/api/v2/organizations/{id}/discovery-domains/{discovery_domain_id}` | delete_discovery-domains_by_discovery_domain_id | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-152 | GET | `/api/v2/organizations/{id}/members/{user_id}/effective-roles` | get_organization_member_effective_roles | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-153 | GET | `/api/v2/organizations/{id}/members/{user_id}/effective-roles/sources/groups` | get_organization_member_role_source_groups | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-154 | GET | `/api/v2/organizations/{id}/roles/{role_id}/members` | get_organization_role_members | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-155 | GET | `/api/v2/organizations/{organization_id}/groups` | get_organization_groups | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-156 | GET | `/api/v2/organizations/{organization_id}/groups/{group_id}/roles` | get_organization_group_roles | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-157 | POST | `/api/v2/organizations/{organization_id}/groups/{group_id}/roles` | post_organization_group_roles | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-158 | DELETE | `/api/v2/organizations/{organization_id}/groups/{group_id}/roles` | delete_organization_group_roles | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-159 | GET | `/api/v2/organizations/{organization_id}/roles/{role_id}/groups` | get_organization_role_groups | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-160 | GET | `/api/v2/prompts/rendering` | get_all_rendering | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-161 | PATCH | `/api/v2/prompts/rendering` | patch_bulk_rendering | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-162 | GET | `/api/v2/rate-limit-policies` | get_rate-limit-policies | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-163 | POST | `/api/v2/rate-limit-policies` | post_rate-limit-policies | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-164 | GET | `/api/v2/rate-limit-policies/{id}` | get_rate-limit-policies_by_id | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-165 | PATCH | `/api/v2/rate-limit-policies/{id}` | patch_rate-limit-policies_by_id | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-166 | DELETE | `/api/v2/rate-limit-policies/{id}` | delete_rate-limit-policies_by_id | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-167 | GET | `/api/v2/refresh-tokens` | get_refresh_tokens | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-168 | POST | `/api/v2/refresh-tokens/revoke` | revoke_refresh_tokens | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-169 | PATCH | `/api/v2/refresh-tokens/{id}` | patch_refresh-tokens_by_id | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-170 | GET | `/api/v2/resource-servers/search` | get_resource_servers_search | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-171 | GET | `/api/v2/risk-assessments/settings` | get_risk_assessments_settings | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-172 | PATCH | `/api/v2/risk-assessments/settings` | patch_risk_assessments_settings | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-173 | GET | `/api/v2/risk-assessments/settings/new-device` | get_new-device | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-174 | PATCH | `/api/v2/risk-assessments/settings/new-device` | patch_new-device | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-175 | GET | `/api/v2/roles/{id}/groups` | get_role_groups | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-176 | POST | `/api/v2/roles/{id}/groups` | post_role_groups | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-177 | DELETE | `/api/v2/roles/{id}/groups` | delete_role_groups | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-178 | GET | `/api/v2/self-service-profiles/{id}/custom-text/{language}/{page}` | get_self_service_profile_custom_text | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-179 | PUT | `/api/v2/self-service-profiles/{id}/custom-text/{language}/{page}` | put_self_service_profile_custom_text | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-180 | POST | `/api/v2/self-service-profiles/{profileId}/sso-ticket/{id}/revoke` | post_revoke | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-181 | GET | `/api/v2/supplemental-signals` | get_supplemental-signals | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-182 | PATCH | `/api/v2/supplemental-signals` | patch_supplemental-signals | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-183 | GET | `/api/v2/user-attribute-profiles/templates` | get_user_attribute_profile_templates | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-184 | GET | `/api/v2/user-attribute-profiles/templates/{id}` | get_user_attribute_profile_template | 追加 | 手順5 | —（実装時に記入） | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
-| A-185 | GET | `/api/v2/users/{id}/connected-accounts` | get_connected-accounts | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-186 | GET | `/api/v2/users/{id}/effective-permissions` | get_user_effective_permissions | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-187 | GET | `/api/v2/users/{id}/effective-permissions/sources/effective-roles` | get_user_effective_permission_role_sources | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-188 | GET | `/api/v2/users/{id}/effective-roles` | get_user_effective_roles | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-189 | GET | `/api/v2/users/{id}/effective-roles/sources/groups` | get_user_role_source_groups | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-190 | GET | `/api/v2/users/{id}/groups` | get_user_groups | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
-| A-191 | POST | `/api/v2/users/{id}/risk-assessments/clear` | post_clear_assessors | 追加 | 手順5 | —（実装時に記入） | lifecycle: GA。 |
+| A-122 | GET | `/api/v2/guardian/settings` | get_guardian_settings | 追加 | 手順5 | `get_guardian_settings` | lifecycle: GA。 |
+| A-123 | PUT | `/api/v2/guardian/settings` | set_guardian_settings | 追加 | 手順5 | `update_guardian_settings` | lifecycle: GA。 |
+| A-124 | GET | `/api/v2/keys/custom-signing` | get_custom_signing_keys | 追加 | 手順5 | `get_custom_signing_keys` | lifecycle: GA。 |
+| A-125 | PUT | `/api/v2/keys/custom-signing` | put_custom_signing_keys | 追加 | 手順5 | `set_custom_signing_keys` | lifecycle: GA。 |
+| A-126 | DELETE | `/api/v2/keys/custom-signing` | delete_custom_signing_keys | 追加 | 手順5 | `delete_custom_signing_keys` | lifecycle: GA。 |
+| A-127 | GET | `/api/v2/keys/network-acls` | get_all_keys_network_acls | 追加 | 手順5 | `get_network_acl_keys` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-128 | POST | `/api/v2/keys/network-acls` | create_keys_network_acls | 追加 | 手順5 | `create_network_acl_key` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-129 | GET | `/api/v2/keys/network-acls/{id}` | get_keys_network_acls | 追加 | 手順5 | `get_network_acl_key` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-130 | DELETE | `/api/v2/keys/network-acls/{id}` | delete_keys_network_acls | 追加 | 手順5 | `delete_network_acl_key` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-131 | PUT | `/api/v2/network-acls/{id}` | put_network-acls_by_id | 追加 | 手順5 | `set_network_acl` | lifecycle: GA。 |
+| A-132 | GET | `/api/v2/organizations/search` | get_search | 追加 | 手順5 | `search_organizations` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-133 | GET | `/api/v2/organizations/{id}/client-grants` | get_organization-client-grants | 追加 | 手順5 | `get_organization_client_grants` | lifecycle: GA。 |
+| A-134 | POST | `/api/v2/organizations/{id}/client-grants` | create_organization-client-grants | 追加 | 手順5 | `associate_organization_client_grant` | lifecycle: GA。 |
+| A-135 | DELETE | `/api/v2/organizations/{id}/client-grants/{grant_id}` | delete_client-grants_by_grant_id | 追加 | 手順5 | `delete_organization_client_grant` | lifecycle: GA。 |
+| A-136 | GET | `/api/v2/organizations/{id}/clients` | get_organization_clients | 追加 | 手順5 | `get_organization_clients` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-137 | POST | `/api/v2/organizations/{id}/clients` | post_organization_clients | 追加 | 手順5 | `add_organization_clients` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-138 | DELETE | `/api/v2/organizations/{id}/clients` | delete_organization_clients | 追加 | 手順5 | `delete_organization_clients` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-139 | GET | `/api/v2/organizations/{id}/clients/{client_id}` | get_organization_client | 追加 | 手順5 | `get_organization_client` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-140 | PATCH | `/api/v2/organizations/{id}/clients/{client_id}` | patch_organization_client | 追加 | 手順5 | `update_organization_client` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-141 | GET | `/api/v2/organizations/{id}/connections` | get_organization_connections | 追加 | 手順5 | `get_organization_associated_connections` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-142 | POST | `/api/v2/organizations/{id}/connections` | post_organization_connection | 追加 | 手順5 | `add_organization_associated_connection` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-143 | GET | `/api/v2/organizations/{id}/connections/{connection_id}` | get_organization_connection | 追加 | 手順5 | `get_organization_associated_connection` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-144 | PATCH | `/api/v2/organizations/{id}/connections/{connection_id}` | patch_organization_connection | 追加 | 手順5 | `update_organization_associated_connection` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-145 | DELETE | `/api/v2/organizations/{id}/connections/{connection_id}` | delete_organization_connection | 追加 | 手順5 | `delete_organization_associated_connection` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-146 | GET | `/api/v2/organizations/{id}/discovery-domains` | get_discovery-domains | 追加 | 手順5 | `get_organization_discovery_domains` | lifecycle: GA。 |
+| A-147 | POST | `/api/v2/organizations/{id}/discovery-domains` | post_discovery-domains | 追加 | 手順5 | `create_organization_discovery_domain` | lifecycle: GA。 |
+| A-148 | GET | `/api/v2/organizations/{id}/discovery-domains/name/{discovery_domain}` | get_name_by_discovery_domain | 追加 | 手順5 | `get_organization_discovery_domain_by_name` | lifecycle: GA。 |
+| A-149 | GET | `/api/v2/organizations/{id}/discovery-domains/{discovery_domain_id}` | get_discovery-domains_by_discovery_domain_id | 追加 | 手順5 | `get_organization_discovery_domain` | lifecycle: GA。 |
+| A-150 | PATCH | `/api/v2/organizations/{id}/discovery-domains/{discovery_domain_id}` | patch_discovery-domains_by_discovery_domain_id | 追加 | 手順5 | `update_organization_discovery_domain` | lifecycle: GA。 |
+| A-151 | DELETE | `/api/v2/organizations/{id}/discovery-domains/{discovery_domain_id}` | delete_discovery-domains_by_discovery_domain_id | 追加 | 手順5 | `delete_organization_discovery_domain` | lifecycle: GA。 |
+| A-152 | GET | `/api/v2/organizations/{id}/members/{user_id}/effective-roles` | get_organization_member_effective_roles | 追加 | 手順5 | `get_organization_member_effective_roles` | lifecycle: GA。 |
+| A-153 | GET | `/api/v2/organizations/{id}/members/{user_id}/effective-roles/sources/groups` | get_organization_member_role_source_groups | 追加 | 手順5 | `get_organization_member_effective_role_group_sources` | lifecycle: GA。 |
+| A-154 | GET | `/api/v2/organizations/{id}/roles/{role_id}/members` | get_organization_role_members | 追加 | 手順5 | `get_organization_role_members` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-155 | GET | `/api/v2/organizations/{organization_id}/groups` | get_organization_groups | 追加 | 手順5 | `get_organization_groups` | lifecycle: GA。 |
+| A-156 | GET | `/api/v2/organizations/{organization_id}/groups/{group_id}/roles` | get_organization_group_roles | 追加 | 手順5 | `get_organization_group_roles` | lifecycle: GA。 |
+| A-157 | POST | `/api/v2/organizations/{organization_id}/groups/{group_id}/roles` | post_organization_group_roles | 追加 | 手順5 | `assign_organization_group_roles` | lifecycle: GA。 |
+| A-158 | DELETE | `/api/v2/organizations/{organization_id}/groups/{group_id}/roles` | delete_organization_group_roles | 追加 | 手順5 | `remove_organization_group_roles` | lifecycle: GA。 |
+| A-159 | GET | `/api/v2/organizations/{organization_id}/roles/{role_id}/groups` | get_organization_role_groups | 追加 | 手順5 | `get_organization_role_groups` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-160 | GET | `/api/v2/prompts/rendering` | get_all_rendering | 追加 | 手順5 | `get_prompt_renderings` | lifecycle: GA。 |
+| A-161 | PATCH | `/api/v2/prompts/rendering` | patch_bulk_rendering | 追加 | 手順5 | `bulk_update_prompt_renderings` | lifecycle: GA。 |
+| A-162 | GET | `/api/v2/rate-limit-policies` | get_rate-limit-policies | 追加 | 手順5 | `get_rate_limit_policies` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-163 | POST | `/api/v2/rate-limit-policies` | post_rate-limit-policies | 追加 | 手順5 | `create_rate_limit_policy` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-164 | GET | `/api/v2/rate-limit-policies/{id}` | get_rate-limit-policies_by_id | 追加 | 手順5 | `get_rate_limit_policy` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-165 | PATCH | `/api/v2/rate-limit-policies/{id}` | patch_rate-limit-policies_by_id | 追加 | 手順5 | `update_rate_limit_policy` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-166 | DELETE | `/api/v2/rate-limit-policies/{id}` | delete_rate-limit-policies_by_id | 追加 | 手順5 | `delete_rate_limit_policy` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-167 | GET | `/api/v2/refresh-tokens` | get_refresh_tokens | 追加 | 手順5 | `get_refresh_tokens` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-168 | POST | `/api/v2/refresh-tokens/revoke` | revoke_refresh_tokens | 追加 | 手順5 | `revoke_refresh_tokens` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-169 | PATCH | `/api/v2/refresh-tokens/{id}` | patch_refresh-tokens_by_id | 追加 | 手順5 | `update_refresh_token` | lifecycle: GA。 |
+| A-170 | GET | `/api/v2/resource-servers/search` | get_resource_servers_search | 追加 | 手順5 | `search_resource_servers` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-171 | GET | `/api/v2/risk-assessments/settings` | get_risk_assessments_settings | 追加 | 手順5 | `get_risk_assessments_settings` | lifecycle: GA。 |
+| A-172 | PATCH | `/api/v2/risk-assessments/settings` | patch_risk_assessments_settings | 追加 | 手順5 | `update_risk_assessments_settings` | lifecycle: GA。 |
+| A-173 | GET | `/api/v2/risk-assessments/settings/new-device` | get_new-device | 追加 | 手順5 | `get_risk_assessments_new_device_settings` | lifecycle: GA。 |
+| A-174 | PATCH | `/api/v2/risk-assessments/settings/new-device` | patch_new-device | 追加 | 手順5 | `update_risk_assessments_new_device_settings` | lifecycle: GA。 |
+| A-175 | GET | `/api/v2/roles/{id}/groups` | get_role_groups | 追加 | 手順5 | `get_role_groups` | lifecycle: GA。 |
+| A-176 | POST | `/api/v2/roles/{id}/groups` | post_role_groups | 追加 | 手順5 | `assign_role_groups` | lifecycle: GA。 |
+| A-177 | DELETE | `/api/v2/roles/{id}/groups` | delete_role_groups | 追加 | 手順5 | `remove_role_groups` | lifecycle: GA。 |
+| A-178 | GET | `/api/v2/self-service-profiles/{id}/custom-text/{language}/{page}` | get_self_service_profile_custom_text | 追加 | 手順5 | `get_self_service_profile_custom_text` | lifecycle: GA。 |
+| A-179 | PUT | `/api/v2/self-service-profiles/{id}/custom-text/{language}/{page}` | put_self_service_profile_custom_text | 追加 | 手順5 | `set_self_service_profile_custom_text` | lifecycle: GA。 |
+| A-180 | POST | `/api/v2/self-service-profiles/{profileId}/sso-ticket/{id}/revoke` | post_revoke | 追加 | 手順5 | `revoke_self_service_profile_sso_ticket` | lifecycle: GA。 |
+| A-181 | GET | `/api/v2/supplemental-signals` | get_supplemental-signals | 追加 | 手順5 | `get_supplemental_signals` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-182 | PATCH | `/api/v2/supplemental-signals` | patch_supplemental-signals | 追加 | 手順5 | `update_supplemental_signals` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-183 | GET | `/api/v2/user-attribute-profiles/templates` | get_user_attribute_profile_templates | 追加 | 手順5 | `get_user_attribute_profile_templates` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-184 | GET | `/api/v2/user-attribute-profiles/templates/{id}` | get_user_attribute_profile_template | 追加 | 手順5 | `get_user_attribute_profile_template` | lifecycle: EA。Early Access だが、本ライブラリは既に EA のエンドポイント（User Attribute Profiles など）を実装しており、同じ扱いで対象に含める。@doc に EA であることを書く。 |
+| A-185 | GET | `/api/v2/users/{id}/connected-accounts` | get_connected-accounts | 追加 | 手順5 | `get_user_connected_accounts` | lifecycle: GA。 |
+| A-186 | GET | `/api/v2/users/{id}/effective-permissions` | get_user_effective_permissions | 追加 | 手順5 | `get_user_effective_permissions` | lifecycle: GA。 |
+| A-187 | GET | `/api/v2/users/{id}/effective-permissions/sources/effective-roles` | get_user_effective_permission_role_sources | 追加 | 手順5 | `get_user_effective_permission_role_sources` | lifecycle: GA。 |
+| A-188 | GET | `/api/v2/users/{id}/effective-roles` | get_user_effective_roles | 追加 | 手順5 | `get_user_effective_roles` | lifecycle: GA。 |
+| A-189 | GET | `/api/v2/users/{id}/effective-roles/sources/groups` | get_user_role_source_groups | 追加 | 手順5 | `get_user_effective_role_group_sources` | lifecycle: GA。 |
+| A-190 | GET | `/api/v2/users/{id}/groups` | get_user_groups | 追加 | 手順5 | `get_user_groups` | lifecycle: GA。 |
+| A-191 | POST | `/api/v2/users/{id}/risk-assessments/clear` | post_clear_assessors | 追加 | 手順5 | `clear_user_risk_assessments` | lifecycle: GA。 |
 | A-192 | GET | `/api/v2/connections` | get_connections | 追加 | 手順5（パラメータ追加） | `get_connections` | クエリ `strategy` は仕様上 `type: array`（`style: form`・`explode: true`、`?strategy=a&strategy=b` の形）だが、値の 1 つは文字列で送れる一方、複数値をリストで渡すと `Util.convert_to_query/1` 内の `URI.encode_query/2` が `ArgumentError`（values cannot be lists）を送出し、送れない。リストの値を同じキーの繰り返しに展開するよう `Util.convert_to_query/1` を直す（現状は例外になる入力だけが変わるので後方互換の問題はない）。6 項目（A-192〜A-197）は同じ 1 か所の修正で解消する。第 2 版で追加した項目で、既存 ID を変えないよう末尾に置いた。 |
 | A-193 | GET | `/api/v2/flows` | get_flows | 追加 | 手順5（パラメータ追加） | `get_flows` | クエリ `hydrate` は仕様上 `type: array`（`style: form`・`explode: true`、`?hydrate=a&hydrate=b` の形）だが、値の 1 つは文字列で送れる一方、複数値をリストで渡すと `Util.convert_to_query/1` 内の `URI.encode_query/2` が `ArgumentError`（values cannot be lists）を送出し、送れない。リストの値を同じキーの繰り返しに展開するよう `Util.convert_to_query/1` を直す（現状は例外になる入力だけが変わるので後方互換の問題はない）。6 項目（A-192〜A-197）は同じ 1 か所の修正で解消する。第 2 版で追加した項目で、既存 ID を変えないよう末尾に置いた。 |
 | A-194 | GET | `/api/v2/flows/{id}` | get_flows_by_id | 追加 | 手順5（パラメータ追加） | `get_flow` | クエリ `hydrate` は仕様上 `type: array`（`style: form`・`explode: true`、`?hydrate=a&hydrate=b` の形）だが、値の 1 つは文字列で送れる一方、複数値をリストで渡すと `Util.convert_to_query/1` 内の `URI.encode_query/2` が `ArgumentError`（values cannot be lists）を送出し、送れない。リストの値を同じキーの繰り返しに展開するよう `Util.convert_to_query/1` を直す（現状は例外になる入力だけが変わるので後方互換の問題はない）。6 項目（A-192〜A-197）は同じ 1 か所の修正で解消する。第 2 版で追加した項目で、既存 ID を変えないよう末尾に置いた。 |
