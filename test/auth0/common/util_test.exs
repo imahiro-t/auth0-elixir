@@ -114,6 +114,43 @@ defmodule Auth0.Common.UtilTest do
     end
   end
 
+  describe "build_path/2" do
+    test "replaces a single placeholder" do
+      assert Util.build_path("/api/v2/users/{id}", id: "user_1") == "/api/v2/users/user_1"
+    end
+
+    test "replaces multiple placeholders" do
+      assert Util.build_path("/api/v2/organizations/{id}/members/{user_id}/roles",
+               id: "org_1",
+               user_id: "user_1"
+             ) == "/api/v2/organizations/org_1/members/user_1/roles"
+    end
+
+    test "encodes reserved characters and dot segments" do
+      assert Util.build_path("/api/v2/users/{id}/x/{other}", id: "auth0|1/a b", other: "?#") ==
+               "/api/v2/users/auth0%7C1%2Fa%20b/x/%3F%23"
+
+      assert Util.build_path("/api/v2/users/{id}", id: "..") == "/api/v2/users/%2E%2E"
+    end
+
+    test "replaces camelCase placeholders" do
+      assert Util.build_path("/api/v2/actions/modules/{id}/versions/{versionId}",
+               id: "mod_1",
+               versionId: "ver|1"
+             ) == "/api/v2/actions/modules/mod_1/versions/ver%7C1"
+    end
+
+    test "does not let a value introduce a later placeholder" do
+      assert Util.build_path("/a/{id}/b/{user_id}", id: "{user_id}", user_id: "u") ==
+               "/a/%7Buser_id%7D/b/u"
+    end
+
+    test "returns the endpoint unchanged for empty params" do
+      assert Util.build_path("/api/v2/users/{id}", []) == "/api/v2/users/{id}"
+      assert Util.build_path("/api/v2/users", []) == "/api/v2/users"
+    end
+  end
+
   describe "convert_to_form_body/1" do
     test "converts map to form body" do
       assert Util.convert_to_form_body(%{a: 1, b: nil}) == {:form, [a: 1]}

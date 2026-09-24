@@ -22,16 +22,11 @@ defmodule Auth0.Management.Users.RiskAssessments.Clear do
   """
   @spec execute(id, params, config) :: response
   def execute(id, %{} = params, %Config{} = config) do
-    path(id)
+    Util.build_path(@endpoint, id: id)
     |> Http.post(params, config)
     |> case do
       {:ok, 204, _body} -> {:ok, ""}
       error -> error
     end
-  end
-
-  defp path(id) do
-    @endpoint
-    |> String.replace("{id}", Util.encode_path_param(id))
   end
 end

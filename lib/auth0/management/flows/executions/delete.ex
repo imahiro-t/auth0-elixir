@@ -22,17 +22,11 @@ defmodule Auth0.Management.Flows.Executions.Delete do
   """
   @spec execute(flow_id, execution_id, config) :: response
   def execute(flow_id, execution_id, %Config{} = config) do
-    path(flow_id, execution_id)
+    Util.build_path(@endpoint, flow_id: flow_id, execution_id: execution_id)
     |> Http.delete(config)
     |> case do
       {:ok, 204, _body} -> {:ok, ""}
       error -> error
     end
-  end
-
-  defp path(flow_id, execution_id) do
-    @endpoint
-    |> String.replace("{flow_id}", Util.encode_path_param(flow_id))
-    |> String.replace("{execution_id}", Util.encode_path_param(execution_id))
   end
 end

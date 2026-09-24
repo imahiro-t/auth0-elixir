@@ -22,16 +22,11 @@ defmodule Auth0.Management.Flows.Vault.Connections.Patch do
   """
   @spec execute(id, params, config) :: response
   def execute(id, %{} = params, %Config{} = config) do
-    path(id)
+    Util.build_path(@endpoint, id: id)
     |> Http.patch(params, config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
-  end
-
-  defp path(id) do
-    @endpoint
-    |> String.replace("{id}", Util.encode_path_param(id))
   end
 end

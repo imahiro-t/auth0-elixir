@@ -24,16 +24,11 @@ defmodule Auth0.Management.Flows.Executions.List do
   def execute(flow_id, %{} = params, %Config{} = config) do
     params
     |> Util.convert_to_query()
-    |> Util.append_query(path(flow_id))
+    |> Util.append_query(Util.build_path(@endpoint, flow_id: flow_id))
     |> Http.get(config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
-  end
-
-  defp path(flow_id) do
-    @endpoint
-    |> String.replace("{flow_id}", Util.encode_path_param(flow_id))
   end
 end

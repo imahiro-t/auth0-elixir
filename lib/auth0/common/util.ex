@@ -199,6 +199,32 @@ defmodule Auth0.Common.Util do
   end
 
   @doc """
+  Build a request path by filling the `{name}` placeholders of an endpoint.
+
+  Each value is encoded with `encode_path_param/1` and the placeholders are
+  replaced in the order the parameters are given. The keys are the placeholder
+  names exactly as they appear in the endpoint (e.g. `versionId:` for
+  `{versionId}`).
+
+  ## Examples
+
+      iex> Auth0.Common.Util.build_path("/api/v2/users/{id}", id: "auth0|123")
+      "/api/v2/users/auth0%7C123"
+
+      iex> Auth0.Common.Util.build_path("/api/v2/users/{id}/roles/{role_id}", id: "a/b", role_id: "rol_1")
+      "/api/v2/users/a%2Fb/roles/rol_1"
+
+      iex> Auth0.Common.Util.build_path("/api/v2/actions/modules/{id}/versions/{versionId}", id: "mod 1", versionId: "v|1")
+      "/api/v2/actions/modules/mod%201/versions/v%7C1"
+  """
+  @spec build_path(String.t(), keyword(String.t())) :: String.t()
+  def build_path(endpoint, params) when is_binary(endpoint) and is_list(params) do
+    Enum.reduce(params, endpoint, fn {name, value}, path ->
+      String.replace(path, "{#{name}}", encode_path_param(value))
+    end)
+  end
+
+  @doc """
   Convert to form body from map. Nil value is removed.
 
   ## Examples

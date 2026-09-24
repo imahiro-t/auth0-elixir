@@ -25,17 +25,11 @@ defmodule Auth0.Management.Organizations.Connections.Patch do
   """
   @spec execute(id, connection_id, params, config) :: response
   def execute(id, connection_id, %{} = params, %Config{} = config) do
-    path(id, connection_id)
+    Util.build_path(@endpoint, id: id, connection_id: connection_id)
     |> Http.patch(params, config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
-  end
-
-  defp path(id, connection_id) do
-    @endpoint
-    |> String.replace("{id}", Util.encode_path_param(id))
-    |> String.replace("{connection_id}", Util.encode_path_param(connection_id))
   end
 end

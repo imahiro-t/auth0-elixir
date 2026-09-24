@@ -24,17 +24,11 @@ defmodule Auth0.Management.Organizations.Connections.Get do
   """
   @spec execute(id, connection_id, config) :: response
   def execute(id, connection_id, %Config{} = config) do
-    path(id, connection_id)
+    Util.build_path(@endpoint, id: id, connection_id: connection_id)
     |> Http.get(config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
-  end
-
-  defp path(id, connection_id) do
-    @endpoint
-    |> String.replace("{id}", Util.encode_path_param(id))
-    |> String.replace("{connection_id}", Util.encode_path_param(connection_id))
   end
 end

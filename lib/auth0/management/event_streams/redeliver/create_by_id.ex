@@ -22,17 +22,11 @@ defmodule Auth0.Management.EventStreams.Redeliver.CreateById do
   """
   @spec execute(id, event_id, config) :: response
   def execute(id, event_id, %Config{} = config) do
-    path(id, event_id)
+    Util.build_path(@endpoint, id: id, event_id: event_id)
     |> Http.post(%{}, config)
     |> case do
       {:ok, 202, _body} -> {:ok, ""}
       error -> error
     end
-  end
-
-  defp path(id, event_id) do
-    @endpoint
-    |> String.replace("{id}", Util.encode_path_param(id))
-    |> String.replace("{event_id}", Util.encode_path_param(event_id))
   end
 end

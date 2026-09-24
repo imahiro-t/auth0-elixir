@@ -24,17 +24,11 @@ defmodule Auth0.Management.Organizations.DiscoveryDomains.Delete do
   """
   @spec execute(id, discovery_domain_id, config) :: response
   def execute(id, discovery_domain_id, %Config{} = config) do
-    path(id, discovery_domain_id)
+    Util.build_path(@endpoint, id: id, discovery_domain_id: discovery_domain_id)
     |> Http.delete(config)
     |> case do
       {:ok, 204, _body} -> {:ok, ""}
       error -> error
     end
-  end
-
-  defp path(id, discovery_domain_id) do
-    @endpoint
-    |> String.replace("{id}", Util.encode_path_param(id))
-    |> String.replace("{discovery_domain_id}", Util.encode_path_param(discovery_domain_id))
   end
 end

@@ -25,17 +25,11 @@ defmodule Auth0.Management.Organizations.DiscoveryDomains.Patch do
   """
   @spec execute(id, discovery_domain_id, params, config) :: response
   def execute(id, discovery_domain_id, %{} = params, %Config{} = config) do
-    path(id, discovery_domain_id)
+    Util.build_path(@endpoint, id: id, discovery_domain_id: discovery_domain_id)
     |> Http.patch(params, config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
-  end
-
-  defp path(id, discovery_domain_id) do
-    @endpoint
-    |> String.replace("{id}", Util.encode_path_param(id))
-    |> String.replace("{discovery_domain_id}", Util.encode_path_param(discovery_domain_id))
   end
 end

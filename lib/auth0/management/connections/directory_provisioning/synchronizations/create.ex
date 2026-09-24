@@ -21,16 +21,11 @@ defmodule Auth0.Management.Connections.DirectoryProvisioning.Synchronizations.Cr
   """
   @spec execute(id, config) :: response
   def execute(id, %Config{} = config) do
-    path(id)
+    Util.build_path(@endpoint, id: id)
     |> Http.post(%{}, config)
     |> case do
       {:ok, 201, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
-  end
-
-  defp path(id) do
-    @endpoint
-    |> String.replace("{id}", Util.encode_path_param(id))
   end
 end

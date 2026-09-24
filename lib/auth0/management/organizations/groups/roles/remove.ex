@@ -25,17 +25,11 @@ defmodule Auth0.Management.Organizations.Groups.Roles.Remove do
   """
   @spec execute(organization_id, group_id, params, config) :: response
   def execute(organization_id, group_id, %{} = params, %Config{} = config) do
-    path(organization_id, group_id)
+    Util.build_path(@endpoint, organization_id: organization_id, group_id: group_id)
     |> Http.delete(params, config)
     |> case do
       {:ok, 204, _body} -> {:ok, ""}
       error -> error
     end
-  end
-
-  defp path(organization_id, group_id) do
-    @endpoint
-    |> String.replace("{organization_id}", Util.encode_path_param(organization_id))
-    |> String.replace("{group_id}", Util.encode_path_param(group_id))
   end
 end

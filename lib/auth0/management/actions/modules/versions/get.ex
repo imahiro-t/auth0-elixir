@@ -26,17 +26,11 @@ defmodule Auth0.Management.Actions.Modules.Versions.Get do
   """
   @spec execute(id, version_id, config) :: response
   def execute(id, version_id, %Config{} = config) do
-    path(id, version_id)
+    Util.build_path(@endpoint, id: id, versionId: version_id)
     |> Http.get(config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
-  end
-
-  defp path(id, version_id) do
-    @endpoint
-    |> String.replace("{id}", Util.encode_path_param(id))
-    |> String.replace("{versionId}", Util.encode_path_param(version_id))
   end
 end

@@ -27,17 +27,11 @@ defmodule Auth0.Management.Organizations.Members.EffectiveRoles.Sources.Groups.L
   def execute(id, user_id, %{} = params, %Config{} = config) do
     params
     |> Util.convert_to_query()
-    |> Util.append_query(path(id, user_id))
+    |> Util.append_query(Util.build_path(@endpoint, id: id, user_id: user_id))
     |> Http.get(config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
-  end
-
-  defp path(id, user_id) do
-    @endpoint
-    |> String.replace("{id}", Util.encode_path_param(id))
-    |> String.replace("{user_id}", Util.encode_path_param(user_id))
   end
 end

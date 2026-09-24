@@ -29,17 +29,11 @@ defmodule Auth0.Management.Organizations.Roles.Members.List do
   def execute(id, role_id, %{} = params, %Config{} = config) do
     params
     |> Util.convert_to_query()
-    |> Util.append_query(path(id, role_id))
+    |> Util.append_query(Util.build_path(@endpoint, id: id, role_id: role_id))
     |> Http.get(config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
-  end
-
-  defp path(id, role_id) do
-    @endpoint
-    |> String.replace("{id}", Util.encode_path_param(id))
-    |> String.replace("{role_id}", Util.encode_path_param(role_id))
   end
 end
