@@ -31,8 +31,7 @@ auth0_api-*.tar
 # macOS Finder metadata.
 .DS_Store
 
-# Local scratch scripts.
-.scratch.exs
+# Local scratch scripts (also matches ".scratch.exs").
 *.scratch.exs
 
 # ElixirLS (editor language server) cache.
@@ -41,6 +40,7 @@ auth0_api-*.tar
 # Local environment files that may hold secrets.
 .env
 .env.*
+!.env.example
 
 # Git worktrees created by Claude Code.
 /.claude/worktrees/

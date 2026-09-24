@@ -92,22 +92,6 @@ Auth0.Api.Management.get_connections(%{strategy: ["auth0", "google-oauth2"]}, co
 
 `nil` values in the list are skipped. Scalar values are sent as before.
 
-### Authentication API
-
-To get an access token for an API (`audience`) with the client credentials flow, use the Authentication API:
-
-```elixir
-params = %Auth0.Authentication.Token.ClientCredentials.Params{
-  audience: "https://xxx.auth0.com/api/v2/",
-  client_id: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-  client_secret: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-}
-{:ok, %Auth0.Entity.Token{access_token: access_token}} =
-  Auth0.Authentication.token_by_client_credentials(params, config)
-```
-
-The Management API functions get and cache their tokens by themselves, so you do not need to call this for them.
-
 ### Path parameters
 
 The functions for the endpoints newly supported in 2.5.0 percent-encode path parameters, so pass IDs as they are (for example `"auth0|123"`, sent as `auth0%7C123`). Their `@doc` says "Path parameters are percent-encoded".
@@ -124,6 +108,23 @@ Auth0.Api.Management.create_password_change_ticket(params, config, custom_domain
 
 Supported by `create_user`, `update_user`, `create_email_verification_ticket`, `create_password_change_ticket`, `send_job_verification_email`, `create_organization_invitation`, `create_guardian_enrollment_ticket`, `create_self_service_profile_sso_ticket` and `test_branding_phone_template`. Only a host name, optionally with a port, is accepted; any other value (including one containing CR/LF) raises `ArgumentError`. Without the option, no header is sent.
 
+## Authentication API
+
+To get an access token for an API (`audience`) with the client credentials flow, use the Authentication API:
+
+```elixir
+params = %Auth0.Authentication.Token.ClientCredentials.Params{
+  audience: "https://xxx.auth0.com/api/v2/",
+  client_id: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  client_secret: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}
+{:ok, %Auth0.Entity.Token{access_token: access_token}} =
+  Auth0.Authentication.token_by_client_credentials(params, config)
+```
+
+`config` is used only for the request settings (`domain`, `http_protocol`, the timeouts and the retry count); the client credentials sent to Auth0 are the ones in `params`, not `config.client_id` / `config.client_secret`.
+
+The Management API functions get and cache their tokens by themselves, so you do not need to call this for them.
 
 ## HTTP protocol
 
