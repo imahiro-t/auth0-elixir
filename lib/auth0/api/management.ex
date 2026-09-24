@@ -777,10 +777,13 @@ defmodule Auth0.Api.Management do
   @doc """
   Retrieve the jti and aud of all tokens that are blacklisted.
 
+  **Deprecated**: The endpoint is not part of the Auth0 Management API v2 specification any more (`/api/v2/blacklists/tokens`). There is no direct replacement; revoke credentials with the purpose-specific APIs, e.g. `revoke_refresh_tokens/2` or `revoke_session/2`.
+
   ## see
   https://auth0.com/docs/api/management/v2/blacklists/get-tokens
 
   """
+  @deprecated "The blacklists endpoints were removed from the Auth0 Management API."
   @spec get_blacklisted_tokens(map(), config) ::
           {:ok, list(map())} | error
   def get_blacklisted_tokens(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
@@ -790,10 +793,13 @@ defmodule Auth0.Api.Management do
   @doc """
   Add the token identified by the jti to a blacklist for the tenant.
 
+  **Deprecated**: The endpoint is not part of the Auth0 Management API v2 specification any more (`/api/v2/blacklists/tokens`). There is no direct replacement; revoke credentials with the purpose-specific APIs, e.g. `revoke_refresh_tokens/2` or `revoke_session/2`.
+
   ## see
   https://auth0.com/docs/api/management/v2/blacklists/post-tokens
 
   """
+  @deprecated "The blacklists endpoints were removed from the Auth0 Management API."
   @spec blacklist_token(map(), config) ::
           {:ok, String.t()} | error
   def blacklist_token(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
@@ -1261,6 +1267,9 @@ defmodule Auth0.Api.Management do
   - `token_quota` (Early Access)
   - `token_vault_privileged_access` (Early Access)
 
+  ## deprecated parameters
+  - The body property `oidc_backchannel_logout` is deprecated (Auth0 specification: `x-release-lifecycle: deprecated`); use `oidc_logout` instead.
+
   ## see
   https://auth0.com/docs/api/management/v2/clients/post-clients
 
@@ -1378,6 +1387,9 @@ defmodule Auth0.Api.Management do
   - `organization_discovery_methods` (Early Access)
   - `token_quota` (Early Access)
   - `token_vault_privileged_access` (Early Access)
+
+  ## deprecated parameters
+  - The body property `oidc_backchannel_logout` is deprecated (Auth0 specification: `x-release-lifecycle: deprecated`); use `oidc_logout` instead.
 
   ## see
   https://auth0.com/docs/api/management/v2/clients/patch-clients-by-id
@@ -1568,6 +1580,9 @@ defmodule Auth0.Api.Management do
   - `fields`
   - `include_fields`
 
+  ## deprecated parameters
+  - Some `options` / strategies are deprecated in the Auth0 specification: the Facebook options `allow_context_profile_field`, `manage_notifications`, `publish_actions`, `read_mailbox`, `read_stream`, `user_groups`, `user_managed_groups`, `user_status` (removed Facebook permissions, no replacement); the `sms` strategy options `forward_req_info`, `from`, `gateway_authentication`, `gateway_url`, `messaging_service_sid`, `provider`, `syntax`, `template`, `twilio_sid`, `twilio_token`; the SAML `options.cert` (.der certificate); and the `ip`, `instagram`, `oauth1`, `office365` (creation), `sharepoint`, `soundcloud` and `untappd` strategies.
+
   ## see
   https://auth0.com/docs/api/management/v2/connections/get-connections
 
@@ -1586,6 +1601,10 @@ defmodule Auth0.Api.Management do
   - `cross_app_access_requesting_app` (Early Access)
   - `cross_app_access_resource_app` (Early Access)
 
+  ## deprecated parameters
+  - `enabled_clients` is deprecated (Auth0 specification: `x-release-lifecycle: deprecated`); manage the enabled clients with `get_connection_clients/3` and `update_connection_clients/3` instead.
+  - Some `options` / strategies are deprecated in the Auth0 specification: the Facebook options `allow_context_profile_field`, `manage_notifications`, `publish_actions`, `read_mailbox`, `read_stream`, `user_groups`, `user_managed_groups`, `user_status` (removed Facebook permissions, no replacement); the `sms` strategy options `forward_req_info`, `from`, `gateway_authentication`, `gateway_url`, `messaging_service_sid`, `provider`, `syntax`, `template`, `twilio_sid`, `twilio_token`; the SAML `options.cert` (.der certificate); and the `ip`, `instagram`, `oauth1`, `office365` (creation), `sharepoint`, `soundcloud` and `untappd` strategies.
+
   ## see
   https://auth0.com/docs/api/management/v2/connections/post-connections
 
@@ -1602,6 +1621,10 @@ defmodule Auth0.Api.Management do
   ## query parameters
   - `fields`
   - `include_fields`
+
+  ## deprecated parameters
+  - `enabled_clients` is deprecated (Auth0 specification: `x-release-lifecycle: deprecated`); manage the enabled clients with `get_connection_clients/3` and `update_connection_clients/3` instead.
+  - Some `options` / strategies are deprecated in the Auth0 specification: the Facebook options `allow_context_profile_field`, `manage_notifications`, `publish_actions`, `read_mailbox`, `read_stream`, `user_groups`, `user_managed_groups`, `user_status` (removed Facebook permissions, no replacement); the `sms` strategy options `forward_req_info`, `from`, `gateway_authentication`, `gateway_url`, `messaging_service_sid`, `provider`, `syntax`, `template`, `twilio_sid`, `twilio_token`; the SAML `options.cert` (.der certificate); and the `ip`, `instagram`, `oauth1`, `office365` (creation), `sharepoint`, `soundcloud` and `untappd` strategies.
 
   ## see
   https://auth0.com/docs/api/management/v2/connections/get-connections-by-id
@@ -1633,6 +1656,10 @@ defmodule Auth0.Api.Management do
   - `cross_app_access_requesting_app` (Early Access)
   - `cross_app_access_resource_app` (Early Access)
   - `enabled_clients` (deprecated)
+
+  ## deprecated parameters
+  - `enabled_clients` is deprecated (Auth0 specification: `x-release-lifecycle: deprecated`); manage the enabled clients with `get_connection_clients/3` and `update_connection_clients/3` instead.
+  - Some `options` / strategies are deprecated in the Auth0 specification: the Facebook options `allow_context_profile_field`, `manage_notifications`, `publish_actions`, `read_mailbox`, `read_stream`, `user_groups`, `user_managed_groups`, `user_status` (removed Facebook permissions, no replacement); the `sms` strategy options `forward_req_info`, `from`, `gateway_authentication`, `gateway_url`, `messaging_service_sid`, `provider`, `syntax`, `template`, `twilio_sid`, `twilio_token`; the SAML `options.cert` (.der certificate); and the `ip`, `instagram`, `oauth1`, `office365` (creation), `sharepoint`, `soundcloud` and `untappd` strategies.
 
   ## see
   https://auth0.com/docs/api/management/v2/connections/patch-connections-by-id
@@ -3532,6 +3559,8 @@ defmodule Auth0.Api.Management do
   @doc """
   Retrieve all hooks. Accepts a list of fields to include or exclude in the result.
 
+  **Deprecated**: Auth0 Hooks are deprecated: Auth0 has announced the end of life of Rules and Hooks; migrate to Actions (https://auth0.com/docs/customize/hooks). Use `get_actions/2` instead.
+
   ## query parameters
   - `page`
   - `per_page`
@@ -3544,6 +3573,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/hooks/get-hooks
 
   """
+  @deprecated "Auth0 Hooks are deprecated (end of life announced by Auth0). Migrate to Actions."
   @spec get_hooks(map(), config) ::
           {:ok, list(map()) | map()} | error
   def get_hooks(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
@@ -3553,10 +3583,13 @@ defmodule Auth0.Api.Management do
   @doc """
   Create a new hook.
 
+  **Deprecated**: Auth0 Hooks are deprecated: Auth0 has announced the end of life of Rules and Hooks; migrate to Actions (https://auth0.com/docs/customize/hooks). Use `create_action/2` (then `deploy_action/2` and `update_action_trigger_bindings/3`) instead.
+
   ## see
   https://auth0.com/docs/api/management/v2/hooks/post-hooks
 
   """
+  @deprecated "Auth0 Hooks are deprecated (end of life announced by Auth0). Migrate to Actions."
   @spec create_hook(map(), config) ::
           {:ok, map()} | error
   def create_hook(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
@@ -3566,6 +3599,8 @@ defmodule Auth0.Api.Management do
   @doc """
   Retrieve a hook by its ID. Accepts a list of fields to include in the result.
 
+  **Deprecated**: Auth0 Hooks are deprecated: Auth0 has announced the end of life of Rules and Hooks; migrate to Actions (https://auth0.com/docs/customize/hooks). Use `get_action/2` instead.
+
   ## query parameters
   - `fields`
 
@@ -3573,6 +3608,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/hooks/get-hooks-by-id
 
   """
+  @deprecated "Auth0 Hooks are deprecated (end of life announced by Auth0). Migrate to Actions."
   @spec get_hook(id, map(), config) ::
           {:ok, map()} | error
   def get_hook(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
@@ -3582,10 +3618,13 @@ defmodule Auth0.Api.Management do
   @doc """
   Delete a hook.
 
+  **Deprecated**: Auth0 Hooks are deprecated: Auth0 has announced the end of life of Rules and Hooks; migrate to Actions (https://auth0.com/docs/customize/hooks). Use `delete_action/3` instead.
+
   ## see
   https://auth0.com/docs/api/management/v2/hooks/delete-hooks-by-id
 
   """
+  @deprecated "Auth0 Hooks are deprecated (end of life announced by Auth0). Migrate to Actions."
   @spec delete_hook(id, config) :: {:ok, String.t()} | error
   def delete_hook(id, %Config{} = config \\ %Config{}) do
     Hooks.delete(id, config)
@@ -3594,10 +3633,13 @@ defmodule Auth0.Api.Management do
   @doc """
   Update an existing hook.
 
+  **Deprecated**: Auth0 Hooks are deprecated: Auth0 has announced the end of life of Rules and Hooks; migrate to Actions (https://auth0.com/docs/customize/hooks). Use `update_action/3` instead.
+
   ## see
   https://auth0.com/docs/api/management/v2/hooks/patch-hooks-by-id
 
   """
+  @deprecated "Auth0 Hooks are deprecated (end of life announced by Auth0). Migrate to Actions."
   @spec update_hook(id, map(), config) ::
           {:ok, map()} | error
   def update_hook(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
@@ -3607,10 +3649,13 @@ defmodule Auth0.Api.Management do
   @doc """
   Retrieve a hook's secrets by the ID of the hook.
 
+  **Deprecated**: Auth0 Hooks are deprecated: Auth0 has announced the end of life of Rules and Hooks; migrate to Actions (https://auth0.com/docs/customize/hooks). Use the `secrets` of an action (`get_action/2`) instead.
+
   ## see
   https://auth0.com/docs/api/management/v2/hooks/get-secrets
 
   """
+  @deprecated "Auth0 Hooks are deprecated (end of life announced by Auth0). Migrate to Actions."
   @spec get_hook_secrets(id, config) ::
           {:ok, map()} | error
   def get_hook_secrets(id, %Config{} = config \\ %Config{}) do
@@ -3620,10 +3665,13 @@ defmodule Auth0.Api.Management do
   @doc """
   Delete one or more existing secrets for a given hook. Accepts an array of secret names to delete.
 
+  **Deprecated**: Auth0 Hooks are deprecated: Auth0 has announced the end of life of Rules and Hooks; migrate to Actions (https://auth0.com/docs/customize/hooks). Use the `secrets` of an action (`update_action/3`) instead.
+
   ## see
   https://auth0.com/docs/api/management/v2/hooks/delete-secrets
 
   """
+  @deprecated "Auth0 Hooks are deprecated (end of life announced by Auth0). Migrate to Actions."
   # The default `params` (`%{}`) has no required key, so the delete_hook_secrets/1 clause
   # generated by the default argument can never succeed. It is kept only for
   # backward compatibility (no public arity is removed), hence the warning is
@@ -3638,10 +3686,13 @@ defmodule Auth0.Api.Management do
   @doc """
   Update an existing hook.
 
+  **Deprecated**: Auth0 Hooks are deprecated: Auth0 has announced the end of life of Rules and Hooks; migrate to Actions (https://auth0.com/docs/customize/hooks). Use the `secrets` of an action (`update_action/3`) instead.
+
   ## see
   https://auth0.com/docs/api/management/v2/hooks/patch-hooks-by-id
 
   """
+  @deprecated "Auth0 Hooks are deprecated (end of life announced by Auth0). Migrate to Actions."
   # The default `params` (`%{}`) has no required key, so the update_hook_secrets/1 clause
   # generated by the default argument can never succeed. It is kept only for
   # backward compatibility (no public arity is removed), hence the warning is
@@ -3656,10 +3707,13 @@ defmodule Auth0.Api.Management do
   @doc """
   Add one or more secrets to an existing hook. Accepts an object of key-value pairs, where the key is the name of the secret. A hook can have a maximum of 20 secrets.
 
+  **Deprecated**: Auth0 Hooks are deprecated: Auth0 has announced the end of life of Rules and Hooks; migrate to Actions (https://auth0.com/docs/customize/hooks). Use the `secrets` of an action (`update_action/3`) instead.
+
   ## see
   https://auth0.com/docs/api/management/v2/hooks/post-secrets
 
   """
+  @deprecated "Auth0 Hooks are deprecated (end of life announced by Auth0). Migrate to Actions."
   # The default `params` (`%{}`) has no required key, so the add_hook_secrets/1 clause
   # generated by the default argument can never succeed. It is kept only for
   # backward compatibility (no public arity is removed), hence the warning is
@@ -5631,9 +5685,12 @@ defmodule Auth0.Api.Management do
   @doc """
   Create a risk assessment.
 
+  **Deprecated**: The endpoint is not part of the Auth0 Management API v2 specification any more (`POST /api/v2/risk-assessments`). Risk assessments are configured through `get_risk_assessments_settings/1`, `update_risk_assessments_settings/2`, the new-device settings functions and `clear_user_risk_assessments/3`.
+
   ## see
   https://auth0.com/docs/api/management/v2/risk-assessments/post-risk-assessments
   """
+  @deprecated "POST /api/v2/risk-assessments does not exist in the Auth0 Management API. Use get_risk_assessments_settings/1 and update_risk_assessments_settings/2."
   @spec create_risk_assessment(map(), config) :: {:ok, map()} | error
   def create_risk_assessment(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     RiskAssessments.create(params, config)
@@ -5642,9 +5699,12 @@ defmodule Auth0.Api.Management do
   @doc """
   Retrieve a risk assessment by its ID.
 
+  **Deprecated**: The endpoint is not part of the Auth0 Management API v2 specification any more (`GET /api/v2/risk-assessments/{id}`). Use `get_risk_assessments_settings/1` / `get_risk_assessments_new_device_settings/1` instead.
+
   ## see
   https://auth0.com/docs/api/management/v2/risk-assessments/get-risk-assessments-by-id
   """
+  @deprecated "GET /api/v2/risk-assessments/{id} does not exist in the Auth0 Management API. Use get_risk_assessments_settings/1."
   @spec get_risk_assessment(id, config) :: {:ok, map()} | error
   def get_risk_assessment(id, %Config{} = config \\ %Config{}) do
     RiskAssessments.get(id, config)
@@ -5923,9 +5983,12 @@ defmodule Auth0.Api.Management do
   @doc """
   Create a supplemental signal.
 
+  **Deprecated**: The endpoint is not part of the Auth0 Management API v2 specification any more (`POST /api/v2/supplemental-signals`). The supplemental signals configuration is read with `get_supplemental_signals/1` and changed with `update_supplemental_signals/2`.
+
   ## see
   https://auth0.com/docs/api/management/v2/supplemental-signals/post-supplemental-signals
   """
+  @deprecated "POST /api/v2/supplemental-signals does not exist in the Auth0 Management API. Use update_supplemental_signals/2."
   @spec create_supplemental_signal(map(), config) :: {:ok, map()} | error
   def create_supplemental_signal(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     SupplementalSignals.create(params, config)
@@ -5934,9 +5997,12 @@ defmodule Auth0.Api.Management do
   @doc """
   Retrieve a supplemental signal by its ID.
 
+  **Deprecated**: The endpoint is not part of the Auth0 Management API v2 specification any more (`GET /api/v2/supplemental-signals/{id}`). Use `get_supplemental_signals/1` instead.
+
   ## see
   https://auth0.com/docs/api/management/v2/supplemental-signals/get-supplemental-signals-by-id
   """
+  @deprecated "GET /api/v2/supplemental-signals/{id} does not exist in the Auth0 Management API. Use get_supplemental_signals/1."
   @spec get_supplemental_signal(id, config) :: {:ok, map()} | error
   def get_supplemental_signal(id, %Config{} = config \\ %Config{}) do
     SupplementalSignals.get(id, config)
@@ -5973,6 +6039,8 @@ defmodule Auth0.Api.Management do
   @doc """
   Retrieve a filtered list of rules. Accepts a list of fields to include or exclude.
 
+  **Deprecated**: Auth0 Rules are deprecated: Auth0 has announced the end of life of Rules and Hooks; migrate to Actions (https://auth0.com/docs/customize/rules). Use `get_actions/2` instead.
+
   ## query parameters
   - `page`
   - `per_page`
@@ -5985,6 +6053,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/rules/get-rules
 
   """
+  @deprecated "Auth0 Rules are deprecated (end of life announced by Auth0). Migrate to Actions."
   @spec get_rules(map(), config) ::
           {:ok, list(map()) | map()} | error
   def get_rules(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
@@ -5994,10 +6063,13 @@ defmodule Auth0.Api.Management do
   @doc """
   Create a new rule.
 
+  **Deprecated**: Auth0 Rules are deprecated: Auth0 has announced the end of life of Rules and Hooks; migrate to Actions (https://auth0.com/docs/customize/rules). Use `create_action/2` (then `deploy_action/2` and `update_action_trigger_bindings/3`) instead.
+
   ## see
   https://auth0.com/docs/api/management/v2/rules/post-rules
 
   """
+  @deprecated "Auth0 Rules are deprecated (end of life announced by Auth0). Migrate to Actions."
   @spec create_rule(map(), config) ::
           {:ok, map()} | error
   def create_rule(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
@@ -6007,6 +6079,8 @@ defmodule Auth0.Api.Management do
   @doc """
   Retrieve rule details. Accepts a list of fields to include or exclude in the result.
 
+  **Deprecated**: Auth0 Rules are deprecated: Auth0 has announced the end of life of Rules and Hooks; migrate to Actions (https://auth0.com/docs/customize/rules). Use `get_action/2` instead.
+
   ## query parameters
   - `fields`
   - `include_fields`
@@ -6015,6 +6089,7 @@ defmodule Auth0.Api.Management do
   https://auth0.com/docs/api/management/v2/rules/get-rules-by-id
 
   """
+  @deprecated "Auth0 Rules are deprecated (end of life announced by Auth0). Migrate to Actions."
   @spec get_rule(id, map(), config) ::
           {:ok, map()} | error
   def get_rule(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
@@ -6024,10 +6099,13 @@ defmodule Auth0.Api.Management do
   @doc """
   Delete a rule.
 
+  **Deprecated**: Auth0 Rules are deprecated: Auth0 has announced the end of life of Rules and Hooks; migrate to Actions (https://auth0.com/docs/customize/rules). Use `delete_action/3` instead.
+
   ## see
   https://auth0.com/docs/api/management/v2/rules/delete-rules-by-id
 
   """
+  @deprecated "Auth0 Rules are deprecated (end of life announced by Auth0). Migrate to Actions."
   @spec delete_rule(id, config) :: {:ok, String.t()} | error
   def delete_rule(id, %Config{} = config \\ %Config{}) do
     Rules.delete(id, config)
@@ -6036,10 +6114,13 @@ defmodule Auth0.Api.Management do
   @doc """
   Update an existing rule.
 
+  **Deprecated**: Auth0 Rules are deprecated: Auth0 has announced the end of life of Rules and Hooks; migrate to Actions (https://auth0.com/docs/customize/rules). Use `update_action/3` instead.
+
   ## see
   https://auth0.com/docs/api/management/v2/rules/patch-rules-by-id
 
   """
+  @deprecated "Auth0 Rules are deprecated (end of life announced by Auth0). Migrate to Actions."
   @spec update_rule(id, map(), config) ::
           {:ok, map()} | error
   def update_rule(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
@@ -6582,10 +6663,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Retrieve a list of verifiable credentials.
+  Retrieve the verifiable credential verification templates (`GET /api/v2/verifiable-credentials/verification/templates`).
 
   ## see
-  https://auth0.com/docs/api/management/v2/verifiable-credentials/get-verifiable-credentials
+  https://auth0.com/docs/api/management/v2/verifiable-credentials/get-vc-templates
   """
   @spec get_verifiable_credentials(map(), config) :: {:ok, list(map())} | error
   def get_verifiable_credentials(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
@@ -6593,10 +6674,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Create a verifiable credential.
+  Create a verifiable credential verification template (`POST /api/v2/verifiable-credentials/verification/templates`).
 
   ## see
-  https://auth0.com/docs/api/management/v2/verifiable-credentials/post-verifiable-credentials
+  https://auth0.com/docs/api/management/v2/verifiable-credentials/post-vc-templates
   """
   @spec create_verifiable_credential(map(), config) :: {:ok, map()} | error
   def create_verifiable_credential(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
@@ -6604,10 +6685,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Retrieve a verifiable credential by its ID.
+  Retrieve a verifiable credential verification template by its ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/verifiable-credentials/get-verifiable-credentials-by-id
+  https://auth0.com/docs/api/management/v2/verifiable-credentials/get-vc-templates-by-id
   """
   @spec get_verifiable_credential(id, config) :: {:ok, map()} | error
   def get_verifiable_credential(id, %Config{} = config \\ %Config{}) do
@@ -6615,10 +6696,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Delete a verifiable credential.
+  Delete a verifiable credential verification template.
 
   ## see
-  https://auth0.com/docs/api/management/v2/verifiable-credentials/delete-verifiable-credentials-by-id
+  https://auth0.com/docs/api/management/v2/verifiable-credentials/delete-vc-templates-by-id
   """
   @spec delete_verifiable_credential(id, config) :: {:ok, String.t()} | error
   def delete_verifiable_credential(id, %Config{} = config \\ %Config{}) do
@@ -6626,10 +6707,10 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update a verifiable credential.
+  Update a verifiable credential verification template.
 
   ## see
-  https://auth0.com/docs/api/management/v2/verifiable-credentials/patch-verifiable-credentials-by-id
+  https://auth0.com/docs/api/management/v2/verifiable-credentials/patch-vc-templates-by-id
   """
   @spec update_verifiable_credential(id, map(), config) :: {:ok, map()} | error
   def update_verifiable_credential(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do

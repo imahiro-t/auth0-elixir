@@ -24,6 +24,8 @@ defmodule Auth0.Management.RiskAssessments do
   @doc """
   Create a risk assessment.
 
+  **Deprecated**: `POST /api/v2/risk-assessments` / `GET /api/v2/risk-assessments/{id}` are not part of the Auth0 Management API v2 specification. Use `get_settings/1` / `update_settings/2` instead.
+
   ## see
   https://auth0.com/docs/api/management/v2/risk-assessments/post-risk-assessments
   """
@@ -34,6 +36,8 @@ defmodule Auth0.Management.RiskAssessments do
 
   @doc """
   Retrieve a risk assessment by its ID.
+
+  **Deprecated**: `POST /api/v2/risk-assessments` / `GET /api/v2/risk-assessments/{id}` are not part of the Auth0 Management API v2 specification. Use `get_settings/1` / `update_settings/2` instead.
 
   ## see
   https://auth0.com/docs/api/management/v2/risk-assessments/get-risk-assessments-by-id

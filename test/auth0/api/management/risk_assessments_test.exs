@@ -111,4 +111,41 @@ defmodule Auth0.Api.Management.RiskAssessmentsTest do
                )
     end
   end
+
+  describe "create_risk_assessment (D-008 deprecated, behaviour unchanged)" do
+    test "still works as before", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.method == "POST"
+        assert conn.request_path == "/api/v2/risk-assessments"
+        {:ok, raw, conn} = Plug.Conn.read_body(conn)
+        assert Jason.decode!(raw) == %{"a" => 1}
+        Plug.Conn.resp(conn, 201, "{\"id\":\"x\"}")
+      end)
+
+      assert {:ok, %{"id" => "x"}} =
+               Management.create_risk_assessment(%{"a" => 1}, config(bypass))
+    end
+
+    test "returns an error tuple on 4xx", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn -> Plug.Conn.resp(conn, 404, "{}") end)
+      assert {:error, 404, _} = Management.create_risk_assessment(%{"a" => 1}, config(bypass))
+    end
+  end
+
+  describe "get_risk_assessment (D-009 deprecated, behaviour unchanged)" do
+    test "still works as before", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.method == "GET"
+        assert conn.request_path == "/api/v2/risk-assessments/ra1"
+        Plug.Conn.resp(conn, 200, "{\"id\":\"x\"}")
+      end)
+
+      assert {:ok, %{"id" => "x"}} = Management.get_risk_assessment("ra1", config(bypass))
+    end
+
+    test "returns an error tuple on 4xx", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn -> Plug.Conn.resp(conn, 404, "{}") end)
+      assert {:error, 404, _} = Management.get_risk_assessment("ra1", config(bypass))
+    end
+  end
 end

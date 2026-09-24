@@ -12,10 +12,10 @@ defmodule Auth0.Management.VerifiableCredentials.Get do
   @endpoint "/api/v2/verifiable-credentials/verification/templates/{id}"
 
   @doc """
-  Retrieve a verifiable credential by its ID.
+  Retrieve a verifiable credential verification template by its ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/verifiable-credentials/get-verifiable-credentials-by-id
+  https://auth0.com/docs/api/management/v2/verifiable-credentials/get-vc-templates-by-id
   """
   @spec execute(id, config) :: response
   def execute(id, %Config{} = config) do

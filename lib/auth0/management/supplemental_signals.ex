@@ -18,6 +18,8 @@ defmodule Auth0.Management.SupplementalSignals do
   @doc """
   Create a supplemental signal.
 
+  **Deprecated**: `POST /api/v2/supplemental-signals` / `GET /api/v2/supplemental-signals/{id}` are not part of the Auth0 Management API v2 specification. Use `get_settings/1` / `update_settings/2` instead.
+
   ## see
   https://auth0.com/docs/api/management/v2/supplemental-signals/post-supplemental-signals
   """
@@ -28,6 +30,8 @@ defmodule Auth0.Management.SupplementalSignals do
 
   @doc """
   Retrieve a supplemental signal by its ID.
+
+  **Deprecated**: `POST /api/v2/supplemental-signals` / `GET /api/v2/supplemental-signals/{id}` are not part of the Auth0 Management API v2 specification. Use `get_settings/1` / `update_settings/2` instead.
 
   ## see
   https://auth0.com/docs/api/management/v2/supplemental-signals/get-supplemental-signals-by-id

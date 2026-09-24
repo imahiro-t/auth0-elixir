@@ -13,10 +13,10 @@ defmodule Auth0.Management.VerifiableCredentials.Patch do
   @endpoint "/api/v2/verifiable-credentials/verification/templates/{id}"
 
   @doc """
-  Update a verifiable credential.
+  Update a verifiable credential verification template.
 
   ## see
-  https://auth0.com/docs/api/management/v2/verifiable-credentials/patch-verifiable-credentials-by-id
+  https://auth0.com/docs/api/management/v2/verifiable-credentials/patch-vc-templates-by-id
   """
   @spec execute(id, params, config) :: response
   def execute(id, %{} = params, %Config{} = config) do

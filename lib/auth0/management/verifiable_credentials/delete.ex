@@ -12,10 +12,10 @@ defmodule Auth0.Management.VerifiableCredentials.Delete do
   @endpoint "/api/v2/verifiable-credentials/verification/templates/{id}"
 
   @doc """
-  Delete a verifiable credential.
+  Delete a verifiable credential verification template.
 
   ## see
-  https://auth0.com/docs/api/management/v2/verifiable-credentials/delete-verifiable-credentials-by-id
+  https://auth0.com/docs/api/management/v2/verifiable-credentials/delete-vc-templates-by-id
   """
   @spec execute(id, config) :: response
   def execute(id, %Config{} = config) do

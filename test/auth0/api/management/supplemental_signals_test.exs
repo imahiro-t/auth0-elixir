@@ -59,4 +59,41 @@ defmodule Auth0.Api.Management.SupplementalSignalsTest do
                Management.update_supplemental_signals(%{"name" => "test"}, config(bypass))
     end
   end
+
+  describe "create_supplemental_signal (D-010 deprecated, behaviour unchanged)" do
+    test "still works as before", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.method == "POST"
+        assert conn.request_path == "/api/v2/supplemental-signals"
+        {:ok, raw, conn} = Plug.Conn.read_body(conn)
+        assert Jason.decode!(raw) == %{"a" => 1}
+        Plug.Conn.resp(conn, 201, "{\"id\":\"x\"}")
+      end)
+
+      assert {:ok, %{"id" => "x"}} =
+               Management.create_supplemental_signal(%{"a" => 1}, config(bypass))
+    end
+
+    test "returns an error tuple on 4xx", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn -> Plug.Conn.resp(conn, 404, "{}") end)
+      assert {:error, 404, _} = Management.create_supplemental_signal(%{"a" => 1}, config(bypass))
+    end
+  end
+
+  describe "get_supplemental_signal (D-011 deprecated, behaviour unchanged)" do
+    test "still works as before", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.method == "GET"
+        assert conn.request_path == "/api/v2/supplemental-signals/s1"
+        Plug.Conn.resp(conn, 200, "{\"id\":\"x\"}")
+      end)
+
+      assert {:ok, %{"id" => "x"}} = Management.get_supplemental_signal("s1", config(bypass))
+    end
+
+    test "returns an error tuple on 4xx", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn -> Plug.Conn.resp(conn, 404, "{}") end)
+      assert {:error, 404, _} = Management.get_supplemental_signal("s1", config(bypass))
+    end
+  end
 end

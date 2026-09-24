@@ -3,9 +3,10 @@ defmodule Auth0.Management.Rules do
   Facade for the Auth0 Management API Rules endpoints.
 
   Most applications should call `Auth0.Api.Management` instead of this module.
+
+  **Deprecated**: Auth0 Rules are deprecated (end of life announced by Auth0). Migrate to Actions (`Auth0.Management.Actions`). The corresponding `Auth0.Api.Management` functions are marked with `@deprecated`.
   """
 
-  @deprecated "Auth0 Rules are deprecated and will be removed. Migrate to Actions."
   alias Auth0.Config
   alias Auth0.Management.Rules.List
   alias Auth0.Management.Rules.Create
