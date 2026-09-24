@@ -1,6 +1,6 @@
 # Auth0Api
 
-Management API for Auth0
+Elixir client for the [Auth0 Management API v2](https://auth0.com/docs/api/management/v2) and the [Authentication API](https://auth0.com/docs/api/authentication) (access tokens with the client credentials flow).
 
 ## Requirements
 
@@ -48,6 +48,7 @@ or You can use environment variable with keys below:
 - AUTH0_CLIENT_ID
 - AUTH0_CLIENT_SECRET
 - AUTH0_API_TOKEN
+- AUTH0_MAX_REQUEST_RETRY_COUNT (used when `:max_request_retry_count` is `nil`)
 
 Other options of `%Auth0.Config{}`:
 
@@ -90,6 +91,22 @@ Auth0.Api.Management.get_connections(%{strategy: ["auth0", "google-oauth2"]}, co
 ```
 
 `nil` values in the list are skipped. Scalar values are sent as before.
+
+### Authentication API
+
+To get an access token for an API (`audience`) with the client credentials flow, use the Authentication API:
+
+```elixir
+params = %Auth0.Authentication.Token.ClientCredentials.Params{
+  audience: "https://xxx.auth0.com/api/v2/",
+  client_id: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  client_secret: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}
+{:ok, %Auth0.Entity.Token{access_token: access_token}} =
+  Auth0.Authentication.token_by_client_credentials(params, config)
+```
+
+The Management API functions get and cache their tokens by themselves, so you do not need to call this for them.
 
 ### Path parameters
 
@@ -138,6 +155,8 @@ The library handles Auth0's rate limiting automatically. When a `429 Too Many Re
 ## Supported endpoints
 
 The library follows the official Auth0 Management API v2 OpenAPI specification as of 2026-09-24. The differences between that specification and 2.4.0, and how each one was handled in 2.5.0 (including the endpoints intentionally not supported, such as beta endpoints), are listed in [`docs/management_api_diff.md`](docs/management_api_diff.md) (Japanese). Functions for Early Access endpoints say so in their `@doc`.
+
+All Management API functions are documented in [`Auth0.Api.Management`](https://hexdocs.pm/auth0_api/Auth0.Api.Management.html).
 
 ## Deprecations
 
@@ -234,3 +253,7 @@ See [CHANGELOG.md](CHANGELOG.md) for details, including breaking changes.
 - ⬆️ upgrade ex_doc
 
 The docs can be found at [https://hexdocs.pm/auth0_api](https://hexdocs.pm/auth0_api).
+
+## License
+
+Released under the MIT License. See [LICENSE](https://github.com/imahiro-t/auth0-elixir/blob/main/LICENSE).
