@@ -158,7 +158,7 @@ Some parameters are deprecated by Auth0 while the functions are not; they are no
 
 ### 2.5.0
 
-See [CHANGELOG.md](CHANGELOG.md) for details, including the full list of new functions and fixes.
+See [CHANGELOG.md](CHANGELOG.md) for details. The full list of new functions is in [docs/management_api_diff.md](docs/management_api_diff.md).
 
 - ✨ Follow the Auth0 Management API v2 OpenAPI specification (2026-09-24): 153 new functions (148 new endpoints) in areas such as Actions modules, Agents, Groups, Rate Limit Policies, Refresh Tokens, Organizations, Connections (directory provisioning, keys, enabled clients), Guardian settings, Keys, Flows, Event Streams, Risk Assessments settings and Supplemental Signals
 - ✨ Add the `:custom_domain` option (the `auth0-custom-domain` header) to the 9 functions that support it; an invalid value raises `ArgumentError`
