@@ -49,4 +49,31 @@ defmodule Auth0.Api.Management.JobsTest do
       end
     end
   end
+
+  describe "get_job_error (参考所見3)" do
+    test "returns an empty string on 204 with an empty body", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.method == "GET"
+        assert conn.request_path == "/api/v2/jobs/job_1/errors"
+        Plug.Conn.resp(conn, 204, "")
+      end)
+
+      assert {:ok, ""} = Management.get_job_error("job_1", config(bypass))
+    end
+
+    test "decodes the 200 body", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.method == "GET"
+        assert conn.request_path == "/api/v2/jobs/job_1/errors"
+        Plug.Conn.resp(conn, 200, "[]")
+      end)
+
+      assert {:ok, []} = Management.get_job_error("job_1", config(bypass))
+    end
+
+    test "returns an error tuple on 4xx", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn -> Plug.Conn.resp(conn, 404, "{}") end)
+      assert {:error, 404, _} = Management.get_job_error("job_1", config(bypass))
+    end
+  end
 end

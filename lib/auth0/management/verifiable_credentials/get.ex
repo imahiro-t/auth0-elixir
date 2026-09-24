@@ -9,7 +9,7 @@ defmodule Auth0.Management.VerifiableCredentials.Get do
   @type entity :: map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/verifiable-credentials/{id}"
+  @endpoint "/api/v2/verifiable-credentials/verification/templates/{id}"
 
   @doc """
   Retrieve a verifiable credential by its ID.

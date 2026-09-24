@@ -875,7 +875,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec delete_branding_phone_provider(id, config) ::
-          {:ok, map()} | error
+          {:ok, String.t()} | error
   def delete_branding_phone_provider(id, %Config{} = config) do
     Branding.delete_phone_provider(id, config)
   end
@@ -956,7 +956,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec delete_branding_phone_template(id, config) ::
-          {:ok, map()} | error
+          {:ok, String.t()} | error
   def delete_branding_phone_template(id, %Config{} = config) do
     Branding.delete_phone_template(id, config)
   end
@@ -1746,11 +1746,14 @@ defmodule Auth0.Api.Management do
   @doc """
   Retrieves the status of an ad/ldap connection referenced by its ID. 200 OK http status code response is returned when the connection is online, otherwise a 404 status code is returned along with an error message
 
+  Returns `{:ok, true}` when Auth0 answers 200 (the connection is online).
+  Any other answer is returned as an error tuple, e.g. `{:error, 404, body}`.
+
   ## see
   https://auth0.com/docs/api/management/v2/connections/get-status
 
   """
-  @spec get_connection_status(id, config) :: {:ok, boolean} | error
+  @spec get_connection_status(id, config) :: {:ok, true} | error
   def get_connection_status(id, %Config{} = config \\ %Config{}) do
     Connections.get_status(id, config)
   end
@@ -3645,7 +3648,7 @@ defmodule Auth0.Api.Management do
   # suppressed for that arity only.
   @dialyzer {:nowarn_function, [{:update_hook_secrets, 1}]}
   @spec update_hook_secrets(id, value_params, config) ::
-          {:ok, map()} | error
+          {:ok, map() | String.t()} | error
   def update_hook_secrets(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Hooks.update_secrets(id, params, config)
   end
@@ -3663,7 +3666,7 @@ defmodule Auth0.Api.Management do
   # suppressed for that arity only.
   @dialyzer {:nowarn_function, [{:add_hook_secrets, 1}]}
   @spec add_hook_secrets(id, value_params, config) ::
-          {:ok, map()} | error
+          {:ok, map() | String.t()} | error
   def add_hook_secrets(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     Hooks.add_secrets(id, params, config)
   end
@@ -3736,7 +3739,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec get_job_error(id, config) ::
-          {:ok, list(map()) | map()} | error
+          {:ok, list(map()) | map() | String.t()} | error
   def get_job_error(id, %Config{} = config \\ %Config{}) do
     Jobs.get_error(id, config)
   end
@@ -4120,7 +4123,7 @@ defmodule Auth0.Api.Management do
   ## see
   https://auth0.com/docs/api/management/v2/network-acls/post-network-acls
   """
-  @spec create_network_acl(map(), config) :: {:ok, map()} | error
+  @spec create_network_acl(map(), config) :: {:ok, map() | String.t()} | error
   def create_network_acl(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     NetworkAcls.create(params, config)
   end
@@ -6137,7 +6140,7 @@ defmodule Auth0.Api.Management do
 
   """
   @spec delete_self_service_profile(id, config) ::
-          {:ok, map()} | error
+          {:ok, String.t()} | error
   def delete_self_service_profile(id, %Config{} = config) do
     SelfServiceProfiles.delete(id, config)
   end
@@ -6573,7 +6576,7 @@ defmodule Auth0.Api.Management do
   ## see
   https://auth0.com/docs/api/management/v2/token-exchange-profiles/patch-token-exchange-profiles-by-id
   """
-  @spec update_token_exchange_profile(id, map(), config) :: {:ok, map()} | error
+  @spec update_token_exchange_profile(id, map(), config) :: {:ok, map() | String.t()} | error
   def update_token_exchange_profile(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
     TokenExchangeProfiles.update(id, params, config)
   end

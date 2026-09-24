@@ -69,7 +69,7 @@ defmodule Auth0.Management.SelfServiceProfiles do
 
   """
   @spec delete(id, config) ::
-          {:ok, map()} | error
+          {:ok, String.t()} | error
   def delete(id, %Config{} = config) do
     Delete.execute(id, config)
   end

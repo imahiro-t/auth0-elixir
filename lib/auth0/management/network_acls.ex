@@ -34,7 +34,7 @@ defmodule Auth0.Management.NetworkAcls do
   ## see
   https://auth0.com/docs/api/management/v2/network-acls/post-network-acls
   """
-  @spec create(map(), config) :: {:ok, map()} | error
+  @spec create(map(), config) :: {:ok, map() | String.t()} | error
   def create(%{} = params, %Config{} = config) do
     Create.execute(params, config)
   end

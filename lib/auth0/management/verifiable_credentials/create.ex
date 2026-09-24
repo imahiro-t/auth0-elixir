@@ -9,7 +9,7 @@ defmodule Auth0.Management.VerifiableCredentials.Create do
   @type entity :: map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/verifiable-credentials"
+  @endpoint "/api/v2/verifiable-credentials/verification/templates"
 
   @doc """
   Create a verifiable credential.

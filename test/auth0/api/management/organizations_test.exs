@@ -923,4 +923,24 @@ defmodule Auth0.Api.Management.OrganizationsTest do
       end
     end
   end
+
+  describe "delete_organization_invitation (C-016)" do
+    test "returns an empty string on 204 like the other DELETE functions", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.method == "DELETE"
+        assert conn.request_path == "/api/v2/organizations/org_1/invitations/uinv_1"
+        Plug.Conn.resp(conn, 204, "")
+      end)
+
+      assert {:ok, ""} =
+               Management.delete_organization_invitation("org_1", "uinv_1", config(bypass))
+    end
+
+    test "returns an error tuple on 4xx", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn -> Plug.Conn.resp(conn, 404, "{}") end)
+
+      assert {:error, 404, _} =
+               Management.delete_organization_invitation("org_1", "uinv_1", config(bypass))
+    end
+  end
 end

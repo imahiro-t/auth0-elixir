@@ -10,7 +10,7 @@ defmodule Auth0.Management.VerifiableCredentials.Patch do
   @type entity :: map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/verifiable-credentials/{id}"
+  @endpoint "/api/v2/verifiable-credentials/verification/templates/{id}"
 
   @doc """
   Update a verifiable credential.

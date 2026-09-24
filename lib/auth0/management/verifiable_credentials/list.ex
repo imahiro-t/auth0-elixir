@@ -10,7 +10,7 @@ defmodule Auth0.Management.VerifiableCredentials.List do
   @type entity :: list(map())
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/verifiable-credentials"
+  @endpoint "/api/v2/verifiable-credentials/verification/templates"
 
   @doc """
   Retrieve a list of verifiable credentials.

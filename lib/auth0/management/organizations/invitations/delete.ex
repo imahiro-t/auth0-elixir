@@ -26,7 +26,7 @@ defmodule Auth0.Management.Organizations.Invitations.Delete do
     |> String.replace("{invitation_id}", invitation_id)
     |> Http.delete(config)
     |> case do
-      {:ok, 204} -> {:ok, ""}
+      {:ok, 204, _body} -> {:ok, ""}
       error -> error
     end
   end

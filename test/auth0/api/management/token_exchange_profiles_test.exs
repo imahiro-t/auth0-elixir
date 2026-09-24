@@ -1,0 +1,51 @@
+defmodule Auth0.Api.Management.TokenExchangeProfilesTest do
+  use ExUnit.Case
+  alias Auth0.Api.Management
+  alias Auth0.Config
+
+  setup do
+    bypass = Bypass.open()
+    {:ok, bypass: bypass}
+  end
+
+  defp config(bypass) do
+    %Config{
+      domain: "localhost:#{bypass.port}",
+      http_protocol: "http",
+      api_token: "test-token"
+    }
+  end
+
+  describe "update_token_exchange_profile (C-015)" do
+    test "accepts the empty 200 body", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.method == "PATCH"
+        assert conn.request_path == "/api/v2/token-exchange-profiles/tep_1"
+        {:ok, raw, conn} = Plug.Conn.read_body(conn)
+        assert Jason.decode!(raw) == %{"name" => "n"}
+        Plug.Conn.resp(conn, 200, "")
+      end)
+
+      assert {:ok, ""} =
+               Management.update_token_exchange_profile("tep_1", %{"name" => "n"}, config(bypass))
+    end
+
+    test "still decodes a JSON body", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.method == "PATCH"
+        assert conn.request_path == "/api/v2/token-exchange-profiles/tep_1"
+        Plug.Conn.resp(conn, 200, "{\"id\":\"x\"}")
+      end)
+
+      assert {:ok, %{"id" => "x"}} =
+               Management.update_token_exchange_profile("tep_1", %{"name" => "n"}, config(bypass))
+    end
+
+    test "returns an error tuple on 4xx", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn -> Plug.Conn.resp(conn, 404, "{}") end)
+
+      assert {:error, 404, _} =
+               Management.update_token_exchange_profile("tep_1", %{"name" => "n"}, config(bypass))
+    end
+  end
+end

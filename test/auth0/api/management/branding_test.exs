@@ -59,4 +59,38 @@ defmodule Auth0.Api.Management.BrandingTest do
       end
     end
   end
+
+  describe "delete_branding_phone_provider (C-009)" do
+    test "returns an empty string on 204 (no JSON decode)", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.method == "DELETE"
+        assert conn.request_path == "/api/v2/branding/phone/providers/pro_1"
+        Plug.Conn.resp(conn, 204, "")
+      end)
+
+      assert {:ok, ""} = Management.delete_branding_phone_provider("pro_1", config(bypass))
+    end
+
+    test "returns an error tuple on 4xx", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn -> Plug.Conn.resp(conn, 404, "{}") end)
+      assert {:error, 404, _} = Management.delete_branding_phone_provider("pro_1", config(bypass))
+    end
+  end
+
+  describe "delete_branding_phone_template (C-010)" do
+    test "returns an empty string on 204 (no JSON decode)", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.method == "DELETE"
+        assert conn.request_path == "/api/v2/branding/phone/templates/tem_1"
+        Plug.Conn.resp(conn, 204, "")
+      end)
+
+      assert {:ok, ""} = Management.delete_branding_phone_template("tem_1", config(bypass))
+    end
+
+    test "returns an error tuple on 4xx", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn -> Plug.Conn.resp(conn, 404, "{}") end)
+      assert {:error, 404, _} = Management.delete_branding_phone_template("tem_1", config(bypass))
+    end
+  end
 end

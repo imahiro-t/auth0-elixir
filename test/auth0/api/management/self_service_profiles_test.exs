@@ -156,4 +156,21 @@ defmodule Auth0.Api.Management.SelfServiceProfilesTest do
       end
     end
   end
+
+  describe "delete_self_service_profile (C-011)" do
+    test "returns an empty string on 204 (no JSON decode)", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.method == "DELETE"
+        assert conn.request_path == "/api/v2/self-service-profiles/ssp_1"
+        Plug.Conn.resp(conn, 204, "")
+      end)
+
+      assert {:ok, ""} = Management.delete_self_service_profile("ssp_1", config(bypass))
+    end
+
+    test "returns an error tuple on 4xx", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn -> Plug.Conn.resp(conn, 404, "{}") end)
+      assert {:error, 404, _} = Management.delete_self_service_profile("ssp_1", config(bypass))
+    end
+  end
 end

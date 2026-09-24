@@ -521,4 +521,31 @@ defmodule Auth0.Api.Management.ConnectionsTest do
       assert {:ok, _} = Management.get_connections(%{strategy: "a"}, config(bypass))
     end
   end
+
+  describe "get_connection_status (C-012)" do
+    test "returns {:ok, true} on 200 with an empty body", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.method == "GET"
+        assert conn.request_path == "/api/v2/connections/con_1/status"
+        Plug.Conn.resp(conn, 200, "")
+      end)
+
+      assert {:ok, true} = Management.get_connection_status("con_1", config(bypass))
+    end
+
+    test "returns {:ok, true} on 200 even if a body is present", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.method == "GET"
+        assert conn.request_path == "/api/v2/connections/con_1/status"
+        Plug.Conn.resp(conn, 200, "{\"id\":\"x\"}")
+      end)
+
+      assert {:ok, true} = Management.get_connection_status("con_1", config(bypass))
+    end
+
+    test "returns an error tuple on 4xx", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn -> Plug.Conn.resp(conn, 404, "{}") end)
+      assert {:error, 404, _} = Management.get_connection_status("con_1", config(bypass))
+    end
+  end
 end

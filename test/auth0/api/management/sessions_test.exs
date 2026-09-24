@@ -45,4 +45,21 @@ defmodule Auth0.Api.Management.SessionsTest do
                )
     end
   end
+
+  describe "revoke_session (C-003)" do
+    test "revokes with POST and returns an empty string on 202", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.method == "POST"
+        assert conn.request_path == "/api/v2/sessions/ses_1/revoke"
+        Plug.Conn.resp(conn, 202, "")
+      end)
+
+      assert {:ok, ""} = Management.revoke_session("ses_1", config(bypass))
+    end
+
+    test "returns an error tuple on 4xx", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn -> Plug.Conn.resp(conn, 404, "{}") end)
+      assert {:error, 404, _} = Management.revoke_session("ses_1", config(bypass))
+    end
+  end
 end

@@ -76,7 +76,7 @@ defmodule Auth0.Management.Jobs do
 
   """
   @spec get_error(id, config) ::
-          {:ok, list(map()) | map()} | error
+          {:ok, list(map()) | map() | String.t()} | error
   def get_error(id, %Config{} = config) do
     Errors.Get.execute(id, config)
   end

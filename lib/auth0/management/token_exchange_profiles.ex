@@ -66,7 +66,7 @@ defmodule Auth0.Management.TokenExchangeProfiles do
   ## see
   https://auth0.com/docs/api/management/v2/token-exchange-profiles/patch-token-exchange-profiles-by-id
   """
-  @spec update(id, map(), config) :: {:ok, map()} | error
+  @spec update(id, map(), config) :: {:ok, map() | String.t()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(id, params, config)
   end

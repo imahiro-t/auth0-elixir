@@ -3,10 +3,11 @@ defmodule Auth0.Management.NetworkAcls.Create do
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http
+  alias Auth0.Common.Util
 
   @type params :: map()
   @type config :: Config.t()
-  @type entity :: map()
+  @type entity :: map() | String.t()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/network-acls"
@@ -22,7 +23,7 @@ defmodule Auth0.Management.NetworkAcls.Create do
     @endpoint
     |> Http.post(params, config)
     |> case do
-      {:ok, 201, body} -> {:ok, body |> Jason.decode!()}
+      {:ok, 201, body} -> {:ok, body |> Util.decode_json_or_string!()}
       error -> error
     end
   end

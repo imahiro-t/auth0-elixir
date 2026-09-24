@@ -191,4 +191,23 @@ defmodule Auth0.Api.Management.KeysTest do
       assert {:error, 404, _} = Management.delete_network_acl_key("id|1/a b", config(bypass))
     end
   end
+
+  describe "rekey_encryption_key (C-002)" do
+    test "posts to /keys/encryption/rekey and returns an empty string on 204", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.method == "POST"
+        assert conn.request_path == "/api/v2/keys/encryption/rekey"
+        {:ok, raw, conn} = Plug.Conn.read_body(conn)
+        assert Jason.decode!(raw) == %{}
+        Plug.Conn.resp(conn, 204, "")
+      end)
+
+      assert {:ok, ""} = Management.rekey_encryption_key(config(bypass))
+    end
+
+    test "returns an error tuple on 4xx", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn -> Plug.Conn.resp(conn, 404, "{}") end)
+      assert {:error, 404, _} = Management.rekey_encryption_key(config(bypass))
+    end
+  end
 end

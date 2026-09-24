@@ -117,7 +117,7 @@ defmodule Auth0.Management.Hooks do
 
   """
   @spec update_secrets(id, value_params, config) ::
-          {:ok, map()} | error
+          {:ok, map() | String.t()} | error
   def update_secrets(id, %{} = params, %Config{} = config) do
     Secrets.Patch.execute(id, params, config)
   end
@@ -129,7 +129,7 @@ defmodule Auth0.Management.Hooks do
   https://auth0.com/docs/api/management/v2/hooks/post-secrets
 
   """
-  @spec add_secrets(id, value_params, config) :: {:ok, map()} | error
+  @spec add_secrets(id, value_params, config) :: {:ok, map() | String.t()} | error
   def add_secrets(id, %{} = params, %Config{} = config) do
     Secrets.Add.execute(id, params, config)
   end

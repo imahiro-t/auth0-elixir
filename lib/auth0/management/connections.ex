@@ -230,7 +230,7 @@ defmodule Auth0.Management.Connections do
   https://auth0.com/docs/api/management/v2/connections/get-status
 
   """
-  @spec get_status(id, config) :: {:ok, map()} | error
+  @spec get_status(id, config) :: {:ok, true} | error
   def get_status(id, %Config{} = config) do
     Status.execute(id, config)
   end

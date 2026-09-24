@@ -9,7 +9,7 @@ defmodule Auth0.Management.VerifiableCredentials.Delete do
   @type entity :: String.t()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/verifiable-credentials/{id}"
+  @endpoint "/api/v2/verifiable-credentials/verification/templates/{id}"
 
   @doc """
   Delete a verifiable credential.

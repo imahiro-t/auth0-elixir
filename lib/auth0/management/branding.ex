@@ -90,7 +90,7 @@ defmodule Auth0.Management.Branding do
 
   """
   @spec delete_phone_provider(id, config) ::
-          {:ok, map()} | error
+          {:ok, String.t()} | error
   def delete_phone_provider(id, %Config{} = config) do
     Phone.Providers.Delete.execute(id, config)
   end
@@ -168,7 +168,7 @@ defmodule Auth0.Management.Branding do
 
   """
   @spec delete_phone_template(id, config) ::
-          {:ok, map()} | error
+          {:ok, String.t()} | error
   def delete_phone_template(id, %Config{} = config) do
     Phone.Templates.Delete.execute(id, config)
   end
