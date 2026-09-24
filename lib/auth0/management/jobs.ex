@@ -49,10 +49,10 @@ defmodule Auth0.Management.Jobs do
   https://auth0.com/docs/api/management/v2/jobs/post-verification-email
 
   """
-  @spec send_verification_email(map(), config) ::
+  @spec send_verification_email(map(), config, keyword()) ::
           {:ok, map()} | error
-  def send_verification_email(%{} = params, %Config{} = config) do
-    VerificationEmail.execute(params, config)
+  def send_verification_email(%{} = params, %Config{} = config, opts \\ []) do
+    VerificationEmail.execute(params, config, opts)
   end
 
   @doc """

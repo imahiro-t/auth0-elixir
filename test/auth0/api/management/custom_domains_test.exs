@@ -79,4 +79,34 @@ defmodule Auth0.Api.Management.CustomDomainsTest do
       assert {:error, 404, _} = Management.test_custom_domain("id|1/a b", config(bypass))
     end
   end
+
+  describe "get_custom_domain_configurations with query parameters (A-007)" do
+    test "(params) sends the query with the default config", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.request_path == "/api/v2/custom-domains"
+        assert conn.query_string == "take=v1"
+        Plug.Conn.resp(conn, 200, "[]")
+      end)
+
+      assert {:ok, []} =
+               Management.get_custom_domain_configurations(%{take: "v1"}, config(bypass))
+    end
+
+    test "(config) keeps working without a query string", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.request_path == "/api/v2/custom-domains"
+        assert conn.query_string == ""
+        Plug.Conn.resp(conn, 200, "[]")
+      end)
+
+      assert {:ok, []} = Management.get_custom_domain_configurations(config(bypass))
+    end
+
+    test "returns an error tuple on 4xx", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn -> Plug.Conn.resp(conn, 403, "{}") end)
+
+      assert {:error, 403, _} =
+               Management.get_custom_domain_configurations(%{take: "v1"}, config(bypass))
+    end
+  end
 end

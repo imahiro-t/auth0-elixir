@@ -14,7 +14,7 @@ defmodule Auth0.Management.AttackProtection.BotDetection.Get do
   Retrieve details of the Bot Detection configuration of your tenant.
 
   ## see
-  There is no public documentation for this endpoint yet, but it follows the standard pattern.
+  https://auth0.com/docs/api/management/v2/attack-protection/get-bot-detection
   """
   @spec execute(config) :: response
   def execute(%Config{} = config) do

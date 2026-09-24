@@ -122,4 +122,38 @@ defmodule Auth0.Api.Management.SelfServiceProfilesTest do
                )
     end
   end
+
+  describe "create_self_service_profile_sso_ticket with the auth0-custom-domain header (A-011)" do
+    test "sends the header when :custom_domain is given", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.method == "POST"
+        assert conn.request_path == "/api/v2/self-service-profiles/ssp_1/sso-ticket"
+        assert Plug.Conn.get_req_header(conn, "auth0-custom-domain") == ["login.example.com"]
+        Plug.Conn.resp(conn, 201, "{\"id\":\"x\"}")
+      end)
+
+      assert {:ok, _} =
+               Management.create_self_service_profile_sso_ticket("ssp_1", %{}, config(bypass),
+                 custom_domain: "login.example.com"
+               )
+    end
+
+    test "does not send the header by default (existing arity)", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert Plug.Conn.get_req_header(conn, "auth0-custom-domain") == []
+        Plug.Conn.resp(conn, 201, "{\"id\":\"x\"}")
+      end)
+
+      assert {:ok, _} =
+               Management.create_self_service_profile_sso_ticket("ssp_1", %{}, config(bypass))
+    end
+
+    test "rejects a value that is not a host name", %{bypass: bypass} do
+      assert_raise ArgumentError, fn ->
+        Management.create_self_service_profile_sso_ticket("ssp_1", %{}, config(bypass),
+          custom_domain: "evil.example.com\r\nx-injected: 1"
+        )
+      end
+    end
+  end
 end

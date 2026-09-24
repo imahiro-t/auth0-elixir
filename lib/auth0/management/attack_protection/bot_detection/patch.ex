@@ -15,7 +15,7 @@ defmodule Auth0.Management.AttackProtection.BotDetection.Patch do
   Update details of the Bot Detection configuration of your tenant.
 
   ## see
-  There is no public documentation for this endpoint yet, but it follows the standard pattern.
+  https://auth0.com/docs/api/management/v2/attack-protection/patch-bot-detection
   """
   @spec execute(params, config) :: response
   def execute(%{} = params, %Config{} = config) do

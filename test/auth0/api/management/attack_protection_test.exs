@@ -111,4 +111,50 @@ defmodule Auth0.Api.Management.AttackProtectionTest do
                )
     end
   end
+
+  describe "get_attack_protection_bot_detection (A-001)" do
+    test "sends GET /api/v2/attack-protection/bot-detection", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.method == "GET"
+        assert conn.request_path == "/api/v2/attack-protection/bot-detection"
+        Plug.Conn.resp(conn, 200, "{\"id\":\"x\"}")
+      end)
+
+      assert {:ok, %{"id" => "x"}} =
+               Management.get_attack_protection_bot_detection(config(bypass))
+    end
+
+    test "returns an error tuple on 4xx", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn -> Plug.Conn.resp(conn, 400, "{}") end)
+      assert {:error, 400, _} = Management.get_attack_protection_bot_detection(config(bypass))
+    end
+  end
+
+  describe "update_attack_protection_bot_detection (A-002)" do
+    test "sends PATCH /api/v2/attack-protection/bot-detection", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.method == "PATCH"
+        assert conn.request_path == "/api/v2/attack-protection/bot-detection"
+        {:ok, raw, conn} = Plug.Conn.read_body(conn)
+        assert Jason.decode!(raw) == %{"bot_detection_level" => "medium"}
+        Plug.Conn.resp(conn, 200, "{\"id\":\"x\"}")
+      end)
+
+      assert {:ok, %{"id" => "x"}} =
+               Management.update_attack_protection_bot_detection(
+                 %{"bot_detection_level" => "medium"},
+                 config(bypass)
+               )
+    end
+
+    test "returns an error tuple on 4xx", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn -> Plug.Conn.resp(conn, 400, "{}") end)
+
+      assert {:error, 400, _} =
+               Management.update_attack_protection_bot_detection(
+                 %{"bot_detection_level" => "medium"},
+                 config(bypass)
+               )
+    end
+  end
 end

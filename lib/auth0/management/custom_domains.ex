@@ -27,10 +27,10 @@ defmodule Auth0.Management.CustomDomains do
   https://auth0.com/docs/api/management/v2/custom-domains/get-custom-domains
 
   """
-  @spec list(config) ::
+  @spec list(map(), config) ::
           {:ok, list(map())} | error
-  def list(%Config{} = config) do
-    List.execute(config)
+  def list(%{} = params \\ %{}, %Config{} = config) do
+    List.execute(params, config)
   end
 
   @doc """

@@ -94,10 +94,10 @@ defmodule Auth0.Management.SelfServiceProfiles do
   https://auth0.com/docs/api/management/v2/self-service-profiles/post-sso-ticket
 
   """
-  @spec create_sso_ticket(id, map(), config) ::
+  @spec create_sso_ticket(id, map(), config, keyword()) ::
           {:ok, map()} | error
-  def create_sso_ticket(id, %{} = params, %Config{} = config) do
-    SsoTicket.Create.execute(id, params, config)
+  def create_sso_ticket(id, %{} = params, %Config{} = config, opts \\ []) do
+    SsoTicket.Create.execute(id, params, config, opts)
   end
 
   @doc """

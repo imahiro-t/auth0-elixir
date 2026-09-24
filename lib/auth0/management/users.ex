@@ -66,10 +66,10 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/users/post-users
 
   """
-  @spec create(map(), config) ::
+  @spec create(map(), config, keyword()) ::
           {:ok, map()} | error
-  def create(%{} = params, %Config{} = config) do
-    Create.execute(params, config)
+  def create(%{} = params, %Config{} = config, opts \\ []) do
+    Create.execute(params, config, opts)
   end
 
   @doc """
@@ -104,10 +104,10 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/users/patch-users-by-id
 
   """
-  @spec update(id, map(), config) ::
+  @spec update(id, map(), config, keyword()) ::
           {:ok, map()} | error
-  def update(id, %{} = params, %Config{} = config) do
-    Patch.execute(id, params, config)
+  def update(id, %{} = params, %Config{} = config, opts \\ []) do
+    Patch.execute(id, params, config, opts)
   end
 
   @doc """

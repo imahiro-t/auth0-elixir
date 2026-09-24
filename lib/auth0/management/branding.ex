@@ -206,10 +206,10 @@ defmodule Auth0.Management.Branding do
   https://auth0.com/docs/api/management/v2/branding/try-phone-template
 
   """
-  @spec test_phone_template(id, map(), config) ::
+  @spec test_phone_template(id, map(), config, keyword()) ::
           {:ok, map()} | error
-  def test_phone_template(id, %{} = params, %Config{} = config) do
-    Phone.Templates.Try.execute(id, params, config)
+  def test_phone_template(id, %{} = params, %Config{} = config, opts \\ []) do
+    Phone.Templates.Try.execute(id, params, config, opts)
   end
 
   @doc """

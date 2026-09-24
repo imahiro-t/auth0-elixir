@@ -74,6 +74,7 @@ defmodule Auth0.Api.Management do
   @type credential_id :: String.t()
   @type authentication_method_id :: String.t()
   @type error :: {:error, integer, term} | {:error, term}
+  @type request_opts :: [custom_domain: String.t()]
   @type value_params :: %{required(:value) => list() | map(), optional(any()) => any()}
   @type provider_params :: %{required(:provider) => String.t(), optional(any()) => any()}
 
@@ -747,6 +748,33 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
+  Get the Bot Detection configuration of your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/attack-protection/get-bot-detection
+
+  """
+  @spec get_attack_protection_bot_detection(config) :: {:ok, map()} | error
+  def get_attack_protection_bot_detection(%Config{} = config \\ %Config{}) do
+    AttackProtection.get_bot_detection(config)
+  end
+
+  @doc """
+  Update the Bot Detection configuration of your tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/attack-protection/patch-bot-detection
+
+  """
+  @spec update_attack_protection_bot_detection(map(), config) :: {:ok, map()} | error
+  def update_attack_protection_bot_detection(
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    AttackProtection.update_bot_detection(params, config)
+  end
+
+  @doc """
   Retrieve the jti and aud of all tokens that are blacklisted.
 
   ## see
@@ -962,14 +990,19 @@ defmodule Auth0.Api.Management do
   @doc """
   Send a test phone notification for the configured template
 
+  ## options
+  - `:custom_domain` - sent as the `auth0-custom-domain` header so that Auth0 uses
+    this custom domain (host name, optionally with a port) for links it generates.
+    An invalid value raises `ArgumentError`.
+
   ## see
   https://auth0.com/docs/api/management/v2/branding/try-phone-template
 
   """
-  @spec test_branding_phone_template(id, map(), config) ::
+  @spec test_branding_phone_template(id, map(), config, request_opts) ::
           {:ok, map()} | error
-  def test_branding_phone_template(id, %{} = params, %Config{} = config) do
-    Branding.test_phone_template(id, params, config)
+  def test_branding_phone_template(id, %{} = params, %Config{} = config, opts \\ []) do
+    Branding.test_phone_template(id, params, config, opts)
   end
 
   @doc """
@@ -2065,14 +2098,29 @@ defmodule Auth0.Api.Management do
   - `include_fields`
   - `sort`
 
+  Query parameters can be passed as a map: `get_custom_domain_configurations(params)` or
+  `get_custom_domain_configurations(params, config)`.
+
   ## see
   https://auth0.com/docs/api/management/v2/custom-domains/get-custom-domains
 
   """
-  @spec get_custom_domain_configurations(config) ::
+  @spec get_custom_domain_configurations(config | map()) ::
           {:ok, list(map())} | error
-  def get_custom_domain_configurations(%Config{} = config \\ %Config{}) do
-    CustomDomains.list(config)
+  def get_custom_domain_configurations(config_or_params \\ %Config{})
+
+  def get_custom_domain_configurations(%Config{} = config) do
+    CustomDomains.list(%{}, config)
+  end
+
+  def get_custom_domain_configurations(%{} = params) do
+    CustomDomains.list(params, %Config{})
+  end
+
+  @spec get_custom_domain_configurations(map(), config) ::
+          {:ok, list(map())} | error
+  def get_custom_domain_configurations(%{} = params, %Config{} = config) do
+    CustomDomains.list(params, config)
   end
 
   @doc """
@@ -2952,17 +3000,23 @@ defmodule Auth0.Api.Management do
   @doc """
   Create a multi-factor authentication (MFA) enrollment ticket, and optionally send an email with the created ticket, to a given user.
 
+  ## options
+  - `:custom_domain` - sent as the `auth0-custom-domain` header so that Auth0 uses
+    this custom domain (host name, optionally with a port) for links it generates.
+    An invalid value raises `ArgumentError`.
+
   ## see
   https://auth0.com/docs/api/management/v2/guardian/post-ticket
 
   """
-  @spec create_guardian_enrollment_ticket(map(), config) ::
+  @spec create_guardian_enrollment_ticket(map(), config, request_opts) ::
           {:ok, map()} | error
   def create_guardian_enrollment_ticket(
         %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
+        %Config{} = config \\ %Config{},
+        opts \\ []
       ) do
-    Guardian.create_enrollment_ticket(params, config)
+    Guardian.create_enrollment_ticket(params, config, opts)
   end
 
   @doc """
@@ -3643,14 +3697,23 @@ defmodule Auth0.Api.Management do
   @doc """
   Send an email to the specified user that asks them to click a link to verify their email address.
 
+  ## options
+  - `:custom_domain` - sent as the `auth0-custom-domain` header so that Auth0 uses
+    this custom domain (host name, optionally with a port) for links it generates.
+    An invalid value raises `ArgumentError`.
+
   ## see
   https://auth0.com/docs/api/management/v2/jobs/post-verification-email
 
   """
-  @spec send_job_verification_email(map(), config) ::
+  @spec send_job_verification_email(map(), config, request_opts) ::
           {:ok, map()} | error
-  def send_job_verification_email(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Jobs.send_verification_email(params, config)
+  def send_job_verification_email(
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{},
+        opts \\ []
+      ) do
+    Jobs.send_verification_email(params, config, opts)
   end
 
   @doc """
@@ -4327,18 +4390,24 @@ defmodule Auth0.Api.Management do
   @doc """
   Create a user invitation for a specific Organization. Upon creation, the listed user receives an email inviting them to join the Organization.
 
+  ## options
+  - `:custom_domain` - sent as the `auth0-custom-domain` header so that Auth0 uses
+    this custom domain (host name, optionally with a port) for links it generates.
+    An invalid value raises `ArgumentError`.
+
   ## see
   https://auth0.com/docs/api/management/v2/organizations/post-invitations
 
   """
-  @spec create_organization_invitation(id, map(), config) ::
+  @spec create_organization_invitation(id, map(), config, request_opts) ::
           {:ok, map()} | error
   def create_organization_invitation(
         id,
         %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
+        %Config{} = config \\ %Config{},
+        opts \\ []
       ) do
-    Organizations.create_invitation(id, params, config)
+    Organizations.create_invitation(id, params, config, opts)
   end
 
   @doc """
@@ -5333,6 +5402,35 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
+  Get the render settings (rendering configuration) of a single screen.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/prompts/get-rendering
+
+  """
+  @spec get_prompt_rendering(prompt, String.t(), config) :: {:ok, map()} | error
+  def get_prompt_rendering(prompt, screen, %Config{} = config \\ %Config{}) do
+    Prompts.get_rendering_configuration(prompt, screen, config)
+  end
+
+  @doc """
+  Update the render settings (rendering configuration) of a single screen.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/prompts/patch-rendering
+
+  """
+  @spec update_prompt_rendering(prompt, String.t(), map(), config) :: {:ok, map()} | error
+  def update_prompt_rendering(
+        prompt,
+        screen,
+        %{} = params \\ %{},
+        %Config{} = config \\ %Config{}
+      ) do
+    Prompts.set_rendering_configuration(prompt, screen, params, config)
+  end
+
+  @doc """
   Retrieve refresh token information.
 
   ## see
@@ -6064,14 +6162,19 @@ defmodule Auth0.Api.Management do
   @doc """
   Creates an sso-access ticket to initiate the Self Service SSO Flow using a self-service profile.
 
+  ## options
+  - `:custom_domain` - sent as the `auth0-custom-domain` header so that Auth0 uses
+    this custom domain (host name, optionally with a port) for links it generates.
+    An invalid value raises `ArgumentError`.
+
   ## see
   https://auth0.com/docs/api/management/v2/self-service-profiles/post-sso-ticket
 
   """
-  @spec create_self_service_profile_sso_ticket(id, map(), config) ::
+  @spec create_self_service_profile_sso_ticket(id, map(), config, request_opts) ::
           {:ok, map()} | error
-  def create_self_service_profile_sso_ticket(id, %{} = params, %Config{} = config) do
-    SelfServiceProfiles.create_sso_ticket(id, params, config)
+  def create_self_service_profile_sso_ticket(id, %{} = params, %Config{} = config, opts \\ []) do
+    SelfServiceProfiles.create_sso_ticket(id, params, config, opts)
   end
 
   @doc """
@@ -6171,7 +6274,22 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
+  Update session information.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/sessions/patch-sessions-by-id
+
+  """
+  @spec update_session(id, map(), config) :: {:ok, map()} | error
+  def update_session(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
+    Sessions.update(id, params, config)
+  end
+
+  @doc """
   Retrieve the number of active users that logged in during the last 30 days.
+
+  The response body is returned as the raw string (for example `{:ok, "123"}`),
+  it is not decoded to an integer.
 
   ## see
   https://auth0.com/docs/api/management/v2/stats/get-active-users
@@ -6189,13 +6307,27 @@ defmodule Auth0.Api.Management do
   - `from`
   - `to`
 
+  Query parameters can be passed as a map: `get_daily_stats(params)` or
+  `get_daily_stats(params, config)`.
+
   ## see
   https://auth0.com/docs/api/management/v2/stats/get-daily
 
   """
-  @spec get_daily_stats(config) :: {:ok, list(map())} | error
-  def get_daily_stats(%Config{} = config \\ %Config{}) do
-    Stats.list_daily(config)
+  @spec get_daily_stats(config | map()) :: {:ok, list(map())} | error
+  def get_daily_stats(config_or_params \\ %Config{})
+
+  def get_daily_stats(%Config{} = config) do
+    Stats.list_daily(%{}, config)
+  end
+
+  def get_daily_stats(%{} = params) do
+    Stats.list_daily(params, %Config{})
+  end
+
+  @spec get_daily_stats(map(), config) :: {:ok, list(map())} | error
+  def get_daily_stats(%{} = params, %Config{} = config) do
+    Stats.list_daily(params, config)
   end
 
   @doc """
@@ -6238,17 +6370,23 @@ defmodule Auth0.Api.Management do
   @doc """
   Create an email verification ticket for a given user. An email verification ticket is a generated URL that the user can consume to verify their email address.
 
+  ## options
+  - `:custom_domain` - sent as the `auth0-custom-domain` header so that Auth0 uses
+    this custom domain (host name, optionally with a port) for links it generates.
+    An invalid value raises `ArgumentError`.
+
   ## see
   https://auth0.com/docs/api/management/v2/tickets/post-email-verification
 
   """
-  @spec create_email_verification_ticket(map(), config) ::
+  @spec create_email_verification_ticket(map(), config, request_opts) ::
           {:ok, map()} | error
   def create_email_verification_ticket(
         %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
+        %Config{} = config \\ %Config{},
+        opts \\ []
       ) do
-    Tickets.create_email_verification(params, config)
+    Tickets.create_email_verification(params, config, opts)
   end
 
   @doc """
@@ -6258,17 +6396,23 @@ defmodule Auth0.Api.Management do
   The request body is sent as given. These properties have a non-GA lifecycle in the Auth0 specification:
   - `identity` (Early Access)
 
+  ## options
+  - `:custom_domain` - sent as the `auth0-custom-domain` header so that Auth0 uses
+    this custom domain (host name, optionally with a port) for links it generates.
+    An invalid value raises `ArgumentError`.
+
   ## see
   https://auth0.com/docs/api/management/v2/tickets/post-password-change
 
   """
-  @spec create_password_change_ticket(map(), config) ::
+  @spec create_password_change_ticket(map(), config, request_opts) ::
           {:ok, map()} | error
   def create_password_change_ticket(
         %{} = params \\ %{},
-        %Config{} = config \\ %Config{}
+        %Config{} = config \\ %Config{},
+        opts \\ []
       ) do
-    Tickets.create_password_change(params, config)
+    Tickets.create_password_change(params, config, opts)
   end
 
   @doc """
@@ -6360,14 +6504,19 @@ defmodule Auth0.Api.Management do
   @doc """
   Create a new user for a given database or passwordless connection.
 
+  ## options
+  - `:custom_domain` - sent as the `auth0-custom-domain` header so that Auth0 uses
+    this custom domain (host name, optionally with a port) for links it generates.
+    An invalid value raises `ArgumentError`.
+
   ## see
   https://auth0.com/docs/api/management/v2/users/post-users
 
   """
-  @spec create_user(map(), config) ::
+  @spec create_user(map(), config, request_opts) ::
           {:ok, map()} | error
-  def create_user(%{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Users.create(params, config)
+  def create_user(%{} = params \\ %{}, %Config{} = config \\ %Config{}, opts \\ []) do
+    Users.create(params, config, opts)
   end
 
   @doc """
@@ -6609,14 +6758,19 @@ defmodule Auth0.Api.Management do
   @doc """
   Update a user.
 
+  ## options
+  - `:custom_domain` - sent as the `auth0-custom-domain` header so that Auth0 uses
+    this custom domain (host name, optionally with a port) for links it generates.
+    An invalid value raises `ArgumentError`.
+
   ## see
   https://auth0.com/docs/api/management/v2/users/patch-users-by-id
 
   """
-  @spec update_user(id, map(), config) ::
+  @spec update_user(id, map(), config, request_opts) ::
           {:ok, map()} | error
-  def update_user(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}) do
-    Users.update(id, params, config)
+  def update_user(id, %{} = params \\ %{}, %Config{} = config \\ %Config{}, opts \\ []) do
+    Users.update(id, params, config, opts)
   end
 
   @doc """

@@ -33,10 +33,10 @@ defmodule Auth0.Management.Guardian do
   https://auth0.com/docs/api/management/v2/guardian/post-ticket
 
   """
-  @spec create_enrollment_ticket(map(), config) ::
+  @spec create_enrollment_ticket(map(), config, keyword()) ::
           {:ok, map()} | error
-  def create_enrollment_ticket(%{} = params, %Config{} = config) do
-    Enrollments.Ticket.execute(params, config)
+  def create_enrollment_ticket(%{} = params, %Config{} = config, opts \\ []) do
+    Enrollments.Ticket.execute(params, config, opts)
   end
 
   @doc """

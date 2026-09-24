@@ -220,4 +220,70 @@ defmodule Auth0.Api.Management.UsersTest do
                )
     end
   end
+
+  describe "create_user with the auth0-custom-domain header (A-015)" do
+    test "sends the header when :custom_domain is given", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.method == "POST"
+        assert conn.request_path == "/api/v2/users"
+        assert Plug.Conn.get_req_header(conn, "auth0-custom-domain") == ["login.example.com"]
+        Plug.Conn.resp(conn, 201, "{\"id\":\"x\"}")
+      end)
+
+      assert {:ok, _} =
+               Management.create_user(%{"connection" => "db"}, config(bypass),
+                 custom_domain: "login.example.com"
+               )
+    end
+
+    test "does not send the header by default (existing arity)", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert Plug.Conn.get_req_header(conn, "auth0-custom-domain") == []
+        Plug.Conn.resp(conn, 201, "{\"id\":\"x\"}")
+      end)
+
+      assert {:ok, _} = Management.create_user(%{"connection" => "db"}, config(bypass))
+    end
+
+    test "rejects a value that is not a host name", %{bypass: bypass} do
+      assert_raise ArgumentError, fn ->
+        Management.create_user(%{"connection" => "db"}, config(bypass),
+          custom_domain: "evil.example.com\r\nx-injected: 1"
+        )
+      end
+    end
+  end
+
+  describe "update_user with the auth0-custom-domain header (A-016)" do
+    test "sends the header when :custom_domain is given", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert conn.method == "PATCH"
+        assert conn.request_path == "/api/v2/users/u1"
+        assert Plug.Conn.get_req_header(conn, "auth0-custom-domain") == ["login.example.com"]
+        Plug.Conn.resp(conn, 200, "{\"id\":\"x\"}")
+      end)
+
+      assert {:ok, _} =
+               Management.update_user("u1", %{"name" => "n"}, config(bypass),
+                 custom_domain: "login.example.com"
+               )
+    end
+
+    test "does not send the header by default (existing arity)", %{bypass: bypass} do
+      Bypass.expect_once(bypass, fn conn ->
+        assert Plug.Conn.get_req_header(conn, "auth0-custom-domain") == []
+        Plug.Conn.resp(conn, 200, "{\"id\":\"x\"}")
+      end)
+
+      assert {:ok, _} = Management.update_user("u1", %{"name" => "n"}, config(bypass))
+    end
+
+    test "rejects a value that is not a host name", %{bypass: bypass} do
+      assert_raise ArgumentError, fn ->
+        Management.update_user("u1", %{"name" => "n"}, config(bypass),
+          custom_domain: "evil.example.com\r\nx-injected: 1"
+        )
+      end
+    end
+  end
 end

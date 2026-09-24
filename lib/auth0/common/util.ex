@@ -138,6 +138,39 @@ defmodule Auth0.Common.Util do
   end
 
   @doc """
+  Build the optional `auth0-custom-domain` request header from request options.
+
+  Auth0 uses the header to pick the custom domain for links in emails and
+  tickets. Only a host name (optionally with a port) is accepted, so a value
+  can never inject further headers.
+
+  ## Examples
+
+      iex> Auth0.Common.Util.custom_domain_headers([])
+      %{}
+
+      iex> Auth0.Common.Util.custom_domain_headers(custom_domain: "login.example.com")
+      %{"auth0-custom-domain" => "login.example.com"}
+  """
+  @spec custom_domain_headers(keyword()) :: %{optional(String.t()) => String.t()}
+  def custom_domain_headers(opts) when is_list(opts) do
+    case Keyword.get(opts, :custom_domain) do
+      nil ->
+        %{}
+
+      domain when is_binary(domain) ->
+        if Regex.match?(~r/\A[A-Za-z0-9](?:[A-Za-z0-9.-]*[A-Za-z0-9])?(?::[0-9]{1,5})?\z/, domain) do
+          %{"auth0-custom-domain" => domain}
+        else
+          raise ArgumentError, "invalid :custom_domain option: #{inspect(domain)}"
+        end
+
+      other ->
+        raise ArgumentError, "invalid :custom_domain option: #{inspect(other)}"
+    end
+  end
+
+  @doc """
   Percent-encode a value that is placed into a path segment of an endpoint.
 
   Every character except the RFC 3986 unreserved characters

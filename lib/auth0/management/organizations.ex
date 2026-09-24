@@ -243,10 +243,10 @@ defmodule Auth0.Management.Organizations do
   https://auth0.com/docs/api/management/v2/organizations/post-invitations
 
   """
-  @spec create_invitation(id, map(), config) ::
+  @spec create_invitation(id, map(), config, keyword()) ::
           {:ok, map()} | error
-  def create_invitation(id, %{} = params, %Config{} = config) do
-    Invitations.Create.execute(id, params, config)
+  def create_invitation(id, %{} = params, %Config{} = config, opts \\ []) do
+    Invitations.Create.execute(id, params, config, opts)
   end
 
   @doc """

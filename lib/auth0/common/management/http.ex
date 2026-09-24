@@ -65,11 +65,15 @@ defmodule Auth0.Common.Management.Http do
   @doc """
   POST Auth0 management rest api.
 
+  `extra_headers` are merged into the default request headers (used for the
+  optional `auth0-custom-domain` header).
+
   """
-  @spec post(endpoint, body, config) :: response
-  def post(endpoint, body, %Config{} = config) do
+  @spec post(endpoint, body, config, headers) :: response
+  def post(endpoint, body, %Config{} = config, extra_headers \\ %{}) do
     headers =
       @post_headers
+      |> Map.merge(extra_headers)
       |> set_correlation_id(config)
       |> set_authorization(config)
 
@@ -83,11 +87,15 @@ defmodule Auth0.Common.Management.Http do
   @doc """
   PATCH Auth0 management rest api.
 
+  `extra_headers` are merged into the default request headers (used for the
+  optional `auth0-custom-domain` header).
+
   """
-  @spec patch(endpoint, body, config) :: response
-  def patch(endpoint, body, %Config{} = config) do
+  @spec patch(endpoint, body, config, headers) :: response
+  def patch(endpoint, body, %Config{} = config, extra_headers \\ %{}) do
     headers =
       @patch_headers
+      |> Map.merge(extra_headers)
       |> set_correlation_id(config)
       |> set_authorization(config)
 
