@@ -1,4 +1,10 @@
 defmodule Auth0.Management.RulesConfigs do
+  @moduledoc """
+  Facade for the Auth0 Management API Rules Configs endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.RulesConfigs.List
   alias Auth0.Management.RulesConfigs.Delete

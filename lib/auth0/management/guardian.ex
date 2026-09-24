@@ -1,10 +1,25 @@
 defmodule Auth0.Management.Guardian do
+  @moduledoc """
+  Facade for the Auth0 Management API Guardian endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.Guardian.Factors
   alias Auth0.Management.Guardian.Policies
   alias Auth0.Management.Guardian.Enrollments
   alias Auth0.Management.Guardian.Factors.Phone
   alias Auth0.Management.Guardian.Factors.PushNotification
+  alias Auth0.Management.Guardian.Factors.Duo.Settings.Get, as: GuardianFactorsDuoSettingsGet
+  alias Auth0.Management.Guardian.Factors.Duo.Settings.Put, as: GuardianFactorsDuoSettingsPut
+  alias Auth0.Management.Guardian.Factors.Duo.Settings.Patch, as: GuardianFactorsDuoSettingsPatch
+  alias Auth0.Management.Guardian.Factors.Email.Settings.Get, as: GuardianFactorsEmailSettingsGet
+  alias Auth0.Management.Guardian.Factors.Email.Settings.Put, as: GuardianFactorsEmailSettingsPut
+  alias Auth0.Management.Guardian.Factors.Phone.Settings.Get, as: GuardianFactorsPhoneSettingsGet
+  alias Auth0.Management.Guardian.Factors.Phone.Settings.Put, as: GuardianFactorsPhoneSettingsPut
+  alias Auth0.Management.Guardian.Settings.Get, as: GuardianSettingsGet
+  alias Auth0.Management.Guardian.Settings.Put, as: GuardianSettingsPut
 
   @type id :: String.t()
   @type name :: String.t()
@@ -18,10 +33,10 @@ defmodule Auth0.Management.Guardian do
   https://auth0.com/docs/api/management/v2/guardian/post-ticket
 
   """
-  @spec create_enrollment_ticket(map(), config) ::
+  @spec create_enrollment_ticket(map(), config, keyword()) ::
           {:ok, map()} | error
-  def create_enrollment_ticket(%{} = params, %Config{} = config) do
-    Enrollments.Ticket.execute(params, config)
+  def create_enrollment_ticket(%{} = params, %Config{} = config, opts \\ []) do
+    Enrollments.Ticket.execute(params, config, opts)
   end
 
   @doc """
@@ -387,5 +402,129 @@ defmodule Auth0.Management.Guardian do
   @spec set_policies(map, config) :: {:ok, list()} | error
   def set_policies(params, %Config{} = config) do
     Policies.Put.execute(params, config)
+  end
+
+  @doc """
+  Get DUO Configuration.
+
+  Retrieves the DUO account and factor configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/get-factor-duo-settings
+
+  """
+  @spec get_duo_settings(config) :: {:ok, map()} | error
+  def get_duo_settings(%Config{} = config) do
+    GuardianFactorsDuoSettingsGet.execute(config)
+  end
+
+  @doc """
+  Set the DUO Configuration.
+
+  Set the DUO account configuration and other properties specific to this factor.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/put-factor-duo-settings
+
+  """
+  @spec update_duo_settings(map(), config) :: {:ok, map()} | error
+  def update_duo_settings(%{} = params, %Config{} = config) do
+    GuardianFactorsDuoSettingsPut.execute(params, config)
+  end
+
+  @doc """
+  Update the DUO Configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/patch-factor-duo-settings
+
+  """
+  @spec patch_duo_settings(map(), config) :: {:ok, map()} | error
+  def patch_duo_settings(%{} = params, %Config{} = config) do
+    GuardianFactorsDuoSettingsPatch.execute(params, config)
+  end
+
+  @doc """
+  Get Email Factor Settings.
+
+  TODO: Link this endpoint to relevant documentation when available.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/get-email-factor-settings
+
+  """
+  @spec get_email_settings(config) :: {:ok, map()} | error
+  def get_email_settings(%Config{} = config) do
+    GuardianFactorsEmailSettingsGet.execute(config)
+  end
+
+  @doc """
+  Set the Email Factor Settings.
+
+  TODO: Link this endpoint to relevant documentation when available.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/set-email-factor-settings
+
+  """
+  @spec update_email_settings(map(), config) :: {:ok, map()} | error
+  def update_email_settings(%{} = params, %Config{} = config) do
+    GuardianFactorsEmailSettingsPut.execute(params, config)
+  end
+
+  @doc """
+  Get Phone Factor Settings.
+
+  TODO: Link this endpoint to relevant documentation when available.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/get-phone-factor-settings
+
+  """
+  @spec get_phone_settings(config) :: {:ok, map()} | error
+  def get_phone_settings(%Config{} = config) do
+    GuardianFactorsPhoneSettingsGet.execute(config)
+  end
+
+  @doc """
+  Set the Phone Factor Settings.
+
+  TODO: Link this endpoint to relevant documentation when available.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/set-phone-factor-settings
+
+  """
+  @spec update_phone_settings(map(), config) :: {:ok, map()} | error
+  def update_phone_settings(%{} = params, %Config{} = config) do
+    GuardianFactorsPhoneSettingsPut.execute(params, config)
+  end
+
+  @doc """
+  Get Guardian Settings.
+
+  TODO: Link this endpoint to relevant documentation when available.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/get-guardian-settings
+
+  """
+  @spec get_settings(config) :: {:ok, map()} | error
+  def get_settings(%Config{} = config) do
+    GuardianSettingsGet.execute(config)
+  end
+
+  @doc """
+  Set the Guardian Settings.
+
+  Update a tenant's guardian settings such as Remember Me
+
+  ## see
+  https://auth0.com/docs/api/management/v2/guardian/set-guardian-settings
+
+  """
+  @spec update_settings(map(), config) :: {:ok, map()} | error
+  def update_settings(%{} = params, %Config{} = config) do
+    GuardianSettingsPut.execute(params, config)
   end
 end

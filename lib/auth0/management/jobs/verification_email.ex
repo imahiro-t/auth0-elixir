@@ -7,6 +7,7 @@ defmodule Auth0.Management.Jobs.VerificationEmail do
 
   @type params :: map()
   @type config :: Config.t()
+  @type opts :: [custom_domain: String.t()]
   @type entity :: map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
@@ -19,11 +20,11 @@ defmodule Auth0.Management.Jobs.VerificationEmail do
   https://auth0.com/docs/api/management/v2/jobs/post-verification-email
 
   """
-  @spec execute(params, config) :: response
-  def execute(%{} = params, %Config{} = config) do
+  @spec execute(params, config, opts) :: response
+  def execute(%{} = params, %Config{} = config, opts \\ []) do
     body = params |> Util.remove_nil()
 
-    Http.post(@endpoint, body, config)
+    Http.post(@endpoint, body, config, Util.custom_domain_headers(opts))
     |> case do
       {:ok, 201, body} ->
         {:ok, body |> Jason.decode!()}

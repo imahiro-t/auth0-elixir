@@ -1,4 +1,10 @@
 defmodule Auth0.Management.Branding do
+  @moduledoc """
+  Facade for the Auth0 Management API Branding endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.Branding.Get
   alias Auth0.Management.Branding.Patch
@@ -84,7 +90,7 @@ defmodule Auth0.Management.Branding do
 
   """
   @spec delete_phone_provider(id, config) ::
-          {:ok, map()} | error
+          {:ok, String.t()} | error
   def delete_phone_provider(id, %Config{} = config) do
     Phone.Providers.Delete.execute(id, config)
   end
@@ -162,7 +168,7 @@ defmodule Auth0.Management.Branding do
 
   """
   @spec delete_phone_template(id, config) ::
-          {:ok, map()} | error
+          {:ok, String.t()} | error
   def delete_phone_template(id, %Config{} = config) do
     Phone.Templates.Delete.execute(id, config)
   end
@@ -200,10 +206,10 @@ defmodule Auth0.Management.Branding do
   https://auth0.com/docs/api/management/v2/branding/try-phone-template
 
   """
-  @spec test_phone_template(id, map(), config) ::
+  @spec test_phone_template(id, map(), config, keyword()) ::
           {:ok, map()} | error
-  def test_phone_template(id, %{} = params, %Config{} = config) do
-    Phone.Templates.Try.execute(id, params, config)
+  def test_phone_template(id, %{} = params, %Config{} = config, opts \\ []) do
+    Phone.Templates.Try.execute(id, params, config, opts)
   end
 
   @doc """

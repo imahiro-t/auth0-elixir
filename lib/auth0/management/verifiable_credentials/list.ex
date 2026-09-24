@@ -10,13 +10,13 @@ defmodule Auth0.Management.VerifiableCredentials.List do
   @type entity :: list(map())
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/verifiable-credentials"
+  @endpoint "/api/v2/verifiable-credentials/verification/templates"
 
   @doc """
-  Retrieve a list of verifiable credentials.
+  Retrieve the verifiable credential verification templates (`GET /api/v2/verifiable-credentials/verification/templates`).
 
   ## see
-  https://auth0.com/docs/api/management/v2/verifiable-credentials/get-verifiable-credentials
+  https://auth0.com/docs/api/management/v2/verifiable-credentials/get-vc-templates
   """
   @spec execute(params, config) :: response
   def execute(%{} = params, %Config{} = config) do

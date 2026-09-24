@@ -1,16 +1,25 @@
 defmodule Auth0.Management.Prompts do
+  @moduledoc """
+  Facade for the Auth0 Management API Prompts endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Management.Prompts.Rendering
   alias Auth0.Management.Prompts.Get
   alias Auth0.Management.Prompts.Patch
   alias Auth0.Management.Prompts.CustomText
   alias Auth0.Management.Prompts.Partials
   alias Auth0.Config
+  alias Auth0.Management.Prompts.Renderings.List, as: PromptsRenderingsList
+  alias Auth0.Management.Prompts.Renderings.BulkUpdate, as: PromptsRenderingsBulkUpdate
 
   @type prompt :: String.t()
   @type screen :: String.t()
   @type language :: String.t()
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
+  @type value_params :: %{required(:value) => list() | map(), optional(any()) => any()}
 
   @doc """
   Retrieve details of the Universal Login configuration of your tenant. This includes the Identifier First Authentication and WebAuthn with Device Biometrics for MFA features.
@@ -54,7 +63,7 @@ defmodule Auth0.Management.Prompts do
   ## see
   https://auth0.com/docs/api/management/v2/prompts/put-custom-text-by-language
   """
-  @spec set_custom_text(prompt, language, map(), config) ::
+  @spec set_custom_text(prompt, language, value_params, config) ::
           {:ok, String.t()} | error
   def set_custom_text(prompt, language, %{} = params, %Config{} = config) do
     CustomText.Put.execute(prompt, language, params, config)
@@ -78,7 +87,7 @@ defmodule Auth0.Management.Prompts do
   ## see
   https://auth0.com/docs/api/management/v2/prompts/put-partials
   """
-  @spec set_partials(prompt, map(), config) ::
+  @spec set_partials(prompt, value_params, config) ::
           {:ok, String.t()} | error
   def set_partials(prompt, %{} = params, %Config{} = config) do
     Partials.Put.execute(prompt, params, config)
@@ -106,5 +115,31 @@ defmodule Auth0.Management.Prompts do
           {:ok, map()} | error
   def set_rendering_configuration(prompt, screen, %{} = params, %Config{} = config) do
     Rendering.Patch.execute(prompt, screen, params, config)
+  end
+
+  @doc """
+  Get render setting configurations for all screens.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/prompts/get-all-rendering
+
+  """
+  @spec list_renderings(map(), config) :: {:ok, map() | list(map())} | error
+  def list_renderings(%{} = params, %Config{} = config) do
+    PromptsRenderingsList.execute(params, config)
+  end
+
+  @doc """
+  Update render settings for multiple screens.
+
+  Learn more about [configuring render settings](https://auth0.com/docs/customize/login-pages/advanced-customizations/getting-started/configure-acul-screens) for advanced customization.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/prompts/patch-bulk-rendering
+
+  """
+  @spec bulk_update_renderings(map(), config) :: {:ok, map()} | error
+  def bulk_update_renderings(%{} = params, %Config{} = config) do
+    PromptsRenderingsBulkUpdate.execute(params, config)
   end
 end

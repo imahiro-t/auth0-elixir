@@ -1,4 +1,10 @@
 defmodule Auth0.Management.TokenExchangeProfiles do
+  @moduledoc """
+  Facade for the Auth0 Management API Token Exchange Profiles endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.TokenExchangeProfiles.List
   alias Auth0.Management.TokenExchangeProfiles.Create
@@ -60,7 +66,7 @@ defmodule Auth0.Management.TokenExchangeProfiles do
   ## see
   https://auth0.com/docs/api/management/v2/token-exchange-profiles/patch-token-exchange-profiles-by-id
   """
-  @spec update(id, map(), config) :: {:ok, map()} | error
+  @spec update(id, map(), config) :: {:ok, map() | String.t()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(id, params, config)
   end

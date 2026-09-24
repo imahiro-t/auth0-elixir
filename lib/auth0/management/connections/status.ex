@@ -6,7 +6,7 @@ defmodule Auth0.Management.Connections.Status do
 
   @type id :: String.t()
   @type config :: Config.t()
-  @type entity :: map()
+  @type entity :: true
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/connections/{id}/status"
@@ -23,13 +23,11 @@ defmodule Auth0.Management.Connections.Status do
     |> String.replace("{id}", id)
     |> Http.get(config)
     |> case do
-      {:ok, 200, body} ->
-        {:ok, body |> Jason.decode!()} # Note: Auth0 status might return true/false or object depending on connection type, usually implies a successful 200 means ok but body exists.
-        # Actually for some connections it might just be 200 OK. But doc says "Check the status".
-        # Let's assume standard JSON response.
-
-      error ->
-        error
+      # The specification defines no response body for 200 ("the connection is
+      # online"), so the body is not decoded. Errors (e.g. 404 "Connection not
+      # found.") are returned unchanged as {:error, status, body}.
+      {:ok, 200, _body} -> {:ok, true}
+      error -> error
     end
   end
 end

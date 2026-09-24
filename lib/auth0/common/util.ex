@@ -111,16 +111,91 @@ defmodule Auth0.Common.Util do
   @doc """
   Convert to query from map. Nil value is removed.
 
+  A list value is sent as repeated keys (OpenAPI `style: form`, `explode: true`),
+  which is how the Auth0 Management API expects array query parameters.
+  `nil` elements inside a list are removed as well.
+
   ## Examples
 
-      iex> Auth0.Common.Util.encode_query(%{a: 1, b: nil, c: 3, d: "erin the black"})
+      iex> Auth0.Common.Util.convert_to_query(%{a: 1, b: nil, c: 3, d: "erin the black"})
       "a=1&c=3&d=erin%20the%20black"
+
+      iex> Auth0.Common.Util.convert_to_query(%{strategy: ["auth0", "google-oauth2"]})
+      "strategy=auth0&strategy=google-oauth2"
   """
   @spec convert_to_query(map) :: String.t()
   def convert_to_query(%{} = map) do
     map
     |> remove_nil
+    |> Enum.flat_map(fn
+      {key, values} when is_list(values) ->
+        values |> Enum.reject(&is_nil/1) |> Enum.map(&{key, &1})
+
+      pair ->
+        [pair]
+    end)
     |> URI.encode_query(:rfc3986)
+  end
+
+  @doc """
+  Build the optional `auth0-custom-domain` request header from request options.
+
+  Auth0 uses the header to pick the custom domain for links in emails and
+  tickets. Only a host name (optionally with a port) is accepted, so a value
+  can never inject further headers.
+
+  ## Examples
+
+      iex> Auth0.Common.Util.custom_domain_headers([])
+      %{}
+
+      iex> Auth0.Common.Util.custom_domain_headers(custom_domain: "login.example.com")
+      %{"auth0-custom-domain" => "login.example.com"}
+  """
+  @spec custom_domain_headers(keyword()) :: %{optional(String.t()) => String.t()}
+  def custom_domain_headers(opts) when is_list(opts) do
+    case Keyword.get(opts, :custom_domain) do
+      nil ->
+        %{}
+
+      domain when is_binary(domain) ->
+        if Regex.match?(~r/\A[A-Za-z0-9](?:[A-Za-z0-9.-]*[A-Za-z0-9])?(?::[0-9]{1,5})?\z/, domain) do
+          %{"auth0-custom-domain" => domain}
+        else
+          raise ArgumentError, "invalid :custom_domain option: #{inspect(domain)}"
+        end
+
+      other ->
+        raise ArgumentError, "invalid :custom_domain option: #{inspect(other)}"
+    end
+  end
+
+  @doc """
+  Percent-encode a value that is placed into a path segment of an endpoint.
+
+  Every character except the RFC 3986 unreserved characters
+  (`A-Z a-z 0-9 - . _ ~`) is encoded, so a value can never add path segments,
+  a query string or a fragment to the request. The dot segments `.` and `..`
+  are encoded as well so that they cannot be normalized away.
+
+  ## Examples
+
+      iex> Auth0.Common.Util.encode_path_param("auth0|123")
+      "auth0%7C123"
+
+      iex> Auth0.Common.Util.encode_path_param("a/b?c#d")
+      "a%2Fb%3Fc%23d"
+
+      iex> Auth0.Common.Util.encode_path_param("..")
+      "%2E%2E"
+  """
+  @spec encode_path_param(String.t()) :: String.t()
+  def encode_path_param(value) when value in [".", ".."] do
+    String.replace(value, ".", "%2E")
+  end
+
+  def encode_path_param(value) when is_binary(value) do
+    URI.encode(value, &URI.char_unreserved?/1)
   end
 
   @doc """

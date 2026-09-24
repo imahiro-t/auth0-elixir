@@ -1,4 +1,10 @@
 defmodule Auth0.Management.Jobs do
+  @moduledoc """
+  Facade for the Auth0 Management API Jobs endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.Jobs.Get
   alias Auth0.Management.Jobs.Errors
@@ -43,10 +49,10 @@ defmodule Auth0.Management.Jobs do
   https://auth0.com/docs/api/management/v2/jobs/post-verification-email
 
   """
-  @spec send_verification_email(map(), config) ::
+  @spec send_verification_email(map(), config, keyword()) ::
           {:ok, map()} | error
-  def send_verification_email(%{} = params, %Config{} = config) do
-    VerificationEmail.execute(params, config)
+  def send_verification_email(%{} = params, %Config{} = config, opts \\ []) do
+    VerificationEmail.execute(params, config, opts)
   end
 
   @doc """
@@ -70,7 +76,7 @@ defmodule Auth0.Management.Jobs do
 
   """
   @spec get_error(id, config) ::
-          {:ok, list(map()) | map()} | error
+          {:ok, list(map()) | map() | String.t()} | error
   def get_error(id, %Config{} = config) do
     Errors.Get.execute(id, config)
   end

@@ -1,9 +1,16 @@
 defmodule Auth0.Management.Forms do
+  @moduledoc """
+  Facade for the Auth0 Management API Forms endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.Forms.List
   alias Auth0.Management.Forms.Create
   alias Auth0.Management.Forms.Get
   alias Auth0.Management.Forms.Patch
+  alias Auth0.Management.Forms.Delete, as: FormsDelete
 
   @type id :: String.t()
   @type config :: Config.t()
@@ -59,5 +66,17 @@ defmodule Auth0.Management.Forms do
           {:ok, map()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(id, params, config)
+  end
+
+  @doc """
+  Delete a form.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/forms/delete-form
+
+  """
+  @spec delete(String.t(), config) :: {:ok, String.t()} | error
+  def delete(id, %Config{} = config) do
+    FormsDelete.execute(id, config)
   end
 end

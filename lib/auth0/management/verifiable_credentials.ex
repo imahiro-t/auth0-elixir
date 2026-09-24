@@ -1,4 +1,10 @@
 defmodule Auth0.Management.VerifiableCredentials do
+  @moduledoc """
+  Facade for the Auth0 Management API Verifiable Credentials endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.VerifiableCredentials.List
   alias Auth0.Management.VerifiableCredentials.Create
@@ -11,10 +17,10 @@ defmodule Auth0.Management.VerifiableCredentials do
   @type error :: {:error, integer, term} | {:error, term}
 
   @doc """
-  Retrieve a list of verifiable credentials.
+  Retrieve the verifiable credential verification templates (`GET /api/v2/verifiable-credentials/verification/templates`).
 
   ## see
-  https://auth0.com/docs/api/management/v2/verifiable-credentials/get-verifiable-credentials
+  https://auth0.com/docs/api/management/v2/verifiable-credentials/get-vc-templates
   """
   @spec list(map(), config) :: {:ok, list(map())} | error
   def list(%{} = params, %Config{} = config) do
@@ -22,10 +28,10 @@ defmodule Auth0.Management.VerifiableCredentials do
   end
 
   @doc """
-  Create a verifiable credential.
+  Create a verifiable credential verification template (`POST /api/v2/verifiable-credentials/verification/templates`).
 
   ## see
-  https://auth0.com/docs/api/management/v2/verifiable-credentials/post-verifiable-credentials
+  https://auth0.com/docs/api/management/v2/verifiable-credentials/post-vc-templates
   """
   @spec create(map(), config) :: {:ok, map()} | error
   def create(%{} = params, %Config{} = config) do
@@ -33,10 +39,10 @@ defmodule Auth0.Management.VerifiableCredentials do
   end
 
   @doc """
-  Retrieve a verifiable credential by its ID.
+  Retrieve a verifiable credential verification template by its ID.
 
   ## see
-  https://auth0.com/docs/api/management/v2/verifiable-credentials/get-verifiable-credentials-by-id
+  https://auth0.com/docs/api/management/v2/verifiable-credentials/get-vc-templates-by-id
   """
   @spec get(id, config) :: {:ok, map()} | error
   def get(id, %Config{} = config) do
@@ -44,10 +50,10 @@ defmodule Auth0.Management.VerifiableCredentials do
   end
 
   @doc """
-  Delete a verifiable credential.
+  Delete a verifiable credential verification template.
 
   ## see
-  https://auth0.com/docs/api/management/v2/verifiable-credentials/delete-verifiable-credentials-by-id
+  https://auth0.com/docs/api/management/v2/verifiable-credentials/delete-vc-templates-by-id
   """
   @spec delete(id, config) :: {:ok, String.t()} | error
   def delete(id, %Config{} = config) do
@@ -55,10 +61,10 @@ defmodule Auth0.Management.VerifiableCredentials do
   end
 
   @doc """
-  Update a verifiable credential.
+  Update a verifiable credential verification template.
 
   ## see
-  https://auth0.com/docs/api/management/v2/verifiable-credentials/patch-verifiable-credentials-by-id
+  https://auth0.com/docs/api/management/v2/verifiable-credentials/patch-vc-templates-by-id
   """
   @spec update(id, map(), config) :: {:ok, map()} | error
   def update(id, %{} = params, %Config{} = config) do

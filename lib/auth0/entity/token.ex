@@ -2,6 +2,7 @@ defmodule Auth0.Entity.Token do
   @moduledoc false
   alias Auth0.Common.Util
 
+  @derive {Inspect, except: [:access_token, :refresh_token, :id_token]}
   defstruct access_token: nil,
             refresh_token: nil,
             id_token: nil,

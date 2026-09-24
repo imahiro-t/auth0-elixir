@@ -22,7 +22,7 @@ defmodule Auth0.Management.Sessions.Revoke do
   def execute(id, %Config{} = config) do
     @endpoint
     |> String.replace("{id}", id)
-    |> Http.delete(config)
+    |> Http.post(%{}, config)
     |> case do
       {:ok, 202, _body} -> {:ok, ""}
       error -> error

@@ -1,4 +1,10 @@
 defmodule Auth0.Management.Actions do
+  @moduledoc """
+  Facade for the Auth0 Management API Actions endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.Actions.List
   alias Auth0.Management.Actions.Create
@@ -10,6 +16,16 @@ defmodule Auth0.Management.Actions do
   alias Auth0.Management.Actions.Versions
   alias Auth0.Management.Actions.Triggers
   alias Auth0.Management.Actions.Execution
+  alias Auth0.Management.Actions.Modules.List, as: ActionsModulesList
+  alias Auth0.Management.Actions.Modules.Create, as: ActionsModulesCreate
+  alias Auth0.Management.Actions.Modules.Get, as: ActionsModulesGet
+  alias Auth0.Management.Actions.Modules.Patch, as: ActionsModulesPatch
+  alias Auth0.Management.Actions.Modules.Delete, as: ActionsModulesDelete
+  alias Auth0.Management.Actions.Modules.Actions.List, as: ActionsModulesActionsList
+  alias Auth0.Management.Actions.Modules.Rollback, as: ActionsModulesRollback
+  alias Auth0.Management.Actions.Modules.Versions.List, as: ActionsModulesVersionsList
+  alias Auth0.Management.Actions.Modules.Versions.Create, as: ActionsModulesVersionsCreate
+  alias Auth0.Management.Actions.Modules.Versions.Get, as: ActionsModulesVersionsGet
 
   @type config :: Config.t()
   @type id :: String.t()
@@ -196,5 +212,165 @@ defmodule Auth0.Management.Actions do
           {:ok, map()} | error
   def update_bindings(trigger_id, %{} = params, %Config{} = config) do
     Triggers.Bindings.Patch.execute(trigger_id, params, config)
+  end
+
+  @doc """
+  List Actions Modules.
+
+  Retrieve a paginated list of all Actions Modules with optional filtering and totals.
+
+  **Early Access**: this endpoint is marked as Early Access (`x-release-lifecycle: EA`) in the Auth0 Management API specification and may not be available on every tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/actions/get-action-modules
+
+  """
+  @spec list_modules(map(), config) :: {:ok, map()} | error
+  def list_modules(%{} = params, %Config{} = config) do
+    ActionsModulesList.execute(params, config)
+  end
+
+  @doc """
+  Create a new Actions Module.
+
+  Create a new Actions Module for reusable code across actions.
+
+  **Early Access**: this endpoint is marked as Early Access (`x-release-lifecycle: EA`) in the Auth0 Management API specification and may not be available on every tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/actions/post-action-module
+
+  """
+  @spec create_module(map(), config) :: {:ok, map()} | error
+  def create_module(%{} = params, %Config{} = config) do
+    ActionsModulesCreate.execute(params, config)
+  end
+
+  @doc """
+  Get a specific Actions Module by ID.
+
+  Retrieve details of a specific Actions Module by its unique identifier.
+
+  **Early Access**: this endpoint is marked as Early Access (`x-release-lifecycle: EA`) in the Auth0 Management API specification and may not be available on every tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/actions/get-action-module
+
+  """
+  @spec get_module(String.t(), config) :: {:ok, map()} | error
+  def get_module(id, %Config{} = config) do
+    ActionsModulesGet.execute(id, config)
+  end
+
+  @doc """
+  Update a specific Actions Module.
+
+  Update properties of an existing Actions Module, such as code, dependencies, or secrets.
+
+  **Early Access**: this endpoint is marked as Early Access (`x-release-lifecycle: EA`) in the Auth0 Management API specification and may not be available on every tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/actions/patch-action-module
+
+  """
+  @spec update_module(String.t(), map(), config) :: {:ok, map()} | error
+  def update_module(id, %{} = params, %Config{} = config) do
+    ActionsModulesPatch.execute(id, params, config)
+  end
+
+  @doc """
+  Delete a specific Actions Module by ID.
+
+  Permanently delete an Actions Module. This will fail if the module is still in use by any actions.
+
+  **Early Access**: this endpoint is marked as Early Access (`x-release-lifecycle: EA`) in the Auth0 Management API specification and may not be available on every tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/actions/delete-action-module
+
+  """
+  @spec delete_module(String.t(), config) :: {:ok, String.t()} | error
+  def delete_module(id, %Config{} = config) do
+    ActionsModulesDelete.execute(id, config)
+  end
+
+  @doc """
+  List all actions using an Actions Module.
+
+  Lists all actions that are using a specific Actions Module, showing which deployed action versions reference this Actions Module.
+
+  **Early Access**: this endpoint is marked as Early Access (`x-release-lifecycle: EA`) in the Auth0 Management API specification and may not be available on every tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/actions/get-action-module-actions
+
+  """
+  @spec list_module_actions(String.t(), map(), config) :: {:ok, map()} | error
+  def list_module_actions(id, %{} = params, %Config{} = config) do
+    ActionsModulesActionsList.execute(id, params, config)
+  end
+
+  @doc """
+  Rollback an Actions Module to a previous version.
+
+  Rolls back an Actions Module's draft to a previously created version. This action copies the code, dependencies, and secrets from the specified version into the current draft.
+
+  **Early Access**: this endpoint is marked as Early Access (`x-release-lifecycle: EA`) in the Auth0 Management API specification and may not be available on every tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/actions/post-action-module-rollback
+
+  """
+  @spec rollback_module(String.t(), map(), config) :: {:ok, map()} | error
+  def rollback_module(id, %{} = params, %Config{} = config) do
+    ActionsModulesRollback.execute(id, params, config)
+  end
+
+  @doc """
+  List all versions of an Actions Module.
+
+  List all published versions of a specific Actions Module.
+
+  **Early Access**: this endpoint is marked as Early Access (`x-release-lifecycle: EA`) in the Auth0 Management API specification and may not be available on every tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/actions/get-action-module-versions
+
+  """
+  @spec list_module_versions(String.t(), map(), config) :: {:ok, map()} | error
+  def list_module_versions(id, %{} = params, %Config{} = config) do
+    ActionsModulesVersionsList.execute(id, params, config)
+  end
+
+  @doc """
+  Create a new version of an Actions Module.
+
+  Creates a new immutable version of an Actions Module from the current draft version. This publishes the draft as a new version that can be referenced by actions, while maintaining the existing draft for continued development.
+
+  **Early Access**: this endpoint is marked as Early Access (`x-release-lifecycle: EA`) in the Auth0 Management API specification and may not be available on every tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/actions/post-action-module-version
+
+  """
+  @spec create_module_version(String.t(), config) :: {:ok, map()} | error
+  def create_module_version(id, %Config{} = config) do
+    ActionsModulesVersionsCreate.execute(id, config)
+  end
+
+  @doc """
+  Get a specific version of an Actions Module.
+
+  Retrieve the details of a specific, immutable version of an Actions Module.
+
+  **Early Access**: this endpoint is marked as Early Access (`x-release-lifecycle: EA`) in the Auth0 Management API specification and may not be available on every tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/actions/get-action-module-version
+
+  """
+  @spec get_module_version(String.t(), String.t(), config) :: {:ok, map()} | error
+  def get_module_version(id, version_id, %Config{} = config) do
+    ActionsModulesVersionsGet.execute(id, version_id, config)
   end
 end

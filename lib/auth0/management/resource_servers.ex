@@ -1,10 +1,17 @@
 defmodule Auth0.Management.ResourceServers do
+  @moduledoc """
+  Facade for the Auth0 Management API Resource Servers endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.ResourceServers.List
   alias Auth0.Management.ResourceServers.Create
   alias Auth0.Management.ResourceServers.Get
   alias Auth0.Management.ResourceServers.Delete
   alias Auth0.Management.ResourceServers.Patch
+  alias Auth0.Management.ResourceServers.Search, as: ResourceServersSearch
 
   @type id :: String.t()
   @type config :: Config.t()
@@ -72,5 +79,21 @@ defmodule Auth0.Management.ResourceServers do
           {:ok, map()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(id, params, config)
+  end
+
+  @doc """
+  Search resource servers.
+
+  Search resource servers using SCIM or Lucene filter syntax with low-latency, eventually consistent results. Use the parser parameter to specify "scim" or "lucene" syntax (default: "lucene"). This endpoint provides an alternative to the standard GET /resource-servers endpoint with better performance for complex queries. Results may not reflect recent updates immediately.
+
+  **Early Access**: this endpoint is marked as Early Access (`x-release-lifecycle: EA`) in the Auth0 Management API specification and may not be available on every tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/resource-servers/get-resource-servers-search
+
+  """
+  @spec search(map(), config) :: {:ok, map()} | error
+  def search(%{} = params, %Config{} = config) do
+    ResourceServersSearch.execute(params, config)
   end
 end

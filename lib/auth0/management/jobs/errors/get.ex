@@ -3,10 +3,11 @@ defmodule Auth0.Management.Jobs.Errors.Get do
 
   alias Auth0.Config
   alias Auth0.Common.Management.Http
+  alias Auth0.Common.Util
 
   @type id :: String.t()
   @type config :: Config.t()
-  @type entity :: list(map()) | map()
+  @type entity :: list(map()) | map() | String.t()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/jobs/{id}/errors"
@@ -25,7 +26,7 @@ defmodule Auth0.Management.Jobs.Errors.Get do
     |> Http.get(config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
-      {:ok, 204, body} -> {:ok, body |> Jason.decode!()}
+      {:ok, 204, body} -> {:ok, body |> Util.decode_json_or_string!()}
       error -> error
     end
   end

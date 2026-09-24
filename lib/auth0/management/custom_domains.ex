@@ -1,4 +1,10 @@
 defmodule Auth0.Management.CustomDomains do
+  @moduledoc """
+  Facade for the Auth0 Management API Custom Domains endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.CustomDomains.List
   alias Auth0.Management.CustomDomains.Configure
@@ -6,6 +12,9 @@ defmodule Auth0.Management.CustomDomains do
   alias Auth0.Management.CustomDomains.Delete
   alias Auth0.Management.CustomDomains.Patch
   alias Auth0.Management.CustomDomains.Verify
+  alias Auth0.Management.CustomDomains.Default.Get, as: CustomDomainsDefaultGet
+  alias Auth0.Management.CustomDomains.Default.Patch, as: CustomDomainsDefaultPatch
+  alias Auth0.Management.CustomDomains.Test, as: CustomDomainsTest
 
   @type id :: String.t()
   @type config :: Config.t()
@@ -18,10 +27,10 @@ defmodule Auth0.Management.CustomDomains do
   https://auth0.com/docs/api/management/v2/custom-domains/get-custom-domains
 
   """
-  @spec list(config) ::
+  @spec list(map(), config) ::
           {:ok, list(map())} | error
-  def list(%Config{} = config) do
-    List.execute(config)
+  def list(%{} = params \\ %{}, %Config{} = config) do
+    List.execute(params, config)
   end
 
   @doc """
@@ -86,5 +95,47 @@ defmodule Auth0.Management.CustomDomains do
           {:ok, map()} | error
   def verify(id, %Config{} = config) do
     Verify.execute(id, config)
+  end
+
+  @doc """
+  Get the default domain.
+
+  Retrieve the tenant's default domain.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/custom-domains/get-default
+
+  """
+  @spec get_default(config) :: {:ok, map() | list(map())} | error
+  def get_default(%Config{} = config) do
+    CustomDomainsDefaultGet.execute(config)
+  end
+
+  @doc """
+  Update the default custom domain for the tenant.
+
+  Set the default custom domain for the tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/custom-domains/patch-default
+
+  """
+  @spec set_default(map(), config) :: {:ok, map() | list(map())} | error
+  def set_default(%{} = params, %Config{} = config) do
+    CustomDomainsDefaultPatch.execute(params, config)
+  end
+
+  @doc """
+  Test a custom domain.
+
+  Run the test process on a custom domain.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/custom-domains/post-test-domain
+
+  """
+  @spec test(String.t(), config) :: {:ok, map()} | error
+  def test(id, %Config{} = config) do
+    CustomDomainsTest.execute(id, config)
   end
 end

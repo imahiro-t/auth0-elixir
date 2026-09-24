@@ -1,4 +1,10 @@
 defmodule Auth0.Management.Tickets do
+  @moduledoc """
+  Facade for the Auth0 Management API Tickets endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.Tickets.EmailVerification
   alias Auth0.Management.Tickets.PasswordChange
@@ -13,10 +19,10 @@ defmodule Auth0.Management.Tickets do
   https://auth0.com/docs/api/management/v2/tickets/post-email-verification
 
   """
-  @spec create_email_verification(map(), config) ::
+  @spec create_email_verification(map(), config, keyword()) ::
           {:ok, map()} | error
-  def create_email_verification(%{} = params, %Config{} = config) do
-    EmailVerification.Create.execute(params, config)
+  def create_email_verification(%{} = params, %Config{} = config, opts \\ []) do
+    EmailVerification.Create.execute(params, config, opts)
   end
 
   @doc """
@@ -26,9 +32,9 @@ defmodule Auth0.Management.Tickets do
   https://auth0.com/docs/api/management/v2/tickets/post-password-change
 
   """
-  @spec create_password_change(map(), config) ::
+  @spec create_password_change(map(), config, keyword()) ::
           {:ok, map()} | error
-  def create_password_change(%{} = params, %Config{} = config) do
-    PasswordChange.Create.execute(params, config)
+  def create_password_change(%{} = params, %Config{} = config, opts \\ []) do
+    PasswordChange.Create.execute(params, config, opts)
   end
 end

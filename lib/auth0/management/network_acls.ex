@@ -1,10 +1,17 @@
 defmodule Auth0.Management.NetworkAcls do
+  @moduledoc """
+  Facade for the Auth0 Management API Network Acls endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.NetworkAcls.List
   alias Auth0.Management.NetworkAcls.Create
   alias Auth0.Management.NetworkAcls.Get
   alias Auth0.Management.NetworkAcls.Delete
   alias Auth0.Management.NetworkAcls.Patch
+  alias Auth0.Management.NetworkAcls.Put, as: NetworkAclsPut
 
   @type id :: String.t()
   @type config :: Config.t()
@@ -27,7 +34,7 @@ defmodule Auth0.Management.NetworkAcls do
   ## see
   https://auth0.com/docs/api/management/v2/network-acls/post-network-acls
   """
-  @spec create(map(), config) :: {:ok, map()} | error
+  @spec create(map(), config) :: {:ok, map() | String.t()} | error
   def create(%{} = params, %Config{} = config) do
     Create.execute(params, config)
   end
@@ -63,5 +70,19 @@ defmodule Auth0.Management.NetworkAcls do
   @spec update(id, map(), config) :: {:ok, map()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(id, params, config)
+  end
+
+  @doc """
+  Update Access Control List.
+
+  Update existing access control list for your client.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/network-acls/put-network-acls-by-id
+
+  """
+  @spec set(String.t(), map(), config) :: {:ok, map()} | error
+  def set(id, %{} = params, %Config{} = config) do
+    NetworkAclsPut.execute(id, params, config)
   end
 end

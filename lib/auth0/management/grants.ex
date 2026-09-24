@@ -1,4 +1,10 @@
 defmodule Auth0.Management.Grants do
+  @moduledoc """
+  Facade for the Auth0 Management API Grants endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.Grants.List
   alias Auth0.Management.Grants.Delete

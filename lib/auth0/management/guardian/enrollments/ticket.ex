@@ -7,6 +7,7 @@ defmodule Auth0.Management.Guardian.Enrollments.Ticket do
 
   @type params :: map()
   @type config :: Config.t()
+  @type opts :: [custom_domain: String.t()]
   @type entity :: map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
@@ -19,12 +20,12 @@ defmodule Auth0.Management.Guardian.Enrollments.Ticket do
   https://auth0.com/docs/api/management/v2/guardian/post-ticket
 
   """
-  @spec execute(params, config) :: response
-  def execute(%{} = params, %Config{} = config) do
+  @spec execute(params, config, opts) :: response
+  def execute(%{} = params, %Config{} = config, opts \\ []) do
     body = params |> Util.remove_nil()
 
     @endpoint
-    |> Http.post(body, config)
+    |> Http.post(body, config, Util.custom_domain_headers(opts))
     |> case do
       {:ok, 200, body} ->
         {:ok, body |> Jason.decode!()}

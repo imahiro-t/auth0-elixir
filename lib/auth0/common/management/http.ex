@@ -7,6 +7,7 @@ defmodule Auth0.Common.Management.Http do
   """
 
   alias Auth0.Config
+  alias Auth0.Common.HttpOptions
   alias Auth0.Common.Management.TokenManager
 
   @type endpoint :: String.t()
@@ -39,7 +40,7 @@ defmodule Auth0.Common.Management.Http do
   Request Auth0 management rest api simply.
 
   """
-  @spec raw_request(method, endpoint, body, headers, config) :: raw_response
+  @spec raw_request(method, endpoint, body, headers | nil, config) :: raw_response
   def raw_request(method, endpoint, body \\ %{}, headers \\ nil, %Config{} = config \\ %Config{}) do
     headers =
       if headers |> is_nil do
@@ -58,22 +59,26 @@ defmodule Auth0.Common.Management.Http do
 
     url = endpoint |> get_url(config)
 
-    HTTPoison.request(method, url, body |> Jason.encode!(), headers)
+    HTTPoison.request(method, url, body |> Jason.encode!(), headers, HttpOptions.build(config))
   end
 
   @doc """
   POST Auth0 management rest api.
 
+  `extra_headers` are merged into the default request headers (used for the
+  optional `auth0-custom-domain` header).
+
   """
-  @spec post(endpoint, body, config) :: response
-  def post(endpoint, body, %Config{} = config) do
+  @spec post(endpoint, body, config, headers) :: response
+  def post(endpoint, body, %Config{} = config, extra_headers \\ %{}) do
     headers =
       @post_headers
+      |> Map.merge(extra_headers)
       |> set_correlation_id(config)
       |> set_authorization(config)
 
     request_with_retry(
-      fn url -> HTTPoison.post(url, body |> Jason.encode!(), headers) end,
+      fn url, options -> HTTPoison.post(url, body |> Jason.encode!(), headers, options) end,
       endpoint,
       config
     )
@@ -82,16 +87,20 @@ defmodule Auth0.Common.Management.Http do
   @doc """
   PATCH Auth0 management rest api.
 
+  `extra_headers` are merged into the default request headers (used for the
+  optional `auth0-custom-domain` header).
+
   """
-  @spec patch(endpoint, body, config) :: response
-  def patch(endpoint, body, %Config{} = config) do
+  @spec patch(endpoint, body, config, headers) :: response
+  def patch(endpoint, body, %Config{} = config, extra_headers \\ %{}) do
     headers =
       @patch_headers
+      |> Map.merge(extra_headers)
       |> set_correlation_id(config)
       |> set_authorization(config)
 
     request_with_retry(
-      fn url -> HTTPoison.patch(url, body |> Jason.encode!(), headers) end,
+      fn url, options -> HTTPoison.patch(url, body |> Jason.encode!(), headers, options) end,
       endpoint,
       config
     )
@@ -109,7 +118,7 @@ defmodule Auth0.Common.Management.Http do
       |> set_authorization(config)
 
     request_with_retry(
-      fn url -> HTTPoison.put(url, body |> Jason.encode!(), headers) end,
+      fn url, options -> HTTPoison.put(url, body |> Jason.encode!(), headers, options) end,
       endpoint,
       config
     )
@@ -126,7 +135,11 @@ defmodule Auth0.Common.Management.Http do
       |> set_correlation_id(config)
       |> set_authorization(config)
 
-    request_with_retry(fn url -> HTTPoison.get(url, headers) end, endpoint, config)
+    request_with_retry(
+      fn url, options -> HTTPoison.get(url, headers, options) end,
+      endpoint,
+      config
+    )
   end
 
   @doc """
@@ -140,7 +153,11 @@ defmodule Auth0.Common.Management.Http do
       |> set_correlation_id(config)
       |> set_authorization(config)
 
-    request_with_retry(fn url -> HTTPoison.delete(url, headers) end, endpoint, config)
+    request_with_retry(
+      fn url, options -> HTTPoison.delete(url, headers, options) end,
+      endpoint,
+      config
+    )
   end
 
   @doc """
@@ -155,7 +172,9 @@ defmodule Auth0.Common.Management.Http do
       |> set_authorization(config)
 
     request_with_retry(
-      fn url -> HTTPoison.request(:delete, url, body |> Jason.encode!(), headers) end,
+      fn url, options ->
+        HTTPoison.request(:delete, url, body |> Jason.encode!(), headers, options)
+      end,
       endpoint,
       config
     )
@@ -173,7 +192,7 @@ defmodule Auth0.Common.Management.Http do
       |> set_authorization(config)
 
     request_with_retry(
-      fn url -> HTTPoison.post(url, multipart, headers) |> IO.inspect() end,
+      fn url, options -> HTTPoison.post(url, multipart, headers, options) end,
       endpoint,
       config
     )
@@ -181,9 +200,10 @@ defmodule Auth0.Common.Management.Http do
 
   defp request_with_retry(request_func, endpoint, %Config{} = config, retry_count \\ 0) do
     url = endpoint |> get_url(config)
+    options = HttpOptions.build(config)
     max_request_retry_count = config |> get_max_request_retry_count
 
-    case request_func.(url) do
+    case request_func.(url, options) do
       {:ok, %HTTPoison.Response{status_code: 429, headers: headers}}
       when max_request_retry_count > retry_count ->
         retry_count = retry_count + 1

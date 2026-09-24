@@ -1,4 +1,10 @@
 defmodule Auth0.Management.Connections do
+  @moduledoc """
+  Facade for the Auth0 Management API Connections endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.Connections.List
   alias Auth0.Management.Connections.Create
@@ -8,6 +14,49 @@ defmodule Auth0.Management.Connections do
   alias Auth0.Management.Connections.ScimConfiguration
   alias Auth0.Management.Connections.Status
   alias Auth0.Management.Connections.Users
+
+  alias Auth0.Management.Connections.DirectoryProvisionings.List,
+    as: ConnectionsDirectoryProvisioningsList
+
+  alias Auth0.Management.Connections.ScimConfigurations.List,
+    as: ConnectionsScimConfigurationsList
+
+  alias Auth0.Management.Connections.Clients.Get, as: ConnectionsClientsGet
+  alias Auth0.Management.Connections.Clients.Patch, as: ConnectionsClientsPatch
+
+  alias Auth0.Management.Connections.DirectoryProvisioning.Get,
+    as: ConnectionsDirectoryProvisioningGet
+
+  alias Auth0.Management.Connections.DirectoryProvisioning.Create,
+    as: ConnectionsDirectoryProvisioningCreate
+
+  alias Auth0.Management.Connections.DirectoryProvisioning.Patch,
+    as: ConnectionsDirectoryProvisioningPatch
+
+  alias Auth0.Management.Connections.DirectoryProvisioning.Delete,
+    as: ConnectionsDirectoryProvisioningDelete
+
+  alias Auth0.Management.Connections.DirectoryProvisioning.DefaultMapping.Get,
+    as: ConnectionsDirectoryProvisioningDefaultMappingGet
+
+  alias Auth0.Management.Connections.DirectoryProvisioning.Synchronizations.Create,
+    as: ConnectionsDirectoryProvisioningSynchronizationsCreate
+
+  alias Auth0.Management.Connections.DirectoryProvisioning.SynchronizedGroups.List,
+    as: ConnectionsDirectoryProvisioningSynchronizedGroupsList
+
+  alias Auth0.Management.Connections.DirectoryProvisioning.SynchronizedGroups.Add,
+    as: ConnectionsDirectoryProvisioningSynchronizedGroupsAdd
+
+  alias Auth0.Management.Connections.DirectoryProvisioning.SynchronizedGroups.Put,
+    as: ConnectionsDirectoryProvisioningSynchronizedGroupsPut
+
+  alias Auth0.Management.Connections.DirectoryProvisioning.SynchronizedGroups.Delete,
+    as: ConnectionsDirectoryProvisioningSynchronizedGroupsDelete
+
+  alias Auth0.Management.Connections.Keys.Get, as: ConnectionsKeysGet
+  alias Auth0.Management.Connections.Keys.Create, as: ConnectionsKeysCreate
+  alias Auth0.Management.Connections.Keys.Rotate, as: ConnectionsKeysRotate
 
   @type id :: String.t()
   @type token_id :: String.t()
@@ -181,7 +230,7 @@ defmodule Auth0.Management.Connections do
   https://auth0.com/docs/api/management/v2/connections/get-status
 
   """
-  @spec get_status(id, config) :: {:ok, map()} | error
+  @spec get_status(id, config) :: {:ok, true} | error
   def get_status(id, %Config{} = config) do
     Status.execute(id, config)
   end
@@ -197,5 +246,239 @@ defmodule Auth0.Management.Connections do
           {:ok, String.t()} | error
   def delete_users(id, %{} = params, %Config{} = config) do
     Users.Delete.execute(id, params, config)
+  end
+
+  @doc """
+  Get a list of directory provisioning configurations.
+
+  Retrieve a list of directory provisioning configurations of a tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections-directory-provisionings/get-connections-directory-provisionings
+
+  """
+  @spec list_directory_provisionings(map(), config) :: {:ok, map()} | error
+  def list_directory_provisionings(%{} = params, %Config{} = config) do
+    ConnectionsDirectoryProvisioningsList.execute(params, config)
+  end
+
+  @doc """
+  Get a list of SCIM configurations.
+
+  Retrieve a list of SCIM configurations of a tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections-scim-configurations/get-connections-scim-configurations
+
+  """
+  @spec list_scim_configurations(map(), config) :: {:ok, map()} | error
+  def list_scim_configurations(%{} = params, %Config{} = config) do
+    ConnectionsScimConfigurationsList.execute(params, config)
+  end
+
+  @doc """
+  Get enabled clients for a connection.
+
+  Retrieve all clients that have the specified [connection](https://auth0.com/docs/authenticate/identity-providers) enabled.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/get-connection-clients
+
+  """
+  @spec get_clients(String.t(), map(), config) :: {:ok, map()} | error
+  def get_clients(id, %{} = params, %Config{} = config) do
+    ConnectionsClientsGet.execute(id, params, config)
+  end
+
+  @doc """
+  Update enabled clients for a connection.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/patch-clients
+
+  """
+  @spec update_clients(String.t(), list(map()), config) :: {:ok, String.t()} | error
+  def update_clients(id, params, %Config{} = config) when is_list(params) do
+    ConnectionsClientsPatch.execute(id, params, config)
+  end
+
+  @doc """
+  Get a directory provisioning configuration.
+
+  Retrieve the directory provisioning configuration of a connection.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/get-directory-provisioning
+
+  """
+  @spec get_directory_provisioning(String.t(), config) :: {:ok, map()} | error
+  def get_directory_provisioning(id, %Config{} = config) do
+    ConnectionsDirectoryProvisioningGet.execute(id, config)
+  end
+
+  @doc """
+  Create a directory provisioning configuration.
+
+  Create a directory provisioning configuration for a connection.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/post-directory-provisioning
+
+  """
+  @spec create_directory_provisioning(String.t(), map(), config) :: {:ok, map()} | error
+  def create_directory_provisioning(id, %{} = params, %Config{} = config) do
+    ConnectionsDirectoryProvisioningCreate.execute(id, params, config)
+  end
+
+  @doc """
+  Patch a directory provisioning configuration.
+
+  Update the directory provisioning configuration of a connection.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/patch-directory-provisioning
+
+  """
+  @spec update_directory_provisioning(String.t(), map(), config) :: {:ok, map()} | error
+  def update_directory_provisioning(id, %{} = params, %Config{} = config) do
+    ConnectionsDirectoryProvisioningPatch.execute(id, params, config)
+  end
+
+  @doc """
+  Delete a directory provisioning configuration.
+
+  Delete the directory provisioning configuration of a connection.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/delete-directory-provisioning
+
+  """
+  @spec delete_directory_provisioning(String.t(), config) :: {:ok, String.t()} | error
+  def delete_directory_provisioning(id, %Config{} = config) do
+    ConnectionsDirectoryProvisioningDelete.execute(id, config)
+  end
+
+  @doc """
+  Get a connection's default directory provisioning attribute mapping.
+
+  Retrieve the directory provisioning default attribute mapping of a connection.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/get-directory-provisioning-default-mapping
+
+  """
+  @spec get_directory_provisioning_default_mapping(String.t(), config) :: {:ok, map()} | error
+  def get_directory_provisioning_default_mapping(id, %Config{} = config) do
+    ConnectionsDirectoryProvisioningDefaultMappingGet.execute(id, config)
+  end
+
+  @doc """
+  Request an on-demand synchronization of the directory.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/post-synchronizations
+
+  """
+  @spec create_directory_provisioning_synchronization(String.t(), config) :: {:ok, map()} | error
+  def create_directory_provisioning_synchronization(id, %Config{} = config) do
+    ConnectionsDirectoryProvisioningSynchronizationsCreate.execute(id, config)
+  end
+
+  @doc """
+  Get synchronized groups for a directory provisioning configuration.
+
+  Retrieve the configured synchronized groups for a connection directory provisioning configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/get-synchronized-groups
+
+  """
+  @spec list_directory_provisioning_synchronized_groups(String.t(), map(), config) ::
+          {:ok, map()} | error
+  def list_directory_provisioning_synchronized_groups(id, %{} = params, %Config{} = config) do
+    ConnectionsDirectoryProvisioningSynchronizedGroupsList.execute(id, params, config)
+  end
+
+  @doc """
+  Add synchronized group selections to a directory provisioning configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/post-synchronized-groups
+
+  """
+  @spec add_directory_provisioning_synchronized_groups(String.t(), map(), config) ::
+          {:ok, String.t()} | error
+  def add_directory_provisioning_synchronized_groups(id, %{} = params, %Config{} = config) do
+    ConnectionsDirectoryProvisioningSynchronizedGroupsAdd.execute(id, params, config)
+  end
+
+  @doc """
+  Create or replace synchronized group selections for a directory provisioning configuration.
+
+  Create or replace the selected groups for a connection directory provisioning configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/put-synchronized-groups
+
+  """
+  @spec set_directory_provisioning_synchronized_groups(String.t(), map(), config) ::
+          {:ok, String.t()} | error
+  def set_directory_provisioning_synchronized_groups(id, %{} = params, %Config{} = config) do
+    ConnectionsDirectoryProvisioningSynchronizedGroupsPut.execute(id, params, config)
+  end
+
+  @doc """
+  Delete synchronized group selections for a directory provisioning configuration.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/delete-synchronized-groups
+
+  """
+  @spec delete_directory_provisioning_synchronized_groups(String.t(), map(), config) ::
+          {:ok, String.t()} | error
+  def delete_directory_provisioning_synchronized_groups(id, %{} = params, %Config{} = config) do
+    ConnectionsDirectoryProvisioningSynchronizedGroupsDelete.execute(id, params, config)
+  end
+
+  @doc """
+  Get connection keys.
+
+  Gets the connection keys for the Okta or OIDC connection strategy.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/get-keys
+
+  """
+  @spec get_keys(String.t(), config) :: {:ok, list(map())} | error
+  def get_keys(id, %Config{} = config) do
+    ConnectionsKeysGet.execute(id, config)
+  end
+
+  @doc """
+  Create connection keys.
+
+  Provision initial connection keys for Okta or OIDC connection strategies. This endpoint allows you to create keys before configuring the connection to use Private Key JWT authentication, enabling zero-downtime transitions.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/post-keys
+
+  """
+  @spec create_keys(String.t(), map(), config) :: {:ok, list(map())} | error
+  def create_keys(id, %{} = params, %Config{} = config) do
+    ConnectionsKeysCreate.execute(id, params, config)
+  end
+
+  @doc """
+  Rotate connection keys.
+
+  Rotates the connection keys for the Okta or OIDC connection strategies.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/connections/post-rotate
+
+  """
+  @spec rotate_keys(String.t(), map(), config) :: {:ok, map()} | error
+  def rotate_keys(id, %{} = params, %Config{} = config) do
+    ConnectionsKeysRotate.execute(id, params, config)
   end
 end

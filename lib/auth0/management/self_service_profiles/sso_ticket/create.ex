@@ -8,6 +8,7 @@ defmodule Auth0.Management.SelfServiceProfiles.SsoTicket.Create do
   @type id :: String.t()
   @type params :: map()
   @type config :: Config.t()
+  @type opts :: [custom_domain: String.t()]
   @type entity :: map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
@@ -20,13 +21,13 @@ defmodule Auth0.Management.SelfServiceProfiles.SsoTicket.Create do
   https://auth0.com/docs/api/management/v2/self-service-profiles/post-sso-ticket
 
   """
-  @spec execute(id, params, config) :: response
-  def execute(id, %{} = params, %Config{} = config) do
+  @spec execute(id, params, config, opts) :: response
+  def execute(id, %{} = params, %Config{} = config, opts \\ []) do
     body = params |> Util.remove_nil()
 
     @endpoint
     |> String.replace("{id}", id)
-    |> Http.post(body, config)
+    |> Http.post(body, config, Util.custom_domain_headers(opts))
     |> case do
       {:ok, 201, body} -> {:ok, body |> Jason.decode!()}
       error -> error

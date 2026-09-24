@@ -1,5 +1,12 @@
 defmodule Auth0.Management.Hooks do
-  @deprecated "Auth0 Hooks are deprecated and will be removed. Migrate to Actions."
+  @moduledoc """
+  Facade for the Auth0 Management API Hooks endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+
+  **Deprecated**: Auth0 Hooks are deprecated (end of life announced by Auth0). Migrate to Actions (`Auth0.Management.Actions`). The corresponding `Auth0.Api.Management` functions are marked with `@deprecated`.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.Hooks.List
   alias Auth0.Management.Hooks.Create
@@ -11,6 +18,7 @@ defmodule Auth0.Management.Hooks do
   @type id :: String.t()
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
+  @type value_params :: %{required(:value) => list() | map(), optional(any()) => any()}
 
   @doc """
   Retrieve all hooks. Accepts a list of fields to include or exclude in the result.
@@ -96,21 +104,21 @@ defmodule Auth0.Management.Hooks do
   https://auth0.com/docs/api/management/v2/hooks/delete-secrets
 
   """
-  @spec delete_secrets(id, map(), config) ::
+  @spec delete_secrets(id, value_params, config) ::
           {:ok, String.t()} | error
   def delete_secrets(id, %{} = params, %Config{} = config) do
     Secrets.Delete.execute(id, params, config)
   end
 
   @doc """
-  Update an existing hook.
+  Update one or more existing secrets for an existing hook. Accepts an object of key-value pairs, where the key is the name of the existing secret.
 
   ## see
-  https://auth0.com/docs/api/management/v2/hooks/patch-hooks-by-id
+  https://auth0.com/docs/api/management/v2/hooks/patch-secrets
 
   """
-  @spec update_secrets(id, map(), config) ::
-          {:ok, map()} | error
+  @spec update_secrets(id, value_params, config) ::
+          {:ok, map() | String.t()} | error
   def update_secrets(id, %{} = params, %Config{} = config) do
     Secrets.Patch.execute(id, params, config)
   end
@@ -122,7 +130,7 @@ defmodule Auth0.Management.Hooks do
   https://auth0.com/docs/api/management/v2/hooks/post-secrets
 
   """
-  @spec add_secrets(id, map(), config) :: {:ok, map()} | error
+  @spec add_secrets(id, value_params, config) :: {:ok, map() | String.t()} | error
   def add_secrets(id, %{} = params, %Config{} = config) do
     Secrets.Add.execute(id, params, config)
   end

@@ -9,13 +9,13 @@ defmodule Auth0.Management.VerifiableCredentials.Create do
   @type entity :: map()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/verifiable-credentials"
+  @endpoint "/api/v2/verifiable-credentials/verification/templates"
 
   @doc """
-  Create a verifiable credential.
+  Create a verifiable credential verification template (`POST /api/v2/verifiable-credentials/verification/templates`).
 
   ## see
-  https://auth0.com/docs/api/management/v2/verifiable-credentials/post-verifiable-credentials
+  https://auth0.com/docs/api/management/v2/verifiable-credentials/post-vc-templates
   """
   @spec execute(params, config) :: response
   def execute(%{} = params, %Config{} = config) do

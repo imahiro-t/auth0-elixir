@@ -6,7 +6,7 @@ defmodule Auth0.Management.Branding.Phone.Providers.Delete do
 
   @type id :: String.t()
   @type config :: Config.t()
-  @type entity :: map()
+  @type entity :: String.t()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/branding/phone/providers/{id}"
@@ -24,7 +24,7 @@ defmodule Auth0.Management.Branding.Phone.Providers.Delete do
     |> String.replace("{id}", id)
     |> Http.delete(config)
     |> case do
-      {:ok, 204, body} -> {:ok, body |> Jason.decode!()}
+      {:ok, 204, _body} -> {:ok, ""}
       error -> error
     end
   end

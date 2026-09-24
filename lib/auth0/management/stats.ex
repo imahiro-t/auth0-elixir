@@ -1,4 +1,10 @@
 defmodule Auth0.Management.Stats do
+  @moduledoc """
+  Facade for the Auth0 Management API Stats endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.Stats.ActiveUsers
   alias Auth0.Management.Stats.Daily
@@ -13,7 +19,7 @@ defmodule Auth0.Management.Stats do
   https://auth0.com/docs/api/management/v2/stats/get-active-users
 
   """
-  @spec count_active_users(config) :: {:ok, integer} | error
+  @spec count_active_users(config) :: {:ok, String.t()} | error
   def count_active_users(%Config{} = config) do
     ActiveUsers.Count.execute(config)
   end
@@ -25,8 +31,8 @@ defmodule Auth0.Management.Stats do
   https://auth0.com/docs/api/management/v2/stats/get-daily
 
   """
-  @spec list_daily(config) :: {:ok, list(map())} | error
-  def list_daily(%Config{} = config) do
-    Daily.List.execute(config)
+  @spec list_daily(map(), config) :: {:ok, list(map())} | error
+  def list_daily(%{} = params \\ %{}, %Config{} = config) do
+    Daily.List.execute(params, config)
   end
 end

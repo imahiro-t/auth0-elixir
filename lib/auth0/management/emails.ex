@@ -1,6 +1,13 @@
 defmodule Auth0.Management.Emails do
+  @moduledoc """
+  Facade for the Auth0 Management API Emails endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.Emails.Provider
+  alias Auth0.Management.Emails.Provider.Delete, as: EmailsProviderDelete
 
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
@@ -42,5 +49,19 @@ defmodule Auth0.Management.Emails do
           {:ok, map()} | error
   def configure_provider(%{} = params, %Config{} = config) do
     Provider.Configure.execute(params, config)
+  end
+
+  @doc """
+  Delete email provider.
+
+  Delete the email provider.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/emails/delete-provider
+
+  """
+  @spec delete_provider(config) :: {:ok, String.t()} | error
+  def delete_provider(%Config{} = config) do
+    EmailsProviderDelete.execute(config)
   end
 end

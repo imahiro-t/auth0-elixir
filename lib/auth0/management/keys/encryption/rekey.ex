@@ -8,7 +8,7 @@ defmodule Auth0.Management.Keys.Encryption.Rekey do
   @type entity :: String.t()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
-  @endpoint "/api/v2/keys/encryption"
+  @endpoint "/api/v2/keys/encryption/rekey"
 
   @doc """
   Perform rekeying operation on the key hierarchy.
@@ -19,7 +19,7 @@ defmodule Auth0.Management.Keys.Encryption.Rekey do
   """
   @spec execute(config) :: response
   def execute(%Config{} = config) do
-    Http.post(@endpoint, {}, config)
+    Http.post(@endpoint, %{}, config)
     |> case do
       {:ok, 204, _body} -> {:ok, ""}
       error -> error
