@@ -1,5 +1,85 @@
 # Changelog
 
+## 2.5.0
+
+This release brings the library up to date with the official Auth0 Management API v2 OpenAPI specification (fetched 2026-09-24). It adds the missing endpoints and parameters, fixes functions that did not match the specification, and deprecates functions whose endpoints were removed or reached end of life. No public function or arity is removed. The requirements are unchanged from 2.4.0 (Elixir 1.17+, Erlang/OTP 27+).
+
+The full list of differences between the specification and 2.4.0 (added / changed / deprecated, with the function name for each item and the reason for every item that is not covered) is in [`docs/management_api_diff.md`](docs/management_api_diff.md) (Japanese). It is included in the ExDoc documentation but not in the Hex package.
+
+A few return values change as bug fixes (see "Fixed"). Calling a deprecated function now emits a compile-time warning, so read "Deprecated" if you compile with `--warnings-as-errors`.
+
+### Added
+
+- ✨ 153 new functions in `Auth0.Api.Management`: 148 for endpoints that were not supported, and 5 that expose endpoints that 2.4.0 only had internally (`get_attack_protection_bot_detection`, `update_attack_protection_bot_detection`, `get_prompt_rendering`, `update_prompt_rendering`, `update_session`). By area:
+  - **Actions**: action modules (list, create, get, update, delete, the actions using a module, rollback, versions) — `get_action_modules`, `create_action_module`, …
+  - **Agents** (new facade `Auth0.Management.Agents`): list, create, get, update, delete
+  - **Attack Protection**: CAPTCHA and phone provider protection settings (get / update)
+  - **Client Grants**: get a client grant, list its organizations
+  - **Clients**: CIMD metadata preview and client registration, list the connections of a client
+  - **Connection Profiles**: create, delete, templates (list / get)
+  - **Connections**: enabled clients (`get_connection_clients`, `update_connection_clients`), directory provisioning (configuration, default mapping, synchronizations, synchronized groups), connection keys (list / create / rotate), tenant-wide listings of directory provisionings and SCIM configurations
+  - **Custom Domains**: default custom domain (get / set), test a custom domain
+  - **Emails**: delete the email provider
+  - **Event Streams**: deliveries (list / get), redelivery, test event
+  - **Flows / Forms**: Flows vault connections (CRUD), flow executions (list / get / delete), delete a flow, delete a form
+  - **Groups** (new facade `Auth0.Management.Groups`): list, get, delete, members, roles (list / assign / remove)
+  - **Guardian**: Duo, email and phone factor settings, Guardian settings
+  - **Keys**: custom signing keys (get / set / delete), Network ACL keys (list / create / get / delete)
+  - **Network ACLs**: replace a Network ACL (`set_network_acl`)
+  - **Organizations**: search, client grants, clients, associated connections (`/organizations/{id}/connections`; named `*_organization_associated_connection*` to keep them apart from the existing `*_organization_connection*` functions for enabled connections), discovery domains, members' effective roles, role members, groups and their roles
+  - **Prompts**: rendering settings for all screens (list / bulk update)
+  - **Rate Limit Policies** (new facade `Auth0.Management.RateLimitPolicies`): list, create, get, update, delete
+  - **Refresh Tokens**: list, update, revoke (`revoke_refresh_tokens`)
+  - **Resource Servers**: search
+  - **Risk Assessments**: settings and new-device settings (get / update), clear a user's risk assessments (`clear_user_risk_assessments`)
+  - **Roles**: groups (list / assign / remove)
+  - **Self-Service Profiles**: custom text (get / set), revoke an SSO ticket
+  - **Supplemental Signals**: configuration (get / update)
+  - **User Attribute Profiles**: templates (list / get)
+  - **Users**: connected accounts, effective permissions and roles (and their sources), groups
+- ✨ 44 of the new functions are for Early Access endpoints; their `@doc` says so. Endpoints that are beta in the specification (Experimentation, `GET /clients/search`), the server-sent events endpoint `GET /events`, and the deprecated Guardian SMS endpoints are not added (see the diff list for the reasons).
+- ✨ `:custom_domain` option for the 9 functions whose endpoints accept the `auth0-custom-domain` header: `create_user`, `update_user`, `create_email_verification_ticket`, `create_password_change_ticket`, `send_job_verification_email`, `create_organization_invitation`, `create_guardian_enrollment_ticket`, `create_self_service_profile_sso_ticket` and `test_branding_phone_template`. Pass it as a new last argument, e.g. `create_user(params, config, custom_domain: "login.example.com")`. The existing arities are unchanged and send no header. Only a host name, optionally with a port, is accepted; any other value (including one containing CR/LF) raises `ArgumentError`, so the option cannot be used to inject headers.
+- ✨ Query parameters with multiple values: passing a list as a query value sends the key once per value (`strategy=a&strategy=b`), as the specification defines for array parameters (for example `strategy` of `get_connections`, `hydrate` of `get_flows` / `get_flow` / `get_forms` / `get_form`, `identifiers` of `get_resource_servers`). Before, a list raised `ArgumentError`; scalar values are sent exactly as before, and `nil` values in a list are skipped.
+- ✨ `get_custom_domain_configurations` and `get_daily_stats` accept query parameters (`get_custom_domain_configurations(params, config)`, `get_daily_stats(%{from: ..., to: ...}, config)`). Calls that pass only a config behave as before.
+- 📝 The `@doc` of existing functions lists their query parameters (marking required, array and Early Access ones), and notes Early Access / beta / deprecated body properties.
+- 🔧 Add `credo` and `dialyxir` as dev/test dependencies and fix their findings in the existing code (`mix credo` and `mix dialyzer` report no issues). They are not runtime dependencies.
+
+### Path parameters
+
+- 🔒 The 148 functions for the newly supported endpoints percent-encode path parameters (every character except `A-Z a-z 0-9 - . _ ~`; a value of `.` or `..` is encoded too), so an ID such as `auth0|123` is sent as `auth0%7C123` and a value can never change the requested path. Pass IDs as they are, without encoding them.
+- All other functions (the functions that existed before 2.5.0, including the ones fixed in this release, and the 5 new functions above for endpoints that were already supported internally) still insert path parameters as given, without encoding, so that callers who already pass encoded IDs keep working. If an ID can contain characters such as `|`, `/`, `?` or `#`, encode it yourself for these functions. Encoding them all consistently is planned for the next major version.
+
+### Deprecated
+
+- ⚠️ 20 functions of `Auth0.Api.Management` are marked with `@deprecated`, and their `@doc` names the replacement. They still work and are not removed in 2.x.
+  - **Hooks** (end of life announced by Auth0; migrate to Actions): `get_hooks` → `get_actions`, `create_hook` → `create_action` (then `deploy_action` and `update_action_trigger_bindings`), `get_hook` → `get_action`, `update_hook` → `update_action`, `delete_hook` → `delete_action`, `get_hook_secrets` / `add_hook_secrets` / `update_hook_secrets` / `delete_hook_secrets` → the `secrets` of an action (`get_action` / `update_action`)
+  - **Rules** (end of life announced by Auth0; migrate to Actions): `get_rules` → `get_actions`, `create_rule` → `create_action` (then `deploy_action` and `update_action_trigger_bindings`), `get_rule` → `get_action`, `update_rule` → `update_action`, `delete_rule` → `delete_action`
+  - **Blacklists** (removed from the Management API): `get_blacklisted_tokens`, `blacklist_token`. There is no direct replacement; revoke credentials with the purpose-specific functions such as `revoke_refresh_tokens` or `revoke_session`.
+  - **Risk Assessments** (these endpoints do not exist in the Management API): `create_risk_assessment` → `get_risk_assessments_settings` / `update_risk_assessments_settings`, the new-device settings functions and `clear_user_risk_assessments`; `get_risk_assessment` → `get_risk_assessments_settings` / `get_risk_assessments_new_device_settings`
+  - **Supplemental Signals** (these endpoints do not exist in the Management API): `create_supplemental_signal` → `update_supplemental_signals`; `get_supplemental_signal` → `get_supplemental_signals`
+- ⚠️ Calling any of these functions now produces a compile-time deprecation warning. **If you compile with `--warnings-as-errors`, your build fails until you migrate these calls** (or stop treating warnings as errors).
+- ⚠️ In the facade modules, the deprecation is documented only (no `@deprecated`): in the module documentation of `Auth0.Management.Hooks`, `Auth0.Management.Rules` and `Auth0.Management.Blacklist`, and in the documentation of the affected functions of `Auth0.Management.RiskAssessments` and `Auth0.Management.SupplementalSignals`. The `@deprecated` at the top of `hooks.ex` / `rules.ex` in earlier versions only applied to `Auth0.Management.Hooks.list/2` / `Auth0.Management.Rules.list/2`, not to the whole module; it has been removed in favour of the `Auth0.Api.Management` functions above, so calling those two facade functions directly no longer warns.
+- ⚠️ Deprecated parameters are noted in the `@doc` of the functions that use them (the functions themselves are not deprecated):
+  - `enabled_clients` of connections (`create_connection`, `update_connection`, `get_connection`) → use `get_connection_clients` / `update_connection_clients`
+  - deprecated connection `options` (Facebook, SMS, SAML `cert`) and deprecated strategies (`ip`, `instagram`, `oauth1`, `office365`, `sharepoint`, `soundcloud`, `untappd`) (`create_connection`, `update_connection`, `get_connection`, `get_connections`)
+  - `oidc_backchannel_logout` of clients (`create_client`, `update_client`) → use `oidc_logout`
+  - `include_totals` of `get_log_events`
+
+### Fixed
+
+- 🐛 `delete_organization_invitation` returned `{:ok, 204, ""}` on success because the success status was never matched. It now returns `{:ok, ""}`, like every other delete function and as its `@spec` says. **If you match on `{:ok, 204, _}`, update that code.**
+- 🐛 `get_connection_status` raised on success (it decoded the empty `200` response body). It now returns `{:ok, true}` when the connection is online, as its `@spec` (`{:ok, boolean}`) promised; errors such as `404` (connection not found) are still returned as `{:error, status, body}`, not as `{:ok, false}`. The `@spec` is now `{:ok, true} | error`.
+- 🐛 `get_active_users_count`: the `@spec` said `{:ok, integer}`, but the function returns the response body as a string (for example `{:ok, "123"}`). The return value is unchanged; the `@spec` and `@doc` are corrected to `{:ok, String.t()}`.
+- 🐛 `update_hook_secrets` sent `PATCH /api/v2/hooks/{id}` (updating the hook itself) instead of `PATCH /api/v2/hooks/{id}/secrets`.
+- 🐛 `rekey_encryption_key` sent `POST /api/v2/keys/encryption` (creating a key) instead of `POST /api/v2/keys/encryption/rekey`, and its body could not be encoded.
+- 🐛 `revoke_session` used `DELETE` instead of `POST /api/v2/sessions/{id}/revoke`.
+- 🐛 The Verifiable Credentials functions (`get_verifiable_credentials`, `create_verifiable_credential`, `get_verifiable_credential`, `update_verifiable_credential`, `delete_verifiable_credential`) sent requests to `/api/v2/verifiable-credentials`, which does not exist. They now use `/api/v2/verifiable-credentials/verification/templates`, i.e. they manage verification templates. The function names are kept.
+- 🐛 `delete_branding_phone_provider`, `delete_branding_phone_template`, `delete_self_service_profile` and `get_job_error` raised on a `204` response (they decoded the empty body). They now return `{:ok, ""}`.
+- 🐛 `add_hook_secrets`, `create_network_acl` and `update_token_exchange_profile` raised when the success response had no body. They now return `{:ok, ""}` in that case, and the decoded body as before when there is one.
+- 🐛 `create_encryption_wrapping_key` always raised `Protocol.UndefinedError` because its request body could not be encoded.
+- 📝 Correct the 2.3.0 entries: the "Verifiable Credentials" endpoints added in 2.3.0 did not work (see above), and the Risk Assessments and Supplemental Signals functions added in 2.3.0 call endpoints that do not exist in the Management API. They are deprecated in this release, and the endpoints that do exist are added (see "Added").
+- 📝 Fix the `## see` links of the Bot Detection functions and of `update_hook_secrets`.
+
 ## 2.4.0
 
 This release is a security-focused release. It is a minor (not patch) release because it moves to new major versions of the HTTP dependencies and raises the minimum Elixir / Erlang/OTP versions. Read "Breaking changes" before upgrading.
@@ -55,9 +135,9 @@ This release is a security-focused release. It is a minor (not patch) release be
 ## 2.3.0
 
 - ✨ Support `Retry-After` header for rate limiting
-- ✨ Add Bot Detection Management endpoints
-- ✨ Add Prompts Rendering & Partials endpoints
-- ✨ Add Session Update endpoint
+- ✨ Add Bot Detection Management endpoints (public functions in `Auth0.Api.Management` added in 2.5.0)
+- ✨ Add Prompts Rendering & Partials endpoints (public rendering functions in `Auth0.Api.Management` added in 2.5.0)
+- ✨ Add Session Update endpoint (public function in `Auth0.Api.Management` added in 2.5.0)
 - ✨ Add Client Secret Rotation endpoint
 - ✨ Add Connection Status endpoint
 - ✨ Add Connection Profiles management endpoints
@@ -65,9 +145,9 @@ This release is a security-focused release. It is a minor (not patch) release be
 - ✨ Add Network ACLs management endpoints
 - ✨ Add User Attribute Profiles management endpoints
 - ✨ Add Token Exchange Profiles management endpoints
-- ✨ Add Verifiable Credentials management endpoints
-- ✨ Add Risk Assessments management endpoints
-- ✨ Add Supplemental Signals management endpoints
+- ✨ Add Verifiable Credentials management endpoints (corrected in 2.5.0: these functions sent requests to a path that does not exist; they now manage verification templates)
+- ✨ Add Risk Assessments management endpoints (corrected in 2.5.0: these endpoints do not exist in the Management API, so the functions are deprecated; the risk assessment settings endpoints are added in 2.5.0)
+- ✨ Add Supplemental Signals management endpoints (corrected in 2.5.0: these endpoints do not exist in the Management API, so the functions are deprecated; the supplemental signals configuration endpoints are added in 2.5.0)
 - ⚠️ Deprecate Rules and Hooks APIs
 
 ## 2.2.0
