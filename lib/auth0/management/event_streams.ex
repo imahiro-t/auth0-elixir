@@ -11,6 +11,11 @@ defmodule Auth0.Management.EventStreams do
   alias Auth0.Management.EventStreams.Get
   alias Auth0.Management.EventStreams.Delete
   alias Auth0.Management.EventStreams.Patch
+  alias Auth0.Management.EventStreams.Deliveries.List, as: EventStreamsDeliveriesList
+  alias Auth0.Management.EventStreams.Deliveries.Get, as: EventStreamsDeliveriesGet
+  alias Auth0.Management.EventStreams.Redeliver.Create, as: EventStreamsRedeliverCreate
+  alias Auth0.Management.EventStreams.Redeliver.CreateById, as: EventStreamsRedeliverCreateById
+  alias Auth0.Management.EventStreams.Test, as: EventStreamsTest
 
   @type id :: String.t()
   @type config :: Config.t()
@@ -69,5 +74,65 @@ defmodule Auth0.Management.EventStreams do
   @spec update(id, map(), config) :: {:ok, map()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(id, params, config)
+  end
+
+  @doc """
+  Get this event stream's delivery history.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/event-streams/get-event-deliveries
+
+  """
+  @spec list_deliveries(String.t(), map(), config) :: {:ok, map()} | error
+  def list_deliveries(id, %{} = params, %Config{} = config) do
+    EventStreamsDeliveriesList.execute(id, params, config)
+  end
+
+  @doc """
+  Get a specific event's delivery history.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/event-streams/get-deliveries-by-event-id
+
+  """
+  @spec get_delivery(String.t(), String.t(), config) :: {:ok, map()} | error
+  def get_delivery(id, event_id, %Config{} = config) do
+    EventStreamsDeliveriesGet.execute(id, event_id, config)
+  end
+
+  @doc """
+  Redeliver failed events.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/event-streams/post-redeliver
+
+  """
+  @spec redeliver(String.t(), map(), config) :: {:ok, map()} | error
+  def redeliver(id, %{} = params, %Config{} = config) do
+    EventStreamsRedeliverCreate.execute(id, params, config)
+  end
+
+  @doc """
+  Redeliver a single failed event by ID.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/event-streams/post-redeliver-by-event-id
+
+  """
+  @spec redeliver_by_id(String.t(), String.t(), config) :: {:ok, String.t()} | error
+  def redeliver_by_id(id, event_id, %Config{} = config) do
+    EventStreamsRedeliverCreateById.execute(id, event_id, config)
+  end
+
+  @doc """
+  Send a test event to an event stream.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/event-streams/post-test-event
+
+  """
+  @spec test(String.t(), map(), config) :: {:ok, map()} | error
+  def test(id, %{} = params, %Config{} = config) do
+    EventStreamsTest.execute(id, params, config)
   end
 end

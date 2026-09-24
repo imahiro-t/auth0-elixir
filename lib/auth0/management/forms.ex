@@ -10,6 +10,7 @@ defmodule Auth0.Management.Forms do
   alias Auth0.Management.Forms.Create
   alias Auth0.Management.Forms.Get
   alias Auth0.Management.Forms.Patch
+  alias Auth0.Management.Forms.Delete, as: FormsDelete
 
   @type id :: String.t()
   @type config :: Config.t()
@@ -65,5 +66,17 @@ defmodule Auth0.Management.Forms do
           {:ok, map()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(id, params, config)
+  end
+
+  @doc """
+  Delete a form.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/forms/delete-form
+
+  """
+  @spec delete(String.t(), config) :: {:ok, String.t()} | error
+  def delete(id, %Config{} = config) do
+    FormsDelete.execute(id, config)
   end
 end

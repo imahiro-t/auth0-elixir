@@ -12,6 +12,11 @@ defmodule Auth0.Management.SelfServiceProfiles do
   alias Auth0.Management.SelfServiceProfiles.Delete
   alias Auth0.Management.SelfServiceProfiles.Patch
   alias Auth0.Management.SelfServiceProfiles.SsoTicket
+  alias Auth0.Management.SelfServiceProfiles.CustomText.Get, as: SelfServiceProfilesCustomTextGet
+  alias Auth0.Management.SelfServiceProfiles.CustomText.Put, as: SelfServiceProfilesCustomTextPut
+
+  alias Auth0.Management.SelfServiceProfiles.SsoTicket.Revoke,
+    as: SelfServiceProfilesSsoTicketRevoke
 
   @type id :: String.t()
   @type config :: Config.t()
@@ -93,5 +98,47 @@ defmodule Auth0.Management.SelfServiceProfiles do
           {:ok, map()} | error
   def create_sso_ticket(id, %{} = params, %Config{} = config) do
     SsoTicket.Create.execute(id, params, config)
+  end
+
+  @doc """
+  Get custom text for a self-service profile.
+
+  Retrieves text customizations for a given self-service profile, language and Self-Service Enterprise Configuration flow page.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/self-service-profiles/get-self-service-profile-custom-text
+
+  """
+  @spec get_custom_text(String.t(), String.t(), String.t(), config) :: {:ok, map()} | error
+  def get_custom_text(id, language, page, %Config{} = config) do
+    SelfServiceProfilesCustomTextGet.execute(id, language, page, config)
+  end
+
+  @doc """
+  Set custom text for a self-service profile.
+
+  Updates text customizations for a given self-service profile, language and Self-Service Enterprise Configuration flow page.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/self-service-profiles/put-self-service-profile-custom-text
+
+  """
+  @spec set_custom_text(String.t(), String.t(), String.t(), map(), config) :: {:ok, map()} | error
+  def set_custom_text(id, language, page, %{} = params, %Config{} = config) do
+    SelfServiceProfilesCustomTextPut.execute(id, language, page, params, config)
+  end
+
+  @doc """
+  Revoke a Self-Service Enterprise Configuration access ticket.
+
+  Revokes a Self-Service Enterprise Configuration access ticket and invalidates associated sessions. The ticket will no longer be accepted to initiate a Self-Service Enterprise Configuration session. If any users have already started a session through this ticket, their session will be terminated. Clients should expect a `202 Accepted` response upon successful processing, indicating that the request has been acknowledged and that the revocation is underway but may not be fully completed at the ...
+
+  ## see
+  https://auth0.com/docs/api/management/v2/self-service-profiles/post-revoke
+
+  """
+  @spec revoke_sso_ticket(String.t(), String.t(), config) :: {:ok, String.t()} | error
+  def revoke_sso_ticket(profile_id, id, %Config{} = config) do
+    SelfServiceProfilesSsoTicketRevoke.execute(profile_id, id, config)
   end
 end

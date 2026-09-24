@@ -11,6 +11,8 @@ defmodule Auth0.Management.Prompts do
   alias Auth0.Management.Prompts.CustomText
   alias Auth0.Management.Prompts.Partials
   alias Auth0.Config
+  alias Auth0.Management.Prompts.Renderings.List, as: PromptsRenderingsList
+  alias Auth0.Management.Prompts.Renderings.BulkUpdate, as: PromptsRenderingsBulkUpdate
 
   @type prompt :: String.t()
   @type screen :: String.t()
@@ -113,5 +115,31 @@ defmodule Auth0.Management.Prompts do
           {:ok, map()} | error
   def set_rendering_configuration(prompt, screen, %{} = params, %Config{} = config) do
     Rendering.Patch.execute(prompt, screen, params, config)
+  end
+
+  @doc """
+  Get render setting configurations for all screens.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/prompts/get-all-rendering
+
+  """
+  @spec list_renderings(map(), config) :: {:ok, map() | list(map())} | error
+  def list_renderings(%{} = params, %Config{} = config) do
+    PromptsRenderingsList.execute(params, config)
+  end
+
+  @doc """
+  Update render settings for multiple screens.
+
+  Learn more about [configuring render settings](https://auth0.com/docs/customize/login-pages/advanced-customizations/getting-started/configure-acul-screens) for advanced customization.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/prompts/patch-bulk-rendering
+
+  """
+  @spec bulk_update_renderings(map(), config) :: {:ok, map()} | error
+  def bulk_update_renderings(%{} = params, %Config{} = config) do
+    PromptsRenderingsBulkUpdate.execute(params, config)
   end
 end

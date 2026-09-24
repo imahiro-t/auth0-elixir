@@ -13,6 +13,9 @@ defmodule Auth0.Management.Clients do
   alias Auth0.Management.Clients.Patch
   alias Auth0.Management.Clients.RotateSecret
   alias Auth0.Management.Clients.Credential
+  alias Auth0.Management.Clients.Cimd.Preview, as: ClientsCimdPreview
+  alias Auth0.Management.Clients.Cimd.Register, as: ClientsCimdRegister
+  alias Auth0.Management.Clients.Connections.List, as: ClientsConnectionsList
 
   @type id :: String.t()
   @type client_id :: String.t()
@@ -160,5 +163,47 @@ defmodule Auth0.Management.Clients do
           {:ok, map()} | error
   def rotate_secret(id, %Config{} = config) do
     RotateSecret.execute(id, config)
+  end
+
+  @doc """
+  Preview and validate Client ID Metadata Document.
+
+  Fetches and validates a Client ID Metadata Document without creating a client. Returns the raw metadata and how it would be mapped to Auth0 client fields. This endpoint is useful for testing metadata URIs before creating CIMD clients.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/clients/post-clients-cimd-preview
+
+  """
+  @spec preview_cimd_metadata(map(), config) :: {:ok, map()} | error
+  def preview_cimd_metadata(%{} = params, %Config{} = config) do
+    ClientsCimdPreview.execute(params, config)
+  end
+
+  @doc """
+  Register or update a CIMD client via metadata URI.
+
+  Idempotent registration for Client ID Metadata Document (CIMD) clients. Uses external_client_id as the unique identifier for upsert operations.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/clients/post-clients-cimd-register
+
+  """
+  @spec register_cimd_client(map(), config) :: {:ok, map()} | error
+  def register_cimd_client(%{} = params, %Config{} = config) do
+    ClientsCimdRegister.execute(params, config)
+  end
+
+  @doc """
+  Get enabled connections for a client.
+
+  Retrieve all connections that are enabled for the specified [Application](https://www.auth0.com/docs/get-started/applications), using checkpoint pagination. A list of fields to include or exclude for each connection may also be specified.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/clients/get-client-connections
+
+  """
+  @spec list_connections(String.t(), map(), config) :: {:ok, map()} | error
+  def list_connections(id, %{} = params, %Config{} = config) do
+    ClientsConnectionsList.execute(id, params, config)
   end
 end

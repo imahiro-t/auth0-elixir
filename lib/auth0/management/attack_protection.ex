@@ -10,6 +10,14 @@ defmodule Auth0.Management.AttackProtection do
   alias Auth0.Management.AttackProtection.BruteForceProtection
   alias Auth0.Management.AttackProtection.SuspiciousIpThrottling
   alias Auth0.Management.AttackProtection.BotDetection
+  alias Auth0.Management.AttackProtection.Captcha.Get, as: AttackProtectionCaptchaGet
+  alias Auth0.Management.AttackProtection.Captcha.Patch, as: AttackProtectionCaptchaPatch
+
+  alias Auth0.Management.AttackProtection.PhoneProviderProtection.Get,
+    as: AttackProtectionPhoneProviderProtectionGet
+
+  alias Auth0.Management.AttackProtection.PhoneProviderProtection.Patch,
+    as: AttackProtectionPhoneProviderProtectionPatch
 
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
@@ -124,5 +132,61 @@ defmodule Auth0.Management.AttackProtection do
         %Config{} = config
       ) do
     SuspiciousIpThrottling.Patch.execute(params, config)
+  end
+
+  @doc """
+  Get the CAPTCHA configuration for a tenant.
+
+  Get the CAPTCHA configuration for your client.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/attack-protection/get-captcha
+
+  """
+  @spec get_captcha(config) :: {:ok, map()} | error
+  def get_captcha(%Config{} = config) do
+    AttackProtectionCaptchaGet.execute(config)
+  end
+
+  @doc """
+  Partial Update for CAPTCHA Configuration.
+
+  Update existing CAPTCHA configuration for your client.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/attack-protection/patch-captcha
+
+  """
+  @spec update_captcha(map(), config) :: {:ok, map()} | error
+  def update_captcha(%{} = params, %Config{} = config) do
+    AttackProtectionCaptchaPatch.execute(params, config)
+  end
+
+  @doc """
+  Get Phone Provider Protection settings.
+
+  Get the phone provider protection configuration for a tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/attack-protection/get-phone-provider-protection
+
+  """
+  @spec get_phone_provider_protection(config) :: {:ok, map()} | error
+  def get_phone_provider_protection(%Config{} = config) do
+    AttackProtectionPhoneProviderProtectionGet.execute(config)
+  end
+
+  @doc """
+  Update Phone Provider Protection settings.
+
+  Update the phone provider protection configuration for a tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/attack-protection/patch-phone-provider-protection
+
+  """
+  @spec update_phone_provider_protection(map(), config) :: {:ok, map()} | error
+  def update_phone_provider_protection(%{} = params, %Config{} = config) do
+    AttackProtectionPhoneProviderProtectionPatch.execute(params, config)
   end
 end

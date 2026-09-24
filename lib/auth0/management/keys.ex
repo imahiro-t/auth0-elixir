@@ -8,6 +8,13 @@ defmodule Auth0.Management.Keys do
   alias Auth0.Config
   alias Auth0.Management.Keys.Signing
   alias Auth0.Management.Keys.Encryption
+  alias Auth0.Management.Keys.CustomSigning.Get, as: KeysCustomSigningGet
+  alias Auth0.Management.Keys.CustomSigning.Put, as: KeysCustomSigningPut
+  alias Auth0.Management.Keys.CustomSigning.Delete, as: KeysCustomSigningDelete
+  alias Auth0.Management.Keys.NetworkAcls.List, as: KeysNetworkAclsList
+  alias Auth0.Management.Keys.NetworkAcls.Create, as: KeysNetworkAclsCreate
+  alias Auth0.Management.Keys.NetworkAcls.Get, as: KeysNetworkAclsGet
+  alias Auth0.Management.Keys.NetworkAcls.Delete, as: KeysNetworkAclsDelete
 
   @type kid :: String.t()
   @type config :: Config.t()
@@ -154,5 +161,111 @@ defmodule Auth0.Management.Keys do
           {:ok, map()} | error
   def create_encryption_wrapping_key(kid, %Config{} = config) do
     Encryption.WrappingKey.Create.execute(kid, config)
+  end
+
+  @doc """
+  Get custom signing keys.
+
+  Get entire jwks representation of custom signing keys.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/keys/get-custom-signing-keys
+
+  """
+  @spec get_custom_signing(config) :: {:ok, map()} | error
+  def get_custom_signing(%Config{} = config) do
+    KeysCustomSigningGet.execute(config)
+  end
+
+  @doc """
+  Create or replace custom signing keys.
+
+  Create or replace entire jwks representation of custom signing keys.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/keys/put-custom-signing-keys
+
+  """
+  @spec set_custom_signing(map(), config) :: {:ok, map()} | error
+  def set_custom_signing(%{} = params, %Config{} = config) do
+    KeysCustomSigningPut.execute(params, config)
+  end
+
+  @doc """
+  Delete custom signing keys.
+
+  Delete entire jwks representation of custom signing keys.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/keys/delete-custom-signing-keys
+
+  """
+  @spec delete_custom_signing(config) :: {:ok, String.t()} | error
+  def delete_custom_signing(%Config{} = config) do
+    KeysCustomSigningDelete.execute(config)
+  end
+
+  @doc """
+  Get all Network ACL keys.
+
+  Retrieve all keys used to verify HTTP Message Signatures on Network ACL rules, ordered by creation time descending.
+
+  **Early Access**: this endpoint is marked as Early Access (`x-release-lifecycle: EA`) in the Auth0 Management API specification and may not be available on every tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/keys/get-all-keys-network-acls
+
+  """
+  @spec list_network_acl_keys(config) :: {:ok, map()} | error
+  def list_network_acl_keys(%Config{} = config) do
+    KeysNetworkAclsList.execute(config)
+  end
+
+  @doc """
+  Create a Network ACL key.
+
+  Create a new key used to verify HTTP Message Signatures on Network ACL rules.
+
+  **Early Access**: this endpoint is marked as Early Access (`x-release-lifecycle: EA`) in the Auth0 Management API specification and may not be available on every tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/keys/create-keys-network-acls
+
+  """
+  @spec create_network_acl_key(map(), config) :: {:ok, map()} | error
+  def create_network_acl_key(%{} = params, %Config{} = config) do
+    KeysNetworkAclsCreate.execute(params, config)
+  end
+
+  @doc """
+  Get a Network ACL Key.
+
+  Retrieve a specific key used to verify HTTP Message Signatures on Network ACL rules.
+
+  **Early Access**: this endpoint is marked as Early Access (`x-release-lifecycle: EA`) in the Auth0 Management API specification and may not be available on every tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/keys/get-keys-network-acls
+
+  """
+  @spec get_network_acl_key(String.t(), config) :: {:ok, map()} | error
+  def get_network_acl_key(id, %Config{} = config) do
+    KeysNetworkAclsGet.execute(id, config)
+  end
+
+  @doc """
+  Delete a Network ACL key.
+
+  Delete a key used to verify HTTP Message Signatures on Network ACL rules
+
+  **Early Access**: this endpoint is marked as Early Access (`x-release-lifecycle: EA`) in the Auth0 Management API specification and may not be available on every tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/keys/delete-keys-network-acls
+
+  """
+  @spec delete_network_acl_key(String.t(), config) :: {:ok, String.t()} | error
+  def delete_network_acl_key(id, %Config{} = config) do
+    KeysNetworkAclsDelete.execute(id, config)
   end
 end

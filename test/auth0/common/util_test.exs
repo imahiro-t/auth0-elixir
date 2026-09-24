@@ -66,6 +66,52 @@ defmodule Auth0.Common.UtilTest do
       assert query =~ "c=3"
       refute query =~ "b="
     end
+
+    test "keeps scalar values exactly as before (string, integer, boolean, spaces)" do
+      params = %{q: "erin the black", page: 0, include_totals: true, x: nil}
+      # the implementation before list support
+      previous = params |> Util.remove_nil() |> URI.encode_query(:rfc3986)
+
+      assert Util.convert_to_query(params) == previous
+      assert previous =~ "q=erin%20the%20black"
+    end
+
+    test "sends a list value as repeated keys (A-192..A-197 / array query parameters)" do
+      assert Util.convert_to_query(%{strategy: ["auth0", "google-oauth2"]}) ==
+               "strategy=auth0&strategy=google-oauth2"
+    end
+
+    test "sends a single-element list as one key and drops nil elements" do
+      assert Util.convert_to_query(%{hydrate: ["debug"]}) == "hydrate=debug"
+      assert Util.convert_to_query(%{grant_ids: ["a", nil, "b"]}) == "grant_ids=a&grant_ids=b"
+    end
+
+    test "an empty list sends nothing for that key" do
+      assert Util.convert_to_query(%{fields: [], take: 5}) == "take=5"
+    end
+
+    test "string keys and encoding of list elements" do
+      assert Util.convert_to_query(%{"q" => ["a b", "c&d"]}) == "q=a%20b&q=c%26d"
+    end
+  end
+
+  describe "encode_path_param/1" do
+    test "leaves unreserved characters untouched" do
+      assert Util.encode_path_param("abc-XYZ_0.9~") == "abc-XYZ_0.9~"
+    end
+
+    test "encodes reserved and special characters" do
+      assert Util.encode_path_param("auth0|123") == "auth0%7C123"
+      assert Util.encode_path_param("a/b?c#d") == "a%2Fb%3Fc%23d"
+      assert Util.encode_path_param("a b%") == "a%20b%25"
+      assert Util.encode_path_param("é") == "%C3%A9"
+    end
+
+    test "encodes dot segments" do
+      assert Util.encode_path_param(".") == "%2E"
+      assert Util.encode_path_param("..") == "%2E%2E"
+      assert Util.encode_path_param("...") == "..."
+    end
   end
 
   describe "convert_to_form_body/1" do

@@ -25,6 +25,19 @@ defmodule Auth0.Management.Users do
   alias Auth0.Management.Users.RefreshTokens
   alias Auth0.Management.Users.Sessions
   alias Auth0.Management.Users.RevokeAccess
+  alias Auth0.Management.Users.ConnectedAccounts.List, as: UsersConnectedAccountsList
+  alias Auth0.Management.Users.EffectivePermissions.List, as: UsersEffectivePermissionsList
+
+  alias Auth0.Management.Users.EffectivePermissions.Sources.Roles.List,
+    as: UsersEffectivePermissionsSourcesRolesList
+
+  alias Auth0.Management.Users.EffectiveRoles.List, as: UsersEffectiveRolesList
+
+  alias Auth0.Management.Users.EffectiveRoles.Sources.Groups.List,
+    as: UsersEffectiveRolesSourcesGroupsList
+
+  alias Auth0.Management.Users.Groups.List, as: UsersGroupsList
+  alias Auth0.Management.Users.RiskAssessments.Clear, as: UsersRiskAssessmentsClear
 
   @type id :: String.t()
   @type authentication_method_id :: String.t()
@@ -471,5 +484,101 @@ defmodule Auth0.Management.Users do
           {:ok, String.t()} | error
   def delete_sessions(id, %Config{} = config) do
     Sessions.Delete.execute(id, config)
+  end
+
+  @doc """
+  Get a User's Connected Accounts.
+
+  Retrieve all connected accounts associated with the user.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/get-connected-accounts
+
+  """
+  @spec list_connected_accounts(String.t(), map(), config) :: {:ok, map()} | error
+  def list_connected_accounts(id, %{} = params, %Config{} = config) do
+    UsersConnectedAccountsList.execute(id, params, config)
+  end
+
+  @doc """
+  List the permissions assigned to a user directly or through roles or groups.
+
+  Returns the list of effective permissions for a user, taking into account permissions granted directly to the user, as well as those inherited through roles and group memberships.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/get-user-effective-permissions
+
+  """
+  @spec list_effective_permissions(String.t(), map(), config) :: {:ok, map()} | error
+  def list_effective_permissions(id, %{} = params, %Config{} = config) do
+    UsersEffectivePermissionsList.execute(id, params, config)
+  end
+
+  @doc """
+  List the roles which grant the user a given permission (whether directly or through groups).
+
+  Lists the roles which grant the user a given permission, including roles assigned directly to the user and those inherited through group memberships.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/get-user-effective-permission-role-sources
+
+  """
+  @spec list_effective_permission_role_sources(String.t(), map(), config) :: {:ok, map()} | error
+  def list_effective_permission_role_sources(id, %{} = params, %Config{} = config) do
+    UsersEffectivePermissionsSourcesRolesList.execute(id, params, config)
+  end
+
+  @doc """
+  List the roles for a user with sources: directly assigned or through group membership.
+
+  Retrieve detailed list of effective roles for a user, including roles assigned directly and through group memberships.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/get-user-effective-roles
+
+  """
+  @spec list_effective_roles(String.t(), map(), config) :: {:ok, map()} | error
+  def list_effective_roles(id, %{} = params, %Config{} = config) do
+    UsersEffectiveRolesList.execute(id, params, config)
+  end
+
+  @doc """
+  Get a user's role source groups.
+
+  Lists the groups that grant a user a specific role.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/get-user-role-source-groups
+
+  """
+  @spec list_effective_role_group_sources(String.t(), map(), config) :: {:ok, map()} | error
+  def list_effective_role_group_sources(id, %{} = params, %Config{} = config) do
+    UsersEffectiveRolesSourcesGroupsList.execute(id, params, config)
+  end
+
+  @doc """
+  Get user's groups.
+
+  List all groups to which this user belongs.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/get-user-groups
+
+  """
+  @spec list_groups(String.t(), map(), config) :: {:ok, map() | list(map())} | error
+  def list_groups(id, %{} = params, %Config{} = config) do
+    UsersGroupsList.execute(id, params, config)
+  end
+
+  @doc """
+  Clear risk assessment assessors for a specific user.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/users/post-clear-assessors
+
+  """
+  @spec clear_risk_assessments(String.t(), map(), config) :: {:ok, String.t()} | error
+  def clear_risk_assessments(id, %{} = params, %Config{} = config) do
+    UsersRiskAssessmentsClear.execute(id, params, config)
   end
 end

@@ -11,6 +11,7 @@ defmodule Auth0.Management.NetworkAcls do
   alias Auth0.Management.NetworkAcls.Get
   alias Auth0.Management.NetworkAcls.Delete
   alias Auth0.Management.NetworkAcls.Patch
+  alias Auth0.Management.NetworkAcls.Put, as: NetworkAclsPut
 
   @type id :: String.t()
   @type config :: Config.t()
@@ -69,5 +70,19 @@ defmodule Auth0.Management.NetworkAcls do
   @spec update(id, map(), config) :: {:ok, map()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(id, params, config)
+  end
+
+  @doc """
+  Update Access Control List.
+
+  Update existing access control list for your client.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/network-acls/put-network-acls-by-id
+
+  """
+  @spec set(String.t(), map(), config) :: {:ok, map()} | error
+  def set(id, %{} = params, %Config{} = config) do
+    NetworkAclsPut.execute(id, params, config)
   end
 end

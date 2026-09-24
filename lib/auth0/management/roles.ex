@@ -13,6 +13,9 @@ defmodule Auth0.Management.Roles do
   alias Auth0.Management.Roles.Patch
   alias Auth0.Management.Roles.Permissions
   alias Auth0.Management.Roles.Users
+  alias Auth0.Management.Roles.Groups.List, as: RolesGroupsList
+  alias Auth0.Management.Roles.Groups.Assign, as: RolesGroupsAssign
+  alias Auth0.Management.Roles.Groups.Remove, as: RolesGroupsRemove
 
   @type id :: String.t()
   @type config :: Config.t()
@@ -145,5 +148,47 @@ defmodule Auth0.Management.Roles do
           {:ok, String.t()} | error
   def assign_users(id, %{} = params, %Config{} = config) do
     Users.Assign.execute(id, params, config)
+  end
+
+  @doc """
+  Get a role's groups.
+
+  Lists the groups to which the specified role is assigned.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/roles/get-role-groups
+
+  """
+  @spec list_groups(String.t(), map(), config) :: {:ok, map()} | error
+  def list_groups(id, %{} = params, %Config{} = config) do
+    RolesGroupsList.execute(id, params, config)
+  end
+
+  @doc """
+  Assign groups to a role.
+
+  Assign one or more groups to a specified role.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/roles/post-role-groups
+
+  """
+  @spec assign_groups(String.t(), map(), config) :: {:ok, String.t()} | error
+  def assign_groups(id, %{} = params, %Config{} = config) do
+    RolesGroupsAssign.execute(id, params, config)
+  end
+
+  @doc """
+  Remove groups from a role.
+
+  Unassign one or more groups from a specified role.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/roles/delete-role-groups
+
+  """
+  @spec remove_groups(String.t(), map(), config) :: {:ok, String.t()} | error
+  def remove_groups(id, %{} = params, %Config{} = config) do
+    RolesGroupsRemove.execute(id, params, config)
   end
 end

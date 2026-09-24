@@ -12,6 +12,12 @@ defmodule Auth0.Management.UserAttributeProfiles do
   alias Auth0.Management.UserAttributeProfiles.Delete
   alias Auth0.Management.UserAttributeProfiles.Patch
 
+  alias Auth0.Management.UserAttributeProfiles.Templates.List,
+    as: UserAttributeProfilesTemplatesList
+
+  alias Auth0.Management.UserAttributeProfiles.Templates.Get,
+    as: UserAttributeProfilesTemplatesGet
+
   @type id :: String.t()
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
@@ -69,5 +75,37 @@ defmodule Auth0.Management.UserAttributeProfiles do
   @spec update(id, map(), config) :: {:ok, map()} | error
   def update(id, %{} = params, %Config{} = config) do
     Patch.execute(id, params, config)
+  end
+
+  @doc """
+  Get User Attribute Profile Templates.
+
+  Retrieve a list of User Attribute Profile Templates.
+
+  **Early Access**: this endpoint is marked as Early Access (`x-release-lifecycle: EA`) in the Auth0 Management API specification and may not be available on every tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/user-attribute-profiles/get-user-attribute-profile-templates
+
+  """
+  @spec list_templates(config) :: {:ok, map()} | error
+  def list_templates(%Config{} = config) do
+    UserAttributeProfilesTemplatesList.execute(config)
+  end
+
+  @doc """
+  Get User Attribute Profile Template.
+
+  Retrieve a User Attribute Profile Template.
+
+  **Early Access**: this endpoint is marked as Early Access (`x-release-lifecycle: EA`) in the Auth0 Management API specification and may not be available on every tenant.
+
+  ## see
+  https://auth0.com/docs/api/management/v2/user-attribute-profiles/get-user-attribute-profile-template
+
+  """
+  @spec get_template(String.t(), config) :: {:ok, map()} | error
+  def get_template(id, %Config{} = config) do
+    UserAttributeProfilesTemplatesGet.execute(id, config)
   end
 end
