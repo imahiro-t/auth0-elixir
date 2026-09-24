@@ -17,7 +17,7 @@ defmodule Auth0.Api.Management.FormsTest do
   end
 
   describe "delete_form (A-106 DELETE /api/v2/forms/{id})" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "DELETE"
         assert conn.request_path == "/api/v2/forms/id%7C1%2Fa%20b"

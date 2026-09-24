@@ -102,7 +102,7 @@ defmodule Auth0.Api.Management.EventStreamsTest do
   end
 
   describe "redeliver_event_stream_event (A-070 POST /api/v2/event-streams/{id}/redeliver/{event_id})" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "POST"
         assert conn.request_path == "/api/v2/event-streams/id%7C1%2Fa%20b/redeliver/evt%7C1%2F2"

@@ -117,7 +117,7 @@ defmodule Auth0.Api.Management.FlowsTest do
   end
 
   describe "delete_flows_vault_connection (A-101 DELETE /api/v2/flows/vault/connections/{id})" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "DELETE"
         assert conn.request_path == "/api/v2/flows/vault/connections/id%7C1%2Fa%20b"
@@ -194,7 +194,7 @@ defmodule Auth0.Api.Management.FlowsTest do
   end
 
   describe "delete_flow_execution (A-104 DELETE /api/v2/flows/{flow_id}/executions/{execution_id})" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "DELETE"
         assert conn.request_path == "/api/v2/flows/af_1%2F2/executions/ex%7C1"
@@ -214,7 +214,7 @@ defmodule Auth0.Api.Management.FlowsTest do
   end
 
   describe "delete_flow (A-105 DELETE /api/v2/flows/{id})" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "DELETE"
         assert conn.request_path == "/api/v2/flows/id%7C1%2Fa%20b"

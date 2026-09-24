@@ -89,7 +89,7 @@ defmodule Auth0.Api.Management.KeysTest do
   end
 
   describe "delete_custom_signing_keys (A-126 DELETE /api/v2/keys/custom-signing)" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "DELETE"
         assert conn.request_path == "/api/v2/keys/custom-signing"
@@ -173,7 +173,7 @@ defmodule Auth0.Api.Management.KeysTest do
   end
 
   describe "delete_network_acl_key (A-130 DELETE /api/v2/keys/network-acls/{id})" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "DELETE"
         assert conn.request_path == "/api/v2/keys/network-acls/id%7C1%2Fa%20b"

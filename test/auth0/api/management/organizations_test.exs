@@ -103,7 +103,7 @@ defmodule Auth0.Api.Management.OrganizationsTest do
   end
 
   describe "delete_organization_client_grant (A-135 DELETE /api/v2/organizations/{id}/client-grants/{grant_id})" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "DELETE"
 
@@ -183,7 +183,7 @@ defmodule Auth0.Api.Management.OrganizationsTest do
   end
 
   describe "delete_organization_clients (A-138 DELETE /api/v2/organizations/{id}/clients)" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "DELETE"
         assert conn.request_path == "/api/v2/organizations/id%7C1%2Fa%20b/clients"
@@ -398,7 +398,7 @@ defmodule Auth0.Api.Management.OrganizationsTest do
   end
 
   describe "delete_organization_associated_connection (A-145 DELETE /api/v2/organizations/{id}/connections/{connection_id})" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "DELETE"
         assert conn.request_path == "/api/v2/organizations/id%7C1%2Fa%20b/connections/con%7C1%2F2"
@@ -586,7 +586,7 @@ defmodule Auth0.Api.Management.OrganizationsTest do
   end
 
   describe "delete_organization_discovery_domain (A-151 DELETE /api/v2/organizations/{id}/discovery-domains/{discovery_domain_id})" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "DELETE"
 
@@ -783,7 +783,7 @@ defmodule Auth0.Api.Management.OrganizationsTest do
   end
 
   describe "assign_organization_group_roles (A-157 POST /api/v2/organizations/{organization_id}/groups/{group_id}/roles)" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "POST"
         assert conn.request_path == "/api/v2/organizations/org%7C1%2F2/groups/grp%7C1%2F2/roles"
@@ -817,7 +817,7 @@ defmodule Auth0.Api.Management.OrganizationsTest do
   end
 
   describe "remove_organization_group_roles (A-158 DELETE /api/v2/organizations/{organization_id}/groups/{group_id}/roles)" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "DELETE"
         assert conn.request_path == "/api/v2/organizations/org%7C1%2F2/groups/grp%7C1%2F2/roles"
