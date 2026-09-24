@@ -20,7 +20,7 @@ defmodule Auth0.Entity.TokenTest do
     refute inspected =~ "secret-id-token-value"
 
     assert inspected =~ "Bearer"
-    assert inspected =~ "86_400"
+    assert inspected =~ "86400"
     assert inspected =~ "read:users"
   end
 
