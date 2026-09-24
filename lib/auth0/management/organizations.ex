@@ -407,7 +407,7 @@ defmodule Auth0.Management.Organizations do
   @doc """
   List organization client associations.
 
-  List all clients associated with an organization, using checkpoint pagination. Note: The first time you call this endpoint, omit the from parameter. If there are more results, a next value is included in the response. You can use this for subsequent API calls. When next is no longer included in the response, no further results are remaining. 
+  List all clients associated with an organization, using checkpoint pagination. Note: The first time you call this endpoint, omit the from parameter. If there are more results, a next value is included in the response. You can use this for subsequent API calls. When next is no longer included in the response, no further results are remaining.
 
   **Early Access**: this endpoint is marked as Early Access (`x-release-lifecycle: EA`) in the Auth0 Management API specification and may not be available on every tenant.
 
@@ -670,7 +670,7 @@ defmodule Auth0.Management.Organizations do
   @doc """
   List the members assigned to a role in the context of an organization.
 
-  List the organization members assigned a specific role within the context of an organization. Note: Returns only members with direct role assignments. For groups assigned to this role within the organization, use GET /api/v2/organizations/{organization_id}/roles/{role_id}/groups. 
+  List the organization members assigned a specific role within the context of an organization. Note: Returns only members with direct role assignments. For groups assigned to this role within the organization, use GET /api/v2/organizations/{organization_id}/roles/{role_id}/groups.
 
   **Early Access**: this endpoint is marked as Early Access (`x-release-lifecycle: EA`) in the Auth0 Management API specification and may not be available on every tenant.
 

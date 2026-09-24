@@ -126,9 +126,9 @@ defmodule Auth0.Common.Management.HttpTest do
 
       conf = config(bypass) |> Map.put(:max_request_retry_count, 1)
       # This will fail with 429 because we are returning 429 every time and max retry is 1.
-      # But we want to ensure it TRIED. 
+      # But we want to ensure it TRIED.
       # Since we can't easily assert on retry count without side effects, we just accept the 429.
-      # The important thing is that it runs. 
+      # The important thing is that it runs.
       # Note: Process.sleep will make this test take ~1.1s.
       assert {:error, 429, "Too Many Requests"} = Http.get("/test", conf)
     end

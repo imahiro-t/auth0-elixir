@@ -111,10 +111,10 @@ defmodule Auth0.Management.Hooks do
   end
 
   @doc """
-  Update an existing hook.
+  Update one or more existing secrets for an existing hook. Accepts an object of key-value pairs, where the key is the name of the existing secret.
 
   ## see
-  https://auth0.com/docs/api/management/v2/hooks/patch-hooks-by-id
+  https://auth0.com/docs/api/management/v2/hooks/patch-secrets
 
   """
   @spec update_secrets(id, value_params, config) ::

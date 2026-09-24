@@ -3684,12 +3684,12 @@ defmodule Auth0.Api.Management do
   end
 
   @doc """
-  Update an existing hook.
+  Update one or more existing secrets for an existing hook. Accepts an object of key-value pairs, where the key is the name of the existing secret.
 
   **Deprecated**: Auth0 Hooks are deprecated: Auth0 has announced the end of life of Rules and Hooks; migrate to Actions (https://auth0.com/docs/customize/hooks). Use the `secrets` of an action (`update_action/3`) instead.
 
   ## see
-  https://auth0.com/docs/api/management/v2/hooks/patch-hooks-by-id
+  https://auth0.com/docs/api/management/v2/hooks/patch-secrets
 
   """
   @deprecated "Auth0 Hooks are deprecated (end of life announced by Auth0). Migrate to Actions."
@@ -4713,7 +4713,7 @@ defmodule Auth0.Api.Management do
   @doc """
   List organization client associations.
 
-  List all clients associated with an organization, using checkpoint pagination. Note: The first time you call this endpoint, omit the from parameter. If there are more results, a next value is included in the response. You can use this for subsequent API calls. When next is no longer included in the response, no further results are remaining. 
+  List all clients associated with an organization, using checkpoint pagination. Note: The first time you call this endpoint, omit the from parameter. If there are more results, a next value is included in the response. You can use this for subsequent API calls. When next is no longer included in the response, no further results are remaining.
 
   **Early Access**: this endpoint is marked as Early Access (`x-release-lifecycle: EA`) in the Auth0 Management API specification and may not be available on every tenant.
 
@@ -5094,7 +5094,7 @@ defmodule Auth0.Api.Management do
   @doc """
   List the members assigned to a role in the context of an organization.
 
-  List the organization members assigned a specific role within the context of an organization. Note: Returns only members with direct role assignments. For groups assigned to this role within the organization, use GET /api/v2/organizations/{organization_id}/roles/{role_id}/groups. 
+  List the organization members assigned a specific role within the context of an organization. Note: Returns only members with direct role assignments. For groups assigned to this role within the organization, use GET /api/v2/organizations/{organization_id}/roles/{role_id}/groups.
 
   **Early Access**: this endpoint is marked as Early Access (`x-release-lifecycle: EA`) in the Auth0 Management API specification and may not be available on every tenant.
 
