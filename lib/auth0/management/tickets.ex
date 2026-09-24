@@ -1,4 +1,10 @@
 defmodule Auth0.Management.Tickets do
+  @moduledoc """
+  Facade for the Auth0 Management API Tickets endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.Tickets.EmailVerification
   alias Auth0.Management.Tickets.PasswordChange

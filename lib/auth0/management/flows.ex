@@ -1,4 +1,10 @@
 defmodule Auth0.Management.Flows do
+  @moduledoc """
+  Facade for the Auth0 Management API Flows endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.Flows.List
   alias Auth0.Management.Flows.Create

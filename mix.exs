@@ -22,10 +22,14 @@ defmodule Auth0Api.MixProject do
         ]
       ],
       dialyzer: [
-        plt_add_deps: :transitive,
+        plt_add_deps: :app_tree,
+        # Keep PLTs under _build (already git-ignored and never part of the Hex
+        # package). priv/ would be picked up by `mix hex.build` because the
+        # package has no explicit `files` list.
+        plt_local_path: "_build/plts",
+        plt_core_path: "_build/plts",
         flags: [
           :unmatched_returns,
-          :race_conditions,
           :underspecs
           # :overspecs,
           # :specdiffs
@@ -63,7 +67,9 @@ defmodule Auth0Api.MixProject do
       {:hackney, "~> 4.1"},
       {:jason, "~> 1.4"},
       {:ex_doc, "~> 0.31", only: :dev, runtime: false},
-      {:bypass, "~> 2.1", only: :test}
+      {:bypass, "~> 2.1", only: :test},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false}
     ]
   end
 end

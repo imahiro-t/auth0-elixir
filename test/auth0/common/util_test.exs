@@ -45,7 +45,7 @@ defmodule Auth0.Common.UtilTest do
     end
 
     test "removes nil values from list in map" do
-       assert Util.remove_nil(%{a: [%{b: nil, c: 1}, 2]}) == %{a: [%{c: 1}, 2]}
+      assert Util.remove_nil(%{a: [%{b: nil, c: 1}, 2]}) == %{a: [%{c: 1}, 2]}
     end
   end
 
@@ -84,10 +84,10 @@ defmodule Auth0.Common.UtilTest do
     end
 
     test "converts nested struct to map" do
-        # Using a simple map structure to simulate nesting for basic test
-        nested = %{a: %URI{host: "example.com"}}
-        map = Util.to_map(nested)
-        assert map.a[:host] == "example.com"
+      # Using a simple map structure to simulate nesting for basic test
+      nested = %{a: %URI{host: "example.com"}}
+      map = Util.to_map(nested)
+      assert map.a[:host] == "example.com"
     end
   end
 
@@ -111,12 +111,12 @@ defmodule Auth0.Common.UtilTest do
   end
 
   describe "decode_json!/1" do
-     test "decodes json and converts keys to atoms" do
-        assert Util.decode_json!("{\"a\":1}") == %{a: 1}
-     end
+    test "decodes json and converts keys to atoms" do
+      assert Util.decode_json!("{\"a\":1}") == %{a: 1}
+    end
 
-     test "decodes nested json" do
-         assert Util.decode_json!("{\"a\":{\"b\":1}}") == %{a: %{b: 1}}
-     end
+    test "decodes nested json" do
+      assert Util.decode_json!("{\"a\":{\"b\":1}}") == %{a: %{b: 1}}
+    end
   end
 end

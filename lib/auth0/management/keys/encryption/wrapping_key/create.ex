@@ -22,7 +22,7 @@ defmodule Auth0.Management.Keys.Encryption.WrappingKey.Create do
   def execute(kid, %Config{} = config) do
     @endpoint
     |> String.replace("{kid}", kid)
-    |> Http.post({}, config)
+    |> Http.post(%{}, config)
     |> case do
       {:ok, 201, body} -> {:ok, body |> Jason.decode!()}
       error -> error

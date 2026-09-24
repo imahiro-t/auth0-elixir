@@ -9,7 +9,7 @@ defmodule Auth0.Entity.TokenTest do
       refresh_token: "secret-refresh-token-value",
       id_token: "secret-id-token-value",
       token_type: "Bearer",
-      expires_in: 86400,
+      expires_in: 86_400,
       scope: "read:users"
     }
 
@@ -20,7 +20,7 @@ defmodule Auth0.Entity.TokenTest do
     refute inspected =~ "secret-id-token-value"
 
     assert inspected =~ "Bearer"
-    assert inspected =~ "86400"
+    assert inspected =~ "86_400"
     assert inspected =~ "read:users"
   end
 

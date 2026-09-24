@@ -1,4 +1,10 @@
 defmodule Auth0.Management.SupplementalSignals do
+  @moduledoc """
+  Facade for the Auth0 Management API Supplemental Signals endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.SupplementalSignals.Create
   alias Auth0.Management.SupplementalSignals.Get

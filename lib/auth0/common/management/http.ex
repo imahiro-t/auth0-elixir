@@ -40,7 +40,7 @@ defmodule Auth0.Common.Management.Http do
   Request Auth0 management rest api simply.
 
   """
-  @spec raw_request(method, endpoint, body, headers, config) :: raw_response
+  @spec raw_request(method, endpoint, body, headers | nil, config) :: raw_response
   def raw_request(method, endpoint, body \\ %{}, headers \\ nil, %Config{} = config \\ %Config{}) do
     headers =
       if headers |> is_nil do

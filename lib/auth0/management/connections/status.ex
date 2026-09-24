@@ -24,9 +24,11 @@ defmodule Auth0.Management.Connections.Status do
     |> Http.get(config)
     |> case do
       {:ok, 200, body} ->
-        {:ok, body |> Jason.decode!()} # Note: Auth0 status might return true/false or object depending on connection type, usually implies a successful 200 means ok but body exists.
-        # Actually for some connections it might just be 200 OK. But doc says "Check the status".
-        # Let's assume standard JSON response.
+        # Note: Auth0 status might return true/false or object depending on connection type, usually implies a successful 200 means ok but body exists.
+        {:ok, body |> Jason.decode!()}
+
+      # Actually for some connections it might just be 200 OK. But doc says "Check the status".
+      # Let's assume standard JSON response.
 
       error ->
         error

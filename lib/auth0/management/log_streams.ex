@@ -1,4 +1,10 @@
 defmodule Auth0.Management.LogStreams do
+  @moduledoc """
+  Facade for the Auth0 Management API Log Streams endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.LogStreams.List
   alias Auth0.Management.LogStreams.Create

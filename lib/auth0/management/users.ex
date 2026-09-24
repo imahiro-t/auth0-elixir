@@ -1,4 +1,10 @@
 defmodule Auth0.Management.Users do
+  @moduledoc """
+  Facade for the Auth0 Management API Users endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.Users.List
   alias Auth0.Management.Users.Create
@@ -26,6 +32,7 @@ defmodule Auth0.Management.Users do
   @type user_id :: String.t()
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
+  @type provider_params :: %{required(:provider) => String.t(), optional(any()) => any()}
 
   @doc """
   Retrieve details of users.
@@ -281,7 +288,7 @@ defmodule Auth0.Management.Users do
   https://auth0.com/docs/api/management/v2/users/delete-multifactor-by-provider
 
   """
-  @spec delete_multifactor(id, map(), config) ::
+  @spec delete_multifactor(id, provider_params, config) ::
           {:ok, String.t()} | error
   def delete_multifactor(
         id,

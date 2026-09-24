@@ -1,4 +1,10 @@
 defmodule Auth0.Management.UserBlocks do
+  @moduledoc """
+  Facade for the Auth0 Management API User Blocks endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.UserBlocks.Get
   alias Auth0.Management.UserBlocks.Unblock

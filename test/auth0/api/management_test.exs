@@ -35,7 +35,7 @@ defmodule Auth0.Api.ManagementTest do
       user_id = "auth0|123456"
       # The library encodes the path parameter, so expectation should match the encoded version
       encoded_user_id = URI.encode_www_form(user_id)
-      
+
       Bypass.expect_once(bypass, "GET", "/api/v2/users/" <> encoded_user_id, fn conn ->
         Plug.Conn.resp(conn, 200, "{\"user_id\":\"#{user_id}\"}")
       end)

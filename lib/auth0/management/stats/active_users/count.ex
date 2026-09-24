@@ -5,7 +5,7 @@ defmodule Auth0.Management.Stats.ActiveUsers.Count do
   alias Auth0.Common.Management.Http
 
   @type config :: Config.t()
-  @type entity :: integer
+  @type entity :: String.t()
   @type response :: {:ok, entity} | {:error, integer, term} | {:error, term}
 
   @endpoint "/api/v2/stats/active-users"

@@ -1,4 +1,10 @@
 defmodule Auth0.Management.Prompts do
+  @moduledoc """
+  Facade for the Auth0 Management API Prompts endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Management.Prompts.Rendering
   alias Auth0.Management.Prompts.Get
   alias Auth0.Management.Prompts.Patch
@@ -11,6 +17,7 @@ defmodule Auth0.Management.Prompts do
   @type language :: String.t()
   @type config :: Config.t()
   @type error :: {:error, integer, term} | {:error, term}
+  @type value_params :: %{required(:value) => list() | map(), optional(any()) => any()}
 
   @doc """
   Retrieve details of the Universal Login configuration of your tenant. This includes the Identifier First Authentication and WebAuthn with Device Biometrics for MFA features.
@@ -54,7 +61,7 @@ defmodule Auth0.Management.Prompts do
   ## see
   https://auth0.com/docs/api/management/v2/prompts/put-custom-text-by-language
   """
-  @spec set_custom_text(prompt, language, map(), config) ::
+  @spec set_custom_text(prompt, language, value_params, config) ::
           {:ok, String.t()} | error
   def set_custom_text(prompt, language, %{} = params, %Config{} = config) do
     CustomText.Put.execute(prompt, language, params, config)
@@ -78,7 +85,7 @@ defmodule Auth0.Management.Prompts do
   ## see
   https://auth0.com/docs/api/management/v2/prompts/put-partials
   """
-  @spec set_partials(prompt, map(), config) ::
+  @spec set_partials(prompt, value_params, config) ::
           {:ok, String.t()} | error
   def set_partials(prompt, %{} = params, %Config{} = config) do
     Partials.Put.execute(prompt, params, config)

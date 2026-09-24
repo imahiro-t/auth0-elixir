@@ -1,4 +1,10 @@
 defmodule Auth0.Management.TokenExchangeProfiles do
+  @moduledoc """
+  Facade for the Auth0 Management API Token Exchange Profiles endpoints.
+
+  Most applications should call `Auth0.Api.Management` instead of this module.
+  """
+
   alias Auth0.Config
   alias Auth0.Management.TokenExchangeProfiles.List
   alias Auth0.Management.TokenExchangeProfiles.Create
