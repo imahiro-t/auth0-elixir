@@ -2,8 +2,11 @@ defmodule Auth0.Common.Authentication.Http do
   @moduledoc false
 
   alias Auth0.Config
+  alias Auth0.Common.HttpOptions
 
-  @type request_func :: function
+  @type request_func ::
+          (String.t(), keyword ->
+             {:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t()})
   @type endpoint :: String.t()
   @type config :: Config.t()
   @type retry_count :: integer
@@ -17,13 +20,17 @@ defmodule Auth0.Common.Authentication.Http do
   @doc """
   Request of Auth0 authentication rest api.
 
+  `request_func` is called as `request_func.(url, options)` and must pass `options` (the
+  HTTPoison options built by `Auth0.Common.HttpOptions.build/1`: timeouts and the per-domain
+  connection pool) to the HTTPoison call.
   """
   @spec request_with_retry(request_func, endpoint, config, retry_count) :: response
   def request_with_retry(request_func, endpoint, %Config{} = config, retry_count \\ 0) do
     url = endpoint |> get_url(config)
+    options = HttpOptions.build(config)
     max_request_retry_count = config |> get_max_request_retry_count
 
-    case request_func.(url) do
+    case request_func.(url, options) do
       {:ok, %HTTPoison.Response{status_code: 429}} when max_request_retry_count > retry_count ->
         retry_count = retry_count + 1
         exponential_delay(retry_count)
@@ -50,7 +57,7 @@ defmodule Auth0.Common.Authentication.Http do
   end
 
   defp get_url(endpoint, %Config{} = config) do
-    "https://#{Config.get_domain(config)}#{endpoint}"
+    "#{Config.get_http_protocol(config)}://#{Config.get_domain(config)}#{endpoint}"
   end
 
   defp get_max_request_retry_count(%Config{} = config),

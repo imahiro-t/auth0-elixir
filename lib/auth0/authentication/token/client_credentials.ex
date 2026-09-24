@@ -8,6 +8,7 @@ defmodule Auth0.Authentication.Token.ClientCredentials do
 
   defmodule Params do
     @moduledoc false
+    @derive {Inspect, except: [:client_secret]}
     defstruct audience: nil,
               client_id: nil,
               client_secret: nil
@@ -43,7 +44,7 @@ defmodule Auth0.Authentication.Token.ClientCredentials do
       |> Util.convert_to_form_body()
 
     Http.request_with_retry(
-      fn url -> HTTPoison.post(url, body, @headers) end,
+      fn url, options -> HTTPoison.post(url, body, @headers, options) end,
       @endpoint,
       config
     )
