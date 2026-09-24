@@ -42,6 +42,7 @@ A few return values change as bug fixes (see "Fixed"). Calling a deprecated func
 - ✨ Query parameters with multiple values: passing a list as a query value sends the key once per value (`strategy=a&strategy=b`), as the specification defines for array parameters (for example `strategy` of `get_connections`, `hydrate` of `get_flows` / `get_flow` / `get_forms` / `get_form`, `identifiers` of `get_resource_servers`). Before, a list raised `ArgumentError`; scalar values are sent exactly as before, and `nil` values in a list are skipped.
 - ✨ `get_custom_domain_configurations` and `get_daily_stats` accept query parameters (`get_custom_domain_configurations(params, config)`, `get_daily_stats(%{from: ..., to: ...}, config)`). Calls that pass only a config behave as before.
 - 📝 The `@doc` of existing functions lists their query parameters (marking required, array and Early Access ones), and notes Early Access / beta / deprecated body properties.
+- ✨ `Auth0.Common.Util.build_path/2` builds a request path from an endpoint template and a keyword list of path parameters, percent-encoding each value with `Auth0.Common.Util.encode_path_param/1` (e.g. `build_path("/api/v2/users/{id}", id: "auth0|123")` returns `"/api/v2/users/auth0%7C123"`). The functions for the newly supported endpoints use it to build their paths; the paths they send are unchanged.
 - 🔧 Add `credo` and `dialyxir` as dev/test dependencies and fix their findings in the existing code (`mix credo` and `mix dialyzer` report no issues). They are not runtime dependencies.
 
 ### Path parameters
@@ -79,6 +80,10 @@ A few return values change as bug fixes (see "Fixed"). Calling a deprecated func
 - 🐛 `create_encryption_wrapping_key` always raised `Protocol.UndefinedError` because its request body could not be encoded.
 - 📝 Correct the 2.3.0 entries: the "Verifiable Credentials" endpoints added in 2.3.0 did not work (see above), and the Risk Assessments and Supplemental Signals functions added in 2.3.0 call endpoints that do not exist in the Management API. They are deprecated in this release, and the endpoints that do exist are added (see "Added").
 - 📝 Fix the `## see` links of the Bot Detection functions and of `update_hook_secrets`.
+
+### Changed
+
+- 🔥 Remove four unused internal modules that had no documentation (`@moduledoc false`) and were never called: `Auth0.Management.Connections.Status.Check` and `Auth0.Management.Guardian.AwsSns.Configuration.{Get,Patch,Put}` (duplicates of `Auth0.Management.Guardian.Factors.PushNotification.Providers.Sns.{Get,Patch,Put}`). They were not part of the public API; `get_connection_status` and `get_guardian_aws_sns_configuration` / `patch_guardian_aws_sns_configuration` / `update_guardian_aws_sns_configuration` are unchanged.
 
 ## 2.4.0
 
