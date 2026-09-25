@@ -25,18 +25,11 @@ defmodule Auth0.Management.SelfServiceProfiles.CustomText.Get do
   """
   @spec execute(id, language, page, config) :: response
   def execute(id, language, page, %Config{} = config) do
-    path(id, language, page)
+    Util.build_path(@endpoint, id: id, language: language, page: page)
     |> Http.get(config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
-  end
-
-  defp path(id, language, page) do
-    @endpoint
-    |> String.replace("{id}", Util.encode_path_param(id))
-    |> String.replace("{language}", Util.encode_path_param(language))
-    |> String.replace("{page}", Util.encode_path_param(page))
   end
 end

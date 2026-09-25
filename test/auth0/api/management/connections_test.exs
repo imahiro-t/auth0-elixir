@@ -92,7 +92,7 @@ defmodule Auth0.Api.Management.ConnectionsTest do
   end
 
   describe "update_connection_clients (A-049 PATCH /api/v2/connections/{id}/clients)" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "PATCH"
         assert conn.request_path == "/api/v2/connections/id%7C1%2Fa%20b/clients"
@@ -210,7 +210,7 @@ defmodule Auth0.Api.Management.ConnectionsTest do
   end
 
   describe "delete_connection_directory_provisioning (A-053 DELETE /api/v2/connections/{id}/directory-provisioning)" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "DELETE"
         assert conn.request_path == "/api/v2/connections/id%7C1%2Fa%20b/directory-provisioning"
@@ -328,7 +328,7 @@ defmodule Auth0.Api.Management.ConnectionsTest do
   end
 
   describe "add_connection_directory_provisioning_synchronized_groups (A-057 POST /api/v2/connections/{id}/directory-provisioning/synchronized-groups)" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "POST"
 
@@ -363,7 +363,7 @@ defmodule Auth0.Api.Management.ConnectionsTest do
   end
 
   describe "set_connection_directory_provisioning_synchronized_groups (A-058 PUT /api/v2/connections/{id}/directory-provisioning/synchronized-groups)" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "PUT"
 
@@ -398,7 +398,7 @@ defmodule Auth0.Api.Management.ConnectionsTest do
   end
 
   describe "delete_connection_directory_provisioning_synchronized_groups (A-059 DELETE /api/v2/connections/{id}/directory-provisioning/synchronized-groups)" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "DELETE"
 

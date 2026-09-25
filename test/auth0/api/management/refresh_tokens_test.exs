@@ -40,7 +40,7 @@ defmodule Auth0.Api.Management.RefreshTokensTest do
   end
 
   describe "revoke_refresh_tokens (A-168 POST /api/v2/refresh-tokens/revoke)" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "POST"
         assert conn.request_path == "/api/v2/refresh-tokens/revoke"

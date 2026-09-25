@@ -24,17 +24,11 @@ defmodule Auth0.Management.SelfServiceProfiles.SsoTicket.Revoke do
   """
   @spec execute(profile_id, id, config) :: response
   def execute(profile_id, id, %Config{} = config) do
-    path(profile_id, id)
+    Util.build_path(@endpoint, profileId: profile_id, id: id)
     |> Http.post(%{}, config)
     |> case do
       {:ok, 202, _body} -> {:ok, ""}
       error -> error
     end
-  end
-
-  defp path(profile_id, id) do
-    @endpoint
-    |> String.replace("{profileId}", Util.encode_path_param(profile_id))
-    |> String.replace("{id}", Util.encode_path_param(id))
   end
 end

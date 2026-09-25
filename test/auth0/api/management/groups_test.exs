@@ -59,7 +59,7 @@ defmodule Auth0.Api.Management.GroupsTest do
   end
 
   describe "delete_group (A-109 DELETE /api/v2/groups/{id})" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "DELETE"
         assert conn.request_path == "/api/v2/groups/id%7C1%2Fa%20b"
@@ -125,7 +125,7 @@ defmodule Auth0.Api.Management.GroupsTest do
   end
 
   describe "assign_group_roles (A-112 POST /api/v2/groups/{id}/roles)" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "POST"
         assert conn.request_path == "/api/v2/groups/id%7C1%2Fa%20b/roles"
@@ -149,7 +149,7 @@ defmodule Auth0.Api.Management.GroupsTest do
   end
 
   describe "remove_group_roles (A-113 DELETE /api/v2/groups/{id}/roles)" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "DELETE"
         assert conn.request_path == "/api/v2/groups/id%7C1%2Fa%20b/roles"

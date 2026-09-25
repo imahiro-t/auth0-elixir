@@ -190,7 +190,7 @@ defmodule Auth0.Api.Management.UsersTest do
   end
 
   describe "clear_user_risk_assessments (A-191 POST /api/v2/users/{id}/risk-assessments/clear)" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "POST"
         assert conn.request_path == "/api/v2/users/id%7C1%2Fa%20b/risk-assessments/clear"

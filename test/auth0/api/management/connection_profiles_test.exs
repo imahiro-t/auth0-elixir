@@ -83,7 +83,7 @@ defmodule Auth0.Api.Management.ConnectionProfilesTest do
   end
 
   describe "delete_connection_profile (A-045 DELETE /api/v2/connection-profiles/{id})" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "DELETE"
         assert conn.request_path == "/api/v2/connection-profiles/id%7C1%2Fa%20b"

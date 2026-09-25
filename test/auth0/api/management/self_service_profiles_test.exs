@@ -91,7 +91,7 @@ defmodule Auth0.Api.Management.SelfServiceProfilesTest do
   end
 
   describe "revoke_self_service_profile_sso_ticket (A-180 POST /api/v2/self-service-profiles/{profileId}/sso-ticket/{id}/revoke)" do
-    test "sends the request and returns the decoded response", %{bypass: bypass} do
+    test "sends the request and returns an empty body", %{bypass: bypass} do
       Bypass.expect_once(bypass, fn conn ->
         assert conn.method == "POST"
 

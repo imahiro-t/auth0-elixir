@@ -24,17 +24,11 @@ defmodule Auth0.Management.Organizations.DiscoveryDomains.GetByName do
   """
   @spec execute(id, discovery_domain, config) :: response
   def execute(id, discovery_domain, %Config{} = config) do
-    path(id, discovery_domain)
+    Util.build_path(@endpoint, id: id, discovery_domain: discovery_domain)
     |> Http.get(config)
     |> case do
       {:ok, 200, body} -> {:ok, body |> Jason.decode!()}
       error -> error
     end
-  end
-
-  defp path(id, discovery_domain) do
-    @endpoint
-    |> String.replace("{id}", Util.encode_path_param(id))
-    |> String.replace("{discovery_domain}", Util.encode_path_param(discovery_domain))
   end
 end

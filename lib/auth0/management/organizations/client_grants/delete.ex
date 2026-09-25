@@ -22,17 +22,11 @@ defmodule Auth0.Management.Organizations.ClientGrants.Delete do
   """
   @spec execute(id, grant_id, config) :: response
   def execute(id, grant_id, %Config{} = config) do
-    path(id, grant_id)
+    Util.build_path(@endpoint, id: id, grant_id: grant_id)
     |> Http.delete(config)
     |> case do
       {:ok, 204, _body} -> {:ok, ""}
       error -> error
     end
-  end
-
-  defp path(id, grant_id) do
-    @endpoint
-    |> String.replace("{id}", Util.encode_path_param(id))
-    |> String.replace("{grant_id}", Util.encode_path_param(grant_id))
   end
 end
