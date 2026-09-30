@@ -4,8 +4,6 @@
 
 This release brings the library up to date with the official Auth0 Management API v2 OpenAPI specification (fetched 2026-09-24). It adds the missing endpoints and parameters, fixes functions that did not match the specification, and deprecates functions whose endpoints were removed or reached end of life. No public function or arity is removed. The requirements are unchanged from 2.4.0 (Elixir 1.17+, Erlang/OTP 27+).
 
-The full list of differences between the specification and 2.4.0 (added / changed / deprecated, with the function name for each item and the reason for every item that is not covered) is in [`docs/management_api_diff.md`](docs/management_api_diff.md) (Japanese). It is included in the ExDoc documentation but not in the Hex package.
-
 A few return values change as bug fixes (see "Fixed"). Calling a deprecated function now emits a compile-time warning, so read "Deprecated" if you compile with `--warnings-as-errors`.
 
 ### Added
