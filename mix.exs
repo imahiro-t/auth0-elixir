@@ -27,8 +27,7 @@ defmodule Auth0Api.MixProject do
         ],
         extras: [
           "README.md",
-          "CHANGELOG.md",
-          "docs/management_api_diff.md"
+          "CHANGELOG.md"
         ]
       ],
       dialyzer: [

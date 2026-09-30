@@ -155,7 +155,7 @@ The library handles Auth0's rate limiting automatically. When a `429 Too Many Re
 
 ## Supported endpoints
 
-The library follows the official Auth0 Management API v2 OpenAPI specification as of 2026-09-24. The differences between that specification and 2.4.0, and how each one was handled in 2.5.0 (including the endpoints intentionally not supported, such as beta endpoints), are listed in [`docs/management_api_diff.md`](docs/management_api_diff.md) (Japanese). Functions for Early Access endpoints say so in their `@doc`.
+The library follows the official Auth0 Management API v2 OpenAPI specification as of 2026-09-24. Beta endpoints are intentionally not supported. Functions for Early Access endpoints say so in their `@doc`.
 
 All Management API functions are documented in [`Auth0.Api.Management`](https://hexdocs.pm/auth0_api/Auth0.Api.Management.html).
 
@@ -178,7 +178,7 @@ Some parameters are deprecated by Auth0 while the functions are not; they are no
 
 ### 2.5.0
 
-See [CHANGELOG.md](CHANGELOG.md) for details. The full list of new functions is in [docs/management_api_diff.md](docs/management_api_diff.md).
+See [CHANGELOG.md](CHANGELOG.md) for details.
 
 - ✨ Follow the Auth0 Management API v2 OpenAPI specification (2026-09-24): 153 new functions (148 new endpoints) in areas such as Actions modules, Agents, Groups, Rate Limit Policies, Refresh Tokens, Organizations, Connections (directory provisioning, keys, enabled clients), Guardian settings, Keys, Flows, Event Streams, Risk Assessments settings and Supplemental Signals
 - ✨ Add the `:custom_domain` option (the `auth0-custom-domain` header) to the 9 functions that support it; an invalid value raises `ArgumentError`
