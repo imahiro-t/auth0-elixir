@@ -16,6 +16,15 @@ defmodule Auth0Api.MixProject do
       source_url: @source_url,
       docs: [
         main: "readme",
+        # These modules are @moduledoc false (internal), but README/CHANGELOG
+        # mention them by name. Render them as plain inline code instead of
+        # trying to link to hidden modules. Remove an entry here if its module
+        # is ever made public; add one if a similar "is hidden" warning appears.
+        skip_code_autolink_to: [
+          "Auth0.Application",
+          "Auth0.Authentication.Token.ClientCredentials.Params",
+          "Auth0.Entity.Token"
+        ],
         extras: [
           "README.md",
           "CHANGELOG.md",
