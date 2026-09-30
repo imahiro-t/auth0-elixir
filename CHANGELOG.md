@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.5.1
+
+This is a maintenance release. The library code (`lib/`) is unchanged from 2.5.0; only the documentation and the test suite change.
+
+### Changed
+
+- 📝 Remove the internal Management API diff inventory (`docs/management_api_diff.md`) from the ExDoc documentation, and drop the links to it from README and this changelog.
+- 📝 Render the internal modules mentioned in README and this changelog (`Auth0.Application`, `Auth0.Authentication.Token.ClientCredentials.Params`, `Auth0.Entity.Token`) as plain inline code instead of links to hidden modules, so `mix docs` builds without warnings.
+
+### Fixed
+
+- ✅ Fix the 4 connect-timeout tests in `test/auth0/common/http_options_test.exs` that failed during setup on macOS: the test server now listens with a backlog of 1 instead of 0, which macOS treated as its default of 128.
+
 ## 2.5.0
 
 This release brings the library up to date with the official Auth0 Management API v2 OpenAPI specification (fetched 2026-09-24). It adds the missing endpoints and parameters, fixes functions that did not match the specification, and deprecates functions whose endpoints were removed or reached end of life. No public function or arity is removed. The requirements are unchanged from 2.4.0 (Elixir 1.17+, Erlang/OTP 27+).

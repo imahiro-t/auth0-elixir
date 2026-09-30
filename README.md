@@ -176,6 +176,13 @@ Some parameters are deprecated by Auth0 while the functions are not; they are no
 
 ## Release Notes
 
+### 2.5.1
+
+See [CHANGELOG.md](CHANGELOG.md) for details. The library code is unchanged from 2.5.0.
+
+- 📝 Remove the internal Management API diff inventory from the documentation and fix links to hidden modules
+- ✅ Fix 4 tests in `HttpOptionsTest` that failed on macOS
+
 ### 2.5.0
 
 See [CHANGELOG.md](CHANGELOG.md) for details.
