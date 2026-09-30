@@ -32,8 +32,15 @@ defmodule Auth0.Common.HttpOptionsTest do
   end
 
   # A TCP port on which new connections cannot be established in time: a listen socket with
-  # a minimal backlog that is never accepted from, whose accept queue is filled up first. The
-  # kernel then drops further SYNs, so a connect to it hangs until the client's timeout.
+  # a small backlog that is never accepted from, whose accept queue is filled up first. The
+  # kernel then drops further SYNs (on both Linux and macOS), so a connect to it hangs until
+  # the client's timeout.
+  #
+  # The backlog is an explicit 1 rather than 0 because 0 is interpreted differently per OS:
+  # Linux treats it as the smallest queue, but macOS substitutes its default
+  # (kern.ipc.somaxconn, typically 128), which `fill/3` could never fill. With 1, every OS
+  # gets a queue of only a few entries (the exact count differs, e.g. backlog + 1 on Linux),
+  # and the 20 attempts in `fill/3` are enough without relying on a specific count.
   defmodule SlowConnectServer do
     @moduledoc false
 
@@ -43,7 +50,7 @@ defmodule Auth0.Common.HttpOptionsTest do
       pid =
         spawn_link(fn ->
           {:ok, listen} =
-            :gen_tcp.listen(0, [:binary, active: false, backlog: 0, ip: {127, 0, 0, 1}])
+            :gen_tcp.listen(0, [:binary, active: false, backlog: 1, ip: {127, 0, 0, 1}])
 
           {:ok, port} = :inet.port(listen)
           result = fill(port, 20, [])
